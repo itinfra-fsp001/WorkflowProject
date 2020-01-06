@@ -1,0 +1,11 @@
+C:\ProjectsNew\WorkFlow Project\WorkflowProjectUI\BLL\bin\Release\BLL.dll.config
+C:\ProjectsNew\WorkFlow Project\WorkflowProjectUI\BLL\bin\Release\BLL.dll
+C:\ProjectsNew\WorkFlow Project\WorkflowProjectUI\BLL\bin\Release\BLL.pdb
+C:\ProjectsNew\WorkFlow Project\WorkflowProjectUI\BLL\bin\Release\BOL.dll
+C:\ProjectsNew\WorkFlow Project\WorkflowProjectUI\BLL\bin\Release\DAL.dll
+C:\ProjectsNew\WorkFlow Project\WorkflowProjectUI\BLL\bin\Release\EntityFramework.dll
+C:\ProjectsNew\WorkFlow Project\WorkflowProjectUI\BLL\bin\Release\BOL.pdb
+C:\ProjectsNew\WorkFlow Project\WorkflowProjectUI\BLL\bin\Release\DAL.pdb
+C:\ProjectsNew\WorkFlow Project\WorkflowProjectUI\BLL\obj\Release\BLL.csprojResolveAssemblyReference.cache
+C:\ProjectsNew\WorkFlow Project\WorkflowProjectUI\BLL\obj\Release\BLL.dll
+C:\ProjectsNew\WorkFlow Project\WorkflowProjectUI\BLL\obj\Release\BLL.pdb

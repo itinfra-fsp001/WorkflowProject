@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="WorkFlowDBModel1.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'WorkFlowDB.dbo.vw_Documents' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_Documents">
+    <Key>
+      <PropertyRef Name="DocID" />
+    </Key>
+    <Property Name="DocID" Type="bigint" Nullable="false" />
+    <Property Name="DocType" Type="varchar" MaxLength="10" />
+    <Property Name="DocNo" Type="varchar" MaxLength="50" />
+    <Property Name="NetPrice" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="Currency" Type="varchar" MaxLength="5" />
+    <Property Name="SubmitBy" Type="varchar" MaxLength="15" />
+    <Property Name="SubmitDate" Type="datetime" />
+    <Property Name="ApprovalSubmitDate" Type="datetime" />
+    <Property Name="ApprovalSubmitBy" Type="varchar" MaxLength="15" />
+    <Property Name="Status" Type="varchar" MaxLength="5" />
+    <Property Name="AttachDoc" Type="varchar" MaxLength="500" />
+    <Property Name="AddAttachDoc1" Type="varchar" MaxLength="500" />
+    <Property Name="AddAttachDoc2" Type="varchar" MaxLength="500" />
+    <Property Name="AddAttachDoc3" Type="varchar" MaxLength="500" />
+    <Property Name="UpdateDate" Type="datetime" />
+  </EntityType>
+  <EntityContainer Name="WorkFlowDBModel1StoreContainer">
+    <EntitySet Name="vw_Documents" EntityType="Self.vw_Documents" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_Documents].[DocID] AS [DocID], 
+    [vw_Documents].[DocType] AS [DocType], 
+    [vw_Documents].[DocNo] AS [DocNo], 
+    [vw_Documents].[NetPrice] AS [NetPrice], 
+    [vw_Documents].[Currency] AS [Currency], 
+    [vw_Documents].[SubmitBy] AS [SubmitBy], 
+    [vw_Documents].[SubmitDate] AS [SubmitDate], 
+    [vw_Documents].[ApprovalSubmitDate] AS [ApprovalSubmitDate], 
+    [vw_Documents].[ApprovalSubmitBy] AS [ApprovalSubmitBy], 
+    [vw_Documents].[Status] AS [Status], 
+    [vw_Documents].[AttachDoc] AS [AttachDoc], 
+    [vw_Documents].[AddAttachDoc1] AS [AddAttachDoc1], 
+    [vw_Documents].[AddAttachDoc2] AS [AddAttachDoc2], 
+    [vw_Documents].[AddAttachDoc3] AS [AddAttachDoc3], 
+    [vw_Documents].[UpdateDate] AS [UpdateDate]
+    FROM [dbo].[vw_Documents] AS [vw_Documents]</DefiningQuery>
+    </EntitySet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,92 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select {
+    max-width: 280px;
+}
+
+.textBoxStyle {
+    width: 100px;
+}
+
+.container
+{
+    margin-left:5% !important;
+    margin-right:5% !important;
+}
+
+.navbar-header {
+    width: 120px;
+    text-align: center;
+    background-color: #fdfdfd;
+    margin: 3px;
+}
+
+.navbar-brand {
+    color: #e95420 !important;
+    padding-top: 5px !important;
+    padding-left: 30px !important;
+}
+
+.icon-dropdown {
+    width: 20px;
+    height: 20px;
+    margin-left: 3px;
+}
+
+.workflow-sub-menu {
+    display: none;
+    list-style: none !important;
+    background-color: #e95420;
+    position: absolute;
+    padding: 0px;
+    width: 150px;
+}
+
+    .workflow-sub-menu li {
+        border-bottom: 1px solid #fdf9f9 !important;
+    }
+
+        .workflow-sub-menu li :hover {
+            text-decoration: none !important;
+            background-color: #ac3911;
+        }
+
+        .workflow-sub-menu li a {
+            color: white !important;
+            padding: 10px !important;
+            display: block !important;
+        }
+
+
+@media print {
+    a[href]:after {
+        content: none !important;
+    }
+
+    .container {
+        margin: 0 !important;
+    }
+}
+
+.navbar-nav > li > a {
+    padding: 10px !important;
+}
+
+.container {
+    width: 1200px !important;
+}
+
+.empty-row {
+    height: 15px !important;
+}

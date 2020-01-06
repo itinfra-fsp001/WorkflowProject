@@ -1,0 +1,11 @@
+13-05-2018 09:28:35 AM 	 Job 	 StartJob 	 Initiated 	 TicketNo='SN  18000001',StartTime='13/05/2018 09:29:15',UserID='306d3543-5f6e-47ae-991b-08d58741d3ca'
+13-05-2018 09:28:35 AM 	 Job 	 StartJob 	 Success 	 Job(SN  18000001) started
+**************************************
+13-05-2018 09:31:14 AM 	 Job 	 EndJob 	 Initiated 	 TicketNo='SN  18000001',End Time='13/05/2018 09:31:54',User ID='306d3543-5f6e-47ae-991b-08d58741d3ca',BreakDown Code='',BreakDown Sub Code='',Defect Cause='',Feedback='',IsOMS='True',IsFinalEnd='False'
+13-05-2018 09:31:15 AM 	 Job 	 EndJob 	 Error 	 Unable to create the job. Additional Information : An error occurred while executing the command definition. See the inner exception for details.,Job has not been started..
+**************************************
+13-05-2018 09:31:35 AM 	 Job 	 EndJob 	 Initiated 	 TicketNo='SN  18000001',End Time='13/05/2018 09:32:15',User ID='306d3543-5f6e-47ae-991b-08d58741d3ca',BreakDown Code='',BreakDown Sub Code='',Defect Cause='',Feedback='',IsOMS='True',IsFinalEnd='False'
+13-05-2018 09:31:35 AM 	 Job 	 EndJob 	 Error 	 Unable to create the job. Additional Information : An error occurred while executing the command definition. See the inner exception for details.,Job has not been started..
+**************************************
+13-05-2018 09:33:43 AM 	 Job 	 EndJob 	 Initiated 	 TicketNo='SN  18000001',End Time='13/05/2018 09:34:23',User ID='306d3543-5f6e-47ae-991b-08d58741d3ca',BreakDown Code='',BreakDown Sub Code='',Defect Cause='',Feedback='',IsOMS='True',IsFinalEnd='False'
+13-05-2018 09:33:43 AM 	 Job 	 EndJob 	 Error 	 Unable to create the job. Additional Information : An error occurred while executing the command definition. See the inner exception for details.,Job has not been started..

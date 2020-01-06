@@ -1,0 +1,586 @@
+﻿@model BOL.tbl_Documents
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (TempData["Msg"] != null)
+{
+    <h3> @TempData["Msg"].ToString()</h3>
+}
+
+@using (Html.BeginForm("Process", "UploadFile", FormMethod.Post, new { enctype = "multipart/form-data" }))
+
+{
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            var isWorkflowFound='@ViewBag.IsWorkflowFound';
+            if(isWorkflowFound.toLocaleLowerCase()=="false")
+            {
+                alert('Unable to attach file. Please wait for while and try again.');
+                window.location.href = "@Url.Action("Index", "BrowseDocument")";
+            }
+            var docValue = '@Html.DisplayFor(model => model.DocNo)';
+
+            if (''!=   docValue)
+                $('input[type="submit"]').prop('disabled', false);
+            else
+                $('input[type="submit"]').prop('disabled', true);
+
+            $("#AttachClear").click(function () {
+                if ((!$("#lnkAttachFile").is(":visible")) && $("#AttachFile").length==1)
+                {
+
+                }
+                else
+                {
+                    ClearFile('Attach0');
+                    $("#lnkAttachFile").hide();
+                }
+                $("#AttachFile").val('');
+                $("#AttachFile").css('display','inline');
+                return false;
+            });
+            $("#AttachClear1").click(function () {
+                //if ($("#Attach1").length==1)
+                //    $("#Attach1").val('');
+                //else
+                //{
+                //    ClearFile('Attach1');
+                //}
+                if ((!$("#lnkAttach1").is(":visible")) && $("#Attach1").length==1)
+                {
+
+                }
+                else
+                {
+                    ClearFile('Attach1');
+                    $("#lnkAttach1").hide();
+                }
+                $("#Attach1").val('');
+                $("#Attach1").css('display','inline');
+                return false;
+            });
+            $("#AttachClear2").click(function () {
+                //if ($("#Attach2").length==1)
+                //    $("#Attach2").val('');
+                //else
+                //{
+                //    ClearFile('Attach2');
+                //}
+                if ((!$("#lnkAttach2").is(":visible")) && $("#Attach2").length==1)
+                {
+
+                }
+                else
+                {
+                    ClearFile('Attach2');
+                    $("#lnkAttach2").hide();
+                }
+                $("#Attach2").val('');
+                $("#Attach2").css('display','inline');
+                return false;
+            });
+            $("#AttachClear3").click(function () {
+                //if ($("#Attach3").length==1)
+                //    $("#Attach3").val('');
+                //else
+                //{
+                //    ClearFile('Attach3');
+                //}
+                if ((!$("#lnkAttach3").is(":visible")) && $("#Attach3").length==1)
+                {
+
+                }
+                else
+                {
+                    ClearFile('Attach3');
+                    $("#lnkAttach3").hide();
+                }
+                $("#Attach3").val('');
+                $("#Attach3").css('display','inline');
+                return false;
+            });
+            $("#btnSave").click(function(){
+                if(checkAttachmentCount())
+                {
+                    findSelectedRFQAttachment();
+                    return confirm('Are you sure to save?');
+                }
+                else{
+                    alert('Maximum 4 attachments only allowed');
+                    return false;
+                }
+            });
+            $("#btnSubmit").click(function(){
+                if(checkAttachmentCount())
+                {
+                    findSelectedRFQAttachment();
+                    return confirm('Are you sure to submit?');
+                }
+                else{
+                    alert('Maximum 4 attachments only allowed');
+                    return false;
+                }
+            });
+            function findSelectedRFQAttachment(){
+                $("#hdnVendorName").val("");
+                $('.cbrfqattach').each(function(){
+                    if($(this).is(':checked'))
+                    {
+                        if($("#hdnVendorName").val()=="")
+                        {
+                            $("#hdnVendorName").val($(this).attr("id"));
+                        }
+                        else
+                        {
+                            $("#hdnVendorName").val($("#hdnVendorName").val()+","+$(this).attr("id"));
+                        }
+                    }
+                });
+            }
+            function checkAttachmentCount()
+            {
+                //($("#buyerFile1").is(":visible") && $("#buyerFile1")[0].files.length == 0)
+                //AttachFile
+                //Attach1
+                var fileCount=0;
+                if( !($("#AttachFile").is(":visible")) || $("#AttachFile")[0].files.length > 0)
+                {
+                    fileCount=fileCount+1;
+                }
+                if( !($("#Attach1").is(":visible")) || $("#Attach1")[0].files.length > 0)
+                {
+                    fileCount=fileCount+1;
+                }
+                if(!($("#Attach2").is(":visible")) || $("#Attach2")[0].files.length > 0)
+                {
+                    fileCount=fileCount+1;
+                }
+                if(!($("#Attach3").is(":visible")) || $("#Attach3")[0].files.length > 0)
+                {
+                    fileCount=fileCount+1;
+                }
+                $('.cbrfqattach').each(function(){
+                    if($(this).is(':checked'))
+                    {
+                        fileCount=fileCount+1;
+                    }
+                });
+                if(fileCount>4)
+                {
+                    return false;
+                }
+                return true;
+            }
+
+        });
+        function ClearFile(type)
+        {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("ClearFile","UploadFile")",
+                traditional: true,
+                data: { DocNo: @Model.DocID, Type:type },
+                success: successFunc,
+                error: errorFunc
+            });
+
+            function successFunc(data, status) {
+                //window.location.reload();
+            }
+
+            function errorFunc() {
+                alert('error');
+            }
+            //return false;
+        }
+
+        function downloadAttachmentRFQ(docName)
+        {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetRFQAttachment", "UploadFile")",
+                traditional: true,
+            data: { docName: docName },
+            success: successFuncDA,
+            error: errorFuncDA
+        });
+
+        function successFuncDA(data, status) {
+            //window.location.reload();
+        }
+
+        function errorFuncDA(xhr) {
+            alert("error: " + xhr.statusText);
+        }
+        //return false;
+        }
+
+        function redirectToDashboard() {
+            window.location.href = "@Url.Action("Index", "BrowseDocument")";
+        }
+
+        function changeRFQ()
+        {
+            $("#btnChangeRFQ").hide();
+            $("#btnGetRFQAttachment").show();
+            $("#RFQRefNo").removeAttr("readonly");
+            $("#rfqAttachment").empty();
+            $("#RFQRefNo").focus();
+        }
+
+        function getRFQAttachment()
+        {
+            if($("#RFQRefNo").val()!="")
+            {
+                $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("getAttachmentList", "UploadFile")",
+                    cache: false,
+                    data: { rfqno : $("#RFQRefNo").val()  },
+                    success: successFuncAttach,
+                    error: errorFuncAttach
+                });
+
+                function successFuncAttach(data, status) {
+                    if(data.result)
+                    {
+                        $("#btnChangeRFQ").show();
+                        $("#btnGetRFQAttachment").hide();
+                        $("#RFQRefNo").attr("readonly","readonly");
+                        $("#rfqAttachment").empty();
+                        if(data.attachmentList.length>0)
+                        {
+                            var appendstr="<table class='tblrfqattachment'><tr><th></th><th>Attached By</th><th>File Name</th></tr>";
+                            for (var i = 0; i < data.attachmentList.length; i++) {
+                                if (data.attachmentList[i].category=="Purchase")
+                                    appendstr=appendstr+"<tr><td><input type='checkbox' class='cbrfqattach' id='"+data.attachmentList[i].id+"' /></td><td>Requestor</td><td><a id='lnkAttach3' href='../GetRFQAttachment?docName="+data.attachmentList[i].filepath+"' target='_blank'>"+data.attachmentList[i].filepath+"</a></td></tr>";
+                                else
+                                    appendstr=appendstr+"<tr><td><input type='checkbox' class='cbrfqattach' id='"+data.attachmentList[i].id+"' /></td><td>"+data.attachmentList[i].category+"</td><td><a id='lnkAttach3' href='../GetRFQAttachment?docName="+data.attachmentList[i].filepath+"' target='_blank'>"+data.attachmentList[i].filepath+"</a></td></tr>";
+                                //alert(data.attachmentList[i].id+","+data.attachmentList[i].category+","+data.attachmentList[i].filepath);
+                            }
+                            appendstr=appendstr+"</table>"
+                            $("#rfqAttachment").append(appendstr);
+                        }
+                    }
+                    else
+                    {
+                        alert(data.message);
+                    }
+                }
+
+                function errorFuncAttach(xhr) {
+                    alert("error: " + xhr.statusText);
+                }
+            }
+            else
+            {
+                alert('RFQ No. is blank');
+            }
+            return false;
+        }
+    </script>
+
+    <style type="text/css">
+        dt, dd {
+            line-height: 2.5 !important;
+        }
+
+        dt {
+            text-align: left !important;
+        }
+
+        .clearAttachment {
+            width: 20px;
+            cursor: pointer;
+            margin-top: -10px;
+        }
+
+        .tblrfqattachment {
+            border: 1px solid lightgrey;
+            margin-top: 10px;
+        }
+
+            .tblrfqattachment th {
+                text-align: center;
+                border: 1px solid lightgrey;
+            }
+
+            .tblrfqattachment td {
+                border: 1px solid lightgrey;
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+
+            .downloadRFQAttachments
+            {
+                color:#e95420;
+            }
+            .downloadRFQAttachments:hover
+            {
+                text-decoration:underline;
+                cursor:pointer;
+            }
+
+            .rfqta {
+        width: 280px;
+        line-height:1.5 !important;
+    }
+
+    </style>
+    <h2>Attach Document</h2>
+    @Html.HiddenFor(x => x.Status, new { @value = ViewBag.Status, @id = "hdnStatus" })
+    @Html.HiddenFor(x => x.VendorName, new { @id = "hdnVendorName" })
+    <div>
+        @*<h4>Submit Document</h4>*@
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @*@Html.DisplayNameFor(model => model.DocType)*@
+                @Html.DisplayName("Doc Type")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DocType)
+            </dd>
+
+            <dt>
+                @Html.Raw("<b>Doc No.</b>")
+                @*@Html.DisplayNameFor(model => model.DocNo)*@
+
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DocNo)
+            </dd>
+
+            <dt>
+                @*@Html.DisplayNameFor(model => model.NetPrice)*@
+                @Html.DisplayName("Net Price")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DocNetPrice)
+            </dd>
+
+            <dt>
+                @*@Html.DisplayNameFor(model => model.Currency)*@
+                @Html.DisplayName("Currency")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Currency)
+            </dd>
+            <dt>
+                @*@Html.DisplayNameFor(model => model.SubmitBy)*@
+                @Html.DisplayName("Submit By")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SubmitBy)
+            </dd>
+
+            <dt>
+                @*@Html.DisplayNameFor(model => model.SubmitDate)*@
+                @Html.DisplayName("Submit Date")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SubmitDate)
+            </dd>
+
+            @*<dt>
+                    @Html.DisplayNameFor(model => model.ApprovalSubmitDate)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ApprovalSubmitDate)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ApprovalSubmitBy)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ApprovalSubmitBy)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Status)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Status)
+                </dd>*@
+            @*@if (Model.DocType != "PO" && Model.DocType != "Stock PO")
+                {*@
+
+            <dt>
+                @*@Html.DisplayNameFor(model => model.AttachDoc)*@
+                @Html.DisplayName("Attach Document")
+            </dt>
+
+            <dd>
+                @*   @Html.DisplayFor(model => model.AttachDoc)*@
+                @*@Html.EditorFor(model => model.AttachDoc, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.AttachDoc, "", new { @class = "text-danger" })*@
+
+                @if (Model.AttachDoc != null)
+                {
+                    @Html.ActionLink(Model.AttachDoc, "GetDocument", new { docNo = Model.DocNo, name = Model.AttachDoc }, new { target = "_blank", id = "lnkAttachFile" })
+                    <input type="file" name="AttachFile" id="AttachFile" style="display:none" />
+                }
+                else
+                {
+                    <input type="file" name="AttachFile" id="AttachFile" style="display:inline" />
+                }
+                @*<a href="#" id="AttachClear" name="AttachClear">clear</a>*@
+                <img src="~/Content/images/clear.png" class="clearAttachment" id="AttachClear" />
+            </dd>
+
+
+
+            <dt>
+                @*@Html.DisplayNameFor(model => model.AddAttachDoc1)*@
+
+            </dt>
+
+            <dd>
+                @*  @Html.DisplayFor(model => model.AddAttachDoc1)*@
+                @*@Html.EditorFor(model => model.AddAttachDoc1, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.AddAttachDoc1, "", new { @class = "text-danger" })*@
+                @if (Model.AddAttachDoc1 != null)
+                {
+                    @Html.ActionLink(Model.AddAttachDoc1, "GetDocument", new { docNo = Model.DocNo, name = Model.AddAttachDoc1 }, new { target = "_blank", id = "lnkAttach1" })
+                    <input type="file" name="Attach1" id="Attach1" style="display:none" />
+                }
+                else
+                {
+                    <input type="file" name="Attach1" id="Attach1" style="display:inline" />
+                }
+                @*<a href="#" id="AttachClear1" name="AttachClear1">clear</a>*@
+                <img src="~/Content/images/clear.png" class="clearAttachment" id="AttachClear1" />
+            </dd>
+
+            <dt>
+                @*@Html.DisplayNameFor(model => model.AddAttachDoc2)*@
+            </dt>
+
+            <dd>
+                @* @Html.DisplayFor(model => model.AddAttachDoc2)*@
+                @*@Html.EditorFor(model => model.AddAttachDoc2, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.AddAttachDoc2, "", new { @class = "text-danger" })*@
+                @if (Model.AddAttachDoc2 != null)
+                {
+                    @Html.ActionLink(Model.AddAttachDoc2, "GetDocument", new { docNo = Model.DocNo, name = Model.AddAttachDoc2 }, new { target = "_blank", id = "lnkAttach2" })
+                    <input type="file" name="Attach2" id="Attach2" style="display:none" />
+                }
+                else
+                {
+                    <input type="file" name="Attach2" id="Attach2" style="display:inline" />
+                }
+                @*<a href="#" id="AttachClear2" name="AttachClear2">clear</a>*@
+                <img src="~/Content/images/clear.png" class="clearAttachment" id="AttachClear2" />
+            </dd>
+
+            <dt>
+                @*@Html.DisplayNameFor(model => model.AddAttachDoc3)*@
+            </dt>
+
+            <dd>
+                @* @Html.DisplayFor(model => model.AddAttachDoc3)*@
+                @*@Html.EditorFor(model => model.AddAttachDoc3, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.AddAttachDoc3, "", new { @class = "text-danger" })*@
+                @if (Model.AddAttachDoc3 != null)
+                {
+                    @Html.ActionLink(Model.AddAttachDoc3, "GetDocument", new { docNo = Model.DocNo, name = Model.AddAttachDoc3 }, new { target = "_blank", id = "lnkAttach3" })
+                    <input type="file" name="Attach3" id="Attach3" style="display:none" />
+                }
+                else
+                {
+                    <input type="file" name="Attach3" id="Attach3" style="display:inline" />
+                }
+                @*<a href="#" id="AttachClear3" name="AttachClear3">clear</a>*@
+                <img src="~/Content/images/clear.png" class="clearAttachment" id="AttachClear3" />
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Priority Level")
+            </dt>
+
+            <dd>
+                @Html.DropDownListFor(x => x.PriorityCode, new List<SelectListItem>
+                    {
+                        new SelectListItem() {Text = "Normal", Value="2"},
+                        new SelectListItem() {Text = "Urgent", Value="1"}
+                    }, new { @class = "form-control", @style = "margin-bottom:15px;" })
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Remarks")
+            </dt>
+
+            <dd>                
+                @Html.TextAreaFor(m => m.Remarks, new { @class = "rfqta", rows = "4", cols = "250", @style = "margin-bottom:15px;" })
+            </dd>
+
+
+            <dt>
+                @Html.DisplayName("RFQ Ref No.")
+                RFQ Ref No.
+            </dt>
+            <dd>
+                @Html.TextBoxFor(x => x.RFQRefNo, new { @class = "form-control", @style = "width:180px;display:inline;" })
+                <input type="button" name="Command" value="View Attachment(s)" id="btnGetRFQAttachment" onclick="return getRFQAttachment();" class="btn btn-primary" />
+                <input type="button" name="Command" value="Change" id="btnChangeRFQ" onclick="return changeRFQ();" class="btn btn-primary" style="display:none;" />
+                <div id="rfqAttachment"></div>
+            </dd>
+            @*}*@
+
+            @*<dt>
+                    @Html.DisplayNameFor(model => model.UpdateDate)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.UpdateDate)
+                </dd>*@
+            <dt>@Html.Raw("&nbsp;")</dt>
+            <dd>@Html.Raw("&nbsp;")</dd>
+            <dt></dt>
+            <dd>
+                @if (ViewBag.IsWorkflowFound)
+                {
+                    <input type="submit" value="Save" name="Command" class="btn btn-primary" id="btnSave" />
+                }                
+                @if (ViewBag.Status == "H" && ViewBag.IsWorkflowFound)
+                {
+                    @Html.Raw("&nbsp;&nbsp;")
+                    <input type="submit" value="Submit" name="Command" class="btn btn-primary" id="btnSubmit" />
+                }
+                @Html.Raw("&nbsp;")
+                <input type="button" name="Command" value="Back To List" id="btnBack" onclick="return redirectToDashboard();" class="btn btn-primary" />
+            </dd>
+        </dl>
+    </div>
+
+    @*<div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+
+            </div>
+        </div>
+
+
+
+        <div>
+            @Html.ActionLink("Back to List", "Index", "BrowseDocument")
+        </div>*@
+
+
+
+}
+
+

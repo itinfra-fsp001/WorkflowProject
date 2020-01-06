@@ -1,0 +1,7 @@
+C:\ProjectsNew\WorkFlow Project\WorkflowProjectUI\DAL\bin\Release\DAL.dll
+C:\ProjectsNew\WorkFlow Project\WorkflowProjectUI\DAL\bin\Release\DAL.pdb
+C:\ProjectsNew\WorkFlow Project\WorkflowProjectUI\DAL\bin\Release\BOL.dll
+C:\ProjectsNew\WorkFlow Project\WorkflowProjectUI\DAL\bin\Release\BOL.pdb
+C:\ProjectsNew\WorkFlow Project\WorkflowProjectUI\DAL\obj\Release\DAL.csprojResolveAssemblyReference.cache
+C:\ProjectsNew\WorkFlow Project\WorkflowProjectUI\DAL\obj\Release\DAL.dll
+C:\ProjectsNew\WorkFlow Project\WorkflowProjectUI\DAL\obj\Release\DAL.pdb

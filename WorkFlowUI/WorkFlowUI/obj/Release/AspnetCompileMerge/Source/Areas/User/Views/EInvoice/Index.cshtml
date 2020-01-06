@@ -1,0 +1,540 @@
+﻿@model WorkFlowUI.ViewModel.EInvoiceViewModal
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@if ((Convert.ToString(ViewData["Status"]) == "E" || Convert.ToString(ViewData["Status"]) == "S") && Convert.ToString(TempData["Msg"]) != null)
+{
+    <script type="text/javascript">
+        alert('@Convert.ToString(TempData["Msg"])');
+        var urlLocation = "@Url.Action("Index", "EInvoice", new { Status = "N" })";
+        urlLocation = urlLocation.replace(/&amp;/g, "&");
+        window.location.href = urlLocation;
+    </script>
+}
+
+<link href="~/Content/datatables.min.css" rel="stylesheet" />
+<script src="~/scripts/jquery-1.10.2.min.js"></script>
+<script src="~/scripts/datatables.min.js"></script>
+
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+
+        $("#ddlPagesize option[value='" + @Convert.ToString(ViewData["Pagesize"]) +"']").attr("selected", "selected");
+
+        var customerVal = '@Model.customerName';
+        if (customerVal != null) {
+            customerVal = customerVal.replace(/&amp;/g, "&");
+        }
+        $("#txtCustomerName").val(customerVal)
+
+        $("#ddlPagesize").change(function () {
+            var pageCount = $("#ddlPagesize option:selected").val();
+            var urlLocation = "@Url.Action("Index", new { Status = Convert.ToString(ViewData["Status"]), SortOrder = (ViewBag.SortOrder == null ? "Desc" : ViewBag.SortOrder), Sortby = (ViewBag.Sortby == null ? "SubmitDate" : ViewBag.Sortby), Page = (ViewBag.Page == null ? "1" : ViewBag.Page), Pagesize = "PagesizeValue", InvoiceType = Convert.ToString(ViewData["InvoiceType"]), Organization = Convert.ToString(ViewData["Organization"]), Period = Convert.ToString(ViewData["Period"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])) })";
+            urlLocation = urlLocation.replace("PagesizeValue", pageCount);
+            urlLocation = urlLocation.replace(/&amp;/g, "&");
+            window.location.href = urlLocation;
+        });
+
+        $('#btnSearch').click(function () {
+
+            this.href = this.href.replace("CustomerNameValue", checkandreplace($("#txtCustomerName").val()));
+            var dropDownVal = "";
+            if ($("#ddlInvoiceType option:selected").val() != "-- Select --") { dropDownVal = $("#ddlInvoiceType option:selected").val() }
+            this.href = this.href.replace("InvoiceTypeValue", dropDownVal);
+            dropDownVal = "";
+            if ($("#ddlOrganization option:selected").val() != "-- Select --") { dropDownVal = $("#ddlOrganization option:selected").val() }
+            this.href = this.href.replace("OrganizationValue", dropDownVal);
+            dropDownVal = "";
+            if ($("#ddlPeriod option:selected").val() != "-- Select --") { dropDownVal = $("#ddlPeriod option:selected").val() }
+            this.href = this.href.replace("PeriodValue", dropDownVal);
+
+            this.href = this.href.replace("PagesizeValue", $("#ddlPagesize option:selected").val());
+        });
+
+
+        if ("@Convert.ToString(ViewData["Status"])" == "N") {
+            var groupColumn = 6;
+            var table = $('#tableMain').DataTable({
+                "sDom": 't',
+                "ordering": false,
+                "columnDefs": [
+                    { "visible": false, "targets": groupColumn }
+                ],
+                "order": [[groupColumn, 'asc']],
+                "displayLength": $("#ddlPagesize option:selected").val(),
+                "drawCallback": function (settings) {
+                    var api = this.api();
+                    var rows = api.rows({ page: 'current' }).nodes();
+                    var last = null;
+
+                    api.column(groupColumn, { page: 'current' }).data().each(function (group, i) {
+                        if (last !== group) {
+                            $(rows).eq(i).before(
+                                '<tr class="group"><td colspan="8">' + group + '</td><td colspan="2"><span class="spanIssueEInvoice">Issue E-Invoice</span> &nbsp;&nbsp; <span class="spanExceptionInvoice">Exception</span> </td></tr>'
+                            );
+
+                            last = group;
+                        }
+                    });
+                }
+            });
+        }
+
+        $(".spanIssueEInvoice").on("click", function (event) {
+            var invoiceList = null;
+            $(event.target).closest("tr").nextAll("tr").each(function () {
+                if ($(this).hasClass("group")) {
+                    return false;
+                }
+                else {
+                    if ($(this).find("input:checkbox").length > 0) {
+                        if ($(this).find("input:checkbox")[0].checked) {
+                            if (invoiceList == null) {
+                                invoiceList = $(this).find("input.isInvoiceSuccess").attr("id");
+                            }
+                            else {
+                                invoiceList = invoiceList + "," + $(this).find("input.isInvoiceSuccess").attr("id");
+                            }
+
+                        }
+                    }
+                }
+            });
+            if (invoiceList == null) {
+                alert("No invoice selected / available for issuing");
+                return false;
+            }
+            else {
+                if (confirm('are you sure to issue the selected invoice(s) : ' + invoiceList)) {
+                    $("#invoiceSelectedList").val(invoiceList);
+                    $("#btnIssue").click();
+                }
+            }
+        });
+
+        $(".spanExceptionInvoice").on("click", function (event) {
+            var invoiceList = null;
+            $(event.target).closest("tr").nextAll("tr").each(function () {
+                if ($(this).hasClass("group")) {
+                    return false;
+                }
+                else {
+                    if ($(this).find("input:checkbox").length > 0) {
+                        if ($(this).find("input:checkbox")[0].checked) {
+                            if (invoiceList == null) {
+                                invoiceList = $(this).find("input.isInvoiceSuccess").attr("id");
+                            }
+                            else {
+                                invoiceList = invoiceList + "," + $(this).find("input.isInvoiceSuccess").attr("id");
+                            }
+
+                        }
+                    }
+                }
+            });
+            if (invoiceList == null) {
+                alert("No invoice selected / available for exception");
+                return false;
+            }
+            else {
+                if (confirm('are you sure to mark as exception of the selected invoice(s) : ' + invoiceList)) {
+                    $("#invoiceSelectedList").val(invoiceList);
+                    $("#btnException").click();
+                }
+            }
+        });
+
+
+    });
+
+
+</script>
+<style type="text/css">
+    .empty-row {
+        height: 15px !important;
+    }
+
+    tr.group,
+    tr.group:hover {
+        background-color: #ddd !important;
+    }
+
+    .spanIssueEInvoice, .spanExceptionInvoice {
+        color: #e95420;
+        text-decoration: none;
+        background-color: white;
+        padding: 5px;
+        border: 1px solid white;
+        border-radius: 5px;
+        margin: 5px;
+    }
+
+
+        .spanIssueEInvoice:hover, .spanExceptionInvoice:hover {
+            text-decoration: underline;
+            cursor: pointer;
+        }
+</style>
+
+<div class="row empty-row">
+    <div class="col-sm-12">
+    </div>
+</div>
+
+@using (Html.BeginForm("GoToSendInvoice", "EInvoice", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    if (Convert.ToString(ViewData["Status"]) == "N" || Convert.ToString(ViewData["Status"]) == "P")
+    {
+
+
+        <h2> E - Invoice </h2>
+        <div class="row">
+            <div class="col-sm-12">
+                <ul class="nav nav-pills col-lg-12">
+                    @if (Convert.ToString(ViewData["Status"]) == "N")
+                    {
+                    <li class="active">@Html.ActionLink("Pending Invoices", "Index", new { Status = "N", InvoiceType = Convert.ToString(ViewData["InvoiceType"]), Organization = Convert.ToString(ViewData["Organization"]), Period = Convert.ToString(ViewData["Period"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])) })</li>
+                    }
+                    else
+                    {
+                    <li>@Html.ActionLink("Pending Invoices", "Index", new { Status = "N", InvoiceType = Convert.ToString(ViewData["InvoiceType"]), Organization = Convert.ToString(ViewData["Organization"]), Period = Convert.ToString(ViewData["Period"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])) })</li>
+                    }
+                    @if (Convert.ToString(ViewData["Status"]) == "P")
+                    {
+                    <li class="active">@Html.ActionLink("Processed Invoices", "Index", new { Status = "P", InvoiceType = Convert.ToString(ViewData["InvoiceType"]), Organization = Convert.ToString(ViewData["Organization"]), Period = Convert.ToString(ViewData["Period"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])) })</li>
+                    }
+                    else
+                    {
+                    <li>@Html.ActionLink("Processed Invoices", "Index", new { Status = "P", InvoiceType = Convert.ToString(ViewData["InvoiceType"]), Organization = Convert.ToString(ViewData["Organization"]), Period = Convert.ToString(ViewData["Period"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])) })</li>
+                    }
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="row empty-row">
+            <div class="col-sm-12">
+            </div>
+        </div>
+
+        <div>
+
+            <div class="row" style="margin-bottom:10px">
+                <div class="col-sm-2">
+                    Customer Name
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(model => model.customerName, new { id = "txtCustomerName" })
+                </div>
+                <div class="col-sm-1">
+                    Organization
+                </div>
+                <div class="col-sm-5">
+                    @Html.DropDownListFor(model => model.organizationName, Model.organization, new { id = "ddlOrganization" })
+                </div>
+            </div>
+            <div class="row" style="margin-bottom:10px">
+                <div class="col-sm-2">
+                    Invoice Type
+                </div>
+                <div class="col-sm-4">
+                    @Html.DropDownListFor(model => model.invoiceTypeName, Model.invoiceType, new { id = "ddlInvoiceType" })
+                </div>
+                <div class="col-sm-1">
+                    Period
+                </div>
+                <div class="col-sm-5">
+                    @Html.DropDownListFor(model => model.periodName, Model.period, new { id = "ddlPeriod" })
+                </div>
+            </div>
+            <div class="row" style="margin-bottom:10px">
+                <div class="col-sm-2">
+
+                </div>
+                <div class="col-sm-4">
+                    @Html.ActionLink("Search", "Index", new
+               {
+                   Status = Convert.ToString(ViewData["Status"]),
+                   SortOrder = (Convert.ToString(ViewData["SortOrder"]) == null ? "Asc" : (Convert.ToString(ViewData["SortOrder"]) == "Asc" ? "Desc" : "Asc")),
+                   Sortby = "UpdateDate",
+                   page = (ViewBag.Page == null ? "1" : ViewBag.Page),
+                   Pagesize = Convert.ToString(ViewData["Pagesize"]),
+                   InvoiceType = "InvoiceTypeValue",
+                   Organization = "OrganizationValue",
+                   Period = "PeriodValue",
+                   CustomerName = "CustomerNameValue"
+               }, new { id = "btnSearch" })
+                    &nbsp;&nbsp;
+                    @Html.ActionLink("Clear", "Index", new
+               {
+                   Status = Convert.ToString(ViewData["Status"])
+               }, new { id = "btnClear" })
+                </div>
+                <div class="col-sm-3">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-5">
+                @{
+                    List<SelectListItem> listItems = new List<SelectListItem>();
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "10",
+                        Value = "10",
+                    });
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "25",
+                        Value = "25",
+                    });
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "50",
+                        Value = "50",
+                    });
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "100",
+                        Value = "100",
+                        Selected = true
+                    });
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "150",
+                        Value = "150",
+                    });
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "250",
+                        Value = "250",
+                    });
+                @Html.DropDownList("ddlPagesize", listItems)
+
+                }
+            </div>
+
+        </div>
+
+
+
+        @Html.HiddenFor(Model => Model.invoiceSelectedList, new { id = "invoiceSelectedList" })
+
+                    <div class="row empty-row">
+                        <div class="col-sm-12">
+                        </div>
+                    </div>
+                    //table - striped table - bordered table - hover
+                    @*<table class="table" id="tableMain">
+                        <thead>
+                            <tr class="info">
+                                @if (Convert.ToString(ViewData["Status"]) == "N")
+                                {
+                                    <th></th>
+                                }
+                                <th>
+                                    @Html.ActionLink("Invoice No", "Index", new { Status = Convert.ToString(ViewData["Status"]), SortOrder = (Convert.ToString(ViewData["SortOrder"]) == null ? "Asc" : (Convert.ToString(ViewData["SortOrder"]) == "Asc" ? "Desc" : "Asc")), Sortby = "InvoiceNo", page = (Convert.ToString(ViewData["Page"]) == null ? "1" : Convert.ToString(ViewData["Page"])), Pagesize = Convert.ToString(ViewData["Pagesize"]), InvoiceType = Convert.ToString(ViewData["InvoiceType"]), Organization = Convert.ToString(ViewData["Organization"]), Period = Convert.ToString(ViewData["Period"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])) })
+                                </th>
+                                <th>
+                                    @Html.ActionLink("Invoice Type", "Index", new { Status = Convert.ToString(ViewData["Status"]), SortOrder = (Convert.ToString(ViewData["SortOrder"]) == null ? "Asc" : (Convert.ToString(ViewData["SortOrder"]) == "Asc" ? "Desc" : "Asc")), Sortby = "InvoiceType", page = (Convert.ToString(ViewData["Page"]) == null ? "1" : Convert.ToString(ViewData["Page"])), Pagesize = Convert.ToString(ViewData["Pagesize"]), InvoiceType = Convert.ToString(ViewData["InvoiceType"]), Organization = Convert.ToString(ViewData["Organization"]), Period = Convert.ToString(ViewData["Period"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])) })
+                                </th>
+                                <th>
+                                    @Html.ActionLink("Organization", "Index", new { Status = Convert.ToString(ViewData["Status"]), SortOrder = (Convert.ToString(ViewData["SortOrder"]) == null ? "Asc" : (Convert.ToString(ViewData["SortOrder"]) == "Asc" ? "Desc" : "Asc")), Sortby = "Organization", page = (Convert.ToString(ViewData["Page"]) == null ? "1" : Convert.ToString(ViewData["Page"])), Pagesize = Convert.ToString(ViewData["Pagesize"]), InvoiceType = Convert.ToString(ViewData["InvoiceType"]), Organization = Convert.ToString(ViewData["Organization"]), Period = Convert.ToString(ViewData["Period"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])) })
+                                </th>
+                                <th>
+                                    @Html.ActionLink("Period", "Index", new { Status = Convert.ToString(ViewData["Status"]), SortOrder = (Convert.ToString(ViewData["SortOrder"]) == null ? "Asc" : (Convert.ToString(ViewData["SortOrder"]) == "Asc" ? "Desc" : "Asc")), Sortby = "Period", page = (Convert.ToString(ViewData["Page"]) == null ? "1" : Convert.ToString(ViewData["Page"])), Pagesize = Convert.ToString(ViewData["Pagesize"]), InvoiceType = Convert.ToString(ViewData["InvoiceType"]), Organization = Convert.ToString(ViewData["Organization"]), Period = Convert.ToString(ViewData["Period"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])) })
+                                </th>
+                                <th>
+                                    @Html.ActionLink("Invoice Date", "Index", new { Status = Convert.ToString(ViewData["Status"]), SortOrder = (Convert.ToString(ViewData["SortOrder"]) == null ? "Asc" : (Convert.ToString(ViewData["SortOrder"]) == "Asc" ? "Desc" : "Asc")), Sortby = "InvoiceDate", page = (Convert.ToString(ViewData["Page"]) == null ? "1" : Convert.ToString(ViewData["Page"])), Pagesize = Convert.ToString(ViewData["Pagesize"]), InvoiceType = Convert.ToString(ViewData["InvoiceType"]), Organization = Convert.ToString(ViewData["Organization"]), Period = Convert.ToString(ViewData["Period"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])) })
+                                </th>
+                                <th>
+                                    @Html.ActionLink("Customer Name", "Index", new { Status = Convert.ToString(ViewData["Status"]), SortOrder = (Convert.ToString(ViewData["SortOrder"]) == null ? "Asc" : (Convert.ToString(ViewData["SortOrder"]) == "Asc" ? "Desc" : "Asc")), Sortby = "CustomerName", page = (Convert.ToString(ViewData["Page"]) == null ? "1" : Convert.ToString(ViewData["Page"])), Pagesize = Convert.ToString(ViewData["Pagesize"]), InvoiceType = Convert.ToString(ViewData["InvoiceType"]), Organization = Convert.ToString(ViewData["Organization"]), Period = Convert.ToString(ViewData["Period"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])) })
+                                </th>
+                                <th>
+                                    @Html.ActionLink("Invoice Amount", "Index", new { Status = Convert.ToString(ViewData["Status"]), SortOrder = (Convert.ToString(ViewData["SortOrder"]) == null ? "Asc" : (Convert.ToString(ViewData["SortOrder"]) == "Asc" ? "Desc" : "Asc")), Sortby = "InvoiceAmount", page = (Convert.ToString(ViewData["Page"]) == null ? "1" : Convert.ToString(ViewData["Page"])), Pagesize = Convert.ToString(ViewData["Pagesize"]), InvoiceType = Convert.ToString(ViewData["InvoiceType"]), Organization = Convert.ToString(ViewData["Organization"]), Period = Convert.ToString(ViewData["Period"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])) })
+                                </th>
+                                @if (Convert.ToString(ViewData["Status"]) == "N")
+                                {
+                                    <th>
+                                        @Html.ActionLink("Invoice Gen Status", "Index", new { Status = Convert.ToString(ViewData["Status"]), SortOrder = (Convert.ToString(ViewData["SortOrder"]) == null ? "Asc" : (Convert.ToString(ViewData["SortOrder"]) == "Asc" ? "Desc" : "Asc")), Sortby = "InvoiceGenStatus", page = (Convert.ToString(ViewData["Page"]) == null ? "1" : Convert.ToString(ViewData["Page"])), Pagesize = Convert.ToString(ViewData["Pagesize"]), InvoiceType = Convert.ToString(ViewData["InvoiceType"]), Organization = Convert.ToString(ViewData["Organization"]), Period = Convert.ToString(ViewData["Period"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])) })
+                                    </th>
+                                }
+                                @if (Convert.ToString(ViewData["Status"]) == "P")
+                                {
+                                    <th>
+                                        @Html.ActionLink("Invoice Status", "Index", new { Status = Convert.ToString(ViewData["Status"]), SortOrder = (Convert.ToString(ViewData["SortOrder"]) == null ? "Asc" : (Convert.ToString(ViewData["SortOrder"]) == "Asc" ? "Desc" : "Asc")), Sortby = "InvoiceStatus", page = (Convert.ToString(ViewData["Page"]) == null ? "1" : Convert.ToString(ViewData["Page"])), Pagesize = Convert.ToString(ViewData["Pagesize"]), InvoiceType = Convert.ToString(ViewData["InvoiceType"]), Organization = Convert.ToString(ViewData["Organization"]), Period = Convert.ToString(ViewData["Period"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])) })
+                                    </th>
+                                    <th>
+                                        @Html.ActionLink("Invoice Issued By", "Index", new { Status = Convert.ToString(ViewData["Status"]), SortOrder = (Convert.ToString(ViewData["SortOrder"]) == null ? "Asc" : (Convert.ToString(ViewData["SortOrder"]) == "Asc" ? "Desc" : "Asc")), Sortby = "InvoiceIssuedBy", page = (Convert.ToString(ViewData["Page"]) == null ? "1" : Convert.ToString(ViewData["Page"])), Pagesize = Convert.ToString(ViewData["Pagesize"]), InvoiceType = Convert.ToString(ViewData["InvoiceType"]), Organization = Convert.ToString(ViewData["Organization"]), Period = Convert.ToString(ViewData["Period"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])) })
+                                    </th>
+                                    <th>
+                                        @Html.ActionLink("Invoice Issued Date", "Index", new { Status = Convert.ToString(ViewData["Status"]), SortOrder = (Convert.ToString(ViewData["SortOrder"]) == null ? "Asc" : (Convert.ToString(ViewData["SortOrder"]) == "Asc" ? "Desc" : "Asc")), Sortby = "InvoiceIssuedDate", page = (Convert.ToString(ViewData["Page"]) == null ? "1" : Convert.ToString(ViewData["Page"])), Pagesize = Convert.ToString(ViewData["Pagesize"]), InvoiceType = Convert.ToString(ViewData["InvoiceType"]), Organization = Convert.ToString(ViewData["Organization"]), Period = Convert.ToString(ViewData["Period"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])) })
+                                    </th>
+                                }
+                                <th>
+                                    @Html.ActionLink("Updated By", "Index", new { Status = Convert.ToString(ViewData["Status"]), SortOrder = (Convert.ToString(ViewData["SortOrder"]) == null ? "Asc" : (Convert.ToString(ViewData["SortOrder"]) == "Asc" ? "Desc" : "Asc")), Sortby = "UpdatedBy", page = (Convert.ToString(ViewData["Page"]) == null ? "1" : Convert.ToString(ViewData["Page"])), Pagesize = Convert.ToString(ViewData["Pagesize"]), InvoiceType = Convert.ToString(ViewData["InvoiceType"]), Organization = Convert.ToString(ViewData["Organization"]), Period = Convert.ToString(ViewData["Period"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])) })
+                                </th>
+                                <th>
+                                    @Html.ActionLink("Updated On", "Index", new { Status = Convert.ToString(ViewData["Status"]), SortOrder = (Convert.ToString(ViewData["SortOrder"]) == null ? "Asc" : (Convert.ToString(ViewData["SortOrder"]) == "Asc" ? "Desc" : "Asc")), Sortby = "UpdatedDate", page = (Convert.ToString(ViewData["Page"]) == null ? "1" : Convert.ToString(ViewData["Page"])), Pagesize = Convert.ToString(ViewData["Pagesize"]), InvoiceType = Convert.ToString(ViewData["InvoiceType"]), Organization = Convert.ToString(ViewData["Organization"]), Period = Convert.ToString(ViewData["Period"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])) })
+                                </th>
+                            </tr>
+                        </thead>*@
+                    <table class="table" id="tableMain">
+                        <thead>
+                            <tr>
+                                @if (Convert.ToString(ViewData["Status"]) == "N")
+                                {
+                                    <th></th>
+                                }
+
+                                @*@Html.ActionLink("Invoice No", "Index", new { Status = Convert.ToString(ViewData["Status"]), SortOrder = (Convert.ToString(ViewData["SortOrder"]) == null ? "Asc" : (Convert.ToString(ViewData["SortOrder"]) == "Asc" ? "Desc" : "Asc")), Sortby = "InvoiceNo", page = (Convert.ToString(ViewData["Page"]) == null ? "1" : Convert.ToString(ViewData["Page"])), Pagesize = Convert.ToString(ViewData["Pagesize"]), InvoiceType = Convert.ToString(ViewData["InvoiceType"]), Organization = Convert.ToString(ViewData["Organization"]), Period = Convert.ToString(ViewData["Period"]), CustomerName = Convert.ToString(ViewData["CustomerName"]) })*@
+                                <th>
+                                    Invoice No
+                                </th>
+                                <th>
+                                    Invoice Type
+                                </th>
+                                <th>
+                                    Organization
+                                </th>
+                                <th>
+                                    Period
+                                </th>
+                                <th>
+                                    Invoice Date
+                                </th>
+                                <th>
+                                    Customer Name
+                                </th>
+                                <th>
+                                    Invoice Amount
+                                </th>
+                                @if (Convert.ToString(ViewData["Status"]) == "N")
+                                {
+                                    <th>
+                                        Invoice Gen Status
+                                    </th>
+                                }
+                                @if (Convert.ToString(ViewData["Status"]) == "P")
+                                {
+                                    <th>
+                                        Invoice Status
+                                    </th>
+                                    <th>
+                                        Invoice Issued By
+                                    </th>
+                                    <th>
+                                        Invoice Issued Date
+                                    </th>
+                                }
+                                <th>
+                                    Updated By
+                                </th>
+                                <th>
+                                    Updated On
+                                </th>
+                            </tr>
+                        </thead>
+                        @foreach (var item in Model.invoiceList)
+                    {
+                            <tr>
+                                @if (Convert.ToString(ViewData["Status"]) == "N")
+                                {
+                                    if (item.InvoiceGenStatus == "Success")
+                                    {
+                                        <td><input type="checkbox" class="isInvoiceSuccess" id="@item.InvoiceNo" checked></td>
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+                                    }
+                                }
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.InvoiceNo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.InvoiceType)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Organization)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Period)
+                                </td>
+                                <td>
+                                    @{
+                                        var invDate = Convert.ToDateTime(item.InvoiceDate).ToString("dd/MM/yyyy");
+                                        @Html.DisplayFor(m => invDate)
+                                    }
+                                </td>
+                                <td>
+                                    @*@Html.DisplayFor(modelItem => item.CustomerName)*@
+                                    @Html.Raw(item.CustomerNo + " - " + item.CustomerName)
+
+                                </td>
+                                <td>
+                                    @Html.Raw(item.Currency + "&nbsp;" + (item.InvoiceAmount != null ? Convert.ToDouble(item.InvoiceAmount).ToString("N") : "0"))
+                                </td>
+                                @if (Convert.ToString(ViewData["Status"]) == "N")
+                                {
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.InvoiceGenStatus)
+                                    </td>
+                                }
+
+                                @if (Convert.ToString(ViewData["Status"]) == "P")
+                                {
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.InvoiceStatus)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.InvoiceIssuedBy)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.InvoiceIssuedDate)
+                                    </td>
+                                }
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UpdateBy)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UpdateDate)
+                                </td>
+                            </tr>
+                                        }
+
+                    </table>
+
+
+                                        double TotalPage = Convert.ToDouble(ViewData["TotalPages"]);
+
+                                        <ul class="pagination">
+                                            @for (int i = 1; i <= TotalPage; i++)
+                                            {
+                                                if (i == Convert.ToInt16(ViewData["Page"]))
+                                                {
+                                            <li class="active"> @Html.ActionLink(i.ToString(), "Index", new { Status = Convert.ToString(ViewData["Status"]), SortOrder = (Convert.ToString(ViewData["SortOrder"]) == null ? "Asc" : (Convert.ToString(ViewData["SortOrder"]) == "Asc" ? "Desc" : "Asc")), Sortby = "UpdateDate", page = i, Pagesize = Convert.ToString(ViewData["Pagesize"]), InvoiceType = Convert.ToString(ViewData["InvoiceType"]), Organization = Convert.ToString(ViewData["Organization"]), Period = Convert.ToString(ViewData["Period"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])) })</li>
+                                                }
+                                                else
+                                                {
+                                            <li> @Html.ActionLink(i.ToString(), "Index", new { Status = Convert.ToString(ViewData["Status"]), SortOrder = (Convert.ToString(ViewData["SortOrder"]) == null ? "Asc" : (Convert.ToString(ViewData["SortOrder"]) == "Asc" ? "Desc" : "Asc")), Sortby = "UpdateDate", page = i, Pagesize = Convert.ToString(ViewData["Pagesize"]), InvoiceType = Convert.ToString(ViewData["InvoiceType"]), Organization = Convert.ToString(ViewData["Organization"]), Period = Convert.ToString(ViewData["Period"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])) }) </li>
+                                                }
+                                            }
+                                        </ul>
+
+                                        <input type="submit" name="Command" value="Issue" id="btnIssue" style="display:none;" class="btn btn-primary" />
+                                        <input type="submit" name="Command" value="Exception" id="btnException" style="display:none;" class="btn btn-primary" />
+
+                                            }
+
+                                        }

@@ -1,0 +1,187 @@
+USE [WorkFlowDB]
+GO
+/****** Object:  StoredProcedure [dbo].[SP_GetQuote]    Script Date: 02/27/2018 12:05:59 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- exec SP_GetQuote '00524','Assigned','','O'
+ALTER procedure [dbo].[SP_GetQuote]
+@CreatedBy nvarchar(10),
+@Status nvarchar(20),
+@QuoteId nvarchar(100),
+@Type char(1) -- 'S' => Self, 'O' => Others, 'A' => All
+--@IsPCVorSuperuser bit output
+as
+begin
+
+
+declare @execstr nvarchar(max)
+declare @querystr nvarchar(max)
+declare @IsPCVUser bit=0
+declare @IsSuperUser bit=0
+declare @DeptList nvarchar(200)
+declare @ColumnName nvarchar(50)
+
+if @Status='Assigned'
+
+if @CreatedBy<>''
+begin
+	if exists (select * from tbl_User where UserId=@CreatedBy and Role='PCVUser')
+	begin
+		set @IsPCVUser=1
+	end
+	if exists (select * from tbl_UserRoles where UserId=@CreatedBy and Role='Superuser')
+	begin
+		set @IsSuperUser=1
+		select @DeptList=Departments from tbl_UserRoles where UserId=@CreatedBy and Role='Superuser'
+	end
+end
+
+
+set @execstr='select A.Id,A.QuoteId,A.PurchaseCategory,A.PurchaseRemarks,A.BuyerCode,(D.FirstName+'' ''+D.LastName+'':''+A.BuyerName) as BuyerName,A.BuyerRemarks,A.Status,A.IsDeleted,A.Created,(B.FirstName+'' ''+B.LastName+'':''+A.CreatedBy) as CreatedBy,A.Modified,(C.FirstName+'' ''+C.LastName+'':''+A.ModifiedBy) as ModifiedBy,A.Department,A.Year,A.RequiredDate,A.Type,A.RevisionNo,(E.FirstName+'' ''+E.LastName+'':''+A.ProcessedBy) as ProcessedBy from tbl_RequestForQuotation A'
+set @execstr=@execstr+' left join vw_ERP_UserDetails B on A.CreatedBy=B.UserId'
+set @execstr=@execstr+' left join vw_ERP_UserDetails C on A.ModifiedBy=C.UserId'
+set @execstr=@execstr+' left join vw_ERP_UserDetails D on A.BuyerName=D.UserId'
+set @execstr=@execstr+' left join vw_ERP_UserDetails E on A.ProcessedBy=E.UserId'
+set @querystr=''
+
+if @QuoteId<>''
+	set @querystr=' QuoteId like ''%'+@QuoteId+'%'''
+
+if @IsSuperUser=1
+begin
+	if @CreatedBy<>''
+	begin
+		if @Status<>'Assigned'
+			begin
+				if @Type='A'
+					begin
+						if @querystr=''
+							set @querystr=' (CreatedBy='''+@CreatedBy+''' or CreatedBy in (select UserId from vw_ERP_UserDetails where DeptCode in (select s from SplitString('''+@DeptList+''','',''))))'
+						else
+							set @querystr=@querystr+' (CreatedBy='''+@CreatedBy+''' or CreatedBy in (select UserId from vw_ERP_UserDetails where DeptCode in (select s from SplitString('''+@DeptList+''','',''))))'
+					end
+				else if @Type='S'
+					begin
+						if @querystr=''
+							set @querystr=' CreatedBy='''+@CreatedBy+''''
+						else
+							set @querystr=@querystr+' CreatedBy='''+@CreatedBy+''''
+					end
+				else if @Type='O'
+					begin
+						if @querystr=''
+							set @querystr=' (CreatedBy<>'''+@CreatedBy+''' and CreatedBy in (select UserId from vw_ERP_UserDetails where DeptCode in (select s from SplitString('''+@DeptList+''','','') and UserId<>'''+@CreatedBy+''')))'
+						else
+							set @querystr=@querystr+' (CreatedBy<>'''+@CreatedBy+''' and CreatedBy in (select UserId from vw_ERP_UserDetails where DeptCode in (select s from SplitString('''+@DeptList+''','','') and UserId<>'''+@CreatedBy+''')))'
+					end				
+			end
+		else
+			begin
+				if @Type='A'
+					begin
+						if @querystr=''
+							set @querystr=' (BuyerName='''+@CreatedBy+''' or BuyerName in (select UserId from vw_ERP_UserDetails where DeptCode in (select s from SplitString('''+@DeptList+''','',''))))'
+						else
+							set @querystr=@querystr+' and (BuyerName='''+@CreatedBy+''' or BuyerName in (select UserId from vw_ERP_UserDetails where DeptCode in (select s from SplitString('''+@DeptList+''','',''))))'					
+					end
+				else if @Type='S'
+					begin
+						if @querystr=''
+							set @querystr=' BuyerName='''+@CreatedBy+''''
+						else
+							set @querystr=@querystr+' and BuyerName='''+@CreatedBy+''''					
+					end
+				else if @Type='O'
+					begin
+						if @querystr=''
+							set @querystr=' (BuyerName<>'''+@CreatedBy+''' and BuyerName in (select UserId from vw_ERP_UserDetails where DeptCode in (select s from SplitString('''+@DeptList+''','',''))))'
+						else
+							set @querystr=@querystr+' and (BuyerName<>'''+@CreatedBy+''' and BuyerName in (select UserId from vw_ERP_UserDetails where DeptCode in (select s from SplitString('''+@DeptList+''','',''))))'
+					end
+			end
+	end
+end
+else
+if @IsPCVUser=0
+begin
+	if @CreatedBy<>''
+	begin
+		if @Status<>'Assigned'
+			begin
+				if @querystr=''
+					set @querystr=' CreatedBy='''+ @CreatedBy+''''
+				else
+					set @querystr=@querystr+' and CreatedBy='''+ @CreatedBy+''''
+				
+			end
+		else
+			begin
+				if @querystr=''
+					set @querystr=' BuyerName='''+ @CreatedBy+''''
+				else
+					set @querystr=@querystr+' and BuyerName='''+ @CreatedBy+''''		
+			end
+	end
+end
+
+else if @IsPCVUser=1
+begin
+	if (@CreatedBy<>'')
+	begin
+		if (@Status='New' or @Status='Pending')
+			begin
+				if @querystr=''
+					set @querystr=' CreatedBy='''+ @CreatedBy+''''
+				else
+					set @querystr=@querystr+' and CreatedBy='''+ @CreatedBy+''''											
+			end
+		else
+			begin
+				if @Type='S'
+					begin
+						if @querystr=''
+							set @querystr=' BuyerName='''+@CreatedBy+''''
+						else
+							set @querystr=@querystr+' and BuyerName='''+@CreatedBy+''''					
+					end
+				else if @Type='O'
+					begin
+						if @querystr=''
+							set @querystr=' BuyerName<>'''+@CreatedBy+''''
+						else
+							set @querystr=@querystr+' and BuyerName<>'''+@CreatedBy+''''
+					end
+			end
+	end
+end
+if @Status<>''
+
+if @Status<>'Assigned'
+		begin
+			if @querystr=''
+				set @querystr=' Status='''+@Status+''''
+			else
+				set @querystr=@querystr+' and Status='''+@Status+''''
+		end
+else
+		begin
+			if @querystr=''
+				set @querystr=' Status=''Pending'''
+			else
+				set @querystr=@querystr+' and Status=''Pending'''
+		end	
+		
+		
+			
+if @querystr<>''
+set @execstr=@execstr+' where '+@querystr
+
+print @execstr
+
+exec (@execstr)
+
+end
+
+

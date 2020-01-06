@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="WorkFlowDBModel1" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="WorkFlowDBEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="vw_Documents" EntityType="WorkFlowDBModel1.vw_Documents" />
+  </EntityContainer>
+  <EntityType Name="vw_Documents">
+    <Key>
+      <PropertyRef Name="DocID" />
+    </Key>
+    <Property Name="DocID" Type="Int64" Nullable="false" />
+    <Property Name="DocType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="DocNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="NetPrice" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Currency" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+    <Property Name="SubmitBy" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="SubmitDate" Type="DateTime" Precision="3" />
+    <Property Name="ApprovalSubmitDate" Type="DateTime" Precision="3" />
+    <Property Name="ApprovalSubmitBy" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="Status" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+    <Property Name="AttachDoc" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="AddAttachDoc1" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="AddAttachDoc2" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="AddAttachDoc3" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+  </EntityType>
+</Schema>

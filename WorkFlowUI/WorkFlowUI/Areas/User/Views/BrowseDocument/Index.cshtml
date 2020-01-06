@@ -1,0 +1,571 @@
+﻿@model IEnumerable<BOL.tbl_Documents>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*@if (TempData["Msg"] != null)
+    {
+        <h3> @TempData["Msg"].ToString()</h3>
+    }*@
+@if (TempData["Msg"] != null)
+{
+    <script type="text/javascript">
+        alert('@Convert.ToString(TempData["Msg"])');        
+    </script>
+}
+
+
+<script src="~/scripts/jquery-1.10.2.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $("#ddlPagesize").change(function () {
+            var pageCount = $("#ddlPagesize option:selected").val();
+            var urlLocation = "@Url.Action("Index", "BrowseDocument", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Desc" : ViewBag.SortOrder), Sortby = (ViewBag.Sortby == null ? "SubmitDate" : ViewBag.Sortby), Page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])),Pagesize= "PagesizeValue" })";
+            urlLocation = urlLocation.replace("PagesizeValue", pageCount);
+            urlLocation = urlLocation.replace(/&amp;/g, "&");
+            window.location.href = urlLocation;
+        });
+
+        $('#btnSearch').click(function () {
+            //   debugger;
+            this.href = this.href.replace("SearchData", checkandreplace($("#txtSearch").val()));
+            this.href = this.href.replace("PagesizeValue", $("#ddlPagesize option:selected").val());
+        });
+        $('#btnSubmit').click(function () {
+
+            var names = GetCheckedItems();
+
+            //debugger;
+            this.href = this.href.replace("ItemList", JSON.stringify(names.toArray()));
+
+        });
+
+        $('#btnReject').click(function () {
+
+
+            var names = $(".ckb").filter(":checked").map(function () { return this.id; });
+            // debugger;
+            this.href = this.href.replace("ItemList", JSON.stringify(names.toArray()));
+
+        });
+        $("#ChkAll").click(function (event) {  //on click
+            if (this.checked) { // check select status
+                $('.ckb').each(function () { //loop through each checkbox
+                    this.checked = true;  //select all checkboxes with class "checkbox1"
+                });
+            } else {
+                $('.ckb').each(function () { //loop through each checkbox
+                    this.checked = false; //deselect all checkboxes with class "checkbox1"
+                });
+            }
+        });
+        $('.ckb').click(function (event) {
+            //debugger;//on click
+            if (this.checked) { // check select status
+            }
+            else {
+                document.getElementById("ChkAll").checked = false;
+            }
+        });
+    })
+
+    function ConfirmMerge() {
+        var checked = GetCheckedItems(); //
+        if (checked.length < 2) {
+            alert("Please select atleast two DOCs to Merge.");
+            return false;
+        }
+        if (confirm('Are you sure want to Merge?')) {
+            //   debugger;
+            document.getElementById("btnMerge").href = document.getElementById("btnMerge").href.replace("ItemList", JSON.stringify(checked.toArray()));
+            //  $('#btnSubmit').href = $('#btnSubmit').href.replace("ItemList", JSON.stringify(checked.toArray()));
+            return true;
+        }
+        return false;
+    }
+
+    function ConfirmSubmit() {
+        var checked = GetCheckedItems(); //
+        if (checked.length == 0) {
+            alert("Please select atleast one DOC to Submit.");
+            return false;
+        }
+        if (confirm('Are you sure want to Submit?')) {
+            //   debugger;
+            document.getElementById("btnSubmit").href = document.getElementById("btnSubmit").href.replace("ItemList", JSON.stringify(checked.toArray()));
+            //  $('#btnSubmit').href = $('#btnSubmit').href.replace("ItemList", JSON.stringify(checked.toArray()));
+            return true;
+        }
+        return false;
+    }
+    function GetCheckedItems() {
+        var checked = $(".ckb").filter(":checked").map(function () { return this.id; });
+        return checked;
+
+    }
+    function ConfirmDelete() {
+
+        return confirm('Are you sure, yow want to Delete?');
+    }
+</script>
+<style type="text/css">
+    .empty-row {
+        height: 15px !important;
+    }
+</style>
+<h2>Documents</h2>
+
+<div class="row">
+    <div class="col-sm-12">
+        <ul class="nav nav-pills col-lg-12">
+            @if (ViewBag.Status == "N")
+            {
+                <li class="active">@Html.ActionLink("Submit Documents", "Index", new { Status = "N", Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])) })</li>
+            }
+            else
+            {
+                <li> @Html.ActionLink("Submit Documents", "Index", new { Status = "N", Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])) })</li>
+            }
+            @if (ViewBag.Status == "H")
+            {
+                <li class="active">@Html.ActionLink("Hold Documents", "Index", new { Status = "H", Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])) })</li>
+            }
+            else
+            {
+                <li> @Html.ActionLink("Hold Documents", "Index", new { Status = "H", Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])) })</li>
+            }
+            @if (ViewBag.Status == "P")
+            {
+                <li class="active">@Html.ActionLink("Pending Documents", "Index", new { Status = "P", Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])) })</li>
+            }
+            else
+            {
+                <li> @Html.ActionLink("Pending Documents", "Index", new { Status = "P", Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])) })</li>
+            }
+            @if (ViewBag.Status == "A")
+            {
+                <li class="active">@Html.ActionLink("Approved Documents", "Index", new { Status = "A", Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])) }) </li>
+            }
+            else
+            {
+                <li>@Html.ActionLink("Approved Documents", "Index", new { Status = "A", Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])) })</li>
+            }
+            @if (ViewBag.Status == "R")
+            {
+                <li class="active">@Html.ActionLink("Rejected Documents", "Index", new { Status = "R", Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])) }) </li>
+            }
+            else
+            {
+                <li>@Html.ActionLink("Rejected Documents", "Index", new { Status = "R", Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])) })</li>
+            }
+        </ul>
+    </div>
+</div>
+
+
+<div class="row empty-row">
+    <div class="col-sm-12">
+    </div>
+</div>
+
+<div>
+    <div class="row" style="margin-bottom:10px">
+        <div class="col-sm-1">
+            Doc No.
+        </div>
+        <div class="col-sm-8">
+            @Html.TextBox("txtSearch", Convert.ToString(ViewData["Search"]))
+            &nbsp;&nbsp;&nbsp;
+
+        </div>
+    </div>
+
+    <div class="row" style="margin-bottom:10px">
+        <div class="col-sm-1">
+
+        </div>
+        <div class="col-sm-4">
+            @Html.ActionLink("Search", "Index", new
+       {
+           Status = ViewBag.Status,
+           SortOrder = (ViewBag.SortOrder == null ? "Desc" :
+        (ViewBag.SortOrder == "Asc" ? "Asc" : "Desc")),
+           Sortby = "SubmitDate",
+           page = (ViewBag.Page == null ? "1" : ViewBag.Page),
+           Search = "SearchData",
+           Pagesize = Convert.ToString(ViewData["Pagesize"])
+       }, new { id = "btnSearch" })
+        </div>
+        <div class="col-sm-3">
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-5">
+        @{
+            List<SelectListItem> listItems = new List<SelectListItem>();
+            listItems.Add(new SelectListItem
+            {
+                Text = "200",
+                Value = "200",
+                Selected = true
+            });
+            listItems.Add(new SelectListItem
+            {
+                Text = "100",
+                Value = "100",
+            });
+            listItems.Add(new SelectListItem
+            {
+                Text = "75",
+                Value = "75",
+            });
+            listItems.Add(new SelectListItem
+            {
+                Text = "50",
+                Value = "50",
+            });
+            listItems.Add(new SelectListItem
+            {
+                Text = "25",
+                Value = "25",
+            });
+            listItems.Add(new SelectListItem
+            {
+                Text = "10",
+                Value = "10",
+            });
+            @*@Html.Raw("<b>Records Per Page : </b>")*@
+            @Html.DropDownList("ddlPagesize", listItems)
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $("#ddlPagesize option[value='" + @Convert.ToString(ViewData["Pagesize"]) +"']").attr("selected", "selected");
+                });
+            </script>
+        }
+    </div>
+
+</div>
+
+<div class="row" id="legendDiv" style="display:none">
+    <div class="col-sm-10">
+        <div style="font-weight: 600;font-size: 16px;border: 1px solid lightblue;padding: 5px;margin-top: 10px;">
+            &nbsp;<img src="~/Content/images/exclamation_mark.png" />&nbsp; <span>Document still processing in ERP.&nbsp; Refresh the page after two minutes.</span>
+        </div>
+    </div>
+</div>
+
+@*<div class="row empty-row">
+        <div class="col-sm-12">
+        </div>
+    </div>*@
+
+<div class="row">
+    <div class="col-sm-10">
+        @*@Html.TextBox("txtSearch", ViewData["Search"].ToString())*@
+
+    </div>
+
+
+    <div class="col-sm-2" style="text-align:right;">
+
+    </div>
+    <div class="row empty-row">
+        <div class="col-sm-12">
+        </div>
+    </div>
+    @{ 
+        ViewBag.ShowLegendDiv = false;
+    }
+    <table class="table table-striped table-bordered table-hover ">
+        <tr class="info">
+            @if (ViewBag.Status == "N")
+            {
+                <th> @Html.CheckBox("ChkAll", false, new { @class = "ckbAll", Id = "ChkAll" })</th>
+            }
+
+            <th>
+                @*@Html.DisplayNameFor(model => model.DocType)*@
+                @*@Html.ActionLink("DocType", "Index", new {SortOrder = "Asc", Sortby = "DocType" } )*@
+                @Html.ActionLink("DocType", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), Sortby = "DocType", page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), Pagesize = Convert.ToString(ViewData["Pagesize"]) })
+
+            </th>
+            <th>
+                @*   @Html.DisplayNameFor(model => model.DocNo)*@
+                @Html.ActionLink("DocNo", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), Sortby = "DocNo", page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), Pagesize = Convert.ToString(ViewData["Pagesize"]) })
+
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.NetPrice)*@
+                @Html.ActionLink("NetPrice", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), Sortby = "DocNetPrice", page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), Pagesize = Convert.ToString(ViewData["Pagesize"]) })
+
+            </th>
+            <th>
+                @* @Html.DisplayNameFor(model => model.Currency)*@
+                @Html.ActionLink("Currency", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), Sortby = "Currency", page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), Pagesize = Convert.ToString(ViewData["Pagesize"]) })
+
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.NetPrice)*@
+                @Html.ActionLink("NetPriceLocal", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), Sortby = "NetPrice", page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), Pagesize = Convert.ToString(ViewData["Pagesize"]) })
+
+            </th>
+            <th>
+                @* @Html.DisplayNameFor(model => model.VendorCode)*@
+                @Html.ActionLink("VendorCode", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), Sortby = "VendorCode", page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), Pagesize = Convert.ToString(ViewData["Pagesize"]) })
+
+            </th>
+            <th>
+                @* @Html.DisplayNameFor(model => model.VendorName)*@
+                @Html.ActionLink("VendorName", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), Sortby = "VendorName", page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), Pagesize = Convert.ToString(ViewData["Pagesize"]) })
+
+            </th>
+            <th>
+                @* @Html.DisplayNameFor(model => model.SubmitBy)*@
+                @Html.ActionLink("VendorCategory", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), Sortby = "VendorCategory", page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), Pagesize = Convert.ToString(ViewData["Pagesize"]) })
+
+            </th>
+
+            <th>
+                @*@Html.DisplayNameFor(model => model.AttachDoc)*@
+                @Html.ActionLink("AttachDoc1", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), Sortby = "AttachDoc1", page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), Pagesize = Convert.ToString(ViewData["Pagesize"]) })
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.AddAttachDoc1)*@
+                @Html.ActionLink("AttachDoc2", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), Sortby = "AttachDoc2", page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), Pagesize = Convert.ToString(ViewData["Pagesize"]) })
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.AddAttachDoc2)*@
+                @Html.ActionLink("AttachDoc3", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), Sortby = "AttachDoc3", page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), Pagesize = Convert.ToString(ViewData["Pagesize"]) })
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.AddAttachDoc3)*@
+                @Html.ActionLink("AttachDoc4", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), Sortby = "AttachDoc4", page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), Pagesize = Convert.ToString(ViewData["Pagesize"]) })
+            </th>
+            <th>
+                @* @Html.DisplayNameFor(model => model.SubmitBy)*@
+                @Html.ActionLink("ReleasedBy", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), Sortby = "SubmitBy", page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), Pagesize = Convert.ToString(ViewData["Pagesize"]) })
+
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.SubmitDate)*@
+                @Html.ActionLink("ReleasedDate", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), Sortby = "SubmitDate", page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), Pagesize = Convert.ToString(ViewData["Pagesize"]) })
+
+
+            </th>
+            @if (ViewBag.Status == "N" || ViewBag.Status == "H")
+            {
+                <th>Action</th>
+            }
+
+            @*<th>
+                @Html.DisplayNameFor(model => model.ApprovalSubmitDate)
+                </th>
+                <th>
+                @Html.DisplayNameFor(model => model.ApprovalSubmitBy)
+                </th>
+                <th>
+                @Html.DisplayNameFor(model => model.Status)
+                </th>*@
+
+            @*<th>
+                @Html.DisplayNameFor(model => model.UpdateDate)
+                </th>*@
+
+        </tr>
+        
+        @if (Model != null)
+        {
+
+
+            foreach (var item in Model)
+            {
+            @*<tr style="background-color:aqua"*@
+            <tr style="@(ViewBag.Status == "N" && item.PriorityCode == 1 ? "Background-color:aqua" : "")">
+                @if (ViewBag.Status == "N")
+                {
+                    if ((item.SubmitBy == ViewBag.User || ViewBag.IsSuperUser))
+                    {
+                        <td>
+                            @Html.CheckBox(item.DocID.ToString(), false, new { @class = "ckb", Id = item.DocID })
+                            @*@Html.ActionLink("Approve", "Approve", new { id = item.WorkFlowID }, new { onclick = "return ConfirmApprove()" })|
+                                @Html.ActionLink("Reject", "Reject", new { id = item.WorkFlowID }, new { onclick = "return ConfirmReject()" })*@
+                        </td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                }
+
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.DocType)
+                </td>
+                <td>
+                    @*<a target ="_blank" href=@item.DocNo> @item.DocNo </a>*@
+                    @* @Html.DisplayFor(modelItem => item.DocNo)*@
+                    @Html.ActionLink(@item.DocNo, "RouteDocNo", new { docId = @item.DocID, docNo = @item.DocNo, type = @item.DocType, Status = ViewBag.Status, Page = ViewBag.Page })
+                </td>
+                <td>
+                    @if (item.DocNetPrice != null)
+                    {
+                        var netprice = Convert.ToDecimal(item.DocNetPrice.Value).ToString("#,##0.00");
+                        @Html.DisplayFor(m => netprice)
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Currency)
+                </td>
+                <td>
+                    @if (item.NetPrice != null)
+                    {
+                        var netprice = Convert.ToDecimal(item.NetPrice.Value).ToString("#,##0.00");
+                        @Html.DisplayFor(m => netprice)
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VendorCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VendorName)
+                    @if (Convert.ToBoolean(item.IsMultipleVendor))
+                    {
+                        @Html.ActionLink(" & more ...", "RouteDocNo", new { docId = @item.DocID, docNo = @item.DocNo, type = @item.DocType, Status = ViewBag.Status, Page = ViewBag.Page }, new { title = @item.VendorNameList })
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VendorCategory)
+                </td>
+
+                <td>
+
+
+                    @if (item.AttachDoc != null)
+                    {
+                        @Html.ActionLink(item.AttachDoc, "GetDocument", new { docNo = @item.DocNo, name = @item.AttachDoc, erpattach = @item.ERPAttachment }, new { target = "_blank" })
+                    }
+
+                </td>
+                <td>
+                    @*@Html.DisplayFor(modelItem => item.AddAttachDoc1)*@
+                    @if (item.AddAttachDoc1 != null)
+                    {
+                        @Html.ActionLink(item.AddAttachDoc1, "GetDocument", new { docNo = @item.DocNo, name = @item.AddAttachDoc1, erpattach = @item.ERPAttachment }, new { target = "_blank" })
+                    }
+                </td>
+                <td>
+                    @*@Html.DisplayFor(modelItem => item.AddAttachDoc2)*@
+                    @if (item.AddAttachDoc2 != null)
+                    {
+                        @Html.ActionLink(item.AddAttachDoc2, "GetDocument", new { docNo = @item.DocNo, name = @item.AddAttachDoc2, erpattach = @item.ERPAttachment }, new { target = "_blank" })
+                    }
+                </td>
+                <td>
+                    @*@Html.DisplayFor(modelItem => item.AddAttachDoc3)*@
+                    @if (item.AddAttachDoc3 != null)
+                    {
+                        @Html.ActionLink(item.AddAttachDoc3, "GetDocument", new { docNo = @item.DocNo, name = @item.AddAttachDoc3, erpattach = @item.ERPAttachment }, new { target = "_blank" })
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SubmitBy)
+                </td>
+                <td>
+                    @*@Html.DisplayFor(modelItem => item.SubmitDate)*@
+                    @if (item.SubmitDate != null)
+                    {
+                        var dateVal = item.SubmitDate.Value.ToString("dd/MM/yyyy HH:mm:ss");
+                        @Html.DisplayFor(m => dateVal)
+                    }
+                </td>
+
+                @if (ViewBag.Status == "N" || ViewBag.Status == "H")
+                {
+                    if (item.SubmitBy == ViewBag.User || ViewBag.IsSuperUser)
+                    {
+                        if (item.ERPAttachment == false)
+                        {
+                            <td>
+
+                                @Html.ActionLink("Attach", "Index", "UploadFile", new { id = item.DocID, status = ViewBag.Status }, new { target = "_parent" })
+                                @if (ViewBag.Status == "N")
+                                {
+                                    @Html.Raw("|")
+                                    @Html.ActionLink("Delete", "DeleteDocument", new { id = item.DocID, Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Desc" : ViewBag.SortOrder), Sortby = (ViewBag.Sortby == null ? "SubmitDate" : ViewBag.Sortby), page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), Pagesize = Convert.ToString(ViewData["Pagesize"]) }, new { onclick = "return ConfirmDelete()" })
+                                }
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                @* @Html.ActionLink("Attach", "Index", "UploadFile", new { id = item.DocID }, new { target = "_parent"})*@
+                                @Html.ActionLink("Delete", "DeleteDocument", new { id = item.DocID, Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Desc" : ViewBag.SortOrder), Sortby = (ViewBag.Sortby == null ? "SubmitDate" : ViewBag.Sortby), page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), Pagesize = Convert.ToString(ViewData["Pagesize"]) }, new { onclick = "return ConfirmDelete()" })
+                            </td>
+
+                        }
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                }
+
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.ApprovalSubmitDate)
+                    </td>
+                    <td>
+                    @Html.DisplayFor(modelItem => item.ApprovalSubmitBy)
+                    </td>
+                    <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                    </td>*@
+
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.UpdateDate)
+                    </td>*@
+
+            </tr>
+            }
+        }
+    </table>
+
+    @if(ViewBag.ShowLegendDiv)
+    {
+        <script type="text/javascript">
+            $("#legendDiv").show();
+        </script>
+    }
+    @if (ViewBag.Status == "N")
+            {
+        <div class="form-group">
+            <div class="col-md-offset-0">
+                @Html.ActionLink("Merge", "MergeDoc", new { Ids = "ItemList" }, new { id = "btnMerge", onclick = "return ConfirmMerge()" })
+                &nbsp;&nbsp;&nbsp;
+                @Html.ActionLink("Submit", "BulkSubmit", new { Ids = "ItemList" }, new { id = "btnSubmit", onclick = "return ConfirmSubmit()" })
+                @*@Html.ActionLink("Reject", "BulkReject", new { Ids = "ItemList" }, new { id = "btnReject", onclick = "return ConfirmReject()" })*@
+
+            </div>
+        </div>
+    }
+    @{
+        double TotalPage = Convert.ToDouble(@ViewBag.TotalPages);
+    }
+
+    <ul class="pagination">
+        @for (int i = 1; i <= TotalPage; i++)
+            {
+                if (i == ViewBag.Page)
+                {
+                <li class="active"> @Html.ActionLink(i.ToString() + " ", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Desc" : ViewBag.SortOrder), Sortby = (ViewBag.Sortby == null ? "SubmitDate" : ViewBag.Sortby), Page = i, Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), Pagesize = Convert.ToString(ViewData["Pagesize"]) })</li>
+            }
+            else
+            {
+                <li> @Html.ActionLink(i.ToString() + " ", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Desc" : ViewBag.SortOrder), Sortby = (ViewBag.Sortby == null ? "SubmitDate" : ViewBag.Sortby), Page = i, Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), Pagesize = Convert.ToString(ViewData["Pagesize"]) }) </li>
+            }
+        }
+    </ul>

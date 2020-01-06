@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ErpByNetR1100Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="ErpByNetR1100Entities" annotation:LazyLoadingEnabled="true">
+    <FunctionImport Name="fsp_GetCOABudgetSummary" ReturnType="Collection(ErpByNetR1100Model.fsp_GetCOABudgetSummary_Result)">
+      <Parameter Name="PurchaseRequisitionNo" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="fsp_ReportMiscPurchaseRequisition" ReturnType="Collection(ErpByNetR1100Model.fsp_ReportMiscPurchaseRequisition_Result)">
+      <Parameter Name="PurchaseRequisitionNo" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="fsp_ReportSubconPO_CumulativeDetails" ReturnType="Collection(ErpByNetR1100Model.fsp_ReportSubconPO_CumulativeDetails_Result)">
+      <Parameter Name="PurchaseOrderNo" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="fsp_ReportPurchaseOrder_sg" ReturnType="Collection(ErpByNetR1100Model.fsp_ReportPurchaseOrder_sg_Result)">
+      <Parameter Name="PurchaseOrderNo" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="fsp_DocumentDetails" EntityType="ErpByNetR1100Model.fsp_DocumentDetails" />
+    <EntitySet Name="fsp_Documents" EntityType="ErpByNetR1100Model.fsp_Documents" />
+  </EntityContainer>
+  <ComplexType Name="fsp_GetCOABudgetSummary_Result">
+    <Property Type="Int32" Name="PurchaseRequisitionID" Nullable="true" />
+    <Property Type="Int32" Name="ChartOfAccountSetDetailID" Nullable="true" />
+    <Property Type="String" Name="ChartOfAccountSetDetailDescription" Nullable="true" MaxLength="256" />
+    <Property Type="Int32" Name="COACostCentreID" Nullable="true" />
+    <Property Type="String" Name="COACostCentreName" Nullable="true" MaxLength="151" />
+    <Property Type="String" Name="COACostCentreCode" Nullable="true" MaxLength="50" />
+    <Property Type="Double" Name="COARequisitionAmount" Nullable="true" />
+    <Property Type="Double" Name="COAActualAmount" Nullable="false" />
+    <Property Type="Double" Name="SecondaryEntityBudgetApproved" Nullable="true" />
+    <Property Type="Int32" Name="BudgetYear" Nullable="false" />
+    <Property Type="Double" Name="SupplementaryBudget1Approved" Nullable="true" />
+    <Property Type="Double" Name="TotalAmount" Nullable="true" />
+    <Property Type="String" Name="ChartOfAccountSetDetailValueCode" Nullable="true" MaxLength="10" />
+    <Property Type="Decimal" Name="GrandTotalInLocalCurrency" Nullable="true" Precision="38" Scale="4" />
+  </ComplexType>
+  <ComplexType Name="fsp_ReportMiscPurchaseRequisition_Result">
+    <Property Type="Int32" Name="PurchaseRequisitionID" Nullable="true" />
+    <Property Type="Int32" Name="PurchaseRequisitionDetailID" Nullable="true" />
+    <Property Type="Int32" Name="VendorID" Nullable="true" />
+    <Property Type="Int32" Name="PartItemID" Nullable="true" />
+    <Property Type="Double" Name="Price" Nullable="true" />
+    <Property Type="Double" Name="OrderQuantity" Nullable="true" />
+    <Property Type="Decimal" Name="TotalPrice" Nullable="true" Precision="38" Scale="6" />
+    <Property Type="DateTime" Name="RequiredOn" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="UOM" Nullable="true" />
+    <Property Type="Int32" Name="AccountJournalEventID" Nullable="true" />
+    <Property Type="Int32" Name="AccountJournalEventDetailID" Nullable="true" />
+    <Property Type="Int32" Name="ChartOfAccountSetDetailID" Nullable="true" />
+    <Property Type="String" Name="ItemName" Nullable="true" />
+    <Property Type="String" Name="ItemDescription" Nullable="true" />
+    <Property Type="String" Name="AccountJournalEventName" Nullable="true" MaxLength="250" />
+    <Property Type="String" Name="AccountJournalEventDetailDescription" Nullable="true" MaxLength="250" />
+    <Property Type="String" Name="CostEntityKeyID" Nullable="true" />
+    <Property Type="Int32" Name="CostEntityID" Nullable="true" />
+    <Property Type="String" Name="VendorName" Nullable="true" />
+    <Property Type="String" Name="CurrencyName" Nullable="true" />
+    <Property Type="Int32" Name="LanguageID" Nullable="true" />
+    <Property Type="String" Name="VendorCode" Nullable="true" />
+    <Property Type="String" Name="UnitOfMeasureName" Nullable="true" />
+    <Property Type="String" Name="ChartOfAccountSetDetailDescription" Nullable="true" />
+    <Property Type="String" Name="PurchaseRequisitionNo" Nullable="true" />
+    <Property Type="String" Name="StatusName" Nullable="true" />
+    <Property Type="Int32" Name="StatusID" Nullable="true" />
+    <Property Type="Boolean" Name="IsPOGenerated" Nullable="true" />
+    <Property Type="Int32" Name="CostCentreID" Nullable="true" />
+    <Property Type="String" Name="CostCentreName" Nullable="true" />
+    <Property Type="String" Name="CostCentreCode" Nullable="true" MaxLength="250" />
+    <Property Type="Int32" Name="RootSourceEntityID" Nullable="true" />
+    <Property Type="String" Name="RootSourceEntityKey" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="StatusEntityName" Nullable="true" />
+    <Property Type="Double" Name="COARequisitionAmount" Nullable="true" />
+    <Property Type="Double" Name="COAActualAmount" Nullable="true" />
+    <Property Type="Double" Name="SecondaryEntityBudgetApproved" Nullable="true" />
+    <Property Type="Int32" Name="BudgetYear" Nullable="true" />
+    <Property Type="Double" Name="SupplementaryBudget1Approved" Nullable="true" />
+    <Property Type="String" Name="ChartOfAccountSetDetailValueCode" Nullable="true" />
+    <Property Type="String" Name="PRDetailRemarkText" Nullable="true" />
+    <Property Type="String" Name="CostEntityKeyName" Nullable="true" />
+    <Property Type="String" Name="PRHeaderDepartmentName" Nullable="true" />
+    <Property Type="String" Name="OrganizationDescription" Nullable="true" />
+    <Property Type="Int32" Name="SequenceNo" Nullable="true" />
+    <Property Type="String" Name="SetOfBooksCurrency" Nullable="true" />
+    <Property Type="String" Name="VendorCategoryName" Nullable="true" MaxLength="256" />
+  </ComplexType>
+  <ComplexType Name="fsp_ReportPurchaseOrder_sg_Result">
+    <Property Type="String" Name="PurchaseOrderNo" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="SRNO" Nullable="false" />
+    <Property Type="String" Name="DisplayName" Nullable="true" MaxLength="512" />
+    <Property Type="String" Name="PartDescription" Nullable="true" MaxLength="512" />
+    <Property Type="Double" Name="OrderQuantity" Nullable="true" />
+    <Property Type="String" Name="UnitOfMeasureName" Nullable="false" MaxLength="256" />
+    <Property Type="Double" Name="Price" Nullable="true" />
+    <Property Type="String" Name="CurrencyName" Nullable="false" MaxLength="256" />
+    <Property Type="Double" Name="TotalAmount" Nullable="true" />
+    <Property Type="String" Name="WareHouseName" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="VendorName" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="CostEntityName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="CostEntityKeyName" Nullable="true" MaxLength="256" />
+    <Property Type="DateTime" Name="RequiredOn" Nullable="true" />
+    <Property Type="DateTime" Name="PurchaseOrderDate" Nullable="false" Precision="23" />
+    <Property Type="String" Name="PlannerCode" Nullable="false" MaxLength="150" />
+    <Property Type="String" Name="MRP_CtlCode" Nullable="false" MaxLength="150" />
+    <Property Type="String" Name="RevisionNumber" Nullable="false" />
+    <Property Type="String" Name="PODetailDescription" Nullable="false" />
+    <Property Type="String" Name="DrawingNumber" Nullable="false" MaxLength="128" />
+    <Property Type="String" Name="TrackingNumber" Nullable="false" />
+    <Property Type="String" Name="StatusName" Nullable="false" MaxLength="256" />
+    <Property Type="Int32" Name="WareHouseID" Nullable="false" />
+    <Property Type="Int32" Name="PartItemID" Nullable="false" />
+    <Property Type="Int32" Name="PurchaseOrderId" Nullable="false" />
+    <Property Type="Double" Name="BalGRQty" Nullable="true" />
+    <Property Type="String" Name="Requestor" Nullable="true" MaxLength="256" />
+    <Property Type="String" Name="VendorCode" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="BuyerCode" Nullable="false" MaxLength="150" />
+    <Property Type="Int32" Name="BuyerID" Nullable="true" />
+    <Property Type="Int32" Name="VendorID" Nullable="false" />
+    <Property Type="Int32" Name="StatusEntityID" Nullable="true" />
+    <Property Type="Int32" Name="MRPControllerID" Nullable="true" />
+    <Property Type="String" Name="PRDetailNo" Nullable="true" MaxLength="50" />
+    <Property Type="Double" Name="ExchangeRate" Nullable="false" />
+    <Property Type="String" Name="CostCentreCode" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="CostCentreDescription" Nullable="true" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="fsp_ReportSubconPO_CumulativeDetails_Result">
+    <Property Type="String" Name="PurchaseOrderNo" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="SequenceNo" Nullable="false" />
+    <Property Type="String" Name="ItemName" Nullable="true" />
+    <Property Type="String" Name="ItemDescription" Nullable="true" />
+    <Property Type="String" Name="CostEntityName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="CostEntityKeyName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="ChartOfAccountSetDetailDescription" Nullable="true" MaxLength="256" />
+    <Property Type="String" Name="ChartOfAccountSetDetailValueCode" Nullable="true" MaxLength="10" />
+    <Property Type="Single" Name="OrderQuantity" Nullable="true" />
+    <Property Type="String" Name="UnitOfMeasureName" Nullable="true" MaxLength="256" />
+    <Property Type="Single" Name="Price" Nullable="true" />
+    <Property Type="String" Name="CurrencyName" Nullable="true" MaxLength="256" />
+    <Property Type="Double" Name="TotalPrice" Nullable="true" />
+    <Property Type="Double" Name="TotalAmountLocal" Nullable="true" />
+    <Property Type="String" Name="VendorName" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="VendorCode" Nullable="true" MaxLength="50" />
+    <Property Type="DateTime" Name="RequiredOn" Nullable="true" Precision="23" />
+    <Property Type="String" Name="PurchaseRequisitionNo" Nullable="false" MaxLength="50" />
+    <Property Type="Double" Name="ExchangeRate" Nullable="true" />
+    <Property Type="String" Name="AddedByUser" Nullable="true" MaxLength="100" />
+    <Property Type="Int32" Name="PurchaseOrderDetailID_NonInv" Nullable="false" />
+    <Property Type="Int32" Name="PurchaseOrder_NonInvID" Nullable="false" />
+    <Property Type="Boolean" Name="IsApproved" Nullable="true" />
+    <Property Type="Boolean" Name="IsInvoiced" Nullable="false" />
+    <Property Type="Int32" Name="SourceEntityID" Nullable="true" />
+    <Property Type="String" Name="SourceEntityKey" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="SourceEntityKeyName" Nullable="true" MaxLength="50" />
+    <Property Type="Double" Name="ExtendedPrice" Nullable="false" />
+    <Property Type="String" Name="ChartOfAccountSetDetailValue" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="UnitOfMeasureID" Nullable="true" />
+    <Property Type="String" Name="StatusEntityName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="CostCentre" Nullable="true" MaxLength="357" />
+    <Property Type="String" Name="CostCentreDescription" Nullable="true" MaxLength="100" />
+    <Property Type="DateTime" Name="PODate" Nullable="false" Precision="23" />
+    <Property Type="Int32" Name="RootSourceEntityID" Nullable="true" />
+    <Property Type="Int32" Name="RootSourceEntityKey" Nullable="true" />
+    <Property Type="String" Name="RootSourceEntityDetailKey" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="PODetailDescription" Nullable="true" />
+    <Property Type="String" Name="StatusName" Nullable="false" MaxLength="256" />
+    <Property Type="Int32" Name="VendorId" Nullable="true" />
+    <Property Type="String" Name="OrganizationName" Nullable="true" MaxLength="256" />
+    <Property Type="String" Name="BuyerCode" Nullable="true" MaxLength="150" />
+    <Property Type="String" Name="BuyerName" Nullable="true" MaxLength="150" />
+  </ComplexType>
+  <EntityType Name="fsp_DocumentDetails">
+    <Key>
+      <PropertyRef Name="StatusChangeHistoryID" />
+    </Key>
+    <Property Name="StatusChangeHistoryID" Type="Int64" Nullable="false" />
+    <Property Name="StatusID" Type="Int32" />
+    <Property Name="ChangedByUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ChangedOn" Type="DateTime" Precision="3" />
+    <Property Name="DocType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="DocNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="DocNoID" Type="Int64" />
+    <Property Name="AddedOn" Type="DateTime" Precision="3" />
+    <Property Name="DocID" Type="Int64" />
+    <Property Name="Status" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+    <Property Name="AddedbyUser" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="fsp_Documents">
+    <Key>
+      <PropertyRef Name="DocID" />
+    </Key>
+    <Property Name="DocID" Type="Int64" Nullable="false" />
+    <Property Name="DocType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="DocNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="NetPrice" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Currency" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+    <Property Name="SubmitBy" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="SubmitDate" Type="DateTime" Precision="3" />
+    <Property Name="ApprovalSubmitDate" Type="DateTime" Precision="3" />
+    <Property Name="ApprovalSubmitBy" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="Status" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+    <Property Name="AttachDoc" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="AddAttachDoc1" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="AddAttachDoc2" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="AddAttachDoc3" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="VendorCode" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="VendorName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="VendorCategory" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="IssueBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="DocNetPrice" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="PRNumbers" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="PRAmount" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="PriorityCode" Type="Int16" />
+    <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+    <Property Name="IsModified" Type="Boolean" />
+  </EntityType>
+</Schema>

@@ -1,0 +1,188 @@
+﻿@model WorkFlowUI.ViewModel.SupplimentaryDetailsViewModel
+
+@{
+    ViewBag.Title = "SupDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Supplementay Budget Details</h2>
+
+<div>
+    @*<h4>SupplimentaryDetailsViewModel</h4>*@
+    <hr />
+    <div class="form-horizontal">
+
+        @*<h4>SupplimentaryHeaderViewModel</h4>*@
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.SupHeader.ReferenceNo)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SupHeader.ReferenceNo)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.SupHeader.CostObject)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SupHeader.CostObject)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.SupHeader.ObjectNo)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SupHeader.ObjectNo)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.SupHeader.ObjectName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SupHeader.ObjectName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.SupHeader.VariationOrderNo)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SupHeader.VariationOrderNo)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.SupHeader.ApplicationFor)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SupHeader.ApplicationFor)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.SupHeader.ReasonFor)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SupHeader.ReasonFor)
+            </dd>
+
+        </dl>
+        <hr />
+
+      
+
+
+        <table class="table table-striped table-bordered table-hover">
+            <tr class="info">
+                <th>
+                    @Html.DisplayName("DtlObjectNo")
+                </th>
+                <th>
+                    @Html.DisplayName("GLAccount")
+                </th>
+                <th>
+                    @Html.DisplayName("GLDescription")
+                </th>
+
+                <th>
+                    @Html.DisplayName("OrgBudgetAmt")
+                </th>
+                <th>
+                    @Html.DisplayName("SuppBudgetAmt")
+                </th>
+                <th>
+                    @Html.DisplayName("ActualAmount")
+                </th>
+                <th>
+                    @Html.DisplayName("TotalBalBudget")
+                </th>
+                <th>
+                    @Html.DisplayName("ReqSuppBudgetAmt")
+                </th>
+                @*<th>
+                        @Html.DisplayNameFor(model => model.SupDetails.Updatedate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.SupDetails.UpdateBy)
+                    </th>*@
+                <th></th>
+            </tr>
+            
+            @foreach (var item in Model.SupDetails)
+            {
+               
+                <tr id="rowDetailDisplay">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DtlObjectNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GLAccount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GLDescription)
+                    </td>
+
+                    <td>
+                        @* @Html.DisplayFor(modelItem => item.OriginalBudgtAmt)*@
+                        @if (item.OriginalBudgtAmt != null)
+                        {
+                            var OriginalBudgtAmt = Convert.ToDecimal(item.OriginalBudgtAmt).ToString("#,##0.00");
+                            @Html.DisplayFor(m => OriginalBudgtAmt)
+                        }
+                    </td>
+                    <td>
+                        @*@Html.DisplayFor(modelItem => item.SuppBudgetAmt)*@
+                        @if (item.SuppBudgetAmt != null)
+                        {
+                            var SuppBudgetAmt = Convert.ToDecimal(item.SuppBudgetAmt).ToString("#,##0.00");
+                            @Html.DisplayFor(m => SuppBudgetAmt)
+                        }
+                    </td>
+                    <td>
+                        @* @Html.DisplayFor(modelItem => item.ActualAmount)*@
+                        @if (item.ActualAmount != null)
+                        {
+                            var ActualAmount = Convert.ToDecimal(item.ActualAmount).ToString("#,##0.00");
+                            @Html.DisplayFor(m => ActualAmount)
+                        }
+                    </td>
+                    <td>
+                        @*@Html.DisplayFor(modelItem => item.TotalBalanceBudget)*@
+                        @if (item.TotalBalanceBudget != null)
+                        {
+                            var TotalBalanceBudget = Convert.ToDecimal(item.TotalBalanceBudget).ToString("#,##0.00");
+                            @Html.DisplayFor(m => TotalBalanceBudget)
+                        }
+                    </td>
+                    <td>
+                        @* @Html.DisplayFor(modelItem => item.ReqSuppBudgetAmt)*@
+                        @if (item.ReqSuppBudgetAmt != null)
+                        {
+                            var ReqSuppBudgetAmt = Convert.ToDecimal(item.ReqSuppBudgetAmt).ToString("#,##0.00");
+                            @Html.DisplayFor(m => ReqSuppBudgetAmt)
+                        }
+                    </td>
+                    @*<td>
+                            @Html.DisplayFor(modelItem => item.Updatedate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UpdateBy)
+                        </td>*@
+                    @*<td>
+                      
+                        @Html.ActionLink("Delete", "DeleteSubDetail", new { id = item.ReferenceNo, seq = item.SeqNo }, new { onclick = "return confirm('Are you sure want to Delete?')" })
+                    </td>*@
+                </tr>
+            }
+
+        </table>
+      
+</div>
+    </div>
+<p>
+    @*@Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |*@
+    @Html.ActionLink("Back to List", "Index", "BrowseDocument")
+</p>

@@ -1,0 +1,650 @@
+var SPREADSHEET_NAME = "Employee";
+var MAILTEMPLATE_NAME = "Email Template";
+var HOLIDAY_NAME = "FSPHoliday";
+var SEARCH_COL_IDX = 0;
+var RETURN_COL_IDX = 2;
+var EMPLOYEE_NO = "";
+
+var STD_STARTTIME = new Date( 2017,8,12, "08" , "00" ); 
+var STD_EDNTIME = new Date( 2017,8,12, "17","30" ); 
+var STD_WORKHRS = 8.75
+var STD_BREAK = .75;
+var STD_BREAKDURATION = 4.75;
+var TOTAL_HRS = 0.0;
+var TOTAL_NORMAL_HRS = 0.0;
+var TOTAL_OT_HRS = 0.0;
+var TIMWSHEET_DATA = [];
+var TRACKING_NO = 0;
+var TOTAL_NORMAL_BREAK=0;
+var TOTAL_OT_BREAK=0;
+var STD_OTBREAK = .50;
+var OT_TWOBREAKDURATION=7.0;
+    var OT_ONEBREAKDURATION=2.0;
+    var OT_MINDURATION=1.0;
+
+function OnSubmit(e) {  
+   Logger.log('coming'); // check the logger 
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheets()[0];  
+  
+  var startRow = sheet.getLastRow();   
+
+  
+  var startCol = 4;   
+  
+  var numRows = 1; // Number of rows altogether
+ 
+ 
+  var numcols = 10; // Number of columns altogether
+  var INPUT_STATUS = "";
+   
+  // Fetch the range of cells A(last row):G(last row)
+  var dataRange1 = sheet.getRange(startRow, 1, numRows, 3);
+  
+  // Fetch values for each row in the Range.
+  var data1 = dataRange1.getValues();
+  
+  TRACKING_NO =  sheet.getRange(startRow-1 , 53).getValue()+1;
+  for (i in data1) 
+  {
+   var row1 = data1[i];   
+   var timestamp = row1[0]
+   var emailAddress = row1[1];   // get the response receipts email ID
+   
+   var workDate = row1[2]; 
+    
+
+    /////////////////////////////////////////////////////////    
+    // Fetch the range of cells A(last row):G(last row)
+    if ( startRow > 3 )
+    {
+    var dataRange2 = sheet.getRange(2,1 , startRow-2, 3);
+    
+    // Fetch values for each row in the Range.
+    
+
+    var data2 = dataRange2.getValues();
+   
+   var duplicate = CheckExist_(data2, emailAddress, workDate)
+   
+    if (duplicate > 0  )
+   {
+     INPUT_STATUS =  'You already submitted for Work Date [' + workDate + ']'  + String.fromCharCode(10) ;      
+   
+   }
+  }
+    
+//    
+    
+    
+   var day = workDate.getDay();
+   var isholiday = IsHoliday_(workDate);    
+    
+   var EditURL = getResponseURL_(timestamp)
+   
+   var EmpName = GetEmployeeName_(emailAddress);
+   
+   if (EmpName == "" )
+   {
+     INPUT_STATUS =  'Your mail ID is not defined, please conduct Administrator.' + String.fromCharCode(10) ;      
+    
+   }       
+    
+//  // Create a date object for the current date and time.
+//  var now = new Date();  
+//  if ( workDate > now )
+//  {
+//    INPUT_STATUS = INPUT_STATUS  +  'Work Date  [' + workDate  +  '] is greater than Today Date  [' +  now  + "]"   +  String.fromCharCode(10) ; 
+//  }
+//    
+  }
+  
+  
+  if (EmpName !="" )
+  {   
+  var ADD_NEW ="No"
+  
+  for (var pageno = 1; pageno <= 5; pageno++) 
+  {
+    
+    if ( pageno == 5 )
+    {
+      numcols = 9 ;
+      
+    }
+    
+    // Fetch the range of cells A(last row):G(last row)
+  var dataRange = sheet.getRange(startRow, startCol, numRows, numcols);
+  
+  // Fetch values for each row in the Range.
+  var data = dataRange.getValues();
+
+//  for (i in data) 
+//  {    
+//    var row = data[i];    
+//       
+//    if ( pageno == 5 )
+//       ADD_NEW = "No";      
+//    else      
+//      ADD_NEW = row[9];
+//    
+//     INPUT_STATUS = INPUT_STATUS  + Validatedata_(workDate, row, INPUT_STATUS, pageno, ADD_NEW, day,isholiday );  
+//  }
+    
+   
+   var row = data[0];    
+       
+    if ( pageno == 5 )
+       ADD_NEW = "No";      
+    else      
+      ADD_NEW = row[9];
+    
+     INPUT_STATUS = INPUT_STATUS  + Validatedata_(workDate, row, INPUT_STATUS, pageno, ADD_NEW, day,isholiday );
+    
+    
+   if (ADD_NEW == "No")  
+      break;
+    else
+      startCol = startCol + 10 ;    
+  }
+     
+
+    if ( TOTAL_OT_HRS > 0 )
+    {
+       //var row = IsOTApproved_(EMPLOYEE_NO, workDate)
+      var row=IsOTApprovedNew_(EMPLOYEE_NO, workDate);
+       if ( row < 0 ) 
+         INPUT_STATUS = INPUT_STATUS  + 'You can not claim Overtime without Approval for  Work Date  [' + workDate  +  '], please resubmit your Timesheet after OT Approval'   +  String.fromCharCode(10) ;   
+    }
+    
+    
+    
+    if ( INPUT_STATUS != "" ) 
+    {
+       sheet.getRange(startRow , 53).setValue(TRACKING_NO);
+       sheet.getRange(startRow , 54).setValue(TOTAL_HRS);
+       sheet.getRange(startRow , 55).setValue(TOTAL_NORMAL_HRS);
+       sheet.getRange(startRow , 56).setValue(TOTAL_OT_HRS);
+       sheet.getRange(startRow , 57).setValue(INPUT_STATUS);
+        sheet.getRange(startRow , 59).setValue(TOTAL_NORMAL_BREAK); // Normal Break Time
+       sheet.getRange(startRow , 60).setValue(TOTAL_OT_BREAK); // OT Break Time
+      
+      // Make sure the cell is updated right away in case the script is interrupted
+      SpreadsheetApp.flush();        
+      sendEmails_(emailAddress, EmpName , INPUT_STATUS, EditURL)  
+    }     
+    else
+    {
+        sheet.getRange(startRow , 53).setValue(TRACKING_NO);
+        sheet.getRange(startRow , 54).setValue(TOTAL_HRS);
+        sheet.getRange(startRow , 55).setValue(TOTAL_NORMAL_HRS);
+        sheet.getRange(startRow , 56).setValue(TOTAL_OT_HRS);
+        sheet.getRange(startRow , 57).setValue("Success");
+        sheet.getRange(startRow , 59).setValue(TOTAL_NORMAL_BREAK); // Normal Break Time
+        sheet.getRange(startRow , 60).setValue(TOTAL_OT_BREAK); // OT Break Time
+        SpreadsheetApp.flush();    
+      
+       var tss = SpreadsheetApp.openByUrl('https://docs.google.com/spreadsheets/d/1VHjnRfPzZgdcK_rVv9pshijA73bSWCrKZM5LdFdEGjY/edit#gid=367941212')
+       var TimesheetEntry = tss.getSheetByName('TimesheetEntry'); //replace with destination Sheet tab name
+      // var TimesheetEntry = ss.getSheets()[4];  
+        for (i in TIMWSHEET_DATA) 
+        {    
+          var row = TIMWSHEET_DATA[i];    
+          TimesheetEntry.appendRow(row);          
+        }
+      SpreadsheetApp.flush();  
+      // Make sure the cell is updated right away in case the script is interrupted
+         
+    }
+    
+    
+    
+}
+  
+}
+
+function IsOTApprovedNew_(EFNo,OTDate) {
+  var sheet = SpreadsheetApp.openByUrl('https://docs.google.com/spreadsheets/d/1m6XlszNYcp16wtrG0yIM9G7zjOvcGGi88PQkmf42u8A/edit#gid=58885382')
+  var column = sheet.getRange('A2:Z');  // like A:A   
+  var values = column.getValues(); 
+  var row = -1;
+  
+  //var pad1 = "00000";
+  //var n1 = EFNo;
+  //EFNo = (pad1 + n1).slice(-pad1.length);
+  
+  var OTDate1=new Date(OTDate);
+  var NDDay1=OTDate1.getDate();
+  if(NDDay1<10){NDDay1="0"+NDDay1;}
+    
+    var NDMonth1=OTDate1.getMonth()+1;
+    if(NDMonth1<10){NDMonth1="0"+NDMonth1;}
+    
+    var CuOTDate=NDDay1+"/"+NDMonth1+"/"+OTDate1.getFullYear();
+  
+  
+  for(i=0;i<values.length;i++)
+  {    
+    //var pad = "00000";
+    //var n = values[i][2];
+    //var EFNo1 = (pad + n).slice(-pad.length);
+
+    var NewOTDate=new Date(values[i][4]);
+    var NDDay=NewOTDate.getDate();
+    if(NDDay<10){NDDay="0"+NDDay;}
+    
+    var NDMonth=NewOTDate.getMonth()+1;
+    if(NDMonth<10){NDMonth="0"+NDMonth;}
+    
+    NewOTDate=NDDay+"/"+NDMonth+"/"+NewOTDate.getFullYear();
+            
+    if(parseInt(values[i][2]) == parseInt(EFNo) && NewOTDate == CuOTDate && values[i][24] == 'Approved')
+    {
+      //Logger.log('Matched:'+i);
+      row=i;
+      break;      
+    }
+  }  
+  return row;         
+}
+
+function IsOTApproved_(EFNo,OTDate) {
+  Logger.log('EFNo'+EFNo);
+  Logger.log('OTDate'+OTDate);
+  var sheet = SpreadsheetApp.openByUrl('https://docs.google.com/spreadsheets/d/1m6XlszNYcp16wtrG0yIM9G7zjOvcGGi88PQkmf42u8A/edit#gid=58885382')
+ // var sheet  = SpreadsheetApp.getActiveSpreadsheet();
+  var column = sheet.getRange('A2:Z');  // like A:A
+  
+ // var values  = sheet.getDataRange.getValues(); 
+  
+  var values = column.getValues(); 
+  var row = 0;
+   
+  
+  while ( values[row] &&   values[row][3] != '' && ( values[row][2] != EFNo || values[row][4] != OTDate || values[row][24] != 'Approved'  )) {
+    row++;
+  }
+  
+  Logger.log('values[row][2] +","+ EFNo'+values[row][2] +","+ EFNo);
+   Logger.log('values[row][4] +","+ OTDate'+values[row][4] +","+ OTDate);
+   Logger.log('values[row][24] +","+Approved'+values[row][24] +","+"Approved");
+  
+  
+  Logger.log('row 1st'+row);
+  if ( values[row][3] == '' ) row--;
+  Logger.log('row 2nd'+row);
+  if (values[row][2] == EFNo && values[row][4] == OTDate && values[row][24] == 'Approved') 
+  {
+    Logger.log('values[row][2] +","+ EFNo'+values[row][2] +","+ EFNo);
+   Logger.log('values[row][4] +","+ OTDate'+values[row][4] +","+ OTDate);
+   Logger.log('values[row][24] +","+Approved'+values[row][24] +","+"Approved");
+    return row+1;
+  }
+  else 
+    return -1;
+    
+}
+
+
+function getResponseURL_(when) {
+  
+  // Get the Form ID from the linked Spreadsheet
+  var form_id = SpreadsheetApp.getActive().getFormUrl().match(/[\_\-\w]{25,}/); 
+
+  var form = FormApp.openById(form_id[0]);
+    
+  var response = form.getResponses(new Date(when))[0];   
+  
+  return response.getEditResponseUrl();
+
+}
+
+function sendEmails_(emailAddress, EmpName , INPUT_STATUS, EditURL) {
+    var emailTemplate = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(MAILTEMPLATE_NAME).getRange("A1").getValue();
+      
+    // Generate a personalized email.
+    // Given a template string, replace markers (for instance ${"First Name"}) with
+    // the corresponding value in a row object (for instance rowData.firstName).
+    var emailText = fillInTemplateFromObject_(emailTemplate, EmpName, INPUT_STATUS,EditURL ) ;
+    var emailSubject = "Fujitec Project/Installation Daily Time sheet - Entry Error";
+    MailApp.sendEmail(emailAddress,  emailSubject, emailText);
+  } 
+
+function Validatedata_(workDate, input, INPUT_STATUS, pageno, ADD_NEW, day, isholiday)
+
+{
+
+  
+  var STD_BreakTime = 0.0;
+  var OT_BreakTime = 0.0;
+  
+	var rowData = [];
+                // var FromTime =  input[0];
+
+                // Need to change to workdate
+                var FromTime = new Date(2017, 8, 12, input[0].split(':')[0], input[0].split(':')[1]);
+                //new Date(2017,8,12,  input[0].split(':')[0], input[0].split(':')[1]);
+
+                // Need to change to workdate
+                var ToTime = new Date(2017, 8, 12, input[1].split(':')[0], input[1].split(':')[1]);
+                //new Date(2017,8,12,  input[1].split(':')[0], input[1].split(':')[1]);
+
+                if (ToTime < FromTime) {
+                    ToTime = new Date(2017, 8, 13, input[1].split(':')[0], input[1].split(':')[1]);
+                }
+
+
+                var total_Duration=(ToTime - FromTime);
+  TOTAL_HRS = TOTAL_HRS + msToHrs_(total_Duration);
+  
+  var diffMs,Duration,OTDuration,WorkDuration;
+  Duration=0;OTDuration=0;WorkDuration=0;
+  if (day == 0 || day == 6 || isholiday ) {
+    // OT Day
+    diffMs = (ToTime - FromTime); // milliseconds between from & to time
+    Duration = msToHrs_(diffMs);    
+    if (Duration>=1)
+    {
+      if(ToTime>STD_EDNTIME)
+      {
+        diffMs = (STD_EDNTIME - FromTime); // milliseconds between from & to time
+        WorkDuration=msToHrs_(diffMs);
+        if(WorkDuration>STD_BREAKDURATION) {Duration = Duration - STD_BREAK;OT_BreakTime=STD_BREAK;STD_BreakTime=STD_BREAK;} // Lunch Break
+        
+        diffMs=(ToTime-STD_EDNTIME);
+        OTDuration = msToHrs_(diffMs);  
+        if(OTDuration>OT_TWOBREAKDURATION){Duration = Duration - (STD_OTBREAK * 2);OT_BreakTime=OT_BreakTime+(STD_OTBREAK * 2);} // Doube OT Break
+        else if(OTDuration>OT_ONEBREAKDURATION && OTDuration<=OT_TWOBREAKDURATION) {Duration = Duration - STD_OTBREAK;OT_BreakTime=OT_BreakTime+STD_OTBREAK;} // Single OT Break        
+      }
+      else
+      {
+        diffMs = (ToTime - FromTime); // milliseconds between from & to time
+        WorkDuration=msToHrs_(diffMs);
+        if(WorkDuration>STD_BREAKDURATION) {Duration = Duration - STD_BREAK;OT_BreakTime=STD_BREAK;} // Lunch Break
+      }
+      OTDuration=Duration;
+    }
+    else
+    {
+      OTDuration=0;
+      OT_BreakTime=0;
+    }
+    
+    TOTAL_NORMAL_HRS = TOTAL_NORMAL_HRS + 0;
+    TOTAL_OT_HRS = TOTAL_OT_HRS + OTDuration;
+    
+    TOTAL_NORMAL_BREAK=TOTAL_NORMAL_BREAK+0;
+    TOTAL_OT_BREAK=TOTAL_OT_BREAK+OT_BreakTime;
+    
+    
+  }
+  else
+  {
+    // Normal Day
+    diffMs = (STD_EDNTIME - FromTime); // milliseconds between from & to time
+    if(diffMs>0)
+    {
+      WorkDuration=msToHrs_(diffMs);
+      if(WorkDuration>STD_BREAKDURATION) {WorkDuration = WorkDuration - STD_BREAK;STD_BreakTime=STD_BREAK;} // Lunch Break
+    }
+    
+    diffMs=(ToTime-STD_EDNTIME);
+    if(diffMs>0)
+    {
+      OTDuration = msToHrs_(diffMs);  
+      if(OTDuration>OT_TWOBREAKDURATION){OTDuration = OTDuration - (STD_OTBREAK * 2);OT_BreakTime=STD_OTBREAK * 2;} // Doube OT Break
+      else if(OTDuration>OT_ONEBREAKDURATION && OTDuration<=OT_TWOBREAKDURATION) {OTDuration = OTDuration - STD_OTBREAK;OT_BreakTime=STD_OTBREAK;} // Single OT Break  
+      else if(OTDuration>=1 && OTDuration<=OT_ONEBREAKDURATION) {OTDuration = OTDuration;} // No Break
+      else{WorkDuration=WorkDuration+OTDuration;OTDuration=0;}
+    }
+    
+     TOTAL_NORMAL_HRS = TOTAL_NORMAL_HRS + WorkDuration;
+     TOTAL_OT_HRS = TOTAL_OT_HRS + OTDuration;
+
+    TOTAL_NORMAL_BREAK=TOTAL_NORMAL_BREAK+STD_BreakTime;
+    TOTAL_OT_BREAK=TOTAL_OT_BREAK+OT_BreakTime;
+    
+     if (ADD_NEW == "No" && TOTAL_NORMAL_HRS < STD_WORKHRS)
+     INPUT_STATUS = INPUT_STATUS + '[Page ' + pageno + '] ' + 'Actual Working Hrs. [' + TOTAL_NORMAL_HRS + '] is less than Standard Working Hrs. [' + STD_WORKHRS + "]" + String.fromCharCode(10);
+    
+  }
+  
+   var DutyCode = input[2].slice(0, input[2].indexOf("-")).trim();
+   var ProjectNo = "";
+   if (  input[3] != "" ) ProjectNo =  input[3].slice(0, input[3].indexOf("-"));  else ProjectNo ="" ;
+   var LiftNo = input[4];
+   var ETNo = "" ;
+   if ( input[5] != "" )  ETNo =  input[5].split('|')[1];  else ETNo = "";
+   var Telclaim  = 0.0;
+   Telclaim = input[6];
+   var SiteAllow  = input[7];
+   var Remark = input[8];
+  
+  
+  // Create a date object for the current date and time.
+  var now = new Date();  
+  if ( DutyCode != "Z07" && workDate > now )
+  {
+    //INPUT_STATUS = INPUT_STATUS  +  'Work Date  [' + workDate  +  '] is greater than Today Date  [' +  now  + "]"   +  String.fromCharCode(10) ; 
+  }
+    
+  
+   if (ProjectNo != "" && LiftNo == "" )
+    {  
+      INPUT_STATUS = INPUT_STATUS   +  '[Page '+ pageno +  '] ' +  'Lift/Esc No(s) should not be blank for project '  +  ProjectNo  +  String.fromCharCode(10) ; 
+    }  
+  
+   if ( DutyCode == "Z06"  && ETNo == "" )
+    {  
+      INPUT_STATUS = INPUT_STATUS   +  '[Page '+ pageno +  '] ' +  'ET Number should not be blank for Duty Code '  +  DutyCode  +  String.fromCharCode(10) ; 
+    }  
+   
+        
+    if ( DutyCode != "Z01"  &&   DutyCode != "Z06" &&  DutyCode != "Z07"  &&  DutyCode != "NN"  &&  ProjectNo == "" )
+    {  
+      INPUT_STATUS = INPUT_STATUS   +  '[Page '+ pageno +  '] ' +  'Project Number should not be blank for the Duty Code '  +  DutyCode   +  String.fromCharCode(10) ; 
+    }  
+  
+    var hmt = minTommss_(0.75);
+    
+    rowData = [EMPLOYEE_NO, workDate , input[0] , input[1] ,DutyCode, ProjectNo, LiftNo, ETNo, Telclaim, SiteAllow,Remark,  minTommss_(Duration) , minTommss_(STD_BreakTime) , minTommss_(OT_BreakTime) ,  minTommss_(WorkDuration), minTommss_(OTDuration) ,TRACKING_NO, "New" ];
+    TIMWSHEET_DATA[pageno-1]=  rowData;
+   
+  
+  return INPUT_STATUS;
+  
+  
+
+  
+}
+
+
+function CheckExist_(data, email, workdate) {
+   
+  var count = 0; // 0 must be declared here or you'll get error: Overflow on the spreadsheet
+
+  for (var i=0; i<data.length; i++) {
+    if (data[i][1] == email  &&  data[i][2].getTime() === workdate.getTime()) 
+    { // can repeat this part depending how many values you want to search for
+      count++;
+      return (count);
+    }    
+  }
+ 
+}
+
+
+function minTommss_(minutes){
+ var sign = minutes < 0 ? "-" : "";
+ var min = Math.floor(Math.abs(minutes));
+ var sec = Math.floor((Math.abs(minutes) * 60) % 60);
+ return sign + (min < 10 ? "0" : "") + min + ":" + (sec < 10 ? "0" : "") + sec;
+}
+
+
+function GetEmployeeName_(email) {
+  
+  var tss = SpreadsheetApp.openByUrl('https://docs.google.com/spreadsheets/d/1WUSKmqJkmUS8fN5Hi8MrWyBQdy87qSV__JHNwKpBw_o/edit#gid=362864007')
+  var values = tss.getSheetByName(SPREADSHEET_NAME).getDataRange().getValues();; //replace with destination Sheet tab name
+  
+ // var values = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SPREADSHEET_NAME).getDataRange().getValues();
+  for (var i = 1; i < values.length; i++) {
+    var row = values[i];
+    if (row[SEARCH_COL_IDX] == email) 
+    {     
+        EMPLOYEE_NO = row[1];
+        return row[RETURN_COL_IDX];        
+    }   
+  }
+}
+
+function IsHoliday_(workdate) {
+  
+  var tss = SpreadsheetApp.openByUrl('https://docs.google.com/spreadsheets/d/1WUSKmqJkmUS8fN5Hi8MrWyBQdy87qSV__JHNwKpBw_o/edit#gid=362864007')
+  var values = tss.getSheetByName(HOLIDAY_NAME).getDataRange().getValues();; //replace with destination Sheet tab name
+  
+ // var values = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(HOLIDAY_NAME).getDataRange().getValues();
+  for (var i = 1; i < values.length; i++) {
+    var row = values[i];
+//    alert(row[0].getDate());
+//    alert(workdate.getDate()) ;
+    var dt = row[0];
+    if (new Date(row[0]).getTime() === workdate.getTime()) 
+    {     
+        return true;       
+    }   
+  }
+}
+
+function msToTime_(duration) {
+    var milliseconds = parseInt((duration%1000)/100)
+        , seconds = parseInt((duration/1000)%60)
+        , minutes = parseInt((duration/(1000*60))%60)
+        , hours = parseInt((duration/(1000*60*60))%24);
+
+    
+  
+    hours = (hours < 10) ? "0" + hours : hours;
+    minutes = (minutes < 10) ? "0" + minutes : minutes;
+    seconds = (seconds < 10) ? "0" + seconds : seconds;
+   
+            return hours + ":" + minutes;
+//          return hours + ":" + minutes + ":" + seconds;
+//        return hours + minutes/60;
+}
+
+function msToHrs_(duration) {
+    var milliseconds = parseInt((duration%1000)/100)
+        , seconds = parseInt((duration/1000)%60)
+        , minutes = parseInt((duration/(1000*60))%60)
+        , hours = parseInt((duration/(1000*60*60))%24);
+
+    
+  
+//    hours = (hours < 10) ? "0" + hours : hours;
+//    minutes = (minutes < 10) ? "0" + minutes : minutes;
+//    seconds = (seconds < 10) ? "0" + seconds : seconds;
+   
+  
+//    return hours + ":" + minutes + ":" + seconds;
+        return hours + minutes/60;
+}
+
+// Replaces markers in a template string with values define in a JavaScript data object.
+// Arguments:
+//   - template: string containing markers, for instance ${"Column name"}
+//   - data: JavaScript object with values to that will replace markers. For instance
+//           data.columnName will replace marker ${"Column name"}
+// Returns a string without markers. If no data is found to replace a marker, it is
+// simply removed.
+function fillInTemplateFromObject_(template,  EmpName, INPUT_STATUS, EditURL) {
+  var email = template;
+  // Search for all the variables to be replaced, for instance ${"Column name"}
+  var templateVars = template.match(/\$\{\"[^\"]+\"\}/g);
+
+  // Replace variables from the template with the actual values from the data object.
+  // If no value is available, replace with the empty string.
+  for (var i = 0; i < templateVars.length; ++i) {
+    // normalizeHeader ignores ${"} so we can call it directly here.
+   // var variableData = data[normalizeHeader(templateVars[i])];
+//    email = email.replace(templateVars[i], variableData || "");
+    if ( templateVars[0] == "${\"IssueBy\"}"  )
+        email = email.replace(templateVars[0], EmpName  || "");
+    if ( templateVars[i] == "${\"Status\"}"  )
+        email = email.replace(templateVars[i], INPUT_STATUS  || "");
+    if ( templateVars[i] == "${\"EditURL\"}"  )
+        email = email.replace(templateVars[i], EditURL  || "");    
+  }
+
+  return email;
+}
+
+
+// Returns an Array of normalized Strings.
+// Arguments:
+//   - headers: Array of Strings to normalize
+function normalizeHeaders_(headers) {
+  var keys = [];
+  for (var i = 0; i < headers.length; ++i) {
+    var key = normalizeHeader(headers[i]);
+    if (key.length > 0) {
+      keys.push(key);
+    }
+  }
+  return keys;
+}
+
+// Normalizes a string, by removing all alphanumeric characters and using mixed case
+// to separate words. The output will always start with a lower case letter.
+// This function is designed to produce JavaScript object property names.
+// Arguments:
+//   - header: string to normalize
+// Examples:
+//   "First Name" -> "firstName"
+//   "Market Cap (millions) -> "marketCapMillions
+//   "1 number at the beginning is ignored" -> "numberAtTheBeginningIsIgnored"
+function normalizeHeader_(header) {
+  var key = "";
+  var upperCase = false;
+  for (var i = 0; i < header.length; ++i) {
+    var letter = header[i];
+    if (letter == " " && key.length > 0) {
+      upperCase = true;
+      continue;
+    }
+    if (!isAlnum(letter)) {
+      continue;
+    }
+    if (key.length == 0 && isDigit_(letter)) {
+      continue; // first character must be a letter
+    }
+    if (upperCase) {
+      upperCase = false;
+      key += letter.toUpperCase();
+    } else {
+      key += letter.toLowerCase();
+    }
+  }
+  return key;
+}
+ 
+// Returns true if the cell where cellData was read from is empty.
+// Arguments:
+//   - cellData: string
+function isCellEmpty_(cellData) {
+  return typeof(cellData) == "string" && cellData == "";
+}
+
+// Returns true if the character char is alphabetical, false otherwise.
+function isAlnum_(char) {
+  return char >= 'A' && char <= 'Z' ||
+    char >= 'a' && char <= 'z' ||
+    isDigit_(char);
+}
+
+// Returns true if the character char is a digit, false otherwise.
+function isDigit_(char) {
+  return char >= '0' && char <= '9';
+}
+
+

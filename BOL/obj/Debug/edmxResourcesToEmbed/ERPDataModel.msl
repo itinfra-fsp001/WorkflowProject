@@ -1,0 +1,217 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ErpByNetR1100ModelStoreContainer" CdmEntityContainer="ErpByNetR1100Entities">
+    <FunctionImportMapping FunctionImportName="fsp_GetCOABudgetSummary" FunctionName="ErpByNetR1100Model.Store.fsp_GetCOABudgetSummary">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ErpByNetR1100Model.fsp_GetCOABudgetSummary_Result">
+          <ScalarProperty Name="PurchaseRequisitionID" ColumnName="PurchaseRequisitionID" />
+          <ScalarProperty Name="ChartOfAccountSetDetailID" ColumnName="ChartOfAccountSetDetailID" />
+          <ScalarProperty Name="ChartOfAccountSetDetailDescription" ColumnName="ChartOfAccountSetDetailDescription" />
+          <ScalarProperty Name="COACostCentreID" ColumnName="COACostCentreID" />
+          <ScalarProperty Name="COACostCentreName" ColumnName="COACostCentreName" />
+          <ScalarProperty Name="COACostCentreCode" ColumnName="COACostCentreCode" />
+          <ScalarProperty Name="COARequisitionAmount" ColumnName="COARequisitionAmount" />
+          <ScalarProperty Name="COAActualAmount" ColumnName="COAActualAmount" />
+          <ScalarProperty Name="SecondaryEntityBudgetApproved" ColumnName="SecondaryEntityBudgetApproved" />
+          <ScalarProperty Name="BudgetYear" ColumnName="BudgetYear" />
+          <ScalarProperty Name="SupplementaryBudget1Approved" ColumnName="SupplementaryBudget1Approved" />
+          <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+          <ScalarProperty Name="ChartOfAccountSetDetailValueCode" ColumnName="ChartOfAccountSetDetailValueCode" />
+          <ScalarProperty Name="GrandTotalInLocalCurrency" ColumnName="GrandTotalInLocalCurrency" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="fsp_ReportMiscPurchaseRequisition" FunctionName="ErpByNetR1100Model.Store.fsp_ReportMiscPurchaseRequisition">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ErpByNetR1100Model.fsp_ReportMiscPurchaseRequisition_Result">
+          <ScalarProperty Name="PurchaseRequisitionID" ColumnName="PurchaseRequisitionID" />
+          <ScalarProperty Name="PurchaseRequisitionDetailID" ColumnName="PurchaseRequisitionDetailID" />
+          <ScalarProperty Name="VendorID" ColumnName="VendorID" />
+          <ScalarProperty Name="PartItemID" ColumnName="PartItemID" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="OrderQuantity" ColumnName="OrderQuantity" />
+          <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+          <ScalarProperty Name="RequiredOn" ColumnName="RequiredOn" />
+          <ScalarProperty Name="UOM" ColumnName="UOM" />
+          <ScalarProperty Name="AccountJournalEventID" ColumnName="AccountJournalEventID" />
+          <ScalarProperty Name="AccountJournalEventDetailID" ColumnName="AccountJournalEventDetailID" />
+          <ScalarProperty Name="ChartOfAccountSetDetailID" ColumnName="ChartOfAccountSetDetailID" />
+          <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+          <ScalarProperty Name="ItemDescription" ColumnName="ItemDescription" />
+          <ScalarProperty Name="AccountJournalEventName" ColumnName="AccountJournalEventName" />
+          <ScalarProperty Name="AccountJournalEventDetailDescription" ColumnName="AccountJournalEventDetailDescription" />
+          <ScalarProperty Name="CostEntityKeyID" ColumnName="CostEntityKeyID" />
+          <ScalarProperty Name="CostEntityID" ColumnName="CostEntityID" />
+          <ScalarProperty Name="VendorName" ColumnName="VendorName" />
+          <ScalarProperty Name="CurrencyName" ColumnName="CurrencyName" />
+          <ScalarProperty Name="LanguageID" ColumnName="LanguageID" />
+          <ScalarProperty Name="VendorCode" ColumnName="VendorCode" />
+          <ScalarProperty Name="UnitOfMeasureName" ColumnName="UnitOfMeasureName" />
+          <ScalarProperty Name="ChartOfAccountSetDetailDescription" ColumnName="ChartOfAccountSetDetailDescription" />
+          <ScalarProperty Name="PurchaseRequisitionNo" ColumnName="PurchaseRequisitionNo" />
+          <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+          <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+          <ScalarProperty Name="IsPOGenerated" ColumnName="IsPOGenerated" />
+          <ScalarProperty Name="CostCentreID" ColumnName="CostCentreID" />
+          <ScalarProperty Name="CostCentreName" ColumnName="CostCentreName" />
+          <ScalarProperty Name="CostCentreCode" ColumnName="CostCentreCode" />
+          <ScalarProperty Name="RootSourceEntityID" ColumnName="RootSourceEntityID" />
+          <ScalarProperty Name="RootSourceEntityKey" ColumnName="RootSourceEntityKey" />
+          <ScalarProperty Name="StatusEntityName" ColumnName="StatusEntityName" />
+          <ScalarProperty Name="COARequisitionAmount" ColumnName="COARequisitionAmount" />
+          <ScalarProperty Name="COAActualAmount" ColumnName="COAActualAmount" />
+          <ScalarProperty Name="SecondaryEntityBudgetApproved" ColumnName="SecondaryEntityBudgetApproved" />
+          <ScalarProperty Name="BudgetYear" ColumnName="BudgetYear" />
+          <ScalarProperty Name="SupplementaryBudget1Approved" ColumnName="SupplementaryBudget1Approved" />
+          <ScalarProperty Name="ChartOfAccountSetDetailValueCode" ColumnName="ChartOfAccountSetDetailValueCode" />
+          <ScalarProperty Name="PRDetailRemarkText" ColumnName="PRDetailRemarkText" />
+          <ScalarProperty Name="CostEntityKeyName" ColumnName="CostEntityKeyName" />
+          <ScalarProperty Name="PRHeaderDepartmentName" ColumnName="PRHeaderDepartmentName" />
+          <ScalarProperty Name="OrganizationDescription" ColumnName="OrganizationDescription" />
+          <ScalarProperty Name="SequenceNo" ColumnName="SequenceNo" />
+          <ScalarProperty Name="SetOfBooksCurrency" ColumnName="SetOfBooksCurrency" />
+          <ScalarProperty Name="VendorCategoryName" ColumnName="VendorCategoryName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="fsp_ReportSubconPO_CumulativeDetails" FunctionName="ErpByNetR1100Model.Store.fsp_ReportSubconPO_CumulativeDetails">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ErpByNetR1100Model.fsp_ReportSubconPO_CumulativeDetails_Result">
+          <ScalarProperty Name="PurchaseOrderNo" ColumnName="PurchaseOrderNo" />
+          <ScalarProperty Name="SequenceNo" ColumnName="SequenceNo" />
+          <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+          <ScalarProperty Name="ItemDescription" ColumnName="ItemDescription" />
+          <ScalarProperty Name="CostEntityName" ColumnName="CostEntityName" />
+          <ScalarProperty Name="CostEntityKeyName" ColumnName="CostEntityKeyName" />
+          <ScalarProperty Name="ChartOfAccountSetDetailDescription" ColumnName="ChartOfAccountSetDetailDescription" />
+          <ScalarProperty Name="ChartOfAccountSetDetailValueCode" ColumnName="ChartOfAccountSetDetailValueCode" />
+          <ScalarProperty Name="OrderQuantity" ColumnName="OrderQuantity" />
+          <ScalarProperty Name="UnitOfMeasureName" ColumnName="UnitOfMeasureName" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="CurrencyName" ColumnName="CurrencyName" />
+          <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+          <ScalarProperty Name="TotalAmountLocal" ColumnName="TotalAmountLocal" />
+          <ScalarProperty Name="VendorName" ColumnName="VendorName" />
+          <ScalarProperty Name="VendorCode" ColumnName="VendorCode" />
+          <ScalarProperty Name="RequiredOn" ColumnName="RequiredOn" />
+          <ScalarProperty Name="PurchaseRequisitionNo" ColumnName="PurchaseRequisitionNo" />
+          <ScalarProperty Name="ExchangeRate" ColumnName="ExchangeRate" />
+          <ScalarProperty Name="AddedByUser" ColumnName="AddedByUser" />
+          <ScalarProperty Name="PurchaseOrderDetailID_NonInv" ColumnName="PurchaseOrderDetailID_NonInv" />
+          <ScalarProperty Name="PurchaseOrder_NonInvID" ColumnName="PurchaseOrder_NonInvID" />
+          <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
+          <ScalarProperty Name="IsInvoiced" ColumnName="IsInvoiced" />
+          <ScalarProperty Name="SourceEntityID" ColumnName="SourceEntityID" />
+          <ScalarProperty Name="SourceEntityKey" ColumnName="SourceEntityKey" />
+          <ScalarProperty Name="SourceEntityKeyName" ColumnName="SourceEntityKeyName" />
+          <ScalarProperty Name="ExtendedPrice" ColumnName="ExtendedPrice" />
+          <ScalarProperty Name="ChartOfAccountSetDetailValue" ColumnName="ChartOfAccountSetDetailValue" />
+          <ScalarProperty Name="UnitOfMeasureID" ColumnName="UnitOfMeasureID" />
+          <ScalarProperty Name="StatusEntityName" ColumnName="StatusEntityName" />
+          <ScalarProperty Name="CostCentre" ColumnName="CostCentre" />
+          <ScalarProperty Name="CostCentreDescription" ColumnName="CostCentreDescription" />
+          <ScalarProperty Name="PODate" ColumnName="PODate" />
+          <ScalarProperty Name="RootSourceEntityID" ColumnName="RootSourceEntityID" />
+          <ScalarProperty Name="RootSourceEntityKey" ColumnName="RootSourceEntityKey" />
+          <ScalarProperty Name="RootSourceEntityDetailKey" ColumnName="RootSourceEntityDetailKey" />
+          <ScalarProperty Name="PODetailDescription" ColumnName="PODetailDescription" />
+          <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+          <ScalarProperty Name="VendorId" ColumnName="VendorId" />
+          <ScalarProperty Name="OrganizationName" ColumnName="OrganizationName" />
+          <ScalarProperty Name="BuyerCode" ColumnName="BuyerCode" />
+          <ScalarProperty Name="BuyerName" ColumnName="BuyerName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="fsp_ReportPurchaseOrder_sg" FunctionName="ErpByNetR1100Model.Store.fsp_ReportPurchaseOrder_sg">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ErpByNetR1100Model.fsp_ReportPurchaseOrder_sg_Result">
+          <ScalarProperty Name="PurchaseOrderNo" ColumnName="PurchaseOrderNo" />
+          <ScalarProperty Name="SRNO" ColumnName="SRNO" />
+          <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+          <ScalarProperty Name="PartDescription" ColumnName="PartDescription" />
+          <ScalarProperty Name="OrderQuantity" ColumnName="OrderQuantity" />
+          <ScalarProperty Name="UnitOfMeasureName" ColumnName="UnitOfMeasureName" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="CurrencyName" ColumnName="CurrencyName" />
+          <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+          <ScalarProperty Name="WareHouseName" ColumnName="WareHouseName" />
+          <ScalarProperty Name="VendorName" ColumnName="VendorName" />
+          <ScalarProperty Name="CostEntityName" ColumnName="CostEntityName" />
+          <ScalarProperty Name="CostEntityKeyName" ColumnName="CostEntityKeyName" />
+          <ScalarProperty Name="RequiredOn" ColumnName="RequiredOn" />
+          <ScalarProperty Name="PurchaseOrderDate" ColumnName="PurchaseOrderDate" />
+          <ScalarProperty Name="PlannerCode" ColumnName="PlannerCode" />
+          <ScalarProperty Name="MRP_CtlCode" ColumnName="MRP_CtlCode" />
+          <ScalarProperty Name="RevisionNumber" ColumnName="RevisionNumber" />
+          <ScalarProperty Name="PODetailDescription" ColumnName="PODetailDescription" />
+          <ScalarProperty Name="DrawingNumber" ColumnName="DrawingNumber" />
+          <ScalarProperty Name="TrackingNumber" ColumnName="TrackingNumber" />
+          <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+          <ScalarProperty Name="WareHouseID" ColumnName="WareHouseID" />
+          <ScalarProperty Name="PartItemID" ColumnName="PartItemID" />
+          <ScalarProperty Name="PurchaseOrderId" ColumnName="PurchaseOrderId" />
+          <ScalarProperty Name="BalGRQty" ColumnName="BalGRQty" />
+          <ScalarProperty Name="Requestor" ColumnName="Requestor" />
+          <ScalarProperty Name="VendorCode" ColumnName="VendorCode" />
+          <ScalarProperty Name="BuyerCode" ColumnName="BuyerCode" />
+          <ScalarProperty Name="BuyerID" ColumnName="BuyerID" />
+          <ScalarProperty Name="VendorID" ColumnName="VendorID" />
+          <ScalarProperty Name="StatusEntityID" ColumnName="StatusEntityID" />
+          <ScalarProperty Name="MRPControllerID" ColumnName="MRPControllerID" />
+          <ScalarProperty Name="PRDetailNo" ColumnName="PRDetailNo" />
+          <ScalarProperty Name="ExchangeRate" ColumnName="ExchangeRate" />
+          <ScalarProperty Name="CostCentreCode" ColumnName="CostCentreCode" />
+          <ScalarProperty Name="CostCentreDescription" ColumnName="CostCentreDescription" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="fsp_DocumentDetails">
+      <EntityTypeMapping TypeName="ErpByNetR1100Model.fsp_DocumentDetails">
+        <MappingFragment StoreEntitySet="fsp_DocumentDetails">
+          <ScalarProperty Name="AddedbyUser" ColumnName="AddedbyUser" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="DocID" ColumnName="DocID" />
+          <ScalarProperty Name="AddedOn" ColumnName="AddedOn" />
+          <ScalarProperty Name="DocNoID" ColumnName="DocNoID" />
+          <ScalarProperty Name="DocNo" ColumnName="DocNo" />
+          <ScalarProperty Name="DocType" ColumnName="DocType" />
+          <ScalarProperty Name="ChangedOn" ColumnName="ChangedOn" />
+          <ScalarProperty Name="ChangedByUser" ColumnName="ChangedByUser" />
+          <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+          <ScalarProperty Name="StatusChangeHistoryID" ColumnName="StatusChangeHistoryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="fsp_Documents">
+      <EntityTypeMapping TypeName="ErpByNetR1100Model.fsp_Documents">
+        <MappingFragment StoreEntitySet="fsp_Documents">
+          <ScalarProperty Name="IsModified" ColumnName="IsModified" />
+          <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+          <ScalarProperty Name="PriorityCode" ColumnName="PriorityCode" />
+          <ScalarProperty Name="PRAmount" ColumnName="PRAmount" />
+          <ScalarProperty Name="PRNumbers" ColumnName="PRNumbers" />
+          <ScalarProperty Name="DocNetPrice" ColumnName="DocNetPrice" />
+          <ScalarProperty Name="IssueBy" ColumnName="IssueBy" />
+          <ScalarProperty Name="VendorCategory" ColumnName="VendorCategory" />
+          <ScalarProperty Name="VendorName" ColumnName="VendorName" />
+          <ScalarProperty Name="VendorCode" ColumnName="VendorCode" />
+          <ScalarProperty Name="AddAttachDoc3" ColumnName="AddAttachDoc3" />
+          <ScalarProperty Name="AddAttachDoc2" ColumnName="AddAttachDoc2" />
+          <ScalarProperty Name="AddAttachDoc1" ColumnName="AddAttachDoc1" />
+          <ScalarProperty Name="AttachDoc" ColumnName="AttachDoc" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="ApprovalSubmitBy" ColumnName="ApprovalSubmitBy" />
+          <ScalarProperty Name="ApprovalSubmitDate" ColumnName="ApprovalSubmitDate" />
+          <ScalarProperty Name="SubmitDate" ColumnName="SubmitDate" />
+          <ScalarProperty Name="SubmitBy" ColumnName="SubmitBy" />
+          <ScalarProperty Name="Currency" ColumnName="Currency" />
+          <ScalarProperty Name="NetPrice" ColumnName="NetPrice" />
+          <ScalarProperty Name="DocNo" ColumnName="DocNo" />
+          <ScalarProperty Name="DocType" ColumnName="DocType" />
+          <ScalarProperty Name="DocID" ColumnName="DocID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

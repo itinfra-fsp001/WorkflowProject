@@ -1,0 +1,604 @@
+﻿@model IEnumerable<BOL.vw_Documents4AlternateApproval>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@if (TempData["Msg"] != null)
+{
+    <h3> @TempData["Msg"].ToString()</h3>
+}
+<style>
+    .sss {
+    }
+
+    .empty-row {
+        height: 15px !important;
+    }
+</style>
+<script src="~/scripts/jquery-1.10.2.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $(document).ajaxStart(function () {
+            $("#loading").show();
+        });
+
+        $(document).ajaxStop(function () {
+            $("#loading").hide();
+        });
+
+        $("#ChkAll").click(function (event) {  //on click
+            if (this.checked) { // check select status
+                $('.ckb').each(function () { //loop through each checkbox
+                    this.checked = true;  //select all checkboxes with class "checkbox1"
+                });
+            } else {
+                $('.ckb').each(function () { //loop through each checkbox
+                    this.checked = false; //deselect all checkboxes with class "checkbox1"
+                });
+            }
+        });
+        $('.ckb').click(function (event) {
+            //debugger;//on click
+            if (this.checked) { // check select status
+            }
+            else {
+                document.getElementById("ChkAll").checked = false;
+            }
+        });
+        BindSelectAll();
+        $('#btnSubmit').click(function () {
+
+
+            var names = GetCheckedItems(); // $(".ckb").filter(":checked").map(function () { return this.id; });
+            // debugger;
+            this.href = this.href.replace("ItemList", JSON.stringify(names.toArray()));
+            //  this.href = this.href.replace("ItemList ", 'uday');
+            @*$.ajax({
+                type: "POST",
+                url: "@Url.Action("BulkApprove", "AltApproveDocument")",
+                traditional: true,
+                data: { Ids: names.toArray() },
+                success: successFunc,
+                error: errorFunc
+            });*@
+        });
+        $('#btnReject').click(function () {
+
+
+            var names = GetCheckedItems(); //;
+            // debugger;
+            this.href = this.href.replace("ItemList", JSON.stringify(names.toArray()));
+            //  this.href = this.href.replace("ItemList ", 'uday');
+            @*$.ajax({
+               type: "POST",
+               url: "@Url.Action("BulkApprove", "AltApproveDocument")",
+                traditional: true,
+            data: { Ids: names.toArray() },
+            success: successFunc,
+            error: errorFunc
+        });*@
+        });
+        // ('#txtSearch').bind('input', function () {
+        //// $('.sss').change(function () {
+        //   //  debugger;
+        //     debugger;
+        //  //   this.href = this.href.replace("SearchData", $("#txtSearch").val());
+        //     $("#btnSearch").trigger('click');;
+        // });
+        $("#btnSearch").click(function () {
+            //  debugger;
+            //if (this.href.indexOf("SearchData")!=-1)
+            this.href = this.href.replace("SearchData", checkandreplace($("#txtSearch").val()));
+            this.href = this.href.replace("VendorNameValue", checkandreplace($("#txtVendorName").val()));
+            // else
+            //   this.href = $("#btnSearch").attr('href').replace("SearchData", $("#txtSearch").val());
+
+        });
+        $("#Approve").click(function () {
+            checkedIds = $(".ckb").filter(":checked").map(function () { return this.id; });
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("ApproveOrRejectAll","ApproveURL")",
+                traditional: true,
+                data: { Ids: checkedIds.toArray(), Status: "A", CurrentStatus: "@ViewBag.Status" },
+                success: successFunc,
+                error: errorFunc
+            });
+
+            function successFunc(data, status) {
+                //location.reload();
+                //alert(data);
+                $("#Data").html(data);
+                BindSelectAll();
+            }
+
+            function errorFunc() {
+                alert('error');
+            }
+
+        });
+
+        $("#Reject").click(function () {
+            checkedIds = $(".ckb").filter(":checked").map(function () { return this.id; });
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("ApproveOrRejectAll","ApproveURL")",
+                traditional: true,
+                data: { Ids: checkedIds.toArray(), Status: "R", CurrentStatus: "@ViewBag.Status" },
+                success: successFunc,
+                error: errorFunc
+            });
+
+            function successFunc(data, status) {
+                //location.reload();
+                //alert(data);
+                $("#Data").html(data);
+                BindSelectAll();
+            }
+
+            function errorFunc() {
+                alert('error');
+            }
+
+        });
+
+    });
+    function GetCheckedItems() {
+        var checked = $(".ckb").filter(":checked").map(function () { return this.id; });
+        return checked;
+
+    }
+
+    function SearhData() {
+        $("#btnSearch").trigger('click');
+    }
+</script>
+<script>
+
+    function BindSelectAll() {
+        $("#selectall").click(function (event) {  //on click
+            if (this.checked) { // check select status
+                $('.ckb').each(function () { //loop through each checkbox
+                    this.checked = true;  //select all checkboxes with class "checkbox1"
+                });
+            } else {
+                $('.ckb').each(function () { //loop through each checkbox
+                    this.checked = false; //deselect all checkboxes with class "checkbox1"
+                });
+            }
+        });
+    }
+    function ConfirmApprove() {
+        var checked = GetCheckedItems(); //
+        if (checked.length == 0) {
+            alert("Please select atleast one DOC to Approve.");
+            return false;
+        }
+        return confirm('Are you sure want to Approve?');
+    }
+
+    function ConfirmReject() {
+        var checked = GetCheckedItems(); //
+        if (checked.length == 0) {
+            alert("Please select atleast one DOC to Reject.");
+            return false;
+        }
+        return confirm('Are you sure want to Reject?');
+    }
+
+</script>
+
+<h2>Approve Documents</h2>
+<div class="row">
+    <div class="col-sm-12">
+        <ul class="nav nav-pills col-lg-12">
+            @if (ViewBag.Status == "P")
+            {
+                <li class="active">@Html.ActionLink("Pending Documents", "Index", new { Status = "P", Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), VendorName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["VendorName"])) })</li>
+            }
+            else
+            {
+                <li> @Html.ActionLink("Pending Documents", "Index", new { Status = "P", Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), VendorName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["VendorName"])) })</li>
+            }
+            @if (ViewBag.Status == "H")
+            {
+                <li class="active">@Html.ActionLink("Hold Documents", "Index", new { Status = "H", Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), VendorName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["VendorName"])) }) </li>
+            }
+            else
+            {
+                <li>@Html.ActionLink("Hold Documents", "Index", new { Status = "H", Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), VendorName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["VendorName"])) })</li>
+            }
+            @if (ViewBag.Status == "A")
+            {
+                <li class="active">@Html.ActionLink("Approved Documents", "Index", new { Status = "A", Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), VendorName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["VendorName"])) }) </li>
+            }
+            else
+            {
+                <li>@Html.ActionLink("Approved Documents", "Index", new { Status = "A", Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), VendorName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["VendorName"])) })</li>
+            }
+            @if (ViewBag.Status == "R")
+            {
+                <li class="active">@Html.ActionLink("Rejected Documents", "Index", new { Status = "R", Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), VendorName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["VendorName"])) }) </li>
+            }
+            else
+            {
+                <li>@Html.ActionLink("Rejected Documents", "Index", new { Status = "R", Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), VendorName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["VendorName"])) })</li>
+            }
+            @if (ViewBag.showViewDocuments == true)
+            {
+                if (ViewBag.Status == "V")
+                {
+                    <li class="active">@Html.ActionLink("View Documents", "Index", new { Status = "V", Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), VendorName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["VendorName"])) }) </li>
+                }
+                else
+                {
+                    <li>@Html.ActionLink("View Documents", "Index", new { Status = "V", Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), VendorName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["VendorName"])) })</li>
+                }
+            }
+
+        </ul>
+    </div>
+</div>
+
+<div class="row empty-row">
+    <div class="col-sm-12">
+    </div>
+</div>
+
+
+<div>
+    <div class="row" style="margin-bottom:10px">
+        <div class="col-sm-2 customleftsize">
+            Document No.
+        </div>
+        <div class="col-sm-8">
+            @Html.TextBox("txtSearch", Convert.ToString(ViewData["Search"]))
+            &nbsp;&nbsp;&nbsp;
+        </div>
+    </div>
+    <div class="row" style="margin-bottom:10px">
+        <div class="col-sm-2 customleftsize">
+            Vendor Name
+        </div>
+        <div class="col-sm-8">
+            @Html.TextBox("txtVendorName", Convert.ToString(ViewData["VendorName"]))
+        </div>
+    </div>
+    <div class="row" style="margin-bottom:10px">
+        <div class="col-sm-2 customleftsize">
+
+        </div>
+        <div class="col-sm-4">
+            @Html.ActionLink("Search", "Index", new
+       {
+           Status = ViewBag.Status,
+           SortOrder = (ViewBag.SortOrder == null ? "Desc" :
+         (ViewBag.SortOrder == "Asc" ? "Asc" : "Desc")),
+           Sortby = "ApprovalSubmitDate",
+           page = (ViewBag.Page == null ? "1" : ViewBag.Page),
+           Search = "SearchData",
+           VendorName="VendorNameValue"
+       }, new { id = "btnSearch" })
+        </div>
+    </div>
+    <div class="row empty-row">
+        <div class="col-sm-12">
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<table class="table table-striped table-bordered table-hover ">
+    <tr class="info">
+
+        @if (ViewBag.Status == "P")
+        {
+            <th> @Html.CheckBox("ChkAll", false, new { @class = "ckbAll", Id = "ChkAll" })</th>
+        }
+
+        <th>
+            @*@Html.DisplayNameFor(model => model.DocType)*@
+            @Html.ActionLink("DocType", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), Sortby = "DocType", page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), VendorName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["VendorName"])) })
+        </th>
+        <th>
+            @* @Html.DisplayNameFor(model => model.DocNo)*@
+            @Html.ActionLink("DocNo", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), Sortby = "DocNo", page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), VendorName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["VendorName"])) })
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.NetPrice)*@
+            @Html.ActionLink("NetPrice", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), Sortby = "DocNetPrice", page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), VendorName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["VendorName"])) })
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.Currency)*@
+            @Html.ActionLink("Currency", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), Sortby = "Currency", page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), VendorName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["VendorName"])) })
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.NetPrice)*@
+            @Html.ActionLink("NetPriceLocal", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), Sortby = "NetPrice", page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), VendorName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["VendorName"])) })
+        </th>
+
+        <th>
+            @*@Html.DisplayNameFor(model => model.NetPrice)*@
+            @Html.ActionLink("Status", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), Sortby = "NetPrice", page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), VendorName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["VendorName"])) })
+        </th>
+
+        <th>
+            @* @Html.DisplayNameFor(model => model.VendorCode)*@
+            @Html.ActionLink("VendorCode", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), Sortby = "VendorCode", page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), VendorName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["VendorName"])) })
+
+        </th>
+        <th>
+            @* @Html.DisplayNameFor(model => model.VendorName)*@
+            @Html.ActionLink("VendorName", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), Sortby = "VendorName", page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), VendorName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["VendorName"])) })
+
+        </th>
+
+        <th>
+            @* @Html.DisplayNameFor(model => model.ApprovalSubmitDate)*@
+            @Html.ActionLink("ApprovalSubmitDate", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), Sortby = "ApprovalSubmitDate", page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), VendorName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["VendorName"])) })
+        </th>
+        <th>
+            @* @Html.DisplayNameFor(model => model.ApprovalSubmitBy)*@
+            @Html.ActionLink("ApprovalSubmitBy", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), Sortby = "ApprovalSubmitBy", page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), VendorName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["VendorName"])) })
+        </th>
+        <th>
+            @* @Html.DisplayNameFor(model => model.ApprovalSubmitBy)*@
+            @Html.ActionLink("Approver", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), Sortby = "Approver", page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), VendorName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["VendorName"])) })
+        </th>
+        @*<th>
+
+                @Html.ActionLink("WorkFlowStatus", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), Sortby = "WorkFlowStatus", page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), VendorName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["VendorName"])) })
+            </th>*@
+        <th>
+            @*@Html.DisplayNameFor(model => model.AttachDoc)*@
+            @Html.ActionLink("AttachDoc1", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), Sortby = "AttachDoc", page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), VendorName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["VendorName"])) })
+        </th>
+        <th>
+            @* @Html.DisplayNameFor(model => model.AddAttachDoc1)*@
+            @Html.ActionLink("AttachDoc2", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), Sortby = "AddAttachDoc1", page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), VendorName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["VendorName"])) })
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.AddAttachDoc2)*@
+            @Html.ActionLink("AttachDoc3", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), Sortby = "AddAttachDoc2", page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), VendorName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["VendorName"])) })
+        </th>
+        <th>
+            @* @Html.DisplayNameFor(model => model.AddAttachDoc3)*@
+            @Html.ActionLink("AttachDoc4", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), Sortby = "AddAttachDoc3", page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), VendorName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["VendorName"])) })
+        </th>
+        <th>
+            @* @Html.DisplayNameFor(model => model.AddAttachDoc3)*@
+            @Html.ActionLink("RFQRefNo", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), Sortby = "RFQRefNo", page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), VendorName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["VendorName"])) })
+        </th>
+        @*<th>
+
+                @Html.ActionLink("PRNumbers", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), Sortby = "PRNumbers", page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), VendorName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["VendorName"])) })
+            </th>*@
+        @*<th>
+
+                @Html.ActionLink("PRAmount", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), Sortby = "PRAmount", page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), VendorName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["VendorName"]))})
+            </th>*@
+        @*<th>
+                @Html.DisplayNameFor(model => model.UpdateDate)
+            </th>*@
+
+    </tr>
+
+    @foreach (var item in Model)
+            {
+        @*<tr style="background-color:aqua"*@
+        <tr style="@((ViewBag.Status == "P" || ViewBag.Status == "H") && item.PriorityCode ==1 ? "Background-color:aqua" : "")">
+            @*<td>
+
+                    @Html.CheckBox(item.DocID.ToString(), false, new { @class = "ckb", Id = item.DocID })
+                </td>*@
+            @if (ViewBag.Status == "P")
+            {
+                <td>
+                    @Html.CheckBox(item.WorkFlowID.ToString(), false, new { @class = "ckb", Id = item.WorkFlowID })
+                    @*@Html.ActionLink("Approve", "Approve", new { id = item.WorkFlowID }, new { onclick = "return ConfirmApprove()" })|
+                        @Html.ActionLink("Reject", "Reject", new { id = item.WorkFlowID }, new { onclick = "return ConfirmReject()" })*@
+                </td>
+            }
+
+
+            <td>
+                @Html.DisplayFor(modelItem => item.DocType)
+            </td>
+            <td>
+                @* @Html.DisplayFor(modelItem => item.DocNo)*@
+                @Html.ActionLink(@item.DocNo, "RouteDocNo", new { docId = @item.DocID, docNo = @item.DocNo, type = @item.DocType, workFlowId = @item.WorkFlowID, Status = ViewBag.Status, Page = ViewBag.Page, AppLevel = item.ApprovalLevel })
+
+            </td>
+            <td>
+                @* @Html.DisplayFor(modelItem => item.DocNetPrice)*@
+                @if (item.DocNetPrice != null)
+                {
+                    var netprice = Convert.ToDecimal(item.DocNetPrice.Value).ToString("#,##0.00");
+                    @Html.DisplayFor(m => netprice)
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Currency)
+            </td>
+            <td>
+                @* @Html.DisplayFor(modelItem => item.NetPrice)*@
+                @if (item.NetPrice != null)
+                {
+                    var netprice = Convert.ToDecimal(item.NetPrice.Value).ToString("#,##0.00");
+                    @Html.DisplayFor(m => netprice)
+                }
+            </td>
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.SubmitBy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SubmitDate)
+                </td>*@
+
+            @if (Convert.ToString(@Html.DisplayFor(modelItem => item.Status)) == "P")
+            {
+                <td>Pending</td>
+            }
+            else if (Convert.ToString(@Html.DisplayFor(modelItem => item.Status)) == "R")
+            {
+                <td>Rejected</td>
+            }
+            else if (Convert.ToString(@Html.DisplayFor(modelItem => item.Status)) == "A")
+            {
+                <td>Approved</td>
+            }
+            else if (Convert.ToString(@Html.DisplayFor(modelItem => item.Status)) == "N")
+            {
+                <td>New</td>
+            }
+            else if (Convert.ToString(@Html.DisplayFor(modelItem => item.Status)) == "H")
+            {
+                <td>Hold</td>
+            }
+
+            <td>@Html.DisplayFor(modelItem => item.VendorCode)</td>
+            <td>@Html.DisplayFor(modelItem => item.VendorName)</td>
+
+
+            @*<td>
+                    @if (item.ApprovalSubmitDate != null)
+                    {
+                        var dateVal = item.ApprovalSubmitDate.Value.ToString("dd/MM/yyyy HH:mm:ss");
+                        @Html.DisplayFor(m => dateVal)
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ApprovalSubmitBy)
+                </td>*@
+
+            <td>
+                @if (item.LastApprovalSubmitDate != null)
+                {
+                    var dateVal = item.LastApprovalSubmitDate.Value.ToString("dd/MM/yyyy HH:mm:ss");
+                    @Html.DisplayFor(m => dateVal)
+                }
+                else if (item.ApprovalSubmitDate != null)
+                {
+                    var dateVal = item.ApprovalSubmitDate.Value.ToString("dd/MM/yyyy HH:mm:ss");
+                    @Html.DisplayFor(m => dateVal)
+                }
+            </td>
+            <td>
+                @if (item.LastApprovalSubmitBy != null)
+                {
+                    @Html.DisplayFor(modelItem => item.LastApprovalSubmitBy)
+                }
+                else if (item.ApprovalSubmitBy != null)
+                {
+                    @Html.DisplayFor(modelItem => item.ApprovalSubmitBy)
+                }
+            </td>
+
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Approver)
+            </td>
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.WorkFlowStatus)
+                </td>*@
+            <td>
+
+                @*<a target="_blank" href="PO Printing 191115.pdf">AttachDoc</a>*@
+                @if (item.AttachDoc != null)
+                {
+                    @Html.ActionLink(item.AttachDoc, "GetDocument", new { docNo = @item.DocNo, name = @item.AttachDoc, erpattach = @item.ERPAttachment }, new { target = "_blank" })
+                }
+
+            </td>
+            <td>
+                @*@Html.DisplayFor(modelItem => item.AddAttachDoc1)*@
+                @if (item.AddAttachDoc1 != null)
+                {
+                    @Html.ActionLink(item.AddAttachDoc1, "GetDocument", new { docNo = @item.DocNo, name = @item.AddAttachDoc1, erpattach = @item.ERPAttachment }, new { target = "_blank" })
+                }
+            </td>
+            <td>
+                @*@Html.DisplayFor(modelItem => item.AddAttachDoc2)*@
+                @if (item.AddAttachDoc2 != null)
+                {
+                    @Html.ActionLink(item.AddAttachDoc2, "GetDocument", new { docNo = @item.DocNo, name = @item.AddAttachDoc2, erpattach = @item.ERPAttachment }, new { target = "_blank" })
+                }
+            </td>
+            <td>
+                @*@Html.DisplayFor(modelItem => item.AddAttachDoc3)*@
+                @if (item.AddAttachDoc3 != null)
+                {
+                    @Html.ActionLink(item.AddAttachDoc3, "GetDocument", new { docNo = @item.DocNo, name = @item.AddAttachDoc3, erpattach = @item.ERPAttachment }, new { target = "_blank" })
+                }
+            </td>
+            <td>@Html.DisplayFor(modelItem => item.RFQRefNo)</td>
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.PRNumbers)
+                </td>*@
+            @*<td>
+
+                    @if (item.PRAmount != null)
+                    {
+                        var pramount = Convert.ToDecimal(item.PRAmount.Value).ToString("#,##0.00");
+                        @Html.DisplayFor(m => pramount)
+                    }
+                </td>*@
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.UpdateDate)
+                </td>*@
+        </tr>
+    }
+
+</table>
+@if (ViewBag.Status == "P")
+            {
+
+    <div class="col-md-offset-0">
+        @Html.ActionLink("Approve", "BulkApprove", new { Ids = "ItemList", Type = "AltApproveDocument" }, new { id = "btnSubmit", onclick = "return ConfirmApprove()" })
+        &nbsp;&nbsp;&nbsp;
+        @*@Html.ActionLink("Reject", "BulkReject", new { Ids = "ItemList" }, new { id = "btnReject", onclick = "return ConfirmReject()" })*@
+        @*<input value="Add" type="button" id="btnSubmit" class="btn btn-primary"  />
+            &nbsp;&nbsp;&nbsp;
+            <input value="Add" type="button" id="btnReject" class="btn btn-primary"  />*@
+    </div>
+
+}
+@{
+    double TotalPage = Convert.ToDouble(@ViewBag.TotalPages);
+
+}
+
+<ul class="pagination">
+    @for (int i = 1; i <= TotalPage; i++)
+
+            {
+                if (i == ViewBag.Page)
+                {
+            <li class="active">
+                @Html.ActionLink(i.ToString() + " ", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Desc" : ViewBag.SortOrder), Sortby = (ViewBag.Sortby == null ? "ApprovalSubmitDate" : ViewBag.Sortby), Page = i, Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), VendorName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["VendorName"])) })
+            </li>
+
+
+        }
+        else
+        {
+
+            <li>@Html.ActionLink(i.ToString() + " ", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Desc" : ViewBag.SortOrder), Sortby = (ViewBag.Sortby == null ? "ApprovalSubmitDate" : ViewBag.Sortby), Page = i, Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), VendorName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["VendorName"])) }) </li>
+        }
+    }
+</ul>
+<div>
+    @*<input type="button" id="Approve" value="Approve" class="btn btn-primary" onclick="return ConfirmApprove()"  /> |
+        <input type="button" id="Reject" value="Reject" class="btn btn-primary" onclick="return ConfirmReject()" />*@
+
+</div>
+

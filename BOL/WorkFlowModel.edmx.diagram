@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="eadec48ab1ec43ecba457185bce70da1" Name="Diagram1" ZoomLevel="120">
+        <EntityTypeShape EntityType="WorkFlowDBModel.tbl_AuthExecutives" Width="1.5" PointX="0.5" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="WorkFlowDBModel.vw_Documents" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WorkFlowDBModel.vw_ERP_CostCentreBudget" Width="1.5" PointX="3.75" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="WorkFlowDBModel.vw_ERP_SalesGroupBudget" Width="1.5" PointX="2.75" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="WorkFlowDBModel.vw_ERP_UserDetails" Width="2.125" PointX="5.375" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="WorkFlowDBModel.tbl_CostObject" Width="1.5" PointX="0.75" PointY="10.5" />
+        <EntityTypeShape EntityType="WorkFlowDBModel.tbl_Division" Width="1.5" PointX="4.75" PointY="5.375" />
+        <EntityTypeShape EntityType="WorkFlowDBModel.tbl_SupBudgetDetail" Width="1.5" PointX="8" PointY="0.625" />
+        <EntityTypeShape EntityType="WorkFlowDBModel.tbl_SupBudgetHeader" PointX="15.375" PointY="0.75" Width="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="WorkFlowDBModel.vw_ERP_ProjectBudget" Width="1.5" PointX="0.75" PointY="12.75" />
+        <EntityTypeShape EntityType="WorkFlowDBModel.tbl_DocumentWorkFlow" PointX="7.25" PointY="11.375" Width="1.5" />
+        <EntityTypeShape EntityType="WorkFlowDBModel.tbl_PurchaseOrder" Width="1.5" PointX="13.375" PointY="0.75" />
+        <EntityTypeShape EntityType="WorkFlowDBModel.vw_tbl_DocumentDetails" Width="1.625" PointX="2.75" PointY="9.125" />
+        <EntityTypeShape EntityType="WorkFlowDBModel.vw_DocumentDetails" Width="1.5" PointX="10.375" PointY="0.75" />
+        <EntityTypeShape EntityType="WorkFlowDBModel.vw_tbl_DocumentBudget" Width="1.75" PointX="16.25" PointY="9.875" />
+        <EntityTypeShape EntityType="WorkFlowDBModel.tbl_LeaveDetails_His" Width="1.5" PointX="4.75" PointY="7.75" />
+        <EntityTypeShape EntityType="WorkFlowDBModel.tbl_LeaveDetails" Width="1.5" PointX="8.25" PointY="7" />
+        <EntityTypeShape EntityType="WorkFlowDBModel.tbl_Documents" Width="1.5" PointX="4.75" PointY="10.375" />
+        <AssociationConnector Association="WorkFlowDBModel.FK_DocId_DocumentWorkFlow" />
+        <EntityTypeShape EntityType="WorkFlowDBModel.vw_Documents4AlternateApproval" Width="1.5" PointX="12.125" PointY="6.5" />
+        <EntityTypeShape EntityType="WorkFlowDBModel.vw_Documents4Approval" Width="1.5" PointX="10.375" PointY="4.125" />
+        <EntityTypeShape EntityType="WorkFlowDBModel.tbl_UserRoles" Width="1.5" PointX="6.5" PointY="5.375" />
+        <EntityTypeShape EntityType="WorkFlowDBModel.tbl_AuthExecutives_bk1" Width="1.5" PointX="2.125" PointY="0.5" />
+        <EntityTypeShape EntityType="WorkFlowDBModel.tbl_RequestForQuotation" Width="1.5" PointX="14" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="WorkFlowDBModel.tbl_RFQAttachments" Width="1.5" PointX="16.5" PointY="6.25" />
+        <AssociationConnector Association="WorkFlowDBModel.FK__tbl_RFQAt__Quote__56B3DD81" />
+        <EntityTypeShape EntityType="WorkFlowDBModel.tbl_PurchaseCategory" Width="1.5" PointX="8.25" PointY="5.375" />
+        <EntityTypeShape EntityType="WorkFlowDBModel.tbl_ErrorsAndExceptions" Width="1.5" PointX="9.375" PointY="14.75" />
+        <EntityTypeShape EntityType="WorkFlowDBModel.tbl_DocMergeHeader" Width="1.5" PointX="7" PointY="17" />
+        <EntityTypeShape EntityType="WorkFlowDBModel.tbl_DocMergeDetails" Width="1.5" PointX="12.25" PointY="17.5" />
+        <AssociationConnector Association="WorkFlowDBModel.FK__tbl_DocMe__Merge__5B438874" />
+        <AssociationConnector Association="WorkFlowDBModel.FK__tbl_DocMe__SumDo__5D2BD0E6" />
+        <AssociationConnector Association="WorkFlowDBModel.FK__tbl_DocMe__SumDo__5C37ACAD" />
+        <EntityTypeShape EntityType="WorkFlowDBModel.vw_ERP_CostCentre" Width="1.5" PointX="14.375" PointY="14.75" />
+        <EntityTypeShape EntityType="WorkFlowDBModel.vw_ERP_WarehouseBudget" Width="1.5" PointX="16.375" PointY="14.75" />
+        <EntityTypeShape EntityType="WorkFlowDBModel.vw_ERP_ServiceTaxInvoice" Width="2.625" PointX="0.75" PointY="17.75" />
+        <EntityTypeShape EntityType="WorkFlowDBModel.vw_ERP_FujitecActiveContrItem" Width="1.5" PointX="18.375" PointY="14.75" />
+        <EntityTypeShape EntityType="WorkFlowDBModel.tbl_SIRDocuments" Width="1.5" PointX="9.375" PointY="17.75" />
+        <EntityTypeShape EntityType="WorkFlowDBModel.vw_ERP_ServiceSOA" Width="2.25" PointX="14.375" PointY="18.75" />
+        <EntityTypeShape EntityType="WorkFlowDBModel.vw_ERP_tbl_Customeremail" Width="2" PointX="18.375" PointY="0.75" />
+        <EntityTypeShape EntityType="WorkFlowDBModel.tbl_User" Width="1.5" PointX="19.375" PointY="4.75" />
+        <EntityTypeShape EntityType="WorkFlowDBModel.temp_tbl_Customeremail" Width="1.5" PointX="19.375" PointY="8.75" />
+        <EntityTypeShape EntityType="WorkFlowDBModel.vw_ERP_Organization" Width="1.5" PointX="4.375" PointY="20.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

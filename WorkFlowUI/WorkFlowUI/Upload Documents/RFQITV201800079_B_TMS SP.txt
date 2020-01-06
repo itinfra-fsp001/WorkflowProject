@@ -1,0 +1,7 @@
+ExtractionOTTech.aspx
+	View : SP_ExtractERPTech
+	Transfer : SP_TransferERPTech
+
+OTTechMaintenance.aspx
+	View : SP_GetTechOT
+	Post : SP_PostOTTech

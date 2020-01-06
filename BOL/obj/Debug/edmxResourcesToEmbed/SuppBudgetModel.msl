@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="WorkFlowDBModel1StoreContainer" CdmEntityContainer="WorkFlowDBEntities1">
+    <EntitySetMapping Name="vw_Documents">
+      <EntityTypeMapping TypeName="WorkFlowDBModel1.vw_Documents">
+        <MappingFragment StoreEntitySet="vw_Documents">
+          <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+          <ScalarProperty Name="AddAttachDoc3" ColumnName="AddAttachDoc3" />
+          <ScalarProperty Name="AddAttachDoc2" ColumnName="AddAttachDoc2" />
+          <ScalarProperty Name="AddAttachDoc1" ColumnName="AddAttachDoc1" />
+          <ScalarProperty Name="AttachDoc" ColumnName="AttachDoc" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="ApprovalSubmitBy" ColumnName="ApprovalSubmitBy" />
+          <ScalarProperty Name="ApprovalSubmitDate" ColumnName="ApprovalSubmitDate" />
+          <ScalarProperty Name="SubmitDate" ColumnName="SubmitDate" />
+          <ScalarProperty Name="SubmitBy" ColumnName="SubmitBy" />
+          <ScalarProperty Name="Currency" ColumnName="Currency" />
+          <ScalarProperty Name="NetPrice" ColumnName="NetPrice" />
+          <ScalarProperty Name="DocNo" ColumnName="DocNo" />
+          <ScalarProperty Name="DocType" ColumnName="DocType" />
+          <ScalarProperty Name="DocID" ColumnName="DocID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

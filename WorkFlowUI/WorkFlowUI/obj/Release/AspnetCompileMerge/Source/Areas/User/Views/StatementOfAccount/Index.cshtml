@@ -1,0 +1,734 @@
+﻿@model WorkFlowUI.ViewModel.SOAViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if ((Convert.ToString(ViewData["Status"]) == "E" || Convert.ToString(ViewData["Status"]) == "S") && Convert.ToString(TempData["Msg"]) != null)
+{
+    <script type="text/javascript">
+        alert('@Convert.ToString(TempData["Msg"])');
+        var urlLocation = "@Url.Action("Index", "StatementOfAccount", new { Status = "P" })";
+        urlLocation = urlLocation.replace(/&amp;/g, "&");
+        window.location.href = urlLocation;
+    </script>
+}
+
+<link href="~/Content/datatables.min.css" rel="stylesheet" />
+<script src="~/scripts/jquery-1.10.2.min.js"></script>
+<script src="~/scripts/datatables.min.js"></script>
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $("#ddlPagesize option[value='" + @Convert.ToString(ViewData["Pagesize"]) +"']").attr("selected", "selected");
+
+        var customerVal = '@Model.customerName';
+        if (customerVal != null) {
+            customerVal = customerVal.replace(/&amp;/g, "&");
+        }
+        $("#txtCustomerName").val(customerVal)
+
+        $("#ddlPagesize").change(function () {
+            var pageCount = $("#ddlPagesize option:selected").val();
+            var urlLocation = "@Url.Action("Index", new { Status = Convert.ToString(ViewData["Status"]), SortOrder = (ViewBag.SortOrder == null ? "Desc" : ViewBag.SortOrder), Sortby = (ViewBag.Sortby == null ? "SubmitDate" : ViewBag.Sortby), Page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = Convert.ToString(ViewData["Search"]), Pagesize = "PagesizeValue",  organization = Convert.ToString(ViewData["Organization"]), parentOrganization = Convert.ToString(ViewData["ParentOrganization"]), customerType = Convert.ToString(ViewData["CustomerType"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])), Period = Convert.ToString(ViewData["Period"]) })";
+            urlLocation = urlLocation.replace("PagesizeValue", pageCount);
+            urlLocation = urlLocation.replace(/&amp;/g, "&");
+            window.location.href = urlLocation;
+        });
+
+        $('#btnSearch').click(function () {
+
+            this.href = this.href.replace("CustomerNameValue", checkandreplace($("#txtCustomerName").val()));
+
+            dropDownVal = "";
+            if ($("#ddlOrganization option:selected").val() != "-- Select --") { dropDownVal = $("#ddlOrganization option:selected").val() }
+            this.href = this.href.replace("OrganizationValue", dropDownVal);
+
+            dropDownVal = "";
+            if ($("#ddlParentOrganization option:selected").val() != "-- Select --") { dropDownVal = $("#ddlParentOrganization option:selected").val() }
+            this.href = this.href.replace("ParentOrganizationValue", dropDownVal);
+
+            dropDownVal = "";
+            if ($("#ddlCustomerType option:selected").val() != "-- Select --") { dropDownVal = $("#ddlCustomerType option:selected").val() }
+            this.href = this.href.replace("CustomerTypeValue", dropDownVal);
+
+            dropDownVal = $("#ddlPeriod option:selected").val();
+            this.href = this.href.replace("PeriodValue", dropDownVal);
+
+            this.href = this.href.replace("PagesizeValue", $("#ddlPagesize option:selected").val());
+
+
+
+            this.href = this.href.replace("SiteValue", $("#txtSite").val());
+        });
+
+
+        if ("@Convert.ToString(ViewData["Status"])" == "P") {
+            var groupColumn = 2;
+            var table = $('#tableMain').DataTable({
+                "sDom": 't',
+                "ordering": false,
+                "columnDefs": [
+                    { "visible": false, "targets": groupColumn }
+                ],
+                "order": [[groupColumn, 'asc']],
+                "displayLength": $("#ddlPagesize option:selected").val(),
+                "drawCallback": function (settings) {
+                    var api = this.api();
+                    var rows = api.rows({ page: 'current' }).nodes();
+                    var last = null;
+
+                    api.column(groupColumn, { page: 'current' }).data().each(function (group, i) {
+                        if (last !== group) {
+                            $(rows).eq(i).before(
+                                '<tr class="group"><td colspan="10">' + group + '</td></tr>'
+                            );
+
+                            last = group;
+                        }
+                    });
+                }
+            });
+        }
+
+        $('#isALLSOAGenerated').on('click', function () {
+            if (this.checked) {
+                $('.isSOAGenerated').each(function () {
+                    this.checked = true;
+                });
+            } else {
+                $('.isSOAGenerated').each(function () {
+                    this.checked = false;
+                });
+            }
+        });
+
+        $('.isSOAGenerated').on('click', function () {
+            if ($('.isSOAGenerated:checked').length == $('.isSOAGenerated').length) {
+                $('#isALLSOAGenerated').prop('checked', true);
+            } else {
+                $('#isALLSOAGenerated').prop('checked', false);
+            }
+        });
+
+    });
+    function ConfirmSend() {
+        //error-row-email-failed
+        var to_addr, cc_addr, to_addr_arr, cc_addr_arr;
+        var isSuccess = true;
+        var errMessage = "";
+        $('.legend-row').hide();
+        $("#tableMain tr").each(function () {
+            if ($(this).find('textarea[id*="_email_address"]').hasClass('error-row-email-empty')) {
+                $(this).find('textarea[id*="_email_address"]').removeClass('error-row-email-empty');
+            }
+            if ($(this).find('textarea[id*="_email_address"]').hasClass('error-row-email-formatfailed')) {
+                $(this).find('textarea[id*="_email_address"]').removeClass('error-row-email-formatfailed');
+            }
+            if ($(this).find('textarea[id*="_CCemail_address"]').hasClass('error-row-email-empty')) {
+                $(this).find('textarea[id*="_CCemail_address"]').removeClass('error-row-email-empty');
+            }
+            if ($(this).find('textarea[id*="_CCemail_address"]').hasClass('error-row-email-formatfailed')) {
+                $(this).find('textarea[id*="_CCemail_address"]').removeClass('error-row-email-formatfailed');
+            }
+        });
+        var checked = GetCheckedItems();
+        if (checked.length == 0) {
+            isSuccess = false;
+            errMessage = errMessage + "Please select at least one SOA to send\n";
+        }
+        var isEmailValidated = true;
+        $("#tableMain tr").each(function () {
+            if ($(this).find('input[type="checkbox"]').is(":checked") && $(this).find('input[type="checkbox"]')[0].id != "isALLSOAGenerated") {
+                to_addr = cc_addr = null;
+                to_addr = $(this).find('textarea[id*="_email_address"]').val();
+                cc_addr = $(this).find('textarea[id*="_CCemail_address"]').val();
+                if (to_addr != null && to_addr == "") {
+                    isEmailValidated = false;
+                    if (!$(this).find('textarea[id*="_email_address"]').hasClass('error-row-email-empty')) {
+                        $(this).find('textarea[id*="_email_address"]').addClass('error-row-email-empty');
+                    }
+                }
+                else {
+                    to_addr_arr = to_addr.split(';');
+                    for (var i = 0; i < to_addr_arr.length; i++) {
+                        if (!validateEmail(to_addr_arr[i])) {
+                            isEmailValidated = false;
+                            if (!$(this).find('textarea[id*="_email_address"]').hasClass('error-row-email-formatfailed')) {
+                                $(this).find('textarea[id*="_email_address"]').addClass('error-row-email-formatfailed');
+                            }
+                        }
+                    }
+                }
+                if (cc_addr != null && cc_addr != "") {
+                    cc_addr_arr = cc_addr.split(';');
+                    for (var i = 0; i < cc_addr_arr.length; i++) {
+                        if (!validateEmail(cc_addr_arr[i])) {
+                            isEmailValidated = false;
+                            if (!$(this).find('textarea[id*="_CCemail_address"]').hasClass('error-row-email-formatfailed')) {
+                                $(this).find('textarea[id*="_CCemail_address"]').addClass('error-row-email-formatfailed');
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        if (!isEmailValidated) {
+            isSuccess = false;
+            $('.legend-row').show();
+            $('.lgValidation').show();
+            errMessage = errMessage + "Email ID's having error. TO Email address shouldn't be empty and should be valid email address (TO & CC) \n";
+        }
+        if (isSuccess) {
+            if (confirm('Are you sure you want to Send E-SOA?')) {
+                $("#hdnSOASelectedList").val(JSON.stringify(checked.toArray()));
+                return true;
+            }
+        }
+        else {
+            alert(errMessage);
+        }
+        return false;
+    }
+    function ConfirmException() {
+        var checked = GetCheckedItems();
+        if (checked.length == 0) {
+            alert("Please select at least one SOA to Mark as Exception");
+            return false;
+        }
+        if (confirm('Are you sure you want to Mark as Exception?')) {
+            $("#hdnSOASelectedList").val(JSON.stringify(checked.toArray()));
+            return true;
+        }
+        return false;
+    }
+    function GetCheckedItems() {
+        var checked = $(".isSOAGenerated").filter(":checked").map(function () { return this.id; });
+        return checked;
+    }
+    function validateEmail(email) {
+        var re = /^(([^<>()[\]\\.,;:\s@@\"]+(\.[^<>()[\]\\.,;:\s@@\"]+)*)|(\".+\"))@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
+        //return true;
+    }
+</script>
+<style type="text/css">
+    .error-row-email-empty {
+        background-color: #ffa4a4 !important;
+    }
+
+    .error-row-email-formatfailed {
+        background-color: yellow !important;
+    }
+
+    .legend-jobqueue {
+        background-color: lightGreen !important;
+    }
+
+    .tr-overdue {
+        background-color: #ffe4e4;
+    }
+
+    .legend-div {
+        width: 80px;
+        height: 30px;
+        border: 1px solid lightgrey;
+    }
+
+    .legend-row {
+        margin-left: 5px;
+        margin-top: 10px;
+        padding: 5px;
+    }
+
+    .lgValidation, .lgInformation {
+        display: none;
+    }
+
+    .legend-detail-row {
+        margin-bottom: 10px;
+    }
+
+    .empty-row {
+        height: 15px !important;
+    }
+
+    tr.group,
+    tr.group:hover {
+        background-color: #ddd !important;
+    }
+
+    .spanIssueEInvoice, .spanExceptionInvoice {
+        color: #e95420;
+        text-decoration: none;
+        background-color: white;
+        padding: 5px;
+        border: 1px solid white;
+        border-radius: 5px;
+        margin: 5px;
+    }
+
+
+        .spanIssueEInvoice:hover, .spanExceptionInvoice:hover {
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+    .lastConsolidatedOn {
+        background-color: lightyellow;
+        padding: 5px;
+        text-align: center;
+        border: 1px solid gray;
+        border-radius: 5px;
+        font-size: 15px;
+    }
+
+    .showPendingUnits {
+        color: #e95420;
+    }
+
+        .showPendingUnits:hover {
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+    .modal-body {
+        max-height: 600px;
+        overflow-y: auto;
+    }
+</style>
+
+<div class="row empty-row">
+    <div class="col-sm-12">
+    </div>
+</div>
+
+@using (Html.BeginForm("ProcessSOA", "StatementOfAccount", FormMethod.Post))
+{
+    if (Convert.ToString(ViewData["Status"]) == "C" || Convert.ToString(ViewData["Status"]) == "P")
+    {
+        <h2> E - Statement of Account </h2>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <ul class="nav nav-pills col-lg-12">
+
+                    @if (Convert.ToString(ViewData["Status"]) == "P")
+                    {
+                    <li class="active">@Html.ActionLink("Pending", "Index", new { Status = "P", organization = Convert.ToString(ViewData["Organization"]), parentOrganization = Convert.ToString(ViewData["ParentOrganization"]), customerType = Convert.ToString(ViewData["CustomerType"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])), Period = Convert.ToString(ViewData["Period"]) })</li>
+                    }
+                    else
+                    {
+                    <li>@Html.ActionLink("Pending", "Index", new { Status = "P", organization = Convert.ToString(ViewData["Organization"]), parentOrganization = Convert.ToString(ViewData["ParentOrganization"]), customerType = Convert.ToString(ViewData["CustomerType"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])), Period = Convert.ToString(ViewData["Period"]) })</li>
+                    }
+                    @if (Convert.ToString(ViewData["Status"]) == "C")
+                    {
+                    <li class="active">@Html.ActionLink("Closed", "Index", new { Status = "C", organization = Convert.ToString(ViewData["Organization"]), parentOrganization = Convert.ToString(ViewData["ParentOrganization"]), customerType = Convert.ToString(ViewData["CustomerType"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])), Period = "" })</li>
+                    }
+                    else
+                    {
+                    <li>@Html.ActionLink("Closed", "Index", new { Status = "C", organization = Convert.ToString(ViewData["Organization"]), parentOrganization = Convert.ToString(ViewData["ParentOrganization"]), customerType = Convert.ToString(ViewData["CustomerType"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])), Period = "" })</li>
+                    }
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="row empty-row">
+            <div class="col-sm-12">
+            </div>
+        </div>
+
+        <div>
+            <div class="row" style="margin-bottom:10px">
+                <div class="col-sm-2">
+                    Customer Name
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(model => model.customerName, new { id = "txtCustomerName", @style = "width:100%" })
+                </div>
+                <div class="col-sm-2">
+                    Organization
+                </div>
+                <div class="col-sm-4">
+                    @Html.DropDownListFor(model => model.organization, Model.organizationList, new { id = "ddlOrganization", @style = "width:90%" })
+                </div>
+            </div>
+            <div class="row" style="margin-bottom:10px">
+                <div class="col-sm-2">
+                    Parent Organization
+                </div>
+                <div class="col-sm-4">
+                    @Html.DropDownListFor(model => model.parentOrganization, Model.parentOrganizationList, new { id = "ddlParentOrganization", @style = "width:90%" })
+                </div>
+                <div class="col-sm-2">
+                    Customer Type
+                </div>
+                <div class="col-sm-4">
+                    @Html.DropDownListFor(model => model.customerType, Model.customerTypeList, new { id = "ddlCustomerType", @style = "width:90%" })
+                </div>
+            </div>
+            <div class="row" style="margin-bottom:10px">
+                <div class="col-sm-2">
+                    Period
+                </div>
+                <div class="col-sm-4">
+                    @Html.DropDownListFor(model => model.period, Model.periodList, new { id = "ddlPeriod", @style = "width:90%" })
+                </div>
+            </div>
+            <div class="row" style="margin-bottom:10px">
+                <div class="col-sm-2">
+
+                </div>
+                <div class="col-sm-10">
+                    @Html.ActionLink("Search", "Index", new
+               {
+                   Status = Convert.ToString(ViewData["Status"]),
+                   SortOrder = (Convert.ToString(ViewData["SortOrder"]) == null ? "Asc" : (Convert.ToString(ViewData["SortOrder"]) == "Asc" ? "Desc" : "Asc")),
+                   Sortby = "UpdateDate",
+                   page = (ViewBag.Page == null ? "1" : ViewBag.Page),
+                   Pagesize = Convert.ToString(ViewData["Pagesize"]),
+                   organization = "OrganizationValue",
+                   parentOrganization = "ParentOrganizationValue",
+                   customerType = "CustomerTypeValue",
+                   CustomerName = "CustomerNameValue",
+                   Period = "PeriodValue"
+               }, new { id = "btnSearch" })
+
+                    @Html.Raw("&nbsp;&nbsp;")
+
+                    @Html.ActionLink("Clear", "Index", new
+                   {
+                       Status = Convert.ToString(ViewData["Status"])
+                   }, new { id = "btnClear" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-5">
+                @{
+                    List<SelectListItem>
+                            listItems = new List<SelectListItem>
+                                ();
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "10",
+                        Value = "10",
+                    });
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "25",
+                        Value = "25",
+                    });
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "50",
+                        Value = "50",
+                    });
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "100",
+                        Value = "100",
+                        Selected = true
+                    });
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "150",
+                        Value = "150",
+                    });
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "250",
+                        Value = "250",
+                    });
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "500",
+                        Value = "500",
+                    });
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "1000",
+                        Value = "1000",
+                    });
+                    @Html.DropDownList("ddlPagesize", listItems)
+
+                }
+            </div>
+
+        </div>
+            <div class="row empty-row">
+                <div class="col-sm-12">
+                </div>
+            </div>
+            <div class="row legend-row">
+                <div class="row legend-detail-row lgInformation">
+                    <div class="col-sm-1">
+                        <div class="legend-div legend-jobqueue"></div>
+                    </div>
+                    <div class="col-sm-6">
+                        Job Queue
+                    </div>
+                </div>
+                <div class="row legend-detail-row lgValidation">
+                    <div class="col-sm-1">
+                        <div class="legend-div error-row-email-empty"></div>
+                    </div>
+                    <div class="col-sm-6">
+                        Email address shouldn't be blank
+                    </div>
+                </div>
+                <div class="row legend-detail-row lgValidation">
+                    <div class="col-sm-1">
+                        <div class="legend-div error-row-email-formatfailed"></div>
+                    </div>
+                    <div class="col-sm-6">
+                        Email address format is incorrect
+                    </div>
+                </div>
+            </div>
+
+            @Html.HiddenFor(Model => Model.soaSelectedList, new { id = "hdnSOASelectedList" })
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            @*<table class="table table-striped table-bordered table-hover" id="tableMain">
+                                <thead>
+                                    <tr class="info">
+                                        @if (Convert.ToString(ViewData["Status"]) == "P")
+                                            {
+                                            <th><input type="checkbox" id="isALLSOAGenerated" checked /></th>
+                                            }
+                                        <th>
+                                            @Html.ActionLink("Organization", "Index", new { Status = Convert.ToString(ViewData["Status"]), SortOrder = (Convert.ToString(ViewData["SortOrder"]) == null ? "Asc" : (Convert.ToString(ViewData["SortOrder"]) == "Asc" ? "Desc" : "Asc")), Sortby = "Organization", page = (Convert.ToString(ViewData["Page"]) == null ? "1" : Convert.ToString(ViewData["Page"])), Pagesize = Convert.ToString(ViewData["Pagesize"]), Organization = Convert.ToString(ViewData["Organization"]), ParentOrganization = Convert.ToString(ViewData["ParentOrganization"]), Period = Convert.ToString(ViewData["Period"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])), CustomerType = Convert.ToString(ViewData["CustomerType"]) })
+                                        </th>
+                                        <th>
+                                            @Html.ActionLink("Parent Organization", "Index", new { Status = Convert.ToString(ViewData["Status"]), SortOrder = (Convert.ToString(ViewData["SortOrder"]) == null ? "Asc" : (Convert.ToString(ViewData["SortOrder"]) == "Asc" ? "Desc" : "Asc")), Sortby = "ParentOrganization", page = (Convert.ToString(ViewData["Page"]) == null ? "1" : Convert.ToString(ViewData["Page"])), Pagesize = Convert.ToString(ViewData["Pagesize"]), Organization = Convert.ToString(ViewData["Organization"]), ParentOrganization = Convert.ToString(ViewData["ParentOrganization"]), Period = Convert.ToString(ViewData["Period"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])), CustomerType = Convert.ToString(ViewData["CustomerType"]) })
+                                        </th>
+                                        <th>
+                                            @Html.ActionLink("Customer Type", "Index", new { Status = Convert.ToString(ViewData["Status"]), SortOrder = (Convert.ToString(ViewData["SortOrder"]) == null ? "Asc" : (Convert.ToString(ViewData["SortOrder"]) == "Asc" ? "Desc" : "Asc")), Sortby = "CustomerType", page = (Convert.ToString(ViewData["Page"]) == null ? "1" : Convert.ToString(ViewData["Page"])), Pagesize = Convert.ToString(ViewData["Pagesize"]), Organization = Convert.ToString(ViewData["Organization"]), ParentOrganization = Convert.ToString(ViewData["ParentOrganization"]), Period = Convert.ToString(ViewData["Period"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])), CustomerType = Convert.ToString(ViewData["CustomerType"]) })
+                                        </th>
+                                        <th>
+                                            @Html.ActionLink("Customer Name", "Index", new { Status = Convert.ToString(ViewData["Status"]), SortOrder = (Convert.ToString(ViewData["SortOrder"]) == null ? "Asc" : (Convert.ToString(ViewData["SortOrder"]) == "Asc" ? "Desc" : "Asc")), Sortby = "CustomerName", page = (Convert.ToString(ViewData["Page"]) == null ? "1" : Convert.ToString(ViewData["Page"])), Pagesize = Convert.ToString(ViewData["Pagesize"]), Organization = Convert.ToString(ViewData["Organization"]), ParentOrganization = Convert.ToString(ViewData["ParentOrganization"]), Period = Convert.ToString(ViewData["Period"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])), CustomerType = Convert.ToString(ViewData["CustomerType"]) })
+                                        </th>
+                                        <th>
+                                            @Html.ActionLink("CutoffDate", "Index", new { Status = Convert.ToString(ViewData["Status"]), SortOrder = (Convert.ToString(ViewData["SortOrder"]) == null ? "Asc" : (Convert.ToString(ViewData["SortOrder"]) == "Asc" ? "Desc" : "Asc")), Sortby = "CutoffDate", page = (Convert.ToString(ViewData["Page"]) == null ? "1" : Convert.ToString(ViewData["Page"])), Pagesize = Convert.ToString(ViewData["Pagesize"]), Organization = Convert.ToString(ViewData["Organization"]), ParentOrganization = Convert.ToString(ViewData["ParentOrganization"]), Period = Convert.ToString(ViewData["Period"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])), CustomerType = Convert.ToString(ViewData["CustomerType"]) })
+                                        </th>
+                                        @if (Convert.ToString(ViewData["Status"]) == "P")
+                                            {
+                                            <th>
+                                                To Address
+                                            </th>
+                                            <th>
+                                                CC Address
+                                            </th>
+                                            }
+                                        @if (Convert.ToString(ViewData["Status"]) == "C")
+                                            {
+                                            <th>
+                                                @Html.ActionLink("Status", "Index", new { Status = Convert.ToString(ViewData["Status"]), SortOrder = (Convert.ToString(ViewData["SortOrder"]) == null ? "Asc" : (Convert.ToString(ViewData["SortOrder"]) == "Asc" ? "Desc" : "Asc")), Sortby = "Status", page = (Convert.ToString(ViewData["Page"]) == null ? "1" : Convert.ToString(ViewData["Page"])), Pagesize = Convert.ToString(ViewData["Pagesize"]), Organization = Convert.ToString(ViewData["Organization"]), ParentOrganization = Convert.ToString(ViewData["ParentOrganization"]), Period = Convert.ToString(ViewData["Period"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])), CustomerType = Convert.ToString(ViewData["CustomerType"]) })
+                                            </th>
+                                            }
+                                        <th>
+                                            @Html.ActionLink("Updated By", "Index", new { Status = Convert.ToString(ViewData["Status"]), SortOrder = (Convert.ToString(ViewData["SortOrder"]) == null ? "Asc" : (Convert.ToString(ViewData["SortOrder"]) == "Asc" ? "Desc" : "Asc")), Sortby = "UpdatedBy", page = (Convert.ToString(ViewData["Page"]) == null ? "1" : Convert.ToString(ViewData["Page"])), Pagesize = Convert.ToString(ViewData["Pagesize"]), Organization = Convert.ToString(ViewData["Organization"]), ParentOrganization = Convert.ToString(ViewData["ParentOrganization"]), Period = Convert.ToString(ViewData["Period"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])), CustomerType = Convert.ToString(ViewData["CustomerType"]) })
+                                        </th>
+                                        <th>
+
+                                            @Html.ActionLink("Updated On", "Index", new { Status = Convert.ToString(ViewData["Status"]), SortOrder = (Convert.ToString(ViewData["SortOrder"]) == null ? "Asc" : (Convert.ToString(ViewData["SortOrder"]) == "Asc" ? "Desc" : "Asc")), Sortby = "UpdatedDate", page = (Convert.ToString(ViewData["Page"]) == null ? "1" : Convert.ToString(ViewData["Page"])), Pagesize = Convert.ToString(ViewData["Pagesize"]), Organization = Convert.ToString(ViewData["Organization"]), ParentOrganization = Convert.ToString(ViewData["ParentOrganization"]), Period = Convert.ToString(ViewData["Period"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])), CustomerType = Convert.ToString(ViewData["CustomerType"]) })
+                                        </th>
+                                        <th>
+
+                                        </th>
+
+                                    </tr>
+                                </thead>*@
+                            <table class="table" id="tableMain">
+                                <thead>
+                                    <tr>
+                                        @if (Convert.ToString(ViewData["Status"]) == "P")
+                                        {
+                                            <th><input type="checkbox" id="isALLSOAGenerated" checked /></th>
+                                        }
+                                        <th>
+                                            Organization
+                                        </th>
+                                        <th>
+                                            Parent Organization
+                                        </th>
+                                        <th>
+                                            Customer Type
+                                        </th>
+                                        <th>
+                                            Customer Name
+                                        </th>
+                                        <th>
+                                            CutoffDate
+                                        </th>
+                                        @if (Convert.ToString(ViewData["Status"]) == "P")
+                                        {
+                                            <th>
+                                                To Address
+                                            </th>
+                                                <th>
+                                                    CC Address
+                                                </th>
+                                        }
+                                        @if (Convert.ToString(ViewData["Status"]) == "C")
+                                        {
+                                            <th>
+                                                Status
+                                            </th>
+                                        }
+                                        <th>
+                                            Updated By
+                                        </th>
+                                        <th>
+                                            Updated On
+                                        </th>
+                                        <th>
+
+                                        </th>
+
+                                    </tr>
+                                </thead>
+
+                                @{
+                                    int loCount;
+                                    bool showJobQueueLegend = false;
+                                }
+                                @for (int i = 0; i < Model.soaList.Count; i++)
+                                {
+                                    showJobQueueLegend = (Model.soaList[i].SOAStatus == "Job Queue") ? true : showJobQueueLegend;
+
+                                    <tr class="@(Model.soaList[i].SOAStatus == "Job Queue" ? "legend-jobqueue" : "")">
+
+                                        @if (Convert.ToString(ViewData["Status"]) == "P")
+                                        {
+                                            if (Model.soaList[i].SOAStatus == "New" && Model.soaList[i].SOAGenStatus == "Success" && Model.soaList[i].SOAStatus == "New")
+                                            {
+                                                <td><input type="checkbox" class="isSOAGenerated" id="@Model.soaList[i].LogID" checked /></td>
+                                            }
+                                            else
+                                            {
+                                                <td></td>
+                                            }
+                                        }
+                                        <td>
+                                            @Html.HiddenFor(modelItem => Model.soaList[i].LogID)
+                                            @Html.DisplayFor(modelItem => Model.soaList[i].OrganizationName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => Model.soaList[i].ParentCustomerName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => Model.soaList[i].CustomerType)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => Model.soaList[i].CustomerName)
+                                        </td>
+                                        <td>
+                                            @Html.Raw(Convert.ToDateTime(Model.soaList[i].CutoffDate).ToString("dd-MM-yyyy"))
+                                        </td>
+                                        @if (Convert.ToString(ViewData["Status"]) == "P")
+                                        {
+                                            if (Model.soaList[i].SOAStatus == "New")
+                                            {
+                                                <td>
+                                                    @Html.TextAreaFor(modelItem => Model.soaList[i].email_address, new { rows = "5", cols = "35", @name = "soaList[" + @Model.soaList[i].LogID + "].email_address" })
+                                                </td>
+                                                <td>
+
+                                                    @Html.TextAreaFor(modelItem => Model.soaList[i].CCemail_address, new { rows = "5", cols = "35", @name = "soaList[" + @Model.soaList[i].LogID + "].CCemail_address" })
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => Model.soaList[i].email_address)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => Model.soaList[i].CCemail_address)
+                                                </td>
+                                            }
+                                        }
+
+                                        @if (Convert.ToString(ViewData["Status"]) == "C")
+                                        {
+                                            <td>
+                                                @Html.DisplayFor(modelItem => Model.soaList[i].SOAStatus)
+                                            </td>
+                                        }
+                                        <td>
+                                            @Html.DisplayFor(modelItem => Model.soaList[i].UpdateBy)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => Model.soaList[i].UpdateDate)
+                                        </td>
+
+                                        @if (Model.soaList[i].SOAGenStatus == "Success")
+                                        {
+                                            <td>@Html.ActionLink("View", "GetAttachment", new { Ids = Model.soaList[i].LogID })</td>
+                                        }
+                                        else
+                                        {
+                                            <td></td>
+                                        }
+
+                                    </tr>
+                                }
+
+
+                            </table>
+
+                        </div>
+                    </div>
+                                    if (showJobQueueLegend)
+                                    {
+                                        <script type="text/javascript">
+                                                $('.lgInformation').show();
+                                        </script>
+                                    }
+                                    if (Convert.ToString(ViewData["Status"]) == "P" && (Model.soaList != null && Model.soaList.Count > 0))
+                                    {
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <input type="submit" name="Command" value="Send E-SOA" onclick="return ConfirmSend();" class="btn btn-primary" />
+                                                @Html.Raw("&nbsp;&nbsp;&nbsp;&nbsp;")
+                                                <input type="submit" name="Command" value="Mark as Exception" onclick="return ConfirmException();" class="btn btn-primary" />
+
+                                                @*@Html.ActionLink("Send E-SOA", "SendESOA", "StatementOfAccount", new { Ids = "ItemList" }, new { id = "btnSendESOA", onclick = "return ConfirmSend()" })
+                                                    @Html.Raw("&nbsp;&nbsp;&nbsp;&nbsp;")
+                                                    @Html.ActionLink("Mark as Exception", "ProceedAsException", "StatementOfAccount", new { Ids = "ItemList" }, new { id = "btnException", onclick = "return ConfirmException()" })*@
+
+                                            </div>
+                                        </div>
+                                    }
+
+                                    //if (Convert.ToString(ViewData["Status"]) == "P" && Model.isServiceAdmin)
+                                    //{
+
+                                    //}
+                                    double TotalPage = Convert.ToDouble(ViewData["TotalPages"]);
+
+                                    <ul class="pagination">
+                                        @for (int i = 1; i <= TotalPage; i++)
+                                            {
+                                                if (i == Convert.ToInt16(ViewData["Page"]))
+                                                {
+                                            <li class="active"> @Html.ActionLink(i.ToString(), "Index", new { Status = Convert.ToString(ViewData["Status"]), SortOrder = (Convert.ToString(ViewData["SortOrder"]) == null ? "Asc" : (Convert.ToString(ViewData["SortOrder"]) == "Asc" ? "Desc" : "Asc")), Sortby = "UpdateDate", page = i, Pagesize = Convert.ToString(ViewData["Pagesize"]), organization = Convert.ToString(ViewData["Organization"]), parentOrganization = Convert.ToString(ViewData["ParentOrganization"]), customerType = Convert.ToString(ViewData["CustomerType"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])), Period = Convert.ToString(ViewData["Period"]) })</li>
+                                                }
+                                                else
+                                                {
+                                            <li> @Html.ActionLink(i.ToString(), "Index", new { Status = Convert.ToString(ViewData["Status"]), SortOrder = (Convert.ToString(ViewData["SortOrder"]) == null ? "Asc" : (Convert.ToString(ViewData["SortOrder"]) == "Asc" ? "Desc" : "Asc")), Sortby = "UpdateDate", page = i, Pagesize = Convert.ToString(ViewData["Pagesize"]), organization = Convert.ToString(ViewData["Organization"]), parentOrganization = Convert.ToString(ViewData["ParentOrganization"]), customerType = Convert.ToString(ViewData["CustomerType"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])), Period = Convert.ToString(ViewData["Period"]) }) </li>
+                                                }
+                                            }
+                                    </ul>
+
+
+                                        }
+                                    }

@@ -1,0 +1,140 @@
+﻿@model BOL.tbl_PurchaseOrder
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@if (TempData["Msg"] != null)
+{
+    <h3> @Convert.ToString(TempData["Msg"])</h3>
+}
+
+@if (!string.IsNullOrEmpty(ViewBag.isPRMessage))
+{
+    //!ViewBag.isPREmailExists &&
+    <script>alert("@ViewBag.isPRMessage")</script>
+}
+@if (TempData["alert"] != null)
+{
+    <script>alert('PR Requestor Email Id is not available.')</script>
+}
+@using (Html.BeginForm("SendMail", "IssuePo", FormMethod.Post, new { enctype = "multipart/form-data" }))
+
+{
+    <h2>Issue Purchase Order</h2>
+    <table class="table-borderless">
+        <tr>
+            <td>Vendor Email:</td>
+            <td>@Html.TextArea("txtVendorEmail", Convert.ToString(ViewData["VendorEmail"]), new { @class = "form-control", @cols = 1, @rows = 1, @style = "height:38px" })</td>
+        </tr>
+        <tr>
+            <td>Subject:</td>
+            @*<td>@Html.Label("txtSubject", ViewData["Subject"].ToString(), new { @class = "form-control", @style = "border:0px;" })</td>*@
+            <td>@Html.TextArea("txtSubject", Convert.ToString(ViewData["Subject"]), new { @class = "form-control", @cols = 1, @rows = 2, @style = "height:60px" })</td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                Mail Content:
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                @Html.TextArea("txtBody", Convert.ToString(ViewData["Body"]), new { @class = "form-control", @cols = 100, @rows = 10 })
+            </td>
+        </tr>
+        <tr style="height:30px">
+            <td>AttachFile:</td>
+            <td>
+                <input type="file" name="AttachFile" id="AttachFile" style="display:inline" /> <a href="#" id="AttachClear" name="AttachClear">clear</a>
+            </td>
+        </tr>
+        <tr style="height:30px">
+            <td>AttachFile1:</td>
+            <td>
+                <input type="file" name="AttachFile1" id="AttachFile1" style="display:inline" /> <a href="#" id="AttachClear1" name="AttachClear1">clear</a>
+            </td>
+        </tr>
+        <tr style="height:30px">
+            <td>AttachFile2:</td>
+            <td>
+                <input type="file" name="AttachFile2" id="AttachFile2" style="display:inline" /> <a href="#" id="AttachClear2" name="AttachClear2">clear</a>
+            </td>
+        </tr>
+        <tr style="height:30px">
+            <td>AttachFile3:</td>
+            <td>
+                <input type="file" name="AttachFile3" id="AttachFile3" style="display:inline" /> <a href="#" id="AttachClear3" name="AttachClear3">clear</a>
+            </td>
+        </tr>
+    </table>
+
+    @*<h4>PurchaseOrder</h4>*@
+    @*<hr />
+        <P>Vendor Email</P>
+        <p>@Html.TextArea("txtVendorEmail", ViewData["VendorEmail"].ToString(), new { @class = "form-control", @cols = 1, @rows = 1, @style = "height:38px" })</p>
+        <P>Subject</P>
+        <p>@Html.Label("txtSubject", ViewData["Subject"].ToString(), new { @class = "form-control" })</p>
+        <P>Mail Content</P>
+        <p>@Html.TextArea("txtBody", ViewData["Body"].ToString(), new { @class = "form-control", @cols = 100, @rows = 10 })</p>
+        <P>Attachment</P>
+        <p><input type="file" , name="AttachFile" /></p>*@
+    <div class="form-group">
+        <div class="col-md-offset-0">
+            @if (ViewBag.isPREmailExists)
+            {
+                <input type="submit" value="Send" id="btnSend" class="btn btn-primary" />
+            }
+        </div>
+
+    </div>
+        <div>
+            @Html.ActionLink("Back to List", "Index", new { Controller = "PurchaseOrder", Area = "User", IsPOIssued = 0 })
+        </div>
+}
+
+
+<script src="~/scripts/jquery-1.10.2.min.js"></script>
+<script>
+    $(document).ready(function () {
+        if ('@TempData["Msg"]' == 'PO Issued Successfully') {
+            $("#btnSend").prop('disabled', true);
+        }
+
+        $("#AttachClear").click(function () {
+            $("#AttachFile").val('');
+        });
+        $("#AttachClear1").click(function () {
+            $("#AttachFile1").val('');
+        });
+        $("#AttachClear2").click(function () {
+            $("#AttachFile2").val('');
+        });
+        $("#AttachClear3").click(function () {
+            $("#AttachFile3").val('');
+        });
+
+        $("#btnSend").click(function () {
+            var message = "";
+            if($("#txtVendorEmail").val()=="")
+            {
+                message = "Please enter vendor email\n";
+            }
+            if ($("#txtSubject").val() == "") {
+                message = message+"Please enter subject\n";
+            }
+            if ($("#txtBody").val() == "") {
+                message = message+"Please enter email content\n";
+            }
+            if(message!="")
+            {
+                alert(message);
+                return false;
+            }
+            return true;
+        });
+
+
+        
+
+    });
+</script>

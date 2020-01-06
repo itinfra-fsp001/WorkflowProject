@@ -1,0 +1,617 @@
+﻿@model WorkFlowUI.ViewModel.SIRViewModal
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@if ((Convert.ToString(ViewData["Status"]) == "E" || Convert.ToString(ViewData["Status"]) == "S") && Convert.ToString(TempData["Msg"]) != null)
+{
+    <script type="text/javascript">
+        alert('@Convert.ToString(TempData["Msg"])');
+        var urlLocation = "@Url.Action("Index", "SIRHome", new { Status = "P" })";
+        urlLocation = urlLocation.replace(/&amp;/g, "&");
+        window.location.href = urlLocation;
+    </script>
+}
+
+    
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $("#ddlPagesize option[value='" + @Convert.ToString(ViewData["Pagesize"]) +"']").attr("selected", "selected");
+
+            var customerVal = '@Model.customerName';
+            if (customerVal != null) {
+                customerVal = customerVal.replace(/&amp;/g, "&");
+            }
+            $("#txtCustomerName").val(customerVal)
+
+            var siteVal = '@Model.site';
+            if (siteVal != null) {
+                siteVal = siteVal.replace(/&amp;/g, "&");
+            }
+            $("#txtSite").val(siteVal)
+
+            $("#ddlPagesize").change(function () {
+                var pageCount = $("#ddlPagesize option:selected").val();
+                var urlLocation = "@Url.Action("Index", new { Status = Convert.ToString(ViewData["Status"]), SortOrder = (ViewBag.SortOrder == null ? "Desc" : ViewBag.SortOrder), Sortby = (ViewBag.Sortby == null ? "SubmitDate" : ViewBag.Sortby), Page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = Convert.ToString(ViewData["Search"]), Pagesize = "PagesizeValue", site = Convert.ToString(ViewData["Site"]), SIRStatus = Convert.ToString(ViewData["SIRStatus"]), Period = Convert.ToString(ViewData["Period"]), SalesGroup = Convert.ToString(ViewData["SalesGroup"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])) })";
+                urlLocation = urlLocation.replace("PagesizeValue", pageCount);
+                urlLocation = urlLocation.replace(/&amp;/g, "&");
+                window.location.href = urlLocation;
+            });
+
+            $('#btnSearch').click(function () {
+
+                this.href = this.href.replace("CustomerNameValue", checkandreplace($("#txtCustomerName").val()));
+
+                dropDownVal = "";
+                if ($("#ddlSIRStatus option:selected").val() != "-- Select --") { dropDownVal = $("#ddlSIRStatus option:selected").val() }
+                this.href = this.href.replace("SIRStatusValue", dropDownVal);
+                dropDownVal = "";
+                if ($("#ddlPeriod option:selected").val() != "-- Select --") { dropDownVal = $("#ddlPeriod option:selected").val() }
+                this.href = this.href.replace("PeriodValue", dropDownVal);
+
+                dropDownVal = "";
+                if ($("#ddlSalesGroup option:selected").val() != "-- Select --") { dropDownVal = $("#ddlSalesGroup option:selected").val() }
+                this.href = this.href.replace("SalesGroupValue", dropDownVal);
+
+                this.href = this.href.replace("PagesizeValue", $("#ddlPagesize option:selected").val());
+
+
+
+                this.href = this.href.replace("SiteValue", checkandreplace($("#txtSite").val()));
+            });
+
+
+
+            $('#btnExport').click(function () {
+
+
+                if ($("#ddlPeriod option:selected").val() != "-- Select --") {
+                    this.href = this.href.replace("PeriodValue", $("#ddlPeriod option:selected").val());
+                }
+                else
+                {
+                    alert('Please select period for export');
+                    return false;
+                }
+
+            });
+
+
+            $('.showPendingUnits').click(function () {
+                try {
+                    $('#myModal').modal("show");
+                    var mtitle = 'Building Code : <b>' + $(this).next("input:hidden").next("input:hidden").val() + '</b>, Period : <b>' + $(this).next("input:hidden").next("input:hidden").next("input:hidden").val() + '</b>';
+                    //console.log(mtitle);
+                    var mbody = $(this).next("input:hidden").val().split('@@');
+                    var mbodyText = "<ul class='missinglist'>";
+                    for (var i = 0; i < mbody.length; i++) {
+                        mbodyText = mbodyText + "<li>" + mbody[i] + "</li>";
+                    }
+                    mbodyText = mbodyText + "</ul>"
+                    $("#modalTitle").html(mtitle);
+                    $("#modalBody").html(mbodyText);
+                } catch (e) {
+                    console.log('Error : ' + e);
+                }
+            });
+        });
+        function ConfirmConsolidation() {
+            var checked = GetCheckedItems();
+            if (checked.length == 0) {
+                alert("Please select atleast one SIR to process");
+                return false;
+            }
+            if (confirm('Are you sure want to Consolidate?')) {
+                document.getElementById("btnFC").href = document.getElementById("btnFC").href.replace("ItemList", JSON.stringify(checked.toArray()));
+                return true;
+            }
+            return false;
+        }
+        function ConfirmConsolidationAndClose() {
+            var checked = GetCheckedItems(); //
+            if (checked.length == 0) {
+                alert("Please select atleast one SIR to process");
+                return false;
+            }
+            if (confirm('Are you sure want to Consolidate and Close?')) {
+                document.getElementById("btnFCC").href = document.getElementById("btnFCC").href.replace("ItemList", JSON.stringify(checked.toArray()));
+                return true;
+            }
+            return false;
+        }
+        function GetCheckedItems() {
+            var checked = $(".isSIRFailed").filter(":checked").map(function () { return this.id; });
+            return checked;
+
+        }
+    </script>
+    <style type="text/css">
+        .tr-overdue {
+            background-color: #ffe4e4;
+        }
+
+        .empty-row {
+            height: 15px !important;
+        }
+
+        tr.group,
+        tr.group:hover {
+            background-color: #ddd !important;
+        }
+
+        .spanIssueEInvoice, .spanExceptionInvoice {
+            color: #e95420;
+            text-decoration: none;
+            background-color: white;
+            padding: 5px;
+            border: 1px solid white;
+            border-radius: 5px;
+            margin: 5px;
+        }
+
+
+            .spanIssueEInvoice:hover, .spanExceptionInvoice:hover {
+                text-decoration: underline;
+                cursor: pointer;
+            }
+
+        .lastConsolidatedOn {
+            background-color: lightyellow;
+            padding: 5px;
+            text-align: center;
+            border: 1px solid gray;
+            border-radius: 5px;
+            font-size: 15px;
+        }
+
+        .showPendingUnits {
+            color: #e95420;
+        }
+
+            .showPendingUnits:hover {
+                text-decoration: underline;
+                cursor: pointer;
+            }
+
+        .modal-body {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+    </style>
+
+    <div class="row empty-row">
+        <div class="col-sm-12">
+        </div>
+    </div>
+
+    @using (Html.BeginForm("ProceedAsException", "SIRHome", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        if (Convert.ToString(ViewData["Status"]) == "C" || Convert.ToString(ViewData["Status"]) == "P")
+        {
+            <h2> Service Inspection Report(SIR) </h2>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <ul class="nav nav-pills col-lg-12">
+
+                        @if (Convert.ToString(ViewData["Status"]) == "P")
+                    {
+                            <li class="active">@Html.ActionLink("Pending", "Index", new { Status = "P", site = Convert.ToString(ViewData["Site"]), SIRStatus = Convert.ToString(ViewData["SIRStatus"]), Period = Convert.ToString(ViewData["Period"]), SalesGroup = Convert.ToString(ViewData["SalesGroup"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])) })</li>
+                        }
+                        else
+                        {
+                            <li>@Html.ActionLink("Pending", "Index", new { Status = "P", site = Convert.ToString(ViewData["Site"]), SIRStatus = Convert.ToString(ViewData["SIRStatus"]), Period = Convert.ToString(ViewData["Period"]), SalesGroup = Convert.ToString(ViewData["SalesGroup"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])) })</li>
+                        }
+                        @if (Convert.ToString(ViewData["Status"]) == "C")
+                    {
+                            <li class="active">@Html.ActionLink("Closed", "Index", new { Status = "C", site = Convert.ToString(ViewData["Site"]), SIRStatus = Convert.ToString(ViewData["SIRStatus"]), Period = Convert.ToString(ViewData["Period"]), SalesGroup = Convert.ToString(ViewData["SalesGroup"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])) })</li>
+                        }
+                        else
+                        {
+                            <li>@Html.ActionLink("Closed", "Index", new { Status = "C", site = Convert.ToString(ViewData["Site"]), SIRStatus = Convert.ToString(ViewData["SIRStatus"]), Period = Convert.ToString(ViewData["Period"]), SalesGroup = Convert.ToString(ViewData["SalesGroup"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])) })</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+
+
+            <div class="row empty-row">
+                <div class="col-sm-12">
+                </div>
+            </div>
+
+            <div>
+                <div class="row" style="margin-bottom:10px">
+                    <div class="col-sm-2">
+                        Customer Name
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(model => model.customerName, new { id = "txtCustomerName" })
+                    </div>
+                    <div class="col-sm-1">
+                        Status
+                    </div>
+                    <div class="col-sm-5">
+                        @Html.DropDownListFor(model => model.sirStatus, Model.statusList, new { id = "ddlSIRStatus" })
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom:10px">
+                    <div class="col-sm-2">
+                        Building Code
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(model => model.site, new { id = "txtSite" })
+                    </div>
+                    <div class="col-sm-1">
+                        Period
+                    </div>
+                    <div class="col-sm-5">
+                        @Html.DropDownListFor(model => model.period, Model.periodList, new { id = "ddlPeriod" })
+                    </div>
+                </div>
+
+                <div class="row" style="margin-bottom:10px">
+                    <div class="col-sm-2">
+                        Sales Group
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.DropDownListFor(model => model.salesgroup, Model.salesGroupList, new { id = "ddlSalesGroup" })
+                    </div>
+                </div>
+
+                <div class="row" style="margin-bottom:10px">
+                    <div class="col-sm-2">
+
+                    </div>
+                    <div class="col-sm-10">
+                        @Html.ActionLink("Search", "Index", new
+                   {
+                       Status = Convert.ToString(ViewData["Status"]),
+                       SortOrder = (Convert.ToString(ViewData["SortOrder"]) == null ? "Asc" : (Convert.ToString(ViewData["SortOrder"]) == "Asc" ? "Desc" : "Asc")),
+                       Sortby = "UpdateDate",
+                       page = (ViewBag.Page == null ? "1" : ViewBag.Page),
+                       Pagesize = Convert.ToString(ViewData["Pagesize"]),
+                       SIRStatus = "SIRStatusValue",
+                       Site = "SiteValue",
+                       Period = "PeriodValue",
+                       CustomerName = "CustomerNameValue",
+                       SalesGroup = "SalesGroupValue"
+                   }, new { id = "btnSearch" })
+
+                        @Html.Raw("&nbsp;&nbsp;")
+
+                        @Html.ActionLink("Clear", "Index", new { Status = Convert.ToString(ViewData["Status"]) }, new { id = "btnClear" })
+
+                        @if (Convert.ToString(ViewData["Status"]) == "P")
+                        {
+                            //&& Model.isServiceAdmin
+                            @Html.Raw("&nbsp;&nbsp;");
+                            @Html.ActionLink("Export SIR Status", "ExportReport", new { Period = "PeriodValue" }, new { id = "btnExport" })
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-5">
+                    @{
+                        List<SelectListItem> listItems = new List<SelectListItem>();
+                        listItems.Add(new SelectListItem
+                        {
+                            Text = "10",
+                            Value = "10",
+                        });
+                        listItems.Add(new SelectListItem
+                        {
+                            Text = "25",
+                            Value = "25",
+                        });
+                        listItems.Add(new SelectListItem
+                        {
+                            Text = "50",
+                            Value = "50",
+                        });
+                        listItems.Add(new SelectListItem
+                        {
+                            Text = "100",
+                            Value = "100",
+                            Selected = true
+                        });
+                        listItems.Add(new SelectListItem
+                        {
+                            Text = "150",
+                            Value = "150",
+                        });
+                        listItems.Add(new SelectListItem
+                        {
+                            Text = "250",
+                            Value = "250",
+                        });
+                        @Html.DropDownList("ddlPagesize", listItems)
+
+                    }
+                </div>
+                <div class="col-sm-7 lastConsolidatedOn">
+                    Last consolidation on : <b>@Model.lastConsolidationOn</b>
+                </div>
+            </div>
+
+
+
+            @Html.HiddenFor(Model => Model.sirSelectedList, new { id = "sirSelectedList" })
+                        <div class="row empty-row">
+                            <div class="col-sm-12">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                @*<table class="table table-bordered table-hover" id="tableMain">
+                                    <thead>
+                                        <tr class="info">
+                                            @if (Convert.ToString(ViewData["Status"]) == "P")
+                                            {
+                                                <th></th>
+                                            }
+                                            <th>
+                                                @Html.ActionLink("Building Code", "Index", new { Status = Convert.ToString(ViewData["Status"]), SortOrder = (Convert.ToString(ViewData["SortOrder"]) == null ? "Asc" : (Convert.ToString(ViewData["SortOrder"]) == "Asc" ? "Desc" : "Asc")), Sortby = "Organization", page = (Convert.ToString(ViewData["Page"]) == null ? "1" : Convert.ToString(ViewData["Page"])), Pagesize = Convert.ToString(ViewData["Pagesize"]), SIRStatus = Convert.ToString(ViewData["SIRStatus"]), Site = Convert.ToString(ViewData["Site"]), Period = Convert.ToString(ViewData["Period"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])), SalesGroup = Convert.ToString(ViewData["SalesGroup"]) })
+                                            </th>
+                                            <th>
+                                                @Html.ActionLink("Sales Group", "Index", new { Status = Convert.ToString(ViewData["Status"]), SortOrder = (Convert.ToString(ViewData["SortOrder"]) == null ? "Asc" : (Convert.ToString(ViewData["SortOrder"]) == "Asc" ? "Desc" : "Asc")), Sortby = "SalesGroup", page = (Convert.ToString(ViewData["Page"]) == null ? "1" : Convert.ToString(ViewData["Page"])), Pagesize = Convert.ToString(ViewData["Pagesize"]), SIRStatus = Convert.ToString(ViewData["SIRStatus"]), Site = Convert.ToString(ViewData["Site"]), Period = Convert.ToString(ViewData["Period"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])), SalesGroup = Convert.ToString(ViewData["SalesGroup"]) })
+                                            </th>
+                                            <th>
+                                                @Html.ActionLink("Customer Name", "Index", new { Status = Convert.ToString(ViewData["Status"]), SortOrder = (Convert.ToString(ViewData["SortOrder"]) == null ? "Asc" : (Convert.ToString(ViewData["SortOrder"]) == "Asc" ? "Desc" : "Asc")), Sortby = "BillToParty", page = (Convert.ToString(ViewData["Page"]) == null ? "1" : Convert.ToString(ViewData["Page"])), Pagesize = Convert.ToString(ViewData["Pagesize"]), SIRStatus = Convert.ToString(ViewData["SIRStatus"]), Site = Convert.ToString(ViewData["Site"]), Period = Convert.ToString(ViewData["Period"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])), SalesGroup = Convert.ToString(ViewData["SalesGroup"]) })
+                                            </th>
+                                            <th>
+                                                @Html.ActionLink("Organization", "Index", new { Status = Convert.ToString(ViewData["Status"]), SortOrder = (Convert.ToString(ViewData["SortOrder"]) == null ? "Asc" : (Convert.ToString(ViewData["SortOrder"]) == "Asc" ? "Desc" : "Asc")), Sortby = "OrgName", page = (Convert.ToString(ViewData["Page"]) == null ? "1" : Convert.ToString(ViewData["Page"])), Pagesize = Convert.ToString(ViewData["Pagesize"]), SIRStatus = Convert.ToString(ViewData["SIRStatus"]), Site = Convert.ToString(ViewData["Site"]), Period = Convert.ToString(ViewData["Period"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])), SalesGroup = Convert.ToString(ViewData["SalesGroup"]) })
+                                            </th>
+                                            <th>
+                                                @Html.ActionLink("Period", "Index", new { Status = Convert.ToString(ViewData["Status"]), SortOrder = (Convert.ToString(ViewData["SortOrder"]) == null ? "Asc" : (Convert.ToString(ViewData["SortOrder"]) == "Asc" ? "Desc" : "Asc")), Sortby = "SIRMonth", page = (Convert.ToString(ViewData["Page"]) == null ? "1" : Convert.ToString(ViewData["Page"])), Pagesize = Convert.ToString(ViewData["Pagesize"]), SIRStatus = Convert.ToString(ViewData["SIRStatus"]), Site = Convert.ToString(ViewData["Site"]), Period = Convert.ToString(ViewData["Period"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])), SalesGroup = Convert.ToString(ViewData["SalesGroup"]) })
+                                            </th>
+                                            <th>
+                                                @Html.ActionLink("Units (nos)", "Index", new { Status = Convert.ToString(ViewData["Status"]), SortOrder = (Convert.ToString(ViewData["SortOrder"]) == null ? "Asc" : (Convert.ToString(ViewData["SortOrder"]) == "Asc" ? "Desc" : "Asc")), Sortby = "NoOfUnits", page = (Convert.ToString(ViewData["Page"]) == null ? "1" : Convert.ToString(ViewData["Page"])), Pagesize = Convert.ToString(ViewData["Pagesize"]), SIRStatus = Convert.ToString(ViewData["SIRStatus"]), Site = Convert.ToString(ViewData["Site"]), Period = Convert.ToString(ViewData["Period"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])), SalesGroup = Convert.ToString(ViewData["SalesGroup"]) })
+                                            </th>
+                                            <th>
+                                                @Html.ActionLink("Service (nos)", "Index", new { Status = Convert.ToString(ViewData["Status"]), SortOrder = (Convert.ToString(ViewData["SortOrder"]) == null ? "Asc" : (Convert.ToString(ViewData["SortOrder"]) == "Asc" ? "Desc" : "Asc")), Sortby = "NoOfService", page = (Convert.ToString(ViewData["Page"]) == null ? "1" : Convert.ToString(ViewData["Page"])), Pagesize = Convert.ToString(ViewData["Pagesize"]), SIRStatus = Convert.ToString(ViewData["SIRStatus"]), Site = Convert.ToString(ViewData["Site"]), Period = Convert.ToString(ViewData["Period"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])), SalesGroup = Convert.ToString(ViewData["SalesGroup"]) })
+                                            </th>
+                                            @if (Convert.ToString(ViewData["Status"]) == "P")
+                                            {
+                                                <th>
+                                                    @Html.ActionLink("Completed Service", "Index", new { Status = Convert.ToString(ViewData["Status"]), SortOrder = (Convert.ToString(ViewData["SortOrder"]) == null ? "Asc" : (Convert.ToString(ViewData["SortOrder"]) == "Asc" ? "Desc" : "Asc")), Sortby = "CompletedService", page = (Convert.ToString(ViewData["Page"]) == null ? "1" : Convert.ToString(ViewData["Page"])), Pagesize = Convert.ToString(ViewData["Pagesize"]), SIRStatus = Convert.ToString(ViewData["SIRStatus"]), Site = Convert.ToString(ViewData["Site"]), Period = Convert.ToString(ViewData["Period"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])), SalesGroup = Convert.ToString(ViewData["SalesGroup"]) })
+                                                </th>
+                                                <th>
+                                                    @Html.ActionLink("Pending Service", "Index", new { Status = Convert.ToString(ViewData["Status"]), SortOrder = (Convert.ToString(ViewData["SortOrder"]) == null ? "Asc" : (Convert.ToString(ViewData["SortOrder"]) == "Asc" ? "Desc" : "Asc")), Sortby = "PendingService", page = (Convert.ToString(ViewData["Page"]) == null ? "1" : Convert.ToString(ViewData["Page"])), Pagesize = Convert.ToString(ViewData["Pagesize"]), SIRStatus = Convert.ToString(ViewData["SIRStatus"]), Site = Convert.ToString(ViewData["Site"]), Period = Convert.ToString(ViewData["Period"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])), SalesGroup = Convert.ToString(ViewData["SalesGroup"]) })
+                                                </th>
+                                            }
+                                            <th>
+                                                @Html.ActionLink("Cons. By", "Index", new { Status = Convert.ToString(ViewData["Status"]), SortOrder = (Convert.ToString(ViewData["SortOrder"]) == null ? "Asc" : (Convert.ToString(ViewData["SortOrder"]) == "Asc" ? "Desc" : "Asc")), Sortby = "ConsBy", page = (Convert.ToString(ViewData["Page"]) == null ? "1" : Convert.ToString(ViewData["Page"])), Pagesize = Convert.ToString(ViewData["Pagesize"]), SIRStatus = Convert.ToString(ViewData["SIRStatus"]), Site = Convert.ToString(ViewData["Site"]), Period = Convert.ToString(ViewData["Period"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])), SalesGroup = Convert.ToString(ViewData["SalesGroup"]) })
+                                            </th>
+                                            <th>
+                                                @Html.ActionLink("Status", "Index", new { Status = Convert.ToString(ViewData["Status"]), SortOrder = (Convert.ToString(ViewData["SortOrder"]) == null ? "Asc" : (Convert.ToString(ViewData["SortOrder"]) == "Asc" ? "Desc" : "Asc")), Sortby = "Constatus", page = (Convert.ToString(ViewData["Page"]) == null ? "1" : Convert.ToString(ViewData["Page"])), Pagesize = Convert.ToString(ViewData["Pagesize"]), SIRStatus = Convert.ToString(ViewData["SIRStatus"]), Site = Convert.ToString(ViewData["Site"]), Period = Convert.ToString(ViewData["Period"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])), SalesGroup = Convert.ToString(ViewData["SalesGroup"]) })
+                                            </th>
+                                            <th>
+                                                @Html.ActionLink("Cons. Date", "Index", new { Status = Convert.ToString(ViewData["Status"]), SortOrder = (Convert.ToString(ViewData["SortOrder"]) == null ? "Asc" : (Convert.ToString(ViewData["SortOrder"]) == "Asc" ? "Desc" : "Asc")), Sortby = "ConsDate", page = (Convert.ToString(ViewData["Page"]) == null ? "1" : Convert.ToString(ViewData["Page"])), Pagesize = Convert.ToString(ViewData["Pagesize"]), SIRStatus = Convert.ToString(ViewData["SIRStatus"]), Site = Convert.ToString(ViewData["Site"]), Period = Convert.ToString(ViewData["Period"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])), SalesGroup = Convert.ToString(ViewData["SalesGroup"]) })
+                                            </th>
+                                            <th>
+                                                @Html.ActionLink("Updated By", "Index", new { Status = Convert.ToString(ViewData["Status"]), SortOrder = (Convert.ToString(ViewData["SortOrder"]) == null ? "Asc" : (Convert.ToString(ViewData["SortOrder"]) == "Asc" ? "Desc" : "Asc")), Sortby = "UpdatedBy", page = (Convert.ToString(ViewData["Page"]) == null ? "1" : Convert.ToString(ViewData["Page"])), Pagesize = Convert.ToString(ViewData["Pagesize"]), SIRStatus = Convert.ToString(ViewData["SIRStatus"]), Site = Convert.ToString(ViewData["Site"]), Period = Convert.ToString(ViewData["Period"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])), SalesGroup = Convert.ToString(ViewData["SalesGroup"]) })
+                                            </th>
+                                            <th>
+                                                @Html.ActionLink("Updated On", "Index", new { Status = Convert.ToString(ViewData["Status"]), SortOrder = (Convert.ToString(ViewData["SortOrder"]) == null ? "Asc" : (Convert.ToString(ViewData["SortOrder"]) == "Asc" ? "Desc" : "Asc")), Sortby = "UpdatedDate", page = (Convert.ToString(ViewData["Page"]) == null ? "1" : Convert.ToString(ViewData["Page"])), Pagesize = Convert.ToString(ViewData["Pagesize"]), SIRStatus = Convert.ToString(ViewData["SIRStatus"]), Site = Convert.ToString(ViewData["Site"]), Period = Convert.ToString(ViewData["Period"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])), SalesGroup = Convert.ToString(ViewData["SalesGroup"]) })
+                                            </th>
+                                            <th>
+
+                                            </th>
+
+                                        </tr>
+                                    </thead>*@
+                                <table class="table" id="tableMain">
+                                    <thead>
+                                        <tr>
+                                            @if (Convert.ToString(ViewData["Status"]) == "P")
+                                            {
+                                                <th></th>
+                                            }
+                                            <th>
+                                                Building Code
+                                            </th>
+                                            <th>
+                                                Sales Group
+                                            </th>
+                                            <th>
+                                                Customer Name
+                                            </th>
+                                            <th>
+                                                Organization
+                                            </th>
+                                            <th>
+                                                Period
+                                            </th>
+                                            <th>
+                                                No. of Units
+                                            </th>
+                                            <th>
+                                                No. of Service
+                                            </th>
+                                            @if (Convert.ToString(ViewData["Status"]) == "P")
+                                            {
+                                                <th>
+                                                    No. of Completed Service
+                                                </th>
+                                                <th>
+                                                    No. of Pending Service
+                                                </th>
+                                            }
+                                            <th>
+                                                Cons. By
+                                            </th>
+                                            <th>
+                                                Status
+                                            </th>
+                                            <th>
+                                                Cons. Date
+                                            </th>
+                                            <th>
+                                                Updated By
+                                            </th>
+                                            <th>
+                                                Updated On
+                                            </th>
+                                            <th>
+
+                                            </th>
+
+                                        </tr>
+                                    </thead>
+                                    @foreach (var item in Model.sirList)
+                                    {
+
+                                        string className = "";
+                                        if (Convert.ToString(ViewData["Status"]) == "P")
+                                        {
+                                            if (item.SIRMonth != Convert.ToString(ViewData["CurrentPeriod"]) && item.SIRMonth != Convert.ToString(ViewData["PreviousPeriod"]))
+                                            {
+                                                className = "tr-overdue";
+                                            }
+                                            else if (item.SIRMonth == Convert.ToString(ViewData["PreviousPeriod"]) && DateTime.Now.Day >= 8)
+                                            {
+                                                className = "tr-overdue";
+                                            }
+                                        }
+
+                                        <tr class="@className">
+                                            @if (Convert.ToString(ViewData["Status"]) == "P")
+                                            {
+                                                if ((item.Constatus == "Failed" || item.Constatus == "Force Consolidation" || (item.Constatus == "Job Queue" && item.UpdateDate <= DateTime.Now.AddMinutes(-20))) && Model.isServiceAdmin)
+                                                {
+                                                    <td><input type="checkbox" class="isSIRFailed" id="@item.TransID"><input type="hidden" value="@item.BuildingCode" /></td>
+                                                }
+                                                else
+                                                {
+                                                    <td></td>
+                                                }
+                                            }
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.BuildingCode)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.SalesGroup)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.BillToParty)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.OrgName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.SIRMonth)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.NoOfUnits)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.NoOfService)
+                                            </td>
+                                            @if (Convert.ToString(ViewData["Status"]) == "P")
+                                            {
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.CompletedService)
+                                                </td>
+                                                //var noOfPendingUnits = string.IsNullOrEmpty(item.ConsRemark) ? "" : (item.ConsRemark.Contains("No SIR received") ? Convert.ToString(item.NoOfUnits) : Convert.ToString(item.ConsRemark.Split('@').Length));
+                                                var noOfPendingUnits = Convert.ToString(Convert.ToInt16(item.NoOfService) - Convert.ToInt16(item.CompletedService));
+                                                <td>
+                                                    <span class="showPendingUnits">@noOfPendingUnits</span>
+                                                    <input type="hidden" value="@item.ConsRemark" />
+                                                    <input type="hidden" value="@item.BuildingCode" />
+                                                    <input type="hidden" value="@item.SIRMonth" />
+                                                </td>
+                                            }
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ConsBy)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Constatus)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ConsDate)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.UpdateBy)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.UpdateDate)
+                                            </td>
+
+                                            @if (item.Constatus == "Consolidation Closed" || item.Constatus == "Force Consolidation" || item.Constatus == "Force Consolidation And Closed")
+                                            {
+                                                <td>@Html.ActionLink("View", "GetAttachment", new { Ids = item.TransID })</td>
+                                            }
+                                            else
+                                            {
+                                                <td></td>
+                                            }
+
+                                        </tr>
+                                    }
+
+                                </table>
+                            </div>
+                        </div>
+                        if (Convert.ToString(ViewData["Status"]) == "P" && Model.isServiceAdmin)
+                        {
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    @*<input type="submit" name="Command" value="Force Consildation" id="btnFC" class="btn btn-primary" />
+                                        <input type="submit" name="Command" value="Force Consildation and Close" id="btnFCC" class="btn btn-primary" />*@
+
+                                    @Html.ActionLink("Force Consolidation", "ForceConsolidation", "SIRHome", new { Ids = "ItemList" }, new { id = "btnFC", onclick = "return ConfirmConsolidation()" })
+                                    @Html.Raw("&nbsp;&nbsp;&nbsp;&nbsp;")
+                                    @Html.ActionLink("Force Consolidation and Close", "ForceConsolidationAndClose", "SIRHome", new { Ids = "ItemList" }, new { id = "btnFCC", onclick = "return ConfirmConsolidationAndClose()" })
+
+                                </div>
+                            </div>
+                        }
+                        double TotalPage = Convert.ToDouble(ViewData["TotalPages"]);
+
+                        <ul class="pagination">
+                            @for (int i = 1; i <= TotalPage; i++)
+                            {
+                                if (i == Convert.ToInt16(ViewData["Page"]))
+                                {
+                                    <li class="active"> @Html.ActionLink(i.ToString(), "Index", new { Status = Convert.ToString(ViewData["Status"]), SortOrder = (Convert.ToString(ViewData["SortOrder"]) == null ? "Asc" : (Convert.ToString(ViewData["SortOrder"]) == "Asc" ? "Desc" : "Asc")), Sortby = "UpdateDate", page = i, Pagesize = Convert.ToString(ViewData["Pagesize"]), SIRStatus = Convert.ToString(ViewData["SIRStatus"]), Site = Convert.ToString(ViewData["Site"]), Period = Convert.ToString(ViewData["Period"]), SalesGroup = Convert.ToString(ViewData["SalesGroup"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])) })</li>
+                                }
+                                else
+                                {
+                                    <li> @Html.ActionLink(i.ToString(), "Index", new { Status = Convert.ToString(ViewData["Status"]), SortOrder = (Convert.ToString(ViewData["SortOrder"]) == null ? "Asc" : (Convert.ToString(ViewData["SortOrder"]) == "Asc" ? "Desc" : "Asc")), Sortby = "UpdateDate", page = i, Pagesize = Convert.ToString(ViewData["Pagesize"]), SIRStatus = Convert.ToString(ViewData["SIRStatus"]), Site = Convert.ToString(ViewData["Site"]), Period = Convert.ToString(ViewData["Period"]), SalesGroup = Convert.ToString(ViewData["SalesGroup"]), CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])) }) </li>
+                                }
+                            }
+                        </ul>
+
+
+                        }
+
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel"><span id="modalTitle" /></h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="display:none;">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div id="modalBody"></div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        }

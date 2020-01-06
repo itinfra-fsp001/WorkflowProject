@@ -1,0 +1,192 @@
+﻿@model WorkFlowUI.ViewModel.DocumentStatusViewModel
+
+
+@Html.AntiForgeryToken()
+<h3>Approval History</h3>
+<table class="table table-striped table-bordered table-hover ">
+    <tr class="info">
+        <th>
+            @Html.DisplayName("Action By")
+        </th>
+        <th>
+            @Html.DisplayName("Name")
+        </th>
+        <th>
+            @Html.DisplayName("Action Date")
+        </th>
+        <th>
+            @Html.DisplayName("Status")
+        </th>
+        <th>
+            @Html.DisplayName("Comments")
+        </th>
+        @*<th></th>*@
+    </tr>
+
+    @foreach (var item in Model.DocStatus)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Remarks)
+            </td>
+            @*<td>
+                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>*@
+        </tr>
+    }
+
+</table>
+@if (Model.workFlowId != 0 && ViewBag.PrevStatus != "V")
+{
+
+
+    <div class="form-group">
+        <div>
+            @if (Model.isVerifier)
+            {
+                if (ViewBag.Controller == "ApproveDocument")
+                {
+                    @Html.ActionLink("Verify", "Verify", new
+               {
+                   controller ="PoSpo",
+                   id = Model.workFlowId,
+                   comments = "txtComments",
+                   IsAlternate = false
+               }, new { id = "btnVerify" })
+                }
+                else
+                {
+                    @Html.ActionLink("Verify", "Verify", new
+               {
+                   controller = "PoSpo",
+                   id = Model.workFlowId,
+                   comments = "txtComments",
+                   IsAlternate = true
+               }, new { id = "btnVerify" })}
+            }
+            else
+            {
+                if (ViewBag.Controller == "ApproveDocument")
+                {
+                    @Html.ActionLink("Approve", "Approve", new
+               {
+                   controller = "PoSpo",
+                   id = Model.workFlowId,
+                   comments = "txtComments",
+                   IsAlternate = false
+               }, new { id = "btnApprove" })
+                }
+                else
+                {
+                    @Html.ActionLink("Approve", "Approve", new
+               {
+                   controller = "PoSpo",
+                   id = Model.workFlowId,
+                   comments = "txtComments",
+                   IsAlternate = true
+               }, new { id = "btnApprove" })}
+            }
+
+            @if (ViewBag.PrevStatus != "H")
+            {
+
+                @Html.Raw("&nbsp; &nbsp; &nbsp;")
+
+                if (ViewBag.Controller == "ApproveDocument")
+                {
+                    @Html.ActionLink("Hold", "Hold", new
+               {
+                   controller = "PoSpo",
+                   id = Model.workFlowId,
+                   comments = "txtComments",
+                   IsAlternate = false
+               }, new { id = "btnHold" })
+                }
+                else
+                {
+                    @Html.ActionLink("Hold", "Hold", new
+               {
+                   controller = "PoSpo",
+                   id = Model.workFlowId,
+                   comments = "txtComments",
+                   IsAlternate = true
+               }, new { id = "btnHold" })}
+            }
+
+
+            &nbsp;&nbsp;&nbsp;
+
+            @if (ViewBag.Controller == "ApproveDocument")
+            {
+                @Html.ActionLink("Reject", "Reject", new { controller = "PoSpo", id = Model.workFlowId, comments = "txtComments", IsAlternate = false, Model }, new { id = "btnReject" })
+            }
+            else
+            { @Html.ActionLink("Reject", "Reject", new { controller = "PoSpo", id = Model.workFlowId, comments = "txtComments", IsAlternate = true, Model }, new { id = "btnReject" })
+            }
+            @*<input value="Approve" type="button" id="btnApprove" class="btn btn-primary" />
+                &nbsp;&nbsp;&nbsp;
+                <input value="Reject" type="button" id="btnReject" class="btn btn-primary" />*@
+
+        </div>
+    </div>
+
+    <p>Comments:&nbsp;&nbsp;&nbsp;@Html.TextAreaFor(model => model.txtComment, new { id = "txtComments", @class = "form-control", @cols = 1, @rows = 5, @style = "width:50%" })</p>
+
+
+    <script src="~/scripts/jquery-1.10.2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#btnReject").click(function () {
+                if ($("#txtComments").val() == '') {
+                    alert("Please enter comments");
+                    return false;
+                }
+                if (!confirm('Are you sure want to Reject?'))
+                    return false;
+                this.href = this.href.replace("txtComments", checkandreplace($("#txtComments").val()));
+            });
+            $("#btnApprove").click(function () {
+                if (!confirm('Are you sure want to Approve?'))
+                    return false;
+                this.href = this.href.replace("txtComments", checkandreplace($("#txtComments").val()));
+
+            });
+            $("#btnVerify").click(function () {
+                if (!confirm('Are you sure want to Verify?'))
+                    return false;
+                this.href = this.href.replace("txtComments", checkandreplace($("#txtComments").val()));
+
+            });
+            $("#btnHold").click(function () {
+                if ($("#txtComments").val() == '') {
+                    alert("Please enter comments");
+                    return false;
+                }
+                if (!confirm('Are you sure want to Hold?'))
+                    return false;
+                this.href = this.href.replace("txtComments", checkandreplace($("#txtComments").val()));
+
+            });
+
+            
+        });
+
+
+    </script>
+
+
+}

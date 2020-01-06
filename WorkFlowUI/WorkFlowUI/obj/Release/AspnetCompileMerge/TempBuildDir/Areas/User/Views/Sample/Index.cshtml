@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+<!-- jQuery UI CSS Reference -->
+<link href="@Url.Content("~/Content/themes/base/jquery-ui.min.css")" rel="stylesheet" />
+<!-- Required jQuery and jQuery UI Javascript references -->
+<script src="@Url.Content("~/Scripts/jquery-1.10.2.min.js")"></script>
+<script src="@Url.Content("~/Scripts/jquery-ui-1.12.1.min.js")"></script>
+<style type="text/css">
+    .ui-datepicker-trigger {
+        /*background: url(/content/images/ui-icons_444444_256x240.png) no-repeat -116px -116px;*/
+        width: 20px;
+        height: 20px;
+        cursor:pointer;
+    }
+</style>
+<script type="text/javascript">
+
+    $(function () {
+        // This will make every element with the class "date-picker" into a DatePicker element
+        $('.date-picker').datepicker({
+            dateFormat: "dd/mm/yy",
+            minDate: new Date(),
+            showOn: "button",
+            buttonImage: "/Content/images/calendar 256x256.png",            
+            buttonImageOnly: true
+        });
+    })
+</script>
+
+<input class="date-picker ui-icon-calendar" disabled />
+@Html.TextBox("YourTextBox", "", new { @class = "date-picker" })
+

@@ -1,0 +1,19 @@
+workflow
+		same doc in different tabs (alternate approve)
+		out of office error message issue
+		out of office history is not capturing
+		Approve PR, PO (not applicable) : Show hold documents in pending tab
+		FSP15 says in issue po and exception
+		RFQ attachment comma issue.
+
+
+Fileviewer : fong issue
+00242
+Fongkh
+
+KarenChing
+
+DOP Alternate1=> LohHA
+
+
+

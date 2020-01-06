@@ -1,0 +1,96 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Budget Summary</h2>
+
+
+<table class="table table-striped table-bordered table-hover ">
+    <tr class="info">
+        <th>Object</th>
+        <th>Object No</th>
+        <th>Object Name</th>
+        <th>GL Acoounct No</th>
+        <th>Account Name</th>
+        <th>Original Budget (A)</th>
+        <th>Supp. Budget (B) </th>
+        <th>Commit+Actal Budget (C)</th>
+        <th>Total Bal. Budget (D=[A+B]-C)</th>
+    </tr>
+
+
+    @foreach (BOL.ERP_ProjectBudgetSummary_Result BudgetSummary in ViewBag.BudgetSummary)
+    {
+        <tr>
+            <td>
+
+                @BudgetSummary.Object
+
+            </td>
+
+            <td>
+                @BudgetSummary.ObjectNo
+
+            </td>
+
+            <td>
+                @BudgetSummary.ObjectName
+
+            </td>
+
+            <td>
+                @BudgetSummary.GLCode
+            </td>
+
+            <td>
+                @BudgetSummary.GLDesc
+            </td>
+            <td>
+                @* @BudgetSummary.ApprovedBudgetAmount*@
+                @if (@BudgetSummary.ApprovedBudgetAmount != null)
+                {
+                    var ApprovedBudgetAmount = Convert.ToDecimal(@BudgetSummary.ApprovedBudgetAmount).ToString("#,##0.00");
+                    @Html.DisplayFor(m => ApprovedBudgetAmount)
+                }
+            </td>
+            <td>
+                @*@BudgetSummary.SupplementaryBudgetApproved*@
+
+                @if (@BudgetSummary.SupplementaryBudget1Approved != null || @BudgetSummary.SupplementaryBudget2Approved != null)
+                {
+                    var SupplementaryBudgetApproved = (Convert.ToDecimal(@BudgetSummary.SupplementaryBudget1Approved) + Convert.ToDecimal(@BudgetSummary.SupplementaryBudget2Approved)).ToString("#,##0.00");
+                    @Html.DisplayFor(m => SupplementaryBudgetApproved)
+                }
+            </td>
+
+            <td>
+                @*@BudgetSummary.CommitPlusActual*@
+                @if (@BudgetSummary.CommitedAmount != null || @BudgetSummary.ActualAmount != null)
+                {
+                    var CommitPlusActual = (Convert.ToDecimal(@BudgetSummary.CommitedAmount) + Convert.ToDecimal(@BudgetSummary.ActualAmount)).ToString("#,##0.00");
+                    @Html.DisplayFor(m => CommitPlusActual)
+                }
+            </td>
+
+            <td>
+                @*@BudgetSummary.BalanceBudgetAmount*@
+                @if (@BudgetSummary.ApprovedBudgetAmount != null || @BudgetSummary.SupplementaryBudget1Approved != null || @BudgetSummary.SupplementaryBudget2Approved != null || @BudgetSummary.CommitedAmount != null || @BudgetSummary.ActualAmount != null)
+                {
+                    var BalanceBudgetAmount = ((Convert.ToDecimal(@BudgetSummary.ApprovedBudgetAmount) + Convert.ToDecimal(@BudgetSummary.SupplementaryBudget1Approved) + Convert.ToDecimal(@BudgetSummary.SupplementaryBudget2Approved)) - (Convert.ToDecimal(@BudgetSummary.CommitedAmount) + Convert.ToDecimal(@BudgetSummary.ActualAmount))).ToString("#,##0.00");
+                    @Html.DisplayFor(m => BalanceBudgetAmount)
+                }
+            </td>
+
+
+
+        </tr>
+    }
+
+</table>
+
+<p>
+    @*@Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |*@
+    @Html.ActionLink("Back to List", null, null, null, new { href = Request.UrlReferrer })
+</p>

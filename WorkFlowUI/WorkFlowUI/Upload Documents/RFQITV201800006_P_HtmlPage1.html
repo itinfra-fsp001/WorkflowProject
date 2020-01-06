@@ -1,0 +1,232 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    Date : <input type="text" id="txtDate" value="28/09/2017" /><br /><br />
+    From Time : <input type="text" id="txtFromTime" value="08:00" /><br /><br />
+    To Time : <input type="text" id="txtToTime" value="17:30" /><br /><br />
+    Holiday : <input type="checkbox" id="cbHoliday" /><br /><br />
+    Weekend : <input type="checkbox" id="cbWeekend" /><br /><br />
+    <input type="button" id="btnCalculate" value="Calculate" onclick="return validate();" />
+    <br /><br />
+    Total Time : <span id="spanTotalTime"></span><br />
+    Normal Hours : <span id="spanNormalHours"></span><br />
+    OT Hours : <span id="spanOTHours"></span><br />
+    Normal Break : <span id="spanNormalBreak"></span><br />
+    OT Break : <span id="spanOTBreak"></span>
+    
+    <br />
+    Total Time : <span id="spanTotalFlag"></span>
+    <br />
+    Duration :  <span id="spanDurationFlag"></span><br />
+
+    <script type="text/javascript">
+
+        function validate() {
+            var day = 1;
+            if (document.getElementById("cbWeekend").checked) {
+                day = 0;
+            }
+            var input = new Array(2);
+            input[0] = document.getElementById("txtFromTime").value;
+            input[1] = document.getElementById("txtToTime").value;
+            Validatedata_(document.getElementById("txtDate").value, input, "", "", "", day, document.getElementById("cbHoliday").checked);
+        }
+
+        function Validatedata_(workDate, input, INPUT_STATUS, pageno, ADD_NEW, day, isholiday) {
+
+            try {
+
+                var STD_STARTTIME = new Date(2017, 8, 12, "08", "00");
+                var STD_EDNTIME = new Date(2017, 8, 12, "17", "30");
+                var STD_WORKHRS = 8.75
+                var STD_BREAK = .75;
+                var STD_BREAKDURATION = 4.75;
+                var STD_BreakTime = "0.0";
+                var OT_BreakTime = "0.0";
+                var TOTAL_HRS = "0.0";
+                var TOTAL_NORMAL_HRS = 0;
+                var TOTAL_OT_HRS = 0;
+
+                var STD_BreakTime = 0.0;
+                var OT_BreakTime = 0.0;
+
+                var rowData = [];
+                // var FromTime =  input[0];
+
+                // Need to change to workdate
+                var FromTime = new Date(2017, 8, 12, input[0].split(':')[0], input[0].split(':')[1]);
+                //new Date(2017,8,12,  input[0].split(':')[0], input[0].split(':')[1]);
+
+                // Need to change to workdate
+                var ToTime = new Date(2017, 8, 12, input[1].split(':')[0], input[1].split(':')[1]);
+                //new Date(2017,8,12,  input[1].split(':')[0], input[1].split(':')[1]);
+
+                if (ToTime < FromTime) {
+                    ToTime = new Date(2017, 8, 13, input[1].split(':')[0], input[1].split(':')[1]);
+                }
+
+
+                if (ToTime >= FromTime) {
+
+                    var diffMs = (ToTime - FromTime); // milliseconds between from & to time
+                    var Duration = msToHrs_(diffMs);
+                    TOTAL_HRS = TOTAL_HRS + Duration;
+
+                    var OTdiffMs = 0;
+                    var OTDuration = 0.0;
+                    var WorkDuration = 0.0;
+
+                    // day = 0 Sun day = 1 Mon ... day = 6 Sat
+                    if (day != 0 && day != 6 && isholiday != true) {
+
+                        // Normal Day
+                        if (FromTime < STD_STARTTIME) {
+                            if (ToTime > STD_STARTTIME)
+                                OTdiffMs = (STD_STARTTIME - FromTime); // milliseconds between from & to time
+                            else
+                                OTdiffMs = ToTime - FromTime;
+                            OTDuration = msToHrs_(OTdiffMs);
+                        }
+
+                        // FromTime >= STD_STARTTIME &&
+                        if (FromTime < STD_EDNTIME && ToTime > STD_EDNTIME) {
+                            OTdiffMs = (ToTime - STD_EDNTIME); // milliseconds between from & to time
+                            OTDuration = OTDuration + msToHrs_(OTdiffMs);
+                        }
+
+                        if (FromTime >= STD_EDNTIME) {
+                            OTdiffMs = (ToTime - FromTime); // milliseconds between from & to time
+                            OTDuration = OTDuration + msToHrs_(OTdiffMs);
+                        }
+
+                        if ((Duration - OTDuration) > STD_BREAKDURATION) {
+                            Duration = Duration - STD_BREAK;
+                            STD_BreakTime = STD_BreakTime + STD_BREAK;
+                        }
+
+                        WorkDuration = Duration - OTDuration;
+                        //     if ( WorkDuration > STD_BREAKDURATION )
+                        //     {  WorkDuration = WorkDuration - STD_BREAK;
+                        //        STD_BreakTime = STD_BreakTime + STD_BREAK;
+                        //     }
+
+                        if (OTDuration < 1.00) {
+                            WorkDuration = WorkDuration + OTDuration;
+                            OTDuration = 0;
+                        }
+
+                        if (OTDuration >= STD_BREAKDURATION) {
+                            OTDuration = OTDuration - STD_BREAK;
+                            Duration = Duration - STD_BREAK;
+                            OT_BreakTime = OT_BreakTime + STD_BREAK;
+                        }
+
+                        TOTAL_NORMAL_HRS = TOTAL_NORMAL_HRS + WorkDuration;
+                        TOTAL_OT_HRS = TOTAL_OT_HRS + OTDuration;
+
+                        if (ADD_NEW == "No" && TOTAL_NORMAL_HRS < STD_WORKHRS)
+                            INPUT_STATUS = INPUT_STATUS + '[Page ' + pageno + '] ' + 'Actual Working Hrs. [' + TOTAL_NORMAL_HRS + '] is less than Standard Working Hrs. [' + STD_WORKHRS + "]" + String.fromCharCode(10);
+                    }
+                    else {
+                        OTDuration = Duration;
+                        if (Duration > (STD_WORKHRS + STD_BREAKDURATION + STD_BREAK)) {
+                            OTDuration = Duration - (STD_BREAK + STD_BREAK);
+                            Duration = OTDuration;
+                            OT_BreakTime = OT_BreakTime + (STD_BREAK + STD_BREAK);
+                        }
+                        else if (Duration > STD_BREAKDURATION) {
+                            OTDuration = Duration - STD_BREAK;
+                            Duration = OTDuration;
+                            OT_BreakTime = OT_BreakTime + STD_BREAK;
+                        }
+                        if (OTDuration < 1.00) {
+                            OTDuration = 0;
+                        }
+
+                        TOTAL_NORMAL_HRS = TOTAL_NORMAL_HRS + 0;
+                        TOTAL_OT_HRS = TOTAL_OT_HRS + OTDuration;
+                    }
+                }
+                else {
+                    INPUT_STATUS = INPUT_STATUS + '[Page ' + pageno + '] ' + 'To Time  [' + input[1] + '] is less than From Time [' + input[0] + "]" + String.fromCharCode(10);
+                }
+
+                document.getElementById("spanTotalTime").innerHTML = Duration;
+                document.getElementById("spanNormalHours").innerHTML = TOTAL_NORMAL_HRS;
+                document.getElementById("spanOTHours").innerHTML = TOTAL_OT_HRS;
+                document.getElementById("spanNormalBreak").innerHTML = STD_BreakTime;
+                document.getElementById("spanOTBreak").innerHTML = OT_BreakTime;
+
+
+                if (Duration == (TOTAL_NORMAL_HRS + TOTAL_OT_HRS))
+                    document.getElementById("spanTotalFlag").innerHTML = "<div style='width:20px;height:20px;background-color:green'></div>";
+                else
+                    document.getElementById("spanTotalFlag").innerHTML = "<div style='width:20px;height:20px;background-color:red'></div>";
+                if (msToHrs_(ToTime - FromTime) == (TOTAL_NORMAL_HRS + TOTAL_OT_HRS + STD_BreakTime + OT_BreakTime))
+                    document.getElementById("spanDurationFlag").innerHTML = "<div style='width:20px;height:20px;background-color:green'></div>";
+                else
+                    document.getElementById("spanDurationFlag").innerHTML = "<div style='width:20px;height:20px;background-color:red'></div>";
+
+                //var DutyCode = input[2].slice(0, input[2].indexOf("-")).trim();
+                //var ProjectNo = "";
+                //if (input[3] != "") ProjectNo = input[3].slice(0, input[3].indexOf("-")); else ProjectNo = "";
+                //var LiftNo = input[4];
+                //var ETNo = "";
+                //if (input[5] != "") ETNo = input[5].split('|')[1]; else ETNo = "";
+                //var Telclaim = 0.0;
+                //Telclaim = input[6];
+                //var SiteAllow = input[7];
+                //var Remark = input[8];
+
+
+                //if (ProjectNo != "" && LiftNo == "") {
+                //    INPUT_STATUS = INPUT_STATUS + '[Page ' + pageno + '] ' + 'Lift/Esc No(s) should not be blank for project ' + ProjectNo + String.fromCharCode(10);
+                //}
+
+                //if (DutyCode == "Z06" && ETNo == "") {
+                //    INPUT_STATUS = INPUT_STATUS + '[Page ' + pageno + '] ' + 'ET Number should not be blank for Duty Code ' + DutyCode + String.fromCharCode(10);
+                //}
+
+
+                //if (DutyCode != "Z01" && DutyCode != "Z06" && DutyCode != "Z07" && DutyCode != "NN" && ProjectNo == "") {
+                //    INPUT_STATUS = INPUT_STATUS + '[Page ' + pageno + '] ' + 'Project Number should not be blank for the Duty Code ' + DutyCode + String.fromCharCode(10);
+                //}
+
+                //var hmt = minTommss_(0.75);
+
+                //rowData = [EMPLOYEE_NO, workDate, input[0], input[1], DutyCode, ProjectNo, LiftNo, ETNo, Telclaim, SiteAllow, Remark, minTommss_(Duration), minTommss_(STD_BreakTime), minTommss_(OT_BreakTime), minTommss_(WorkDuration), minTommss_(OTDuration), TRACKING_NO, "New"];
+                //TIMWSHEET_DATA[pageno - 1] = rowData;
+                //return INPUT_STATUS;
+
+            } catch (e) {
+                alert('Error : ' + e);
+            }
+        }
+
+
+
+        function msToHrs_(duration) {
+            var milliseconds = parseInt((duration % 1000) / 100)
+                , seconds = parseInt((duration / 1000) % 60)
+                , minutes = parseInt((duration / (1000 * 60)) % 60)
+                , hours = parseInt((duration / (1000 * 60 * 60)) % 24);
+
+
+
+            //    hours = (hours < 10) ? "0" + hours : hours;
+            //    minutes = (minutes < 10) ? "0" + minutes : minutes;
+            //    seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+
+            //    return hours + ":" + minutes + ":" + seconds;
+            return hours + minutes / 60;
+        }
+
+
+    </script>
+</body>
+</html>

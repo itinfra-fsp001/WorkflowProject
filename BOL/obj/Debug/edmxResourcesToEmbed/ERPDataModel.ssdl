@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ErpByNetR1100Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="fsp_DocumentDetails">
+    <Key>
+      <PropertyRef Name="StatusChangeHistoryID" />
+    </Key>
+    <Property Name="StatusChangeHistoryID" Type="bigint" Nullable="false" />
+    <Property Name="StatusID" Type="int" />
+    <Property Name="ChangedByUser" Type="varchar" MaxLength="50" />
+    <Property Name="ChangedOn" Type="datetime" />
+    <Property Name="DocType" Type="varchar" MaxLength="10" />
+    <Property Name="DocNo" Type="varchar" MaxLength="50" />
+    <Property Name="DocNoID" Type="bigint" />
+    <Property Name="AddedOn" Type="datetime" />
+    <Property Name="DocID" Type="bigint" />
+    <Property Name="Status" Type="varchar" MaxLength="5" />
+    <Property Name="AddedbyUser" Type="varchar" MaxLength="25" />
+  </EntityType>
+  <EntityType Name="fsp_Documents">
+    <Key>
+      <PropertyRef Name="DocID" />
+    </Key>
+    <Property Name="DocID" Type="bigint" Nullable="false" />
+    <Property Name="DocType" Type="varchar" MaxLength="10" />
+    <Property Name="DocNo" Type="varchar" MaxLength="50" />
+    <Property Name="NetPrice" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="Currency" Type="varchar" MaxLength="5" />
+    <Property Name="SubmitBy" Type="varchar" MaxLength="100" />
+    <Property Name="SubmitDate" Type="datetime" />
+    <Property Name="ApprovalSubmitDate" Type="datetime" />
+    <Property Name="ApprovalSubmitBy" Type="varchar" MaxLength="15" />
+    <Property Name="Status" Type="varchar" MaxLength="5" />
+    <Property Name="AttachDoc" Type="varchar" MaxLength="500" />
+    <Property Name="AddAttachDoc1" Type="varchar" MaxLength="500" />
+    <Property Name="AddAttachDoc2" Type="varchar" MaxLength="500" />
+    <Property Name="AddAttachDoc3" Type="varchar" MaxLength="500" />
+    <Property Name="VendorCode" Type="varchar" MaxLength="15" />
+    <Property Name="VendorName" Type="varchar" MaxLength="100" />
+    <Property Name="VendorCategory" Type="varchar" MaxLength="15" />
+    <Property Name="IssueBy" Type="varchar" MaxLength="50" />
+    <Property Name="DocNetPrice" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="PRNumbers" Type="varchar" MaxLength="500" />
+    <Property Name="PRAmount" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="PriorityCode" Type="smallint" />
+    <Property Name="UpdateDate" Type="datetime" />
+    <Property Name="IsModified" Type="bit" />
+  </EntityType>
+  <Function Name="fsp_GetCOABudgetSummary" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="PurchaseRequisitionNo" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="fsp_ReportMiscPurchaseRequisition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="PurchaseRequisitionNo" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="fsp_ReportPurchaseOrder_sg" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="PurchaseOrderNo" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="fsp_ReportSubconPO_CumulativeDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="PurchaseOrderNo" Type="varchar" Mode="In" />
+  </Function>
+  <EntityContainer Name="ErpByNetR1100ModelStoreContainer">
+    <EntitySet Name="fsp_DocumentDetails" EntityType="Self.fsp_DocumentDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="fsp_Documents" EntityType="Self.fsp_Documents" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

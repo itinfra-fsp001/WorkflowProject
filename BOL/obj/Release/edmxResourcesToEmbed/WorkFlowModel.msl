@@ -1,0 +1,879 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="WorkFlowDBModelStoreContainer" CdmEntityContainer="WorkFlowDBEntities">
+    <EntitySetMapping Name="tbl_AuthExecutives">
+      <EntityTypeMapping TypeName="WorkFlowDBModel.tbl_AuthExecutives">
+        <MappingFragment StoreEntitySet="tbl_AuthExecutives">
+          <ScalarProperty Name="IsNotification" ColumnName="IsNotification" />
+          <ScalarProperty Name="Approver" ColumnName="Approver" />
+          <ScalarProperty Name="Designation" ColumnName="Designation" />
+          <ScalarProperty Name="ApprovePerson" ColumnName="ApprovePerson" />
+          <ScalarProperty Name="ApproverEmail" ColumnName="ApproverEmail" />
+          <ScalarProperty Name="Position" ColumnName="Position" />
+          <ScalarProperty Name="ApprovalLevel" ColumnName="ApprovalLevel" />
+          <ScalarProperty Name="Alternate1" ColumnName="Alternate1" />
+          <ScalarProperty Name="Alternate2" ColumnName="Alternate2" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+          <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vw_Documents">
+      <EntityTypeMapping TypeName="WorkFlowDBModel.vw_Documents">
+        <MappingFragment StoreEntitySet="vw_Documents">
+          <ScalarProperty Name="IsModified" ColumnName="IsModified" />
+          <ScalarProperty Name="PriorityCode" ColumnName="PriorityCode" />
+          <ScalarProperty Name="PRAmount" ColumnName="PRAmount" />
+          <ScalarProperty Name="PRNumbers" ColumnName="PRNumbers" />
+          <ScalarProperty Name="DocNetPrice" ColumnName="DocNetPrice" />
+          <ScalarProperty Name="IssueBy" ColumnName="IssueBy" />
+          <ScalarProperty Name="VendorCategory" ColumnName="VendorCategory" />
+          <ScalarProperty Name="VendorName" ColumnName="VendorName" />
+          <ScalarProperty Name="VendorCode" ColumnName="VendorCode" />
+          <ScalarProperty Name="DocID" ColumnName="DocID" />
+          <ScalarProperty Name="DocType" ColumnName="DocType" />
+          <ScalarProperty Name="DocNo" ColumnName="DocNo" />
+          <ScalarProperty Name="NetPrice" ColumnName="NetPrice" />
+          <ScalarProperty Name="Currency" ColumnName="Currency" />
+          <ScalarProperty Name="SubmitBy" ColumnName="SubmitBy" />
+          <ScalarProperty Name="SubmitDate" ColumnName="SubmitDate" />
+          <ScalarProperty Name="ApprovalSubmitDate" ColumnName="ApprovalSubmitDate" />
+          <ScalarProperty Name="ApprovalSubmitBy" ColumnName="ApprovalSubmitBy" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="AttachDoc" ColumnName="AttachDoc" />
+          <ScalarProperty Name="AddAttachDoc1" ColumnName="AddAttachDoc1" />
+          <ScalarProperty Name="AddAttachDoc2" ColumnName="AddAttachDoc2" />
+          <ScalarProperty Name="AddAttachDoc3" ColumnName="AddAttachDoc3" />
+          <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vw_ERP_CostCentreBudget">
+      <EntityTypeMapping TypeName="WorkFlowDBModel.vw_ERP_CostCentreBudget">
+        <MappingFragment StoreEntitySet="vw_ERP_CostCentreBudget">
+          <ScalarProperty Name="Object" ColumnName="Object" />
+          <ScalarProperty Name="ObjectNo" ColumnName="ObjectNo" />
+          <ScalarProperty Name="ObjectDesc" ColumnName="ObjectDesc" />
+          <ScalarProperty Name="GLCode" ColumnName="GLCode" />
+          <ScalarProperty Name="GLDesc" ColumnName="GLDesc" />
+          <ScalarProperty Name="BudgetedAmount" ColumnName="BudgetedAmount" />
+          <ScalarProperty Name="ApprovedBudgetAmount" ColumnName="ApprovedBudgetAmount" />
+          <ScalarProperty Name="SupplementaryBudget1Approved" ColumnName="SupplementaryBudget1Approved" />
+          <ScalarProperty Name="SupplementaryBudget2Approved" ColumnName="SupplementaryBudget2Approved" />
+          <ScalarProperty Name="CommitedAmount" ColumnName="CommitedAmount" />
+          <ScalarProperty Name="ActualAmount" ColumnName="ActualAmount" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vw_ERP_SalesGroupBudget">
+      <EntityTypeMapping TypeName="WorkFlowDBModel.vw_ERP_SalesGroupBudget">
+        <MappingFragment StoreEntitySet="vw_ERP_SalesGroupBudget">
+          <ScalarProperty Name="Object" ColumnName="Object" />
+          <ScalarProperty Name="ObjectNo" ColumnName="ObjectNo" />
+          <ScalarProperty Name="ObjectName" ColumnName="ObjectName" />
+          <ScalarProperty Name="GLCode" ColumnName="GLCode" />
+          <ScalarProperty Name="GLDesc" ColumnName="GLDesc" />
+          <ScalarProperty Name="ApprovedBudgetAmount" ColumnName="ApprovedBudgetAmount" />
+          <ScalarProperty Name="SupplementaryBudget1Approved" ColumnName="SupplementaryBudget1Approved" />
+          <ScalarProperty Name="SupplementaryBudget2Approved" ColumnName="SupplementaryBudget2Approved" />
+          <ScalarProperty Name="CommitedAmount" ColumnName="CommitedAmount" />
+          <ScalarProperty Name="ActualAmount" ColumnName="ActualAmount" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vw_ERP_UserDetails">
+      <EntityTypeMapping TypeName="WorkFlowDBModel.vw_ERP_UserDetails">
+        <MappingFragment StoreEntitySet="vw_ERP_UserDetails">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Role" ColumnName="Role" />
+          <ScalarProperty Name="DivisionCode" ColumnName="DivisionCode" />
+          <ScalarProperty Name="DeptCode" ColumnName="DeptCode" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="OrganizationName" ColumnName="OrganizationName" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
+          <ScalarProperty Name="DesignationName" ColumnName="DesignationName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_CostObject">
+      <EntityTypeMapping TypeName="WorkFlowDBModel.tbl_CostObject">
+        <MappingFragment StoreEntitySet="tbl_CostObject">
+          <ScalarProperty Name="ObjectName" ColumnName="ObjectName" />
+          <ScalarProperty Name="ObjectNo" ColumnName="ObjectNo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Division">
+      <EntityTypeMapping TypeName="WorkFlowDBModel.tbl_Division">
+        <MappingFragment StoreEntitySet="tbl_Division">
+          <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+          <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="DivisionName" ColumnName="DivisionName" />
+          <ScalarProperty Name="DivisionCode" ColumnName="DivisionCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_SupBudgetDetail">
+      <EntityTypeMapping TypeName="WorkFlowDBModel.tbl_SupBudgetDetail">
+        <MappingFragment StoreEntitySet="tbl_SupBudgetDetail">
+          <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+          <ScalarProperty Name="Updatedate" ColumnName="Updatedate" />
+          <ScalarProperty Name="TotalBalanceBudget" ColumnName="TotalBalanceBudget" />
+          <ScalarProperty Name="ActualAmount" ColumnName="ActualAmount" />
+          <ScalarProperty Name="SuppBudgetAmt" ColumnName="SuppBudgetAmt" />
+          <ScalarProperty Name="OriginalBudgtAmt" ColumnName="OriginalBudgtAmt" />
+          <ScalarProperty Name="ReqSuppBudgetAmt" ColumnName="ReqSuppBudgetAmt" />
+          <ScalarProperty Name="GLDescription" ColumnName="GLDescription" />
+          <ScalarProperty Name="GLAccount" ColumnName="GLAccount" />
+          <ScalarProperty Name="DtlObjectNo" ColumnName="DtlObjectNo" />
+          <ScalarProperty Name="SeqNo" ColumnName="SeqNo" />
+          <ScalarProperty Name="ReferenceNo" ColumnName="ReferenceNo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_SupBudgetHeader">
+      <EntityTypeMapping TypeName="WorkFlowDBModel.tbl_SupBudgetHeader">
+        <MappingFragment StoreEntitySet="tbl_SupBudgetHeader">
+          <ScalarProperty Name="CostCentreID" ColumnName="CostCentreID" />
+          <ScalarProperty Name="ReasonFor" ColumnName="ReasonFor" />
+          <ScalarProperty Name="ApplicationFor" ColumnName="ApplicationFor" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="SubmitDate" ColumnName="SubmitDate" />
+          <ScalarProperty Name="SubmitBy" ColumnName="SubmitBy" />
+          <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+          <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+          <ScalarProperty Name="VariationOrderNo" ColumnName="VariationOrderNo" />
+          <ScalarProperty Name="Currency" ColumnName="Currency" />
+          <ScalarProperty Name="NetPrice" ColumnName="NetPrice" />
+          <ScalarProperty Name="FromDivision" ColumnName="FromDivision" />
+          <ScalarProperty Name="ObjectName" ColumnName="ObjectName" />
+          <ScalarProperty Name="ObjectNo" ColumnName="ObjectNo" />
+          <ScalarProperty Name="CostObject" ColumnName="CostObject" />
+          <ScalarProperty Name="ReferenceNo" ColumnName="ReferenceNo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vw_ERP_ProjectBudget">
+      <EntityTypeMapping TypeName="WorkFlowDBModel.vw_ERP_ProjectBudget">
+        <MappingFragment StoreEntitySet="vw_ERP_ProjectBudget">
+          <ScalarProperty Name="ActualAmount" ColumnName="ActualAmount" />
+          <ScalarProperty Name="CommitedAmount" ColumnName="CommitedAmount" />
+          <ScalarProperty Name="SupplementaryBudget2Approved" ColumnName="SupplementaryBudget2Approved" />
+          <ScalarProperty Name="SupplementaryBudget1Approved" ColumnName="SupplementaryBudget1Approved" />
+          <ScalarProperty Name="ApprovedBudgetAmount" ColumnName="ApprovedBudgetAmount" />
+          <ScalarProperty Name="IsCommanItem" ColumnName="IsCommanItem" />
+          <ScalarProperty Name="IsChangeOrderGroup" ColumnName="IsChangeOrderGroup" />
+          <ScalarProperty Name="GLDesc" ColumnName="GLDesc" />
+          <ScalarProperty Name="GLCode" ColumnName="GLCode" />
+          <ScalarProperty Name="ObjectName" ColumnName="ObjectName" />
+          <ScalarProperty Name="DtlObjectNo" ColumnName="DtlObjectNo" />
+          <ScalarProperty Name="ObjectNo" ColumnName="ObjectNo" />
+          <ScalarProperty Name="Object" ColumnName="Object" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="ERP_ProjectBudgetSummary" FunctionName="WorkFlowDBModel.Store.ERP_ProjectBudgetSummary">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="WorkFlowDBModel.ERP_ProjectBudgetSummary_Result">
+          <ScalarProperty Name="Object" ColumnName="Object" />
+          <ScalarProperty Name="ObjectNo" ColumnName="ObjectNo" />
+          <ScalarProperty Name="ObjectName" ColumnName="ObjectName" />
+          <ScalarProperty Name="GLCode" ColumnName="GLCode" />
+          <ScalarProperty Name="GLDesc" ColumnName="GLDesc" />
+          <ScalarProperty Name="IsChangeOrderGroup" ColumnName="IsChangeOrderGroup" />
+          <ScalarProperty Name="IsCommanItem" ColumnName="IsCommanItem" />
+          <ScalarProperty Name="ApprovedBudgetAmount" ColumnName="ApprovedBudgetAmount" />
+          <ScalarProperty Name="SupplementaryBudget1Approved" ColumnName="SupplementaryBudget1Approved" />
+          <ScalarProperty Name="SupplementaryBudget2Approved" ColumnName="SupplementaryBudget2Approved" />
+          <ScalarProperty Name="CommitedAmount" ColumnName="CommitedAmount" />
+          <ScalarProperty Name="ActualAmount" ColumnName="ActualAmount" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="tbl_DocumentWorkFlow">
+      <EntityTypeMapping TypeName="WorkFlowDBModel.tbl_DocumentWorkFlow">
+        <MappingFragment StoreEntitySet="tbl_DocumentWorkFlow">
+          <ScalarProperty Name="IsVerifier" ColumnName="IsVerifier" />
+          <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="RejectDate" ColumnName="RejectDate" />
+          <ScalarProperty Name="RejectBy" ColumnName="RejectBy" />
+          <ScalarProperty Name="ApproveDate" ColumnName="ApproveDate" />
+          <ScalarProperty Name="ApproveBy" ColumnName="ApproveBy" />
+          <ScalarProperty Name="ReportTo" ColumnName="ReportTo" />
+          <ScalarProperty Name="Approver" ColumnName="Approver" />
+          <ScalarProperty Name="Submitdate" ColumnName="Submitdate" />
+          <ScalarProperty Name="AlternateApprover" ColumnName="AlternateApprover" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+          <ScalarProperty Name="ApprovalLevel" ColumnName="ApprovalLevel" />
+          <ScalarProperty Name="DocID" ColumnName="DocID" />
+          <ScalarProperty Name="WorkFlowID" ColumnName="WorkFlowID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_PurchaseOrder">
+      <EntityTypeMapping TypeName="WorkFlowDBModel.tbl_PurchaseOrder">
+        <MappingFragment StoreEntitySet="tbl_PurchaseOrder">
+          <ScalarProperty Name="POManageremailID" ColumnName="POManageremailID" />
+          <ScalarProperty Name="PRNumbers" ColumnName="PRNumbers" />
+          <ScalarProperty Name="POIssuedDate" ColumnName="POIssuedDate" />
+          <ScalarProperty Name="POIssuedBy" ColumnName="POIssuedBy" />
+          <ScalarProperty Name="Attachment3" ColumnName="Attachment3" />
+          <ScalarProperty Name="Attachment2" ColumnName="Attachment2" />
+          <ScalarProperty Name="Attachment1" ColumnName="Attachment1" />
+          <ScalarProperty Name="Attachment" ColumnName="Attachment" />
+          <ScalarProperty Name="IsPOIssued" ColumnName="IsPOIssued" />
+          <ScalarProperty Name="BuyerName" ColumnName="BuyerName" />
+          <ScalarProperty Name="BuyerCode" ColumnName="BuyerCode" />
+          <ScalarProperty Name="Vendoremail" ColumnName="Vendoremail" />
+          <ScalarProperty Name="VendorName" ColumnName="VendorName" />
+          <ScalarProperty Name="VendorCode" ColumnName="VendorCode" />
+          <ScalarProperty Name="Warehouse" ColumnName="Warehouse" />
+          <ScalarProperty Name="Organization" ColumnName="Organization" />
+          <ScalarProperty Name="POStatus" ColumnName="POStatus" />
+          <ScalarProperty Name="DocNetPrice" ColumnName="DocNetPrice" />
+          <ScalarProperty Name="Currency" ColumnName="Currency" />
+          <ScalarProperty Name="NetPrice" ColumnName="NetPrice" />
+          <ScalarProperty Name="PurchaseOrderNo" ColumnName="PurchaseOrderNo" />
+          <ScalarProperty Name="POType" ColumnName="POType" />
+          <ScalarProperty Name="DocID" ColumnName="DocID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vw_tbl_DocumentDetails">
+      <EntityTypeMapping TypeName="WorkFlowDBModel.vw_tbl_DocumentDetails">
+        <MappingFragment StoreEntitySet="vw_tbl_DocumentDetails">
+          <ScalarProperty Name="Warehouse" ColumnName="Warehouse" />
+          <ScalarProperty Name="PRNO" ColumnName="PRNO" />
+          <ScalarProperty Name="RequiredOn" ColumnName="RequiredOn" />
+          <ScalarProperty Name="UOM" ColumnName="UOM" />
+          <ScalarProperty Name="VendorCategory" ColumnName="VendorCategory" />
+          <ScalarProperty Name="VendorName" ColumnName="VendorName" />
+          <ScalarProperty Name="VendorCode" ColumnName="VendorCode" />
+          <ScalarProperty Name="CostCenter" ColumnName="CostCenter" />
+          <ScalarProperty Name="NetPriceLocal" ColumnName="NetPriceLocal" />
+          <ScalarProperty Name="NetPrice" ColumnName="NetPrice" />
+          <ScalarProperty Name="Currency" ColumnName="Currency" />
+          <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="AccountNo" ColumnName="AccountNo" />
+          <ScalarProperty Name="SalesGroupNo" ColumnName="SalesGroupNo" />
+          <ScalarProperty Name="SourceObjectNo" ColumnName="SourceObjectNo" />
+          <ScalarProperty Name="SourceObject" ColumnName="SourceObject" />
+          <ScalarProperty Name="CostObjectNo" ColumnName="CostObjectNo" />
+          <ScalarProperty Name="CostObject" ColumnName="CostObject" />
+          <ScalarProperty Name="ItemDescription" ColumnName="ItemDescription" />
+          <ScalarProperty Name="ItemNo" ColumnName="ItemNo" />
+          <ScalarProperty Name="SequenceNo" ColumnName="SequenceNo" />
+          <ScalarProperty Name="DocNo" ColumnName="DocNo" />
+          <ScalarProperty Name="DocID" ColumnName="DocID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vw_DocumentDetails">
+      <EntityTypeMapping TypeName="WorkFlowDBModel.vw_DocumentDetails">
+        <MappingFragment StoreEntitySet="vw_DocumentDetails">
+          <ScalarProperty Name="AddedbyUser" ColumnName="AddedbyUser" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="DocID" ColumnName="DocID" />
+          <ScalarProperty Name="AddedOn" ColumnName="AddedOn" />
+          <ScalarProperty Name="DocNoID" ColumnName="DocNoID" />
+          <ScalarProperty Name="DocNo" ColumnName="DocNo" />
+          <ScalarProperty Name="DocType" ColumnName="DocType" />
+          <ScalarProperty Name="ChangedOn" ColumnName="ChangedOn" />
+          <ScalarProperty Name="ChangedByUser" ColumnName="ChangedByUser" />
+          <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+          <ScalarProperty Name="StatusChangeHistoryID" ColumnName="StatusChangeHistoryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vw_tbl_DocumentBudget">
+      <EntityTypeMapping TypeName="WorkFlowDBModel.vw_tbl_DocumentBudget">
+        <MappingFragment StoreEntitySet="vw_tbl_DocumentBudget">
+          <ScalarProperty Name="DocNo" ColumnName="DocNo" />
+          <ScalarProperty Name="ThisExp" ColumnName="ThisExp" />
+          <ScalarProperty Name="BalBudget" ColumnName="BalBudget" />
+          <ScalarProperty Name="SuppBudget" ColumnName="SuppBudget" />
+          <ScalarProperty Name="ActualBudget" ColumnName="ActualBudget" />
+          <ScalarProperty Name="CommitBudget" ColumnName="CommitBudget" />
+          <ScalarProperty Name="OrginalBudget" ColumnName="OrginalBudget" />
+          <ScalarProperty Name="AccountNo" ColumnName="AccountNo" />
+          <ScalarProperty Name="ObjectName" ColumnName="ObjectName" />
+          <ScalarProperty Name="ObjectNo" ColumnName="ObjectNo" />
+          <ScalarProperty Name="Object" ColumnName="Object" />
+          <ScalarProperty Name="SequenceNo" ColumnName="SequenceNo" />
+          <ScalarProperty Name="DocID" ColumnName="DocID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="SP_Get_PoPrEmails" FunctionName="WorkFlowDBModel.Store.SP_Get_PoPrEmails" />
+    <FunctionImportMapping FunctionImportName="SP_Get_PrEmails" FunctionName="WorkFlowDBModel.Store.SP_Get_PrEmails" />
+    <FunctionImportMapping FunctionImportName="SP_Get_AltApprovers" FunctionName="WorkFlowDBModel.Store.SP_Get_AltApprovers" />
+    <EntitySetMapping Name="tbl_LeaveDetails_His">
+      <EntityTypeMapping TypeName="WorkFlowDBModel.tbl_LeaveDetails_His">
+        <MappingFragment StoreEntitySet="tbl_LeaveDetails_His">
+          <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+          <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="Enddate" ColumnName="Enddate" />
+          <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+          <ScalarProperty Name="User" ColumnName="User" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_LeaveDetails">
+      <EntityTypeMapping TypeName="WorkFlowDBModel.tbl_LeaveDetails">
+        <MappingFragment StoreEntitySet="tbl_LeaveDetails">
+          <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+          <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="Enddate" ColumnName="Enddate" />
+          <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+          <ScalarProperty Name="User" ColumnName="User" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Documents">
+      <EntityTypeMapping TypeName="WorkFlowDBModel.tbl_Documents">
+        <MappingFragment StoreEntitySet="tbl_Documents">
+          <ScalarProperty Name="DeptCode" ColumnName="DeptCode" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="VendorNameList" ColumnName="VendorNameList" />
+          <ScalarProperty Name="IsMultipleVendor" ColumnName="IsMultipleVendor" />
+          <ScalarProperty Name="DocNoList" ColumnName="DocNoList" />
+          <ScalarProperty Name="IsSummaryDoc" ColumnName="IsSummaryDoc" />
+          <ScalarProperty Name="IsMerged" ColumnName="IsMerged" />
+          <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+          <ScalarProperty Name="LastApprovalSubmitDate" ColumnName="LastApprovalSubmitDate" />
+          <ScalarProperty Name="LastApprovalSubmitBy" ColumnName="LastApprovalSubmitBy" />
+          <ScalarProperty Name="RFQRefNo" ColumnName="RFQRefNo" />
+          <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+          <ScalarProperty Name="ERPAttachment" ColumnName="ERPAttachment" />
+          <ScalarProperty Name="PriorityCode" ColumnName="PriorityCode" />
+          <ScalarProperty Name="PRAmount" ColumnName="PRAmount" />
+          <ScalarProperty Name="PRNumbers" ColumnName="PRNumbers" />
+          <ScalarProperty Name="DocNetPrice" ColumnName="DocNetPrice" />
+          <ScalarProperty Name="IssueBy" ColumnName="IssueBy" />
+          <ScalarProperty Name="VendorCategory" ColumnName="VendorCategory" />
+          <ScalarProperty Name="VendorName" ColumnName="VendorName" />
+          <ScalarProperty Name="VendorCode" ColumnName="VendorCode" />
+          <ScalarProperty Name="AddAttachDoc3" ColumnName="AddAttachDoc3" />
+          <ScalarProperty Name="AddAttachDoc2" ColumnName="AddAttachDoc2" />
+          <ScalarProperty Name="AddAttachDoc1" ColumnName="AddAttachDoc1" />
+          <ScalarProperty Name="AttachDoc" ColumnName="AttachDoc" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="ApprovalSubmitBy" ColumnName="ApprovalSubmitBy" />
+          <ScalarProperty Name="ApprovalSubmitDate" ColumnName="ApprovalSubmitDate" />
+          <ScalarProperty Name="SubmitDate" ColumnName="SubmitDate" />
+          <ScalarProperty Name="SubmitBy" ColumnName="SubmitBy" />
+          <ScalarProperty Name="Currency" ColumnName="Currency" />
+          <ScalarProperty Name="NetPrice" ColumnName="NetPrice" />
+          <ScalarProperty Name="DocNo" ColumnName="DocNo" />
+          <ScalarProperty Name="DocType" ColumnName="DocType" />
+          <ScalarProperty Name="DocID" ColumnName="DocID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vw_Documents4AlternateApproval">
+      <EntityTypeMapping TypeName="WorkFlowDBModel.vw_Documents4AlternateApproval">
+        <MappingFragment StoreEntitySet="vw_Documents4AlternateApproval">
+          <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+          <ScalarProperty Name="LastApprovalSubmitDate" ColumnName="LastApprovalSubmitDate" />
+          <ScalarProperty Name="LastApprovalSubmitBy" ColumnName="LastApprovalSubmitBy" />
+          <ScalarProperty Name="RFQRefNo" ColumnName="RFQRefNo" />
+          <ScalarProperty Name="ApprovalLevel" ColumnName="ApprovalLevel" />
+          <ScalarProperty Name="Enddate" ColumnName="Enddate" />
+          <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+          <ScalarProperty Name="Approver" ColumnName="Approver" />
+          <ScalarProperty Name="RejectDate" ColumnName="RejectDate" />
+          <ScalarProperty Name="RejectBy" ColumnName="RejectBy" />
+          <ScalarProperty Name="ApproveDate" ColumnName="ApproveDate" />
+          <ScalarProperty Name="ApproveBy" ColumnName="ApproveBy" />
+          <ScalarProperty Name="AlternateApprover" ColumnName="AlternateApprover" />
+          <ScalarProperty Name="WorkFlowSubmitDate" ColumnName="WorkFlowSubmitDate" />
+          <ScalarProperty Name="WorkFlowStatus" ColumnName="WorkFlowStatus" />
+          <ScalarProperty Name="Alternate2" ColumnName="Alternate2" />
+          <ScalarProperty Name="Alternate1" ColumnName="Alternate1" />
+          <ScalarProperty Name="ApprovePerson" ColumnName="ApprovePerson" />
+          <ScalarProperty Name="WorkFlowID" ColumnName="WorkFlowID" />
+          <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+          <ScalarProperty Name="ERPAttachment" ColumnName="ERPAttachment" />
+          <ScalarProperty Name="PriorityCode" ColumnName="PriorityCode" />
+          <ScalarProperty Name="PRAmount" ColumnName="PRAmount" />
+          <ScalarProperty Name="PRNumbers" ColumnName="PRNumbers" />
+          <ScalarProperty Name="DocNetPrice" ColumnName="DocNetPrice" />
+          <ScalarProperty Name="IssueBy" ColumnName="IssueBy" />
+          <ScalarProperty Name="VendorCategory" ColumnName="VendorCategory" />
+          <ScalarProperty Name="VendorName" ColumnName="VendorName" />
+          <ScalarProperty Name="VendorCode" ColumnName="VendorCode" />
+          <ScalarProperty Name="AddAttachDoc3" ColumnName="AddAttachDoc3" />
+          <ScalarProperty Name="AddAttachDoc2" ColumnName="AddAttachDoc2" />
+          <ScalarProperty Name="AddAttachDoc1" ColumnName="AddAttachDoc1" />
+          <ScalarProperty Name="AttachDoc" ColumnName="AttachDoc" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="ApprovalSubmitBy" ColumnName="ApprovalSubmitBy" />
+          <ScalarProperty Name="ApprovalSubmitDate" ColumnName="ApprovalSubmitDate" />
+          <ScalarProperty Name="SubmitDate" ColumnName="SubmitDate" />
+          <ScalarProperty Name="SubmitBy" ColumnName="SubmitBy" />
+          <ScalarProperty Name="Currency" ColumnName="Currency" />
+          <ScalarProperty Name="NetPrice" ColumnName="NetPrice" />
+          <ScalarProperty Name="DocNo" ColumnName="DocNo" />
+          <ScalarProperty Name="DocType" ColumnName="DocType" />
+          <ScalarProperty Name="DocID" ColumnName="DocID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vw_Documents4Approval">
+      <EntityTypeMapping TypeName="WorkFlowDBModel.vw_Documents4Approval">
+        <MappingFragment StoreEntitySet="vw_Documents4Approval">
+          <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+          <ScalarProperty Name="LastApprovalSubmitDate" ColumnName="LastApprovalSubmitDate" />
+          <ScalarProperty Name="LastApprovalSubmitBy" ColumnName="LastApprovalSubmitBy" />
+          <ScalarProperty Name="RFQRefNo" ColumnName="RFQRefNo" />
+          <ScalarProperty Name="ApprovalLevel" ColumnName="ApprovalLevel" />
+          <ScalarProperty Name="Approver" ColumnName="Approver" />
+          <ScalarProperty Name="RejectDate" ColumnName="RejectDate" />
+          <ScalarProperty Name="RejectBy" ColumnName="RejectBy" />
+          <ScalarProperty Name="ApproveDate" ColumnName="ApproveDate" />
+          <ScalarProperty Name="ApproveBy" ColumnName="ApproveBy" />
+          <ScalarProperty Name="AlternateApprover" ColumnName="AlternateApprover" />
+          <ScalarProperty Name="WorkFlowSubmitDate" ColumnName="WorkFlowSubmitDate" />
+          <ScalarProperty Name="WorkFlowStatus" ColumnName="WorkFlowStatus" />
+          <ScalarProperty Name="Alternate2" ColumnName="Alternate2" />
+          <ScalarProperty Name="Alternate1" ColumnName="Alternate1" />
+          <ScalarProperty Name="ApprovePerson" ColumnName="ApprovePerson" />
+          <ScalarProperty Name="WorkFlowID" ColumnName="WorkFlowID" />
+          <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+          <ScalarProperty Name="ERPAttachment" ColumnName="ERPAttachment" />
+          <ScalarProperty Name="PriorityCode" ColumnName="PriorityCode" />
+          <ScalarProperty Name="PRAmount" ColumnName="PRAmount" />
+          <ScalarProperty Name="PRNumbers" ColumnName="PRNumbers" />
+          <ScalarProperty Name="DocNetPrice" ColumnName="DocNetPrice" />
+          <ScalarProperty Name="IssueBy" ColumnName="IssueBy" />
+          <ScalarProperty Name="VendorCategory" ColumnName="VendorCategory" />
+          <ScalarProperty Name="VendorName" ColumnName="VendorName" />
+          <ScalarProperty Name="VendorCode" ColumnName="VendorCode" />
+          <ScalarProperty Name="AddAttachDoc3" ColumnName="AddAttachDoc3" />
+          <ScalarProperty Name="AddAttachDoc2" ColumnName="AddAttachDoc2" />
+          <ScalarProperty Name="AddAttachDoc1" ColumnName="AddAttachDoc1" />
+          <ScalarProperty Name="AttachDoc" ColumnName="AttachDoc" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="ApprovalSubmitBy" ColumnName="ApprovalSubmitBy" />
+          <ScalarProperty Name="ApprovalSubmitDate" ColumnName="ApprovalSubmitDate" />
+          <ScalarProperty Name="SubmitDate" ColumnName="SubmitDate" />
+          <ScalarProperty Name="SubmitBy" ColumnName="SubmitBy" />
+          <ScalarProperty Name="Currency" ColumnName="Currency" />
+          <ScalarProperty Name="NetPrice" ColumnName="NetPrice" />
+          <ScalarProperty Name="DocNo" ColumnName="DocNo" />
+          <ScalarProperty Name="DocType" ColumnName="DocType" />
+          <ScalarProperty Name="DocID" ColumnName="DocID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_UserRoles">
+      <EntityTypeMapping TypeName="WorkFlowDBModel.tbl_UserRoles">
+        <MappingFragment StoreEntitySet="tbl_UserRoles">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Departments" ColumnName="Departments" />
+          <ScalarProperty Name="Role" ColumnName="Role" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_AuthExecutives_bk1">
+      <EntityTypeMapping TypeName="WorkFlowDBModel.tbl_AuthExecutives_bk1">
+        <MappingFragment StoreEntitySet="tbl_AuthExecutives_bk1">
+          <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+          <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="Alternate2" ColumnName="Alternate2" />
+          <ScalarProperty Name="Alternate1" ColumnName="Alternate1" />
+          <ScalarProperty Name="ApprovalLevel" ColumnName="ApprovalLevel" />
+          <ScalarProperty Name="Position" ColumnName="Position" />
+          <ScalarProperty Name="ApproverEmail" ColumnName="ApproverEmail" />
+          <ScalarProperty Name="ApprovePerson" ColumnName="ApprovePerson" />
+          <ScalarProperty Name="Designation" ColumnName="Designation" />
+          <ScalarProperty Name="Approver" ColumnName="Approver" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_RequestForQuotation">
+      <EntityTypeMapping TypeName="WorkFlowDBModel.tbl_RequestForQuotation">
+        <MappingFragment StoreEntitySet="tbl_RequestForQuotation">
+          <ScalarProperty Name="Priority" ColumnName="Priority" />
+          <ScalarProperty Name="RevisionNo" ColumnName="RevisionNo" />
+          <ScalarProperty Name="ProcessedBy" ColumnName="ProcessedBy" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="RequiredDate" ColumnName="RequiredDate" />
+          <ScalarProperty Name="Year" ColumnName="Year" />
+          <ScalarProperty Name="Department" ColumnName="Department" />
+          <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+          <ScalarProperty Name="Modified" ColumnName="Modified" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="Created" ColumnName="Created" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="BuyerRemarks" ColumnName="BuyerRemarks" />
+          <ScalarProperty Name="BuyerName" ColumnName="BuyerName" />
+          <ScalarProperty Name="BuyerCode" ColumnName="BuyerCode" />
+          <ScalarProperty Name="PurchaseRemarks" ColumnName="PurchaseRemarks" />
+          <ScalarProperty Name="PurchaseCategory" ColumnName="PurchaseCategory" />
+          <ScalarProperty Name="QuoteId" ColumnName="QuoteId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_RFQAttachments">
+      <EntityTypeMapping TypeName="WorkFlowDBModel.tbl_RFQAttachments">
+        <MappingFragment StoreEntitySet="tbl_RFQAttachments">
+          <ScalarProperty Name="RevisionNo" ColumnName="RevisionNo" />
+          <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+          <ScalarProperty Name="Modified" ColumnName="Modified" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="Created" ColumnName="Created" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+          <ScalarProperty Name="AttachmentType" ColumnName="AttachmentType" />
+          <ScalarProperty Name="QuoteId" ColumnName="QuoteId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_PurchaseCategory">
+      <EntityTypeMapping TypeName="WorkFlowDBModel.tbl_PurchaseCategory">
+        <MappingFragment StoreEntitySet="tbl_PurchaseCategory">
+          <ScalarProperty Name="BuyerCode" ColumnName="BuyerCode" />
+          <ScalarProperty Name="Category" ColumnName="Category" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="SP_GetQuote" FunctionName="WorkFlowDBModel.Store.SP_GetQuote" />
+    <FunctionImportMapping FunctionImportName="SP_GetQuoteAttachments" FunctionName="WorkFlowDBModel.Store.SP_GetQuoteAttachments" />
+    <FunctionImportMapping FunctionImportName="SP_CancelQuote" FunctionName="WorkFlowDBModel.Store.SP_CancelQuote" />
+    <FunctionImportMapping FunctionImportName="SP_FinaliseQuote" FunctionName="WorkFlowDBModel.Store.SP_FinaliseQuote" />
+    <FunctionImportMapping FunctionImportName="SP_IsPCVUser" FunctionName="WorkFlowDBModel.Store.SP_IsPCVUser" />
+    <FunctionImportMapping FunctionImportName="SP_GetQuoteEmailIds" FunctionName="WorkFlowDBModel.Store.SP_GetQuoteEmailIds" />
+    <FunctionImportMapping FunctionImportName="SP_IsQuoteSuperuser" FunctionName="WorkFlowDBModel.Store.SP_IsQuoteSuperuser" />
+    <FunctionImportMapping FunctionImportName="SP_IsCurrentApproverIsVerifier" FunctionName="WorkFlowDBModel.Store.SP_IsCurrentApproverIsVerifier" />
+    <FunctionImportMapping FunctionImportName="SP_UpdateQuoteByBuyer" FunctionName="WorkFlowDBModel.Store.SP_UpdateQuoteByBuyer" />
+    <FunctionImportMapping FunctionImportName="SP_ReviseQuote" FunctionName="WorkFlowDBModel.Store.SP_ReviseQuote" />
+    <FunctionImportMapping FunctionImportName="SP_GetDocuments" FunctionName="WorkFlowDBModel.Store.SP_GetDocuments" />
+    <FunctionImportMapping FunctionImportName="SP_GetAlternateDocuments" FunctionName="WorkFlowDBModel.Store.SP_GetAlternateDocuments" />
+    <FunctionImportMapping FunctionImportName="SP_IsPCVUser2" FunctionName="WorkFlowDBModel.Store.SP_IsPCVUser2" />
+    <FunctionImportMapping FunctionImportName="SP_Get_POEmailAllDetails" FunctionName="WorkFlowDBModel.Store.SP_Get_POEmailAllDetails" />
+    <FunctionImportMapping FunctionImportName="SP_GetDocumentDetailsByID" FunctionName="WorkFlowDBModel.Store.SP_GetDocumentDetailsByID" />
+    <FunctionImportMapping FunctionImportName="SP_GetDocumentBudgetByID" FunctionName="WorkFlowDBModel.Store.SP_GetDocumentBudgetByID" />
+    <FunctionImportMapping FunctionImportName="SP_GetDocumentByID" FunctionName="WorkFlowDBModel.Store.SP_GetDocumentByID" />
+    <FunctionImportMapping FunctionImportName="SP_GetSBDetails" FunctionName="WorkFlowDBModel.Store.SP_GetSBDetails" />
+    <FunctionImportMapping FunctionImportName="SP_GetDocWorkflowForDocStatus" FunctionName="WorkFlowDBModel.Store.SP_GetDocWorkflowForDocStatus" />
+    <FunctionImportMapping FunctionImportName="SP_GetDocPendingWorkflow" FunctionName="WorkFlowDBModel.Store.SP_GetDocPendingWorkflow" />
+    <FunctionImportMapping FunctionImportName="SP_GetERPUserName" FunctionName="WorkFlowDBModel.Store.SP_GetERPUserName" />
+    <FunctionImportMapping FunctionImportName="SP_GetCostCentreBudget" FunctionName="WorkFlowDBModel.Store.SP_GetCostCentreBudget" />
+    <FunctionImportMapping FunctionImportName="SP_GetProjectBudget" FunctionName="WorkFlowDBModel.Store.SP_GetProjectBudget" />
+    <FunctionImportMapping FunctionImportName="SP_GetSalesGroupBudget" FunctionName="WorkFlowDBModel.Store.SP_GetSalesGroupBudget" />
+    <FunctionImportMapping FunctionImportName="SP_GetDocumentWorkflowByDocID" FunctionName="WorkFlowDBModel.Store.SP_GetDocumentWorkflowByDocID" />
+    <FunctionImportMapping FunctionImportName="SP_GetDocumentWorkflowByWorkflowID" FunctionName="WorkFlowDBModel.Store.SP_GetDocumentWorkflowByWorkflowID" />
+    <FunctionImportMapping FunctionImportName="SP_GetLeaveDetailsHistory" FunctionName="WorkFlowDBModel.Store.SP_GetLeaveDetailsHistory" />
+    <FunctionImportMapping FunctionImportName="SP_GetLeaveDetails" FunctionName="WorkFlowDBModel.Store.SP_GetLeaveDetails" />
+    <FunctionImportMapping FunctionImportName="SP_GetPurchaseOrder" FunctionName="WorkFlowDBModel.Store.SP_GetPurchaseOrder" />
+    <FunctionImportMapping FunctionImportName="SP_GetSBHeader" FunctionName="WorkFlowDBModel.Store.SP_GetSBHeader" />
+    <FunctionImportMapping FunctionImportName="SP_GetUserByID" FunctionName="WorkFlowDBModel.Store.SP_GetUserByID" />
+    <FunctionImportMapping FunctionImportName="SP_GetAuthorizeExecutive" FunctionName="WorkFlowDBModel.Store.SP_GetAuthorizeExecutive" />
+    <FunctionImportMapping FunctionImportName="SP_GetApprovedPR" FunctionName="WorkFlowDBModel.Store.SP_GetApprovedPR" />
+    <FunctionImportMapping FunctionImportName="SP_GetSubmittedDocuments" FunctionName="WorkFlowDBModel.Store.SP_GetSubmittedDocuments" />
+    <FunctionImportMapping FunctionImportName="SP_GetAllPurchaseOrders" FunctionName="WorkFlowDBModel.Store.SP_GetAllPurchaseOrders" />
+    <FunctionImportMapping FunctionImportName="SP_GetSupBudget" FunctionName="WorkFlowDBModel.Store.SP_GetSupBudget" />
+    <FunctionImportMapping FunctionImportName="SP_GetALLSBHeader" FunctionName="WorkFlowDBModel.Store.SP_GetALLSBHeader" />
+    <FunctionImportMapping FunctionImportName="SP_MergePR" FunctionName="WorkFlowDBModel.Store.SP_MergePR" />
+    <FunctionImportMapping FunctionImportName="SP_ValidateMergePR" FunctionName="WorkFlowDBModel.Store.SP_ValidateMergePR" />
+    <FunctionImportMapping FunctionImportName="SP_GetChildPR" FunctionName="WorkFlowDBModel.Store.SP_GetChildPR" />
+    <FunctionImportMapping FunctionImportName="SP_UpdateSummaryDoc" FunctionName="WorkFlowDBModel.Store.SP_UpdateSummaryDoc" />
+    <EntitySetMapping Name="tbl_ErrorsAndExceptions">
+      <EntityTypeMapping TypeName="WorkFlowDBModel.tbl_ErrorsAndExceptions">
+        <MappingFragment StoreEntitySet="tbl_ErrorsAndExceptions">
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="Created" ColumnName="Created" />
+          <ScalarProperty Name="Message" ColumnName="Message" />
+          <ScalarProperty Name="MethodName" ColumnName="MethodName" />
+          <ScalarProperty Name="Controller" ColumnName="Controller" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="SP_InsertLog" FunctionName="WorkFlowDBModel.Store.SP_InsertLog" />
+    <FunctionImportMapping FunctionImportName="SP_CheckRFQStatus" FunctionName="WorkFlowDBModel.Store.SP_CheckRFQStatus" />
+    <FunctionImportMapping FunctionImportName="SP_GetRFQAttachmetsForSubmitDoc" FunctionName="WorkFlowDBModel.Store.SP_GetRFQAttachmetsForSubmitDoc" />
+    <FunctionImportMapping FunctionImportName="SP_GetQuoteAttachmentCount" FunctionName="WorkFlowDBModel.Store.SP_GetQuoteAttachmentCount" />
+    <EntitySetMapping Name="tbl_DocMergeHeader">
+      <EntityTypeMapping TypeName="WorkFlowDBModel.tbl_DocMergeHeader">
+        <MappingFragment StoreEntitySet="tbl_DocMergeHeader">
+          <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+          <ScalarProperty Name="Modified" ColumnName="Modified" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="Created" ColumnName="Created" />
+          <ScalarProperty Name="SumDocId" ColumnName="SumDocId" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="MergeDocNo" ColumnName="MergeDocNo" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_DocMergeDetails">
+      <EntityTypeMapping TypeName="WorkFlowDBModel.tbl_DocMergeDetails">
+        <MappingFragment StoreEntitySet="tbl_DocMergeDetails">
+          <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+          <ScalarProperty Name="Modified" ColumnName="Modified" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="Created" ColumnName="Created" />
+          <ScalarProperty Name="SumDocId" ColumnName="SumDocId" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="DocNo" ColumnName="DocNo" />
+          <ScalarProperty Name="DocId" ColumnName="DocId" />
+          <ScalarProperty Name="MergeDocNo" ColumnName="MergeDocNo" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="SP_GetMergeDocDetails" FunctionName="WorkFlowDBModel.Store.SP_GetMergeDocDetails" />
+    <FunctionImportMapping FunctionImportName="SP_GetCostCentre" FunctionName="WorkFlowDBModel.Store.SP_GetCostCentre" />
+    <EntitySetMapping Name="vw_ERP_CostCentre">
+      <EntityTypeMapping TypeName="WorkFlowDBModel.vw_ERP_CostCentre">
+        <MappingFragment StoreEntitySet="vw_ERP_CostCentre">
+          <ScalarProperty Name="CostCentreDescription" ColumnName="CostCentreDescription" />
+          <ScalarProperty Name="CostCentreAbbrevation" ColumnName="CostCentreAbbrevation" />
+          <ScalarProperty Name="CostCentreCode" ColumnName="CostCentreCode" />
+          <ScalarProperty Name="CostCentreID" ColumnName="CostCentreID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="SP_ValidateDocument" FunctionName="WorkFlowDBModel.Store.SP_ValidateDocument" />
+    <FunctionImportMapping FunctionImportName="SP_GetWarehouseBudget" FunctionName="WorkFlowDBModel.Store.SP_GetWarehouseBudget" />
+    <EntitySetMapping Name="vw_ERP_WarehouseBudget">
+      <EntityTypeMapping TypeName="WorkFlowDBModel.vw_ERP_WarehouseBudget">
+        <MappingFragment StoreEntitySet="vw_ERP_WarehouseBudget">
+          <ScalarProperty Name="ActualAmount" ColumnName="ActualAmount" />
+          <ScalarProperty Name="CommitedAmount" ColumnName="CommitedAmount" />
+          <ScalarProperty Name="SupplementaryBudget2Approved" ColumnName="SupplementaryBudget2Approved" />
+          <ScalarProperty Name="SupplementaryBudget1Approved" ColumnName="SupplementaryBudget1Approved" />
+          <ScalarProperty Name="ApprovedBudgetAmount" ColumnName="ApprovedBudgetAmount" />
+          <ScalarProperty Name="GLDesc" ColumnName="GLDesc" />
+          <ScalarProperty Name="GLCode" ColumnName="GLCode" />
+          <ScalarProperty Name="ObjectDesc" ColumnName="ObjectDesc" />
+          <ScalarProperty Name="ObjectNo" ColumnName="ObjectNo" />
+          <ScalarProperty Name="Object" ColumnName="Object" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="vw_ERP_ServiceTaxInvoice">
+      <EntityTypeMapping TypeName="WorkFlowDBModel.vw_ERP_ServiceTaxInvoice">
+        <MappingFragment StoreEntitySet="vw_ERP_ServiceTaxInvoice">
+          <ScalarProperty Name="EmailID" ColumnName="EmailID" />
+          <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+          <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+          <ScalarProperty Name="InvoiceIssuedDate" ColumnName="InvoiceIssuedDate" />
+          <ScalarProperty Name="InvoiceIssuedBy" ColumnName="InvoiceIssuedBy" />
+          <ScalarProperty Name="IsInvoiceIssued" ColumnName="IsInvoiceIssued" />
+          <ScalarProperty Name="InvoiceGenStatus" ColumnName="InvoiceGenStatus" />
+          <ScalarProperty Name="DocGenStatus" ColumnName="DocGenStatus" />
+          <ScalarProperty Name="InvoiceStatus" ColumnName="InvoiceStatus" />
+          <ScalarProperty Name="Currency" ColumnName="Currency" />
+          <ScalarProperty Name="InvoiceAmount" ColumnName="InvoiceAmount" />
+          <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+          <ScalarProperty Name="CustomerNo" ColumnName="CustomerNo" />
+          <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
+          <ScalarProperty Name="Period" ColumnName="Period" />
+          <ScalarProperty Name="Organization" ColumnName="Organization" />
+          <ScalarProperty Name="InvoiceType" ColumnName="InvoiceType" />
+          <ScalarProperty Name="InvoiceNo" ColumnName="InvoiceNo" />
+          <ScalarProperty Name="LogID" ColumnName="LogID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="SP_EInvoice_View_GetServiceTaxInvoice" FunctionName="WorkFlowDBModel.Store.SP_EInvoice_View_GetServiceTaxInvoice" />
+    <EntitySetMapping Name="vw_ERP_FujitecActiveContrItem">
+      <EntityTypeMapping TypeName="WorkFlowDBModel.vw_ERP_FujitecActiveContrItem">
+        <MappingFragment StoreEntitySet="vw_ERP_FujitecActiveContrItem">
+          <ScalarProperty Name="ChangedOn" ColumnName="ChangedOn" />
+          <ScalarProperty Name="SalesGroup" ColumnName="SalesGroup" />
+          <ScalarProperty Name="NoofService" ColumnName="NoofService" />
+          <ScalarProperty Name="BuildingUnitID" ColumnName="BuildingUnitID" />
+          <ScalarProperty Name="BillToPartyName" ColumnName="BillToPartyName" />
+          <ScalarProperty Name="ParentCustomer" ColumnName="ParentCustomer" />
+          <ScalarProperty Name="SoldToPartyName" ColumnName="SoldToPartyName" />
+          <ScalarProperty Name="ProductTypeName" ColumnName="ProductTypeName" />
+          <ScalarProperty Name="SiteBlockUnit" ColumnName="SiteBlockUnit" />
+          <ScalarProperty Name="Equipment" ColumnName="Equipment" />
+          <ScalarProperty Name="ServiceEndDate" ColumnName="ServiceEndDate" />
+          <ScalarProperty Name="ServiceStartDate" ColumnName="ServiceStartDate" />
+          <ScalarProperty Name="ContrType" ColumnName="ContrType" />
+          <ScalarProperty Name="ContractNo" ColumnName="ContractNo" />
+          <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+          <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+          <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+          <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
+          <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
+          <ScalarProperty Name="BuildingName" ColumnName="BuildingName" />
+          <ScalarProperty Name="BillToParty" ColumnName="BillToParty" />
+          <ScalarProperty Name="SoldToParty" ColumnName="SoldToParty" />
+          <ScalarProperty Name="BuildingCode" ColumnName="BuildingCode" />
+          <ScalarProperty Name="ContrOrg" ColumnName="ContrOrg" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="SP_EInvoice_View_GetSIRDocuments" FunctionName="WorkFlowDBModel.Store.SP_EInvoice_View_GetSIRDocuments" />
+    <FunctionImportMapping FunctionImportName="SP_EInvoice_View_UpdateSIRDocumentStatus" FunctionName="WorkFlowDBModel.Store.SP_EInvoice_View_UpdateSIRDocumentStatus" />
+    <FunctionImportMapping FunctionImportName="SP_EInvoice_View_GetActiveContract" FunctionName="WorkFlowDBModel.Store.SP_EInvoice_View_GetActiveContract" />
+    <FunctionImportMapping FunctionImportName="SP_EInvoice_View_GetServiceTaxInvoiceByID" FunctionName="WorkFlowDBModel.Store.SP_EInvoice_View_GetServiceTaxInvoiceByID" />
+    <FunctionImportMapping FunctionImportName="SP_EInvoice_View_GetEmailContent" FunctionName="WorkFlowDBModel.Store.SP_EInvoice_View_GetEmailContent" />
+    <FunctionImportMapping FunctionImportName="SP_EInvoice_View_SaveEmailDetails" FunctionName="WorkFlowDBModel.Store.SP_EInvoice_View_SaveEmailDetails" />
+    <FunctionImportMapping FunctionImportName="SP_EInvoice_Email_UpdateIssueEInvoiceStatus" FunctionName="WorkFlowDBModel.Store.SP_EInvoice_Email_UpdateIssueEInvoiceStatus" />
+    <FunctionImportMapping FunctionImportName="SP_EInvoice_View_GetLastSIRConsolidatedOn" FunctionName="WorkFlowDBModel.Store.SP_EInvoice_View_GetLastSIRConsolidatedOn" />
+    <EntitySetMapping Name="tbl_SIRDocuments">
+      <EntityTypeMapping TypeName="WorkFlowDBModel.tbl_SIRDocuments">
+        <MappingFragment StoreEntitySet="tbl_SIRDocuments">
+          <ScalarProperty Name="CompletedService" ColumnName="CompletedService" />
+          <ScalarProperty Name="NoOfService" ColumnName="NoOfService" />
+          <ScalarProperty Name="SalesGroup" ColumnName="SalesGroup" />
+          <ScalarProperty Name="ConsBy" ColumnName="ConsBy" />
+          <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+          <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+          <ScalarProperty Name="IssueBy" ColumnName="IssueBy" />
+          <ScalarProperty Name="IssueDate" ColumnName="IssueDate" />
+          <ScalarProperty Name="IsSIRIssued" ColumnName="IsSIRIssued" />
+          <ScalarProperty Name="CanConsException" ColumnName="CanConsException" />
+          <ScalarProperty Name="ConsRemark" ColumnName="ConsRemark" />
+          <ScalarProperty Name="Constatus" ColumnName="Constatus" />
+          <ScalarProperty Name="ConsDate" ColumnName="ConsDate" />
+          <ScalarProperty Name="SIRFileName" ColumnName="SIRFileName" />
+          <ScalarProperty Name="SIRMonth" ColumnName="SIRMonth" />
+          <ScalarProperty Name="SIRYear" ColumnName="SIRYear" />
+          <ScalarProperty Name="NoOfUnits" ColumnName="NoOfUnits" />
+          <ScalarProperty Name="BillToParty" ColumnName="BillToParty" />
+          <ScalarProperty Name="SoldToParty" ColumnName="SoldToParty" />
+          <ScalarProperty Name="BuildingCode" ColumnName="BuildingCode" />
+          <ScalarProperty Name="OrgName" ColumnName="OrgName" />
+          <ScalarProperty Name="TransID" ColumnName="TransID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="SP_EInvoice_View_GetSIRListForDashboard" FunctionName="WorkFlowDBModel.Store.SP_EInvoice_View_GetSIRListForDashboard" />
+    <FunctionImportMapping FunctionImportName="SP_EInvoice_View_GetSIRDocumentByID" FunctionName="WorkFlowDBModel.Store.SP_EInvoice_View_GetSIRDocumentByID" />
+    <FunctionImportMapping FunctionImportName="SP_EInvoice_View_GetAllServiceTaxInvoiceByStatus" FunctionName="WorkFlowDBModel.Store.SP_EInvoice_View_GetAllServiceTaxInvoiceByStatus" />
+    <FunctionImportMapping FunctionImportName="SP_EInvoice_View_GetAllSIRList" FunctionName="WorkFlowDBModel.Store.SP_EInvoice_View_GetAllSIRList" />
+    <FunctionImportMapping FunctionImportName="SP_EInvoice_View_IsServiceAdminUser" FunctionName="WorkFlowDBModel.Store.SP_EInvoice_View_IsServiceAdminUser" />
+    <FunctionImportMapping FunctionImportName="SP_GetAllERPUsers" FunctionName="WorkFlowDBModel.Store.SP_GetAllERPUsers" />
+    <FunctionImportMapping FunctionImportName="SP_GetUserRoleByID" FunctionName="WorkFlowDBModel.Store.SP_GetUserRoleByID" />
+    <EntitySetMapping Name="vw_ERP_ServiceSOA">
+      <EntityTypeMapping TypeName="WorkFlowDBModel.vw_ERP_ServiceSOA">
+        <MappingFragment StoreEntitySet="vw_ERP_ServiceSOA">
+          <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+          <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+          <ScalarProperty Name="EmailID" ColumnName="EmailID" />
+          <ScalarProperty Name="CCemail_address" ColumnName="CCemail_address" />
+          <ScalarProperty Name="email_address" ColumnName="email_address" />
+          <ScalarProperty Name="SOAFileName" ColumnName="SOAFileName" />
+          <ScalarProperty Name="SOAIssuedDate" ColumnName="SOAIssuedDate" />
+          <ScalarProperty Name="SOAIssuedBy" ColumnName="SOAIssuedBy" />
+          <ScalarProperty Name="IsSOAIssued" ColumnName="IsSOAIssued" />
+          <ScalarProperty Name="SOAGenStatus" ColumnName="SOAGenStatus" />
+          <ScalarProperty Name="SOAStatus" ColumnName="SOAStatus" />
+          <ScalarProperty Name="ParentCustomerName" ColumnName="ParentCustomerName" />
+          <ScalarProperty Name="CustomerType" ColumnName="CustomerType" />
+          <ScalarProperty Name="CutoffDate" ColumnName="CutoffDate" />
+          <ScalarProperty Name="OrganizationName" ColumnName="OrganizationName" />
+          <ScalarProperty Name="OrganizationID" ColumnName="OrganizationID" />
+          <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+          <ScalarProperty Name="CustomerNO" ColumnName="CustomerNO" />
+          <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+          <ScalarProperty Name="LogID" ColumnName="LogID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="SP_SOA_View_GetALLSOAList" FunctionName="WorkFlowDBModel.Store.SP_SOA_View_GetALLSOAList" />
+    <FunctionImportMapping FunctionImportName="SP_SOA_View_GetSOAListForFDashboard" FunctionName="WorkFlowDBModel.Store.SP_SOA_View_GetSOAListForFDashboard" />
+    <FunctionImportMapping FunctionImportName="SP_SOA_View_GetSOAByID" FunctionName="WorkFlowDBModel.Store.SP_SOA_View_GetSOAByID" />
+    <FunctionImportMapping FunctionImportName="SP_SOA_View_UpdateAsException" FunctionName="WorkFlowDBModel.Store.SP_SOA_View_UpdateAsException" />
+    <FunctionImportMapping FunctionImportName="SP_CreateQuote" FunctionName="WorkFlowDBModel.Store.SP_CreateQuote" />
+    <FunctionImportMapping FunctionImportName="SP_SOA_View_UpdateSOAStatusToJobQueue" FunctionName="WorkFlowDBModel.Store.SP_SOA_View_UpdateSOAStatusToJobQueue" />
+    <FunctionImportMapping FunctionImportName="SP_EInvoice_View_ExportSIRReport" FunctionName="WorkFlowDBModel.Store.SP_EInvoice_View_ExportSIRReport" />
+    <FunctionImportMapping FunctionImportName="SP_ViewDocuments" FunctionName="WorkFlowDBModel.Store.SP_ViewDocuments" />
+    <EntitySetMapping Name="vw_ERP_tbl_Customeremail">
+      <EntityTypeMapping TypeName="WorkFlowDBModel.vw_ERP_tbl_Customeremail">
+        <MappingFragment StoreEntitySet="vw_ERP_tbl_Customeremail">
+          <ScalarProperty Name="SOACCemail_Address" ColumnName="SOACCemail_Address" />
+          <ScalarProperty Name="SOAemail_address" ColumnName="SOAemail_address" />
+          <ScalarProperty Name="Updateuser" ColumnName="Updateuser" />
+          <ScalarProperty Name="Exclude_SOA" ColumnName="Exclude_SOA" />
+          <ScalarProperty Name="Exclude_EInvoice" ColumnName="Exclude_EInvoice" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="CCemail_Address" ColumnName="CCemail_Address" />
+          <ScalarProperty Name="email_address" ColumnName="email_address" />
+          <ScalarProperty Name="CustomerCode" ColumnName="CustomerCode" />
+          <ScalarProperty Name="OrganizationName" ColumnName="OrganizationName" />
+          <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="SP_EInvoice_View_GetCustomerEmailDetails" FunctionName="WorkFlowDBModel.Store.SP_EInvoice_View_GetCustomerEmailDetails" />
+    <FunctionImportMapping FunctionImportName="SP_GetUserByUserID" FunctionName="WorkFlowDBModel.Store.SP_GetUserByUserID" />
+    <EntitySetMapping Name="tbl_User">
+      <EntityTypeMapping TypeName="WorkFlowDBModel.tbl_User">
+        <MappingFragment StoreEntitySet="tbl_User">
+          <ScalarProperty Name="UpdateBy" ColumnName="UpdateBy" />
+          <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+          <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="DeptCode" ColumnName="DeptCode" />
+          <ScalarProperty Name="DivisionCode" ColumnName="DivisionCode" />
+          <ScalarProperty Name="Role" ColumnName="Role" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="SP_GetCustomerMaster" FunctionName="WorkFlowDBModel.Store.SP_GetCustomerMaster" />
+    <FunctionImportMapping FunctionImportName="SP_CheckCustomerCodeExists" FunctionName="WorkFlowDBModel.Store.SP_CheckCustomerCodeExists" />
+    <EntitySetMapping Name="temp_tbl_Customeremail">
+      <EntityTypeMapping TypeName="WorkFlowDBModel.temp_tbl_Customeremail">
+        <MappingFragment StoreEntitySet="temp_tbl_Customeremail">
+          <ScalarProperty Name="SOACCemail_Address" ColumnName="SOACCemail_Address" />
+          <ScalarProperty Name="SOAemail_address" ColumnName="SOAemail_address" />
+          <ScalarProperty Name="Updateuser" ColumnName="Updateuser" />
+          <ScalarProperty Name="Exclude_SOA" ColumnName="Exclude_SOA" />
+          <ScalarProperty Name="Exclude_EInvoice" ColumnName="Exclude_EInvoice" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="CCemail_Address" ColumnName="CCemail_Address" />
+          <ScalarProperty Name="email_address" ColumnName="email_address" />
+          <ScalarProperty Name="CustomerCode" ColumnName="CustomerCode" />
+          <ScalarProperty Name="OrganizationName" ColumnName="OrganizationName" />
+          <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="SP_UpdateCustomerEmail" FunctionName="WorkFlowDBModel.Store.SP_UpdateCustomerEmail" />
+    <FunctionImportMapping FunctionImportName="SP_DeleteCustomerEmail" FunctionName="WorkFlowDBModel.Store.SP_DeleteCustomerEmail" />
+    <FunctionImportMapping FunctionImportName="SP_AddCustomer" FunctionName="WorkFlowDBModel.Store.SP_AddCustomer" />
+    <EntitySetMapping Name="vw_ERP_Organization">
+      <EntityTypeMapping TypeName="WorkFlowDBModel.vw_ERP_Organization">
+        <MappingFragment StoreEntitySet="vw_ERP_Organization">
+          <ScalarProperty Name="OrganizationDescription" ColumnName="OrganizationDescription" />
+          <ScalarProperty Name="OrganizationName" ColumnName="OrganizationName" />
+          <ScalarProperty Name="OrganizationID" ColumnName="OrganizationID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="SP_GetCustomerOrganization" FunctionName="WorkFlowDBModel.Store.SP_GetCustomerOrganization" />
+  </EntityContainerMapping>
+</Mapping>

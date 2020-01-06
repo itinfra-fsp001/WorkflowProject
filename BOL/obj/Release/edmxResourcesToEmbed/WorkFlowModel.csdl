@@ -1,0 +1,1962 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="WorkFlowDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="tbl_AuthExecutives">
+    <Key>
+      <PropertyRef Name="Approver" />
+    </Key>
+    <Property Name="Approver" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Designation" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="ApprovePerson" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="ApproverEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Position" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ApprovalLevel" Type="Int16" />
+    <Property Name="Alternate1" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="Alternate2" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <Property Name="UpdateDate" Type="DateTime" Precision="0" />
+    <Property Name="UpdateBy" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="IsNotification" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <EntityType Name="vw_Documents">
+    <Key>
+      <PropertyRef Name="DocID" />
+    </Key>
+    <Property Name="DocID" Type="Int64" Nullable="false" />
+    <Property Name="DocType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="DocNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="NetPrice" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Currency" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+    <Property Name="SubmitBy" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="SubmitDate" Type="DateTime" Precision="3" />
+    <Property Name="ApprovalSubmitDate" Type="DateTime" Precision="3" />
+    <Property Name="ApprovalSubmitBy" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="Status" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+    <Property Name="AttachDoc" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="AddAttachDoc1" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="AddAttachDoc2" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="AddAttachDoc3" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+    <Property Name="VendorCode" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="VendorName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="VendorCategory" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="IssueBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="DocNetPrice" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="PRNumbers" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="PRAmount" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="PriorityCode" Type="Int16" />
+    <Property Name="IsModified" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="vw_ERP_CostCentreBudget">
+    <Key>
+      <PropertyRef Name="CommitedAmount" />
+    </Key>
+    <Property Name="Object" Type="String" MaxLength="11" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ObjectNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ObjectDesc" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+    <Property Name="GLCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="GLDesc" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="BudgetedAmount" Type="Double" />
+    <Property Name="ApprovedBudgetAmount" Type="Double" />
+    <Property Name="SupplementaryBudget1Approved" Type="Double" />
+    <Property Name="SupplementaryBudget2Approved" Type="Double" />
+    <Property Name="CommitedAmount" Type="Double" Nullable="false" />
+    <Property Name="ActualAmount" Type="Double" />
+  </EntityType>
+  <EntityType Name="vw_ERP_SalesGroupBudget">
+    <Key>
+      <PropertyRef Name="Object" />
+      <PropertyRef Name="ObjectName" />
+      <PropertyRef Name="CommitedAmount" />
+    </Key>
+    <Property Name="Object" Type="String" MaxLength="11" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ObjectNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ObjectName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="GLCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="GLDesc" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="ApprovedBudgetAmount" Type="Double" />
+    <Property Name="SupplementaryBudget1Approved" Type="Double" />
+    <Property Name="SupplementaryBudget2Approved" Type="Double" />
+    <Property Name="CommitedAmount" Type="Double" Nullable="false" />
+    <Property Name="ActualAmount" Type="Double" />
+  </EntityType>
+  <EntityType Name="vw_ERP_UserDetails">
+    <Key>
+      <PropertyRef Name="UserId" />
+      <PropertyRef Name="Password" />
+    </Key>
+    <Property Name="UserId" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="DivisionCode" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="DeptCode" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="CreateBy" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="FirstName" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="LastName" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="24" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="OrganizationName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="DepartmentName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="DesignationName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityContainer Name="WorkFlowDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="tbl_AuthExecutives" EntityType="Self.tbl_AuthExecutives" />
+    <EntitySet Name="vw_Documents" EntityType="Self.vw_Documents" />
+    <EntitySet Name="vw_ERP_CostCentreBudget" EntityType="Self.vw_ERP_CostCentreBudget" />
+    <EntitySet Name="vw_ERP_SalesGroupBudget" EntityType="Self.vw_ERP_SalesGroupBudget" />
+    <EntitySet Name="vw_ERP_UserDetails" EntityType="Self.vw_ERP_UserDetails" />
+    <EntitySet Name="tbl_CostObject" EntityType="WorkFlowDBModel.tbl_CostObject" />
+    <EntitySet Name="tbl_Division" EntityType="WorkFlowDBModel.tbl_Division" />
+    <EntitySet Name="tbl_SupBudgetDetail" EntityType="WorkFlowDBModel.tbl_SupBudgetDetail" />
+    <EntitySet Name="tbl_SupBudgetHeader" EntityType="WorkFlowDBModel.tbl_SupBudgetHeader" />
+    <EntitySet Name="vw_ERP_ProjectBudget" EntityType="WorkFlowDBModel.vw_ERP_ProjectBudget" />
+    <FunctionImport Name="ERP_ProjectBudgetSummary" ReturnType="Collection(WorkFlowDBModel.ERP_ProjectBudgetSummary_Result)">
+      <Parameter Name="DtlObjectNo" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="tbl_DocumentWorkFlow" EntityType="WorkFlowDBModel.tbl_DocumentWorkFlow" />
+    <EntitySet Name="tbl_PurchaseOrder" EntityType="WorkFlowDBModel.tbl_PurchaseOrder" />
+    <EntitySet Name="vw_tbl_DocumentDetails" EntityType="WorkFlowDBModel.vw_tbl_DocumentDetails" />
+    <EntitySet Name="vw_DocumentDetails" EntityType="WorkFlowDBModel.vw_DocumentDetails" />
+    <EntitySet Name="vw_tbl_DocumentBudget" EntityType="WorkFlowDBModel.vw_tbl_DocumentBudget" />
+    <FunctionImport Name="SP_Get_PoPrEmails" ReturnType="Collection(String)">
+      <Parameter Name="poNumber" Mode="In" Type="String" />
+      <Parameter Name="docId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_Get_PrEmails" ReturnType="Collection(String)">
+      <Parameter Name="poNumber" Mode="In" Type="String" />
+      <Parameter Name="docId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_Get_AltApprovers" ReturnType="Collection(String)">
+      <Parameter Name="user" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="tbl_LeaveDetails_His" EntityType="WorkFlowDBModel.tbl_LeaveDetails_His" />
+    <EntitySet Name="tbl_LeaveDetails" EntityType="WorkFlowDBModel.tbl_LeaveDetails" />
+    <EntitySet Name="tbl_Documents" EntityType="WorkFlowDBModel.tbl_Documents" />
+    <AssociationSet Name="FK_DocId_DocumentWorkFlow" Association="WorkFlowDBModel.FK_DocId_DocumentWorkFlow">
+      <End Role="tbl_Documents" EntitySet="tbl_Documents" />
+      <End Role="tbl_DocumentWorkFlow" EntitySet="tbl_DocumentWorkFlow" />
+    </AssociationSet>
+    <EntitySet Name="vw_Documents4AlternateApproval" EntityType="WorkFlowDBModel.vw_Documents4AlternateApproval" />
+    <EntitySet Name="vw_Documents4Approval" EntityType="WorkFlowDBModel.vw_Documents4Approval" />
+    <EntitySet Name="tbl_UserRoles" EntityType="WorkFlowDBModel.tbl_UserRoles" />
+    <FunctionImport Name="SP_CreateRFQ" ReturnType="Collection(WorkFlowDBModel.SP_CreateRFQ_Result)">
+      <Parameter Name="UserId" Mode="In" Type="String" />
+      <Parameter Name="PurchaseCategory" Mode="In" Type="String" />
+      <Parameter Name="PurchaseRemarks" Mode="In" Type="String" />
+      <Parameter Name="Status" Mode="In" Type="String" />
+      <Parameter Name="AttachmentList" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="tbl_AuthExecutives_bk1" EntityType="WorkFlowDBModel.tbl_AuthExecutives_bk1" />
+    <EntitySet Name="tbl_RequestForQuotation" EntityType="WorkFlowDBModel.tbl_RequestForQuotation" />
+    <EntitySet Name="tbl_RFQAttachments" EntityType="WorkFlowDBModel.tbl_RFQAttachments" />
+    <AssociationSet Name="FK__tbl_RFQAt__Quote__56B3DD81" Association="WorkFlowDBModel.FK__tbl_RFQAt__Quote__56B3DD81">
+      <End Role="tbl_RequestForQuotation" EntitySet="tbl_RequestForQuotation" />
+      <End Role="tbl_RFQAttachments" EntitySet="tbl_RFQAttachments" />
+    </AssociationSet>
+    <EntitySet Name="tbl_PurchaseCategory" EntityType="WorkFlowDBModel.tbl_PurchaseCategory" />
+    <FunctionImport Name="SP_GetQuote" EntitySet="tbl_RequestForQuotation" ReturnType="Collection(WorkFlowDBModel.tbl_RequestForQuotation)">
+      <Parameter Name="CreatedBy" Mode="In" Type="String" />
+      <Parameter Name="Status" Mode="In" Type="String" />
+      <Parameter Name="QuoteId" Mode="In" Type="String" />
+      <Parameter Name="Type" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_GetQuoteAttachments" EntitySet="tbl_RFQAttachments" ReturnType="Collection(WorkFlowDBModel.tbl_RFQAttachments)">
+      <Parameter Name="CreatedBy" Mode="In" Type="String" />
+      <Parameter Name="Status" Mode="In" Type="String" />
+      <Parameter Name="QuoteId" Mode="In" Type="String" />
+      <Parameter Name="Category" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_CancelQuote">
+      <Parameter Name="QuoteList" Mode="In" Type="String" />
+      <Parameter Name="UserId" Mode="In" Type="String" />
+      <Parameter Name="Type" Mode="In" Type="String" />
+      <Parameter Name="SPResult" Mode="InOut" Type="String" />
+      <Parameter Name="Remarks" Mode="In" Type="String" />
+      <Parameter Name="AttachmentList" Mode="In" Type="String" />
+      <Parameter Name="DeleteAttachmentList" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_FinaliseQuote">
+      <Parameter Name="QuoteId" Mode="In" Type="String" />
+      <Parameter Name="BuyerRemarks" Mode="In" Type="String" />
+      <Parameter Name="AttachmentList" Mode="In" Type="String" />
+      <Parameter Name="UserId" Mode="In" Type="String" />
+      <Parameter Name="SubmitterEmail" Mode="InOut" Type="String" />
+      <Parameter Name="SubmitterName" Mode="InOut" Type="String" />
+      <Parameter Name="SPResult" Mode="InOut" Type="Boolean" />
+      <Parameter Name="DeleteAttachmentList" Mode="In" Type="String" />
+      <Parameter Name="Status" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_IsPCVUser">
+      <Parameter Name="UserId" Mode="In" Type="String" />
+      <Parameter Name="SPResult" Mode="InOut" Type="Boolean" />
+    </FunctionImport>
+    <FunctionImport Name="SP_GetQuoteEmailIds">
+      <Parameter Name="QuoteNo" Mode="In" Type="String" />
+      <Parameter Name="SPResult" Mode="InOut" Type="Boolean" />
+      <Parameter Name="SubmitterName" Mode="InOut" Type="String" />
+      <Parameter Name="SubmitterEmail" Mode="InOut" Type="String" />
+      <Parameter Name="BuyerName" Mode="InOut" Type="String" />
+      <Parameter Name="BuyerEmail" Mode="InOut" Type="String" />
+      <Parameter Name="UpdatedBy" Mode="InOut" Type="String" />
+      <Parameter Name="UpdaterEmail" Mode="InOut" Type="String" />
+      <Parameter Name="SubmitterManagerEmail" Mode="InOut" Type="String" />
+      <Parameter Name="BuyerManagerEmail" Mode="InOut" Type="String" />
+      <Parameter Name="Priority" Mode="InOut" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_IsQuoteSuperuser">
+      <Parameter Name="QuoteId" Mode="In" Type="String" />
+      <Parameter Name="UserId" Mode="In" Type="String" />
+      <Parameter Name="SPResult" Mode="InOut" Type="Boolean" />
+    </FunctionImport>
+    <FunctionImport Name="SP_IsCurrentApproverIsVerifier">
+      <Parameter Name="WorkflowId" Mode="In" Type="String" />
+      <Parameter Name="SPResult" Mode="InOut" Type="Boolean" />
+    </FunctionImport>
+    <FunctionImport Name="SP_UpdateQuoteByBuyer">
+      <Parameter Name="QuoteId" Mode="In" Type="String" />
+      <Parameter Name="BuyerRemarks" Mode="In" Type="String" />
+      <Parameter Name="AttachmentList" Mode="In" Type="String" />
+      <Parameter Name="UserId" Mode="In" Type="String" />
+      <Parameter Name="DeleteAttachmentList" Mode="In" Type="String" />
+      <Parameter Name="SPResult" Mode="InOut" Type="Boolean" />
+    </FunctionImport>
+    <FunctionImport Name="SP_ReviseQuote">
+      <Parameter Name="QuoteId" Mode="In" Type="String" />
+      <Parameter Name="UserId" Mode="In" Type="String" />
+      <Parameter Name="SPResult" Mode="InOut" Type="Boolean" />
+      <Parameter Name="RevisionNo" Mode="InOut" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_TestCustom" />
+    <FunctionImport Name="GetRFQ" />
+    <FunctionImport Name="SP_TestCustomNew" ReturnType="Collection(WorkFlowDBModel.SP_TestCustomNew_Result1)" />
+    <FunctionImport Name="SP_GetDocuments" EntitySet="vw_Documents4Approval" ReturnType="Collection(WorkFlowDBModel.vw_Documents4Approval)">
+      <Parameter Name="UserId" Mode="In" Type="String" />
+      <Parameter Name="Status" Mode="In" Type="String" />
+      <Parameter Name="DocNo" Mode="In" Type="String" />
+      <Parameter Name="MDRoleToView" Mode="In" Type="String" />
+      <Parameter Name="VendorName" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_GetAlternateDocuments" EntitySet="vw_Documents4AlternateApproval" ReturnType="Collection(WorkFlowDBModel.vw_Documents4AlternateApproval)">
+      <Parameter Name="UserId" Mode="In" Type="String" />
+      <Parameter Name="Status" Mode="In" Type="String" />
+      <Parameter Name="DocNo" Mode="In" Type="String" />
+      <Parameter Name="MDRoleToView" Mode="In" Type="String" />
+      <Parameter Name="VendorName" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_IsPCVUser2">
+      <Parameter Name="UserId" Mode="In" Type="String" />
+      <Parameter Name="SPResult" Mode="InOut" Type="Boolean" />
+    </FunctionImport>
+    <FunctionImport Name="SP_Get_POEmailAllDetails">
+      <Parameter Name="poNumber" Mode="In" Type="String" />
+      <Parameter Name="docId" Mode="In" Type="Int64" />
+      <Parameter Name="status" Mode="InOut" Type="Boolean" />
+      <Parameter Name="message" Mode="InOut" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_GetDocumentDetailsByID" EntitySet="vw_tbl_DocumentDetails" ReturnType="Collection(WorkFlowDBModel.vw_tbl_DocumentDetails)">
+      <Parameter Name="DocId" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="SP_GetDocumentBudgetByID" EntitySet="vw_tbl_DocumentBudget" ReturnType="Collection(WorkFlowDBModel.vw_tbl_DocumentBudget)">
+      <Parameter Name="DocId" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="SP_GetDocumentByID" EntitySet="tbl_Documents" ReturnType="Collection(WorkFlowDBModel.tbl_Documents)">
+      <Parameter Name="DocId" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="SP_GetSBDetails" EntitySet="tbl_SupBudgetDetail" ReturnType="Collection(WorkFlowDBModel.tbl_SupBudgetDetail)">
+      <Parameter Name="RefNo" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_GetDocWorkflowForDocStatus" EntitySet="tbl_DocumentWorkFlow" ReturnType="Collection(WorkFlowDBModel.tbl_DocumentWorkFlow)">
+      <Parameter Name="DocId" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="SP_GetDocPendingWorkflow" EntitySet="tbl_DocumentWorkFlow" ReturnType="Collection(WorkFlowDBModel.tbl_DocumentWorkFlow)">
+      <Parameter Name="DocId" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="SP_GetERPUserName" EntitySet="vw_ERP_UserDetails" ReturnType="Collection(WorkFlowDBModel.vw_ERP_UserDetails)">
+      <Parameter Name="UserId" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_GetCostCentreBudget" ReturnType="Collection(String)">
+      <Parameter Name="Type" Mode="In" Type="String" />
+      <Parameter Name="ObjectNo" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_GetProjectBudget" ReturnType="Collection(String)">
+      <Parameter Name="Type" Mode="In" Type="String" />
+      <Parameter Name="ObjectNo" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_GetSalesGroupBudget" ReturnType="Collection(String)">
+      <Parameter Name="Type" Mode="In" Type="String" />
+      <Parameter Name="ObjectNo" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_GetDocumentWorkflowByDocID" EntitySet="tbl_DocumentWorkFlow" ReturnType="Collection(WorkFlowDBModel.tbl_DocumentWorkFlow)">
+      <Parameter Name="DocId" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="SP_GetDocumentWorkflowByWorkflowID" EntitySet="tbl_DocumentWorkFlow" ReturnType="Collection(WorkFlowDBModel.tbl_DocumentWorkFlow)">
+      <Parameter Name="WorkflowID" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="SP_GetLeaveDetailsHistory" EntitySet="tbl_LeaveDetails_His" ReturnType="Collection(WorkFlowDBModel.tbl_LeaveDetails_His)">
+      <Parameter Name="User" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_GetLeaveDetails" EntitySet="tbl_LeaveDetails" ReturnType="Collection(WorkFlowDBModel.tbl_LeaveDetails)">
+      <Parameter Name="User" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_GetPurchaseOrder" EntitySet="tbl_PurchaseOrder" ReturnType="Collection(WorkFlowDBModel.tbl_PurchaseOrder)">
+      <Parameter Name="DocId" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="SP_GetSBHeader" EntitySet="tbl_SupBudgetHeader" ReturnType="Collection(WorkFlowDBModel.tbl_SupBudgetHeader)">
+      <Parameter Name="RefNo" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_GetUserByID" EntitySet="vw_ERP_UserDetails" ReturnType="Collection(WorkFlowDBModel.vw_ERP_UserDetails)">
+      <Parameter Name="UserId" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_GetAuthorizeExecutive" EntitySet="tbl_AuthExecutives" ReturnType="Collection(WorkFlowDBModel.tbl_AuthExecutives)">
+      <Parameter Name="Approver" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_GetApprovedPR" EntitySet="tbl_Documents" ReturnType="Collection(WorkFlowDBModel.tbl_Documents)">
+      <Parameter Name="Status" Mode="In" Type="String" />
+      <Parameter Name="DocNo" Mode="In" Type="String" />
+      <Parameter Name="VendorName" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_GetSubmittedDocuments" EntitySet="tbl_Documents" ReturnType="Collection(WorkFlowDBModel.tbl_Documents)">
+      <Parameter Name="UserId" Mode="In" Type="String" />
+      <Parameter Name="Status" Mode="In" Type="String" />
+      <Parameter Name="DocNo" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_GetAllPurchaseOrders" EntitySet="tbl_PurchaseOrder" ReturnType="Collection(WorkFlowDBModel.tbl_PurchaseOrder)">
+      <Parameter Name="Status" Mode="In" Type="Boolean" />
+      <Parameter Name="DocNo" Mode="In" Type="String" />
+      <Parameter Name="BuyerName" Mode="In" Type="String" />
+      <Parameter Name="VendorName" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_GetSupBudget" EntitySet="tbl_SupBudgetHeader" ReturnType="Collection(WorkFlowDBModel.tbl_SupBudgetHeader)">
+      <Parameter Name="UserId" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_GetALLSBHeader" EntitySet="tbl_SupBudgetHeader" ReturnType="Collection(WorkFlowDBModel.tbl_SupBudgetHeader)">
+      <Parameter Name="UserId" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_MergePR">
+      <Parameter Name="DocIDList" Mode="In" Type="String" />
+      <Parameter Name="Result" Mode="InOut" Type="Boolean" />
+      <Parameter Name="Message" Mode="InOut" Type="String" />
+      <Parameter Name="UserId" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_ValidateMergePR">
+      <Parameter Name="DocIdList" Mode="In" Type="String" />
+      <Parameter Name="Result" Mode="InOut" Type="Boolean" />
+      <Parameter Name="Message" Mode="InOut" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_GetChildPR" EntitySet="tbl_Documents" ReturnType="Collection(WorkFlowDBModel.tbl_Documents)">
+      <Parameter Name="DocId" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="SP_UpdateSummaryDoc">
+      <Parameter Name="DocId" Mode="In" Type="Int64" />
+      <Parameter Name="Status" Mode="In" Type="String" />
+      <Parameter Name="UserId" Mode="In" Type="String" />
+      <Parameter Name="Result" Mode="InOut" Type="Boolean" />
+    </FunctionImport>
+    <EntitySet Name="tbl_ErrorsAndExceptions" EntityType="WorkFlowDBModel.tbl_ErrorsAndExceptions" />
+    <FunctionImport Name="SP_InsertLog">
+      <Parameter Name="UserName" Mode="In" Type="String" />
+      <Parameter Name="Controller" Mode="In" Type="String" />
+      <Parameter Name="Method" Mode="In" Type="String" />
+      <Parameter Name="Message" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_CheckRFQStatus">
+      <Parameter Name="RFQNo" Mode="In" Type="String" />
+      <Parameter Name="SPResult" Mode="InOut" Type="Boolean" />
+      <Parameter Name="Message" Mode="InOut" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_GetRFQAttachmetsForSubmitDoc" EntitySet="tbl_RFQAttachments" ReturnType="Collection(WorkFlowDBModel.tbl_RFQAttachments)">
+      <Parameter Name="AttachmentList" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_GetQuoteAttachmentCount">
+      <Parameter Name="RFQNo" Mode="In" Type="String" />
+      <Parameter Name="RequestorCount" Mode="InOut" Type="Int32" />
+      <Parameter Name="BuyerCount" Mode="InOut" Type="Int32" />
+    </FunctionImport>
+    <EntitySet Name="tbl_DocMergeHeader" EntityType="WorkFlowDBModel.tbl_DocMergeHeader" />
+    <EntitySet Name="tbl_DocMergeDetails" EntityType="WorkFlowDBModel.tbl_DocMergeDetails" />
+    <AssociationSet Name="FK__tbl_DocMe__Merge__5B438874" Association="WorkFlowDBModel.FK__tbl_DocMe__Merge__5B438874">
+      <End Role="tbl_DocMergeHeader" EntitySet="tbl_DocMergeHeader" />
+      <End Role="tbl_DocMergeDetails" EntitySet="tbl_DocMergeDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tbl_DocMe__SumDo__5D2BD0E6" Association="WorkFlowDBModel.FK__tbl_DocMe__SumDo__5D2BD0E6">
+      <End Role="tbl_Documents" EntitySet="tbl_Documents" />
+      <End Role="tbl_DocMergeHeader" EntitySet="tbl_DocMergeHeader" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tbl_DocMe__SumDo__5C37ACAD" Association="WorkFlowDBModel.FK__tbl_DocMe__SumDo__5C37ACAD">
+      <End Role="tbl_Documents" EntitySet="tbl_Documents" />
+      <End Role="tbl_DocMergeDetails" EntitySet="tbl_DocMergeDetails" />
+    </AssociationSet>
+    <FunctionImport Name="SP_GetMergeDocDetails" EntitySet="tbl_DocMergeDetails" ReturnType="Collection(WorkFlowDBModel.tbl_DocMergeDetails)">
+      <Parameter Name="DocId" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="SP_GetCostCentre" EntitySet="vw_ERP_CostCentre" ReturnType="Collection(WorkFlowDBModel.vw_ERP_CostCentre)" />
+    <EntitySet Name="vw_ERP_CostCentre" EntityType="WorkFlowDBModel.vw_ERP_CostCentre" />
+    <FunctionImport Name="SP_ValidateDocument">
+      <Parameter Name="DocIDList" Mode="In" Type="String" />
+      <Parameter Name="Result" Mode="InOut" Type="Boolean" />
+      <Parameter Name="Message" Mode="InOut" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_GetWarehouseBudget" ReturnType="Collection(String)">
+      <Parameter Name="Type" Mode="In" Type="String" />
+      <Parameter Name="ObjectNo" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="vw_ERP_WarehouseBudget" EntityType="WorkFlowDBModel.vw_ERP_WarehouseBudget" />
+    <EntitySet Name="vw_ERP_ServiceTaxInvoice" EntityType="WorkFlowDBModel.vw_ERP_ServiceTaxInvoice" />
+    <FunctionImport Name="SP_EInvoice_View_GetServiceTaxInvoice" EntitySet="vw_ERP_ServiceTaxInvoice" ReturnType="Collection(WorkFlowDBModel.vw_ERP_ServiceTaxInvoice)">
+      <Parameter Name="Status" Mode="In" Type="String" />
+      <Parameter Name="CustomerName" Mode="In" Type="String" />
+      <Parameter Name="Period" Mode="In" Type="String" />
+      <Parameter Name="InvoiceType" Mode="In" Type="String" />
+      <Parameter Name="Organization" Mode="In" Type="String" />
+      <Parameter Name="LastThreeMonthsPeriodList" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="vw_ERP_FujitecActiveContrItem" EntityType="WorkFlowDBModel.vw_ERP_FujitecActiveContrItem" />
+    <FunctionImport Name="SP_EInvoice_View_GetSIRDocuments" EntitySet="tbl_SIRDocuments" ReturnType="Collection(WorkFlowDBModel.tbl_SIRDocuments)">
+      <Parameter Name="BillToParty" Mode="In" Type="String" />
+      <Parameter Name="Period" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_EInvoice_View_UpdateSIRDocumentStatus">
+      <Parameter Name="TransID" Mode="In" Type="String" />
+      <Parameter Name="UserId" Mode="In" Type="String" />
+      <Parameter Name="Result" Mode="InOut" Type="Boolean" />
+      <Parameter Name="Message" Mode="InOut" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_EInvoice_View_GetActiveContract" EntitySet="vw_ERP_FujitecActiveContrItem" ReturnType="Collection(WorkFlowDBModel.vw_ERP_FujitecActiveContrItem)">
+      <Parameter Name="BillToParty" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_EInvoice_View_GetServiceTaxInvoiceByID" EntitySet="vw_ERP_ServiceTaxInvoice" ReturnType="Collection(WorkFlowDBModel.vw_ERP_ServiceTaxInvoice)">
+      <Parameter Name="LogID" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_EInvoice_View_GetEmailContent">
+      <Parameter Name="LogId" Mode="In" Type="String" />
+      <Parameter Name="Subject" Mode="InOut" Type="String" />
+      <Parameter Name="Body" Mode="InOut" Type="String" />
+      <Parameter Name="Site" Mode="InOut" Type="String" />
+      <Parameter Name="AddressLine1" Mode="InOut" Type="String" />
+      <Parameter Name="BillingPlanDescription" Mode="InOut" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_EInvoice_View_SaveEmailDetails">
+      <Parameter Name="InvoiceList" Mode="In" Type="String" />
+      <Parameter Name="To" Mode="In" Type="String" />
+      <Parameter Name="CC" Mode="In" Type="String" />
+      <Parameter Name="Subject" Mode="In" Type="String" />
+      <Parameter Name="Body" Mode="In" Type="String" />
+      <Parameter Name="AttachmentLocation" Mode="In" Type="String" />
+      <Parameter Name="IssuedBy" Mode="In" Type="String" />
+      <Parameter Name="AttachmentList" Mode="In" Type="String" />
+      <Parameter Name="Result" Mode="InOut" Type="Boolean" />
+      <Parameter Name="Message" Mode="InOut" Type="String" />
+      <Parameter Name="MailSendBy" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_EInvoice_Email_UpdateIssueEInvoiceStatus">
+      <Parameter Name="NotificationID" Mode="In" Type="Int64" />
+      <Parameter Name="InvoiceList" Mode="In" Type="String" />
+      <Parameter Name="IssuedBy" Mode="In" Type="String" />
+      <Parameter Name="Status" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_EInvoice_View_GetLastSIRConsolidatedOn">
+      <Parameter Name="LastConsolidated" Mode="InOut" Type="DateTime" />
+    </FunctionImport>
+    <EntitySet Name="tbl_SIRDocuments" EntityType="WorkFlowDBModel.tbl_SIRDocuments" />
+    <FunctionImport Name="SP_EInvoice_View_GetSIRListForDashboard" EntitySet="tbl_SIRDocuments" ReturnType="Collection(WorkFlowDBModel.tbl_SIRDocuments)">
+      <Parameter Name="Status" Mode="In" Type="String" />
+      <Parameter Name="CustomerName" Mode="In" Type="String" />
+      <Parameter Name="Period" Mode="In" Type="String" />
+      <Parameter Name="SIRStatus" Mode="In" Type="String" />
+      <Parameter Name="Site" Mode="In" Type="String" />
+      <Parameter Name="SalesGroup" Mode="In" Type="String" />
+      <Parameter Name="LastThreeMonthsPeriodList" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_EInvoice_View_GetSIRDocumentByID" EntitySet="tbl_SIRDocuments" ReturnType="Collection(WorkFlowDBModel.tbl_SIRDocuments)">
+      <Parameter Name="TransId" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="SP_EInvoice_View_GetAllServiceTaxInvoiceByStatus" EntitySet="vw_ERP_ServiceTaxInvoice" ReturnType="Collection(WorkFlowDBModel.vw_ERP_ServiceTaxInvoice)">
+      <Parameter Name="Status" Mode="In" Type="String" />
+      <Parameter Name="LastThreeMonthsPeriodList" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_EInvoice_View_GetAllSIRList" EntitySet="tbl_SIRDocuments" ReturnType="Collection(WorkFlowDBModel.tbl_SIRDocuments)">
+      <Parameter Name="Status" Mode="In" Type="String" />
+      <Parameter Name="LastThreeMonthsPeriodList" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_EInvoice_View_IsServiceAdminUser">
+      <Parameter Name="UserId" Mode="In" Type="String" />
+      <Parameter Name="SPResult" Mode="InOut" Type="Boolean" />
+    </FunctionImport>
+    <FunctionImport Name="SP_GetAllERPUsers" EntitySet="vw_ERP_UserDetails" ReturnType="Collection(WorkFlowDBModel.vw_ERP_UserDetails)">
+      <Parameter Name="UserId" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_GetUserRoleByID" EntitySet="tbl_UserRoles" ReturnType="Collection(WorkFlowDBModel.tbl_UserRoles)">
+      <Parameter Name="UserId" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="vw_ERP_ServiceSOA" EntityType="WorkFlowDBModel.vw_ERP_ServiceSOA" />
+    <FunctionImport Name="SP_SOA_View_GetALLSOAList" EntitySet="vw_ERP_ServiceSOA" ReturnType="Collection(WorkFlowDBModel.vw_ERP_ServiceSOA)">
+      <Parameter Name="Status" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_SOA_View_GetSOAListForFDashboard" EntitySet="vw_ERP_ServiceSOA" ReturnType="Collection(WorkFlowDBModel.vw_ERP_ServiceSOA)">
+      <Parameter Name="CustomerName" Mode="In" Type="String" />
+      <Parameter Name="OrganizationName" Mode="In" Type="String" />
+      <Parameter Name="CustomerType" Mode="In" Type="String" />
+      <Parameter Name="ParentOrganizationName" Mode="In" Type="String" />
+      <Parameter Name="Status" Mode="In" Type="String" />
+      <Parameter Name="Period" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_SOA_View_GetSOAByID" EntitySet="vw_ERP_ServiceSOA" ReturnType="Collection(WorkFlowDBModel.vw_ERP_ServiceSOA)">
+      <Parameter Name="LogID" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="SP_SOA_View_UpdateAsException">
+      <Parameter Name="IdList" Mode="In" Type="String" />
+      <Parameter Name="UserId" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_CreateQuote">
+      <Parameter Name="UserId" Mode="In" Type="String" />
+      <Parameter Name="PurchaseCategory" Mode="In" Type="String" />
+      <Parameter Name="PurchaseRemarks" Mode="In" Type="String" />
+      <Parameter Name="Status" Mode="In" Type="String" />
+      <Parameter Name="AttachmentList" Mode="In" Type="String" />
+      <Parameter Name="QuoteNo" Mode="In" Type="String" />
+      <Parameter Name="DeleteAttachmentList" Mode="In" Type="String" />
+      <Parameter Name="SPResult" Mode="InOut" Type="Boolean" />
+      <Parameter Name="BuyerName" Mode="InOut" Type="String" />
+      <Parameter Name="BuyerEmail" Mode="InOut" Type="String" />
+      <Parameter Name="RetQuoteNo" Mode="InOut" Type="String" />
+      <Parameter Name="RequiredDate" Mode="In" Type="DateTime" />
+      <Parameter Name="Type" Mode="In" Type="String" />
+      <Parameter Name="Priority" Mode="In" Type="Int32" />
+      <Parameter Name="IsResubmitted" Mode="InOut" Type="Boolean" />
+    </FunctionImport>
+    <FunctionImport Name="SP_SOA_View_UpdateSOAStatusToJobQueue">
+      <Parameter Name="LogId" Mode="In" Type="Int64" />
+      <Parameter Name="ToAddress" Mode="In" Type="String" />
+      <Parameter Name="CCAddress" Mode="In" Type="String" />
+      <Parameter Name="UserId" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_EInvoice_View_ExportSIRReport" EntitySet="tbl_SIRDocuments" ReturnType="Collection(WorkFlowDBModel.tbl_SIRDocuments)">
+      <Parameter Name="Period" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_ViewDocuments" EntitySet="tbl_Documents" ReturnType="Collection(WorkFlowDBModel.tbl_Documents)">
+      <Parameter Name="UserId" Mode="In" Type="String" />
+      <Parameter Name="searchText" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="vw_ERP_tbl_Customeremail" EntityType="WorkFlowDBModel.vw_ERP_tbl_Customeremail" />
+    <FunctionImport Name="SP_EInvoice_View_GetCustomerEmailDetails" EntitySet="vw_ERP_tbl_Customeremail" ReturnType="Collection(WorkFlowDBModel.vw_ERP_tbl_Customeremail)">
+      <Parameter Name="CustomerNo" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_GetUserByUserID" EntitySet="tbl_User" ReturnType="Collection(WorkFlowDBModel.tbl_User)">
+      <Parameter Name="UserId" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="tbl_User" EntityType="WorkFlowDBModel.tbl_User" />
+    <FunctionImport Name="SP_GetCustomerMaster" EntitySet="vw_ERP_tbl_Customeremail" ReturnType="Collection(WorkFlowDBModel.vw_ERP_tbl_Customeremail)">
+      <Parameter Name="CustomerName" Mode="In" Type="String" />
+      <Parameter Name="Organization" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_CheckCustomerCodeExists">
+      <Parameter Name="CustomerCode" Mode="In" Type="String" />
+      <Parameter Name="Result" Mode="InOut" Type="Boolean" />
+      <Parameter Name="Message" Mode="InOut" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="temp_tbl_Customeremail" EntityType="WorkFlowDBModel.temp_tbl_Customeremail" />
+    <FunctionImport Name="SP_UpdateCustomerEmail" />
+    <FunctionImport Name="SP_DeleteCustomerEmail">
+      <Parameter Name="IdList" Mode="In" Type="String" />
+      <Parameter Name="UserId" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_AddCustomer" />
+    <EntitySet Name="vw_ERP_Organization" EntityType="WorkFlowDBModel.vw_ERP_Organization" />
+    <FunctionImport Name="SP_GetCustomerOrganization" EntitySet="vw_ERP_tbl_Customeremail" ReturnType="Collection(WorkFlowDBModel.vw_ERP_tbl_Customeremail)" />
+  </EntityContainer>
+  <EntityType Name="tbl_CostObject">
+    <Key>
+      <PropertyRef Name="ObjectNo" />
+    </Key>
+    <Property Name="ObjectNo" Type="Int32" Nullable="false" />
+    <Property Name="ObjectName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="tbl_Division">
+    <Key>
+      <PropertyRef Name="DivisionCode" />
+    </Key>
+    <Property Name="DivisionCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="DivisionName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <Property Name="UpdateDate" Type="DateTime" Precision="0" />
+    <Property Name="UpdateBy" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="tbl_SupBudgetDetail">
+    <Key>
+      <PropertyRef Name="ReferenceNo" />
+      <PropertyRef Name="SeqNo" />
+    </Key>
+    <Property Name="ReferenceNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="SeqNo" Type="Int32" Nullable="false" />
+    <Property Name="DtlObjectNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="GLAccount" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="GLDescription" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ReqSuppBudgetAmt" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="OriginalBudgtAmt" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="SuppBudgetAmt" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="ActualAmount" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="TotalBalanceBudget" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Updatedate" Type="DateTime" Precision="3" />
+    <Property Name="UpdateBy" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="tbl_SupBudgetHeader">
+    <Key>
+      <PropertyRef Name="ReferenceNo" />
+    </Key>
+    <Property Name="ReferenceNo" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" Type="String" />
+    <Property Name="CostObject" MaxLength="15" FixedLength="false" Unicode="false" Type="String" />
+    <Property Name="ObjectNo" MaxLength="24" FixedLength="false" Unicode="false" Type="String" />
+    <Property Name="ObjectName" MaxLength="100" FixedLength="false" Unicode="false" Type="String" />
+    <Property Name="FromDivision" MaxLength="50" FixedLength="false" Unicode="false" Type="String" />
+    <Property Name="NetPrice" Precision="18" Scale="2" Type="Decimal" />
+    <Property Name="Currency" MaxLength="5" FixedLength="false" Unicode="false" Type="String" />
+    <Property Name="VariationOrderNo" MaxLength="15" FixedLength="false" Unicode="false" Type="String" />
+    <Property Name="UpdateBy" MaxLength="15" FixedLength="false" Unicode="false" Type="String" />
+    <Property Name="UpdateDate" Precision="3" Type="DateTime" />
+    <Property Name="SubmitBy" MaxLength="15" FixedLength="false" Unicode="false" Type="String" />
+    <Property Name="SubmitDate" Precision="3" Type="DateTime" />
+    <Property Name="Status" MaxLength="5" FixedLength="false" Unicode="false" Type="String" />
+    <Property Name="ApplicationFor" MaxLength="500" FixedLength="false" Unicode="false" Type="String" />
+    <Property Name="ReasonFor" MaxLength="500" FixedLength="false" Unicode="false" Type="String" />
+    <Property Name="CostCentreID" Type="Int32" />
+  </EntityType>
+  <EntityType Name="vw_ERP_ProjectBudget">
+    <Key>
+      <PropertyRef Name="CommitedAmount" />
+    </Key>
+    <Property Name="Object" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ObjectNo" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+    <Property Name="DtlObjectNo" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+    <Property Name="ObjectName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="GLCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="GLDesc" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="IsChangeOrderGroup" Type="Boolean" />
+    <Property Name="IsCommanItem" Type="Boolean" />
+    <Property Name="ApprovedBudgetAmount" Type="Double" />
+    <Property Name="SupplementaryBudget1Approved" Type="Double" />
+    <Property Name="SupplementaryBudget2Approved" Type="Double" />
+    <Property Name="CommitedAmount" Type="Double" Nullable="false" />
+    <Property Name="ActualAmount" Type="Double" />
+  </EntityType>
+  <ComplexType Name="ERP_ProjectBudgetSummary_Result">
+    <Property Type="String" Name="Object" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="ObjectNo" Nullable="true" MaxLength="8" />
+    <Property Type="String" Name="ObjectName" Nullable="true" MaxLength="256" />
+    <Property Type="String" Name="GLCode" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="GLDesc" Nullable="true" MaxLength="256" />
+    <Property Type="Boolean" Name="IsChangeOrderGroup" Nullable="true" />
+    <Property Type="Boolean" Name="IsCommanItem" Nullable="true" />
+    <Property Type="Double" Name="ApprovedBudgetAmount" Nullable="true" />
+    <Property Type="Double" Name="SupplementaryBudget1Approved" Nullable="true" />
+    <Property Type="Double" Name="SupplementaryBudget2Approved" Nullable="true" />
+    <Property Type="Double" Name="CommitedAmount" Nullable="true" />
+    <Property Type="Double" Name="ActualAmount" Nullable="true" />
+  </ComplexType>
+  <EntityType Name="tbl_DocumentWorkFlow">
+    <Key>
+      <PropertyRef Name="WorkFlowID" />
+    </Key>
+    <Property Name="WorkFlowID" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int64" />
+    <Property Name="DocID" Type="Int64" />
+    <Property Name="ApprovalLevel" MaxLength="5" FixedLength="false" Unicode="false" Type="String" />
+    <Property Name="Sequence" Type="Int32" />
+    <Property Name="Status" MaxLength="5" FixedLength="false" Unicode="false" Type="String" />
+    <Property Name="AlternateApprover" Type="Int32" />
+    <Property Name="Submitdate" Precision="3" Type="DateTime" />
+    <Property Name="Approver" MaxLength="15" FixedLength="false" Unicode="false" Type="String" />
+    <Property Name="ReportTo" MaxLength="50" FixedLength="false" Unicode="false" Type="String" />
+    <Property Name="ApproveBy" MaxLength="15" FixedLength="false" Unicode="false" Type="String" />
+    <Property Name="ApproveDate" Precision="3" Type="DateTime" />
+    <Property Name="RejectBy" MaxLength="15" FixedLength="false" Unicode="false" Type="String" />
+    <Property Name="RejectDate" Precision="3" Type="DateTime" />
+    <Property Name="Remarks" MaxLength="Max" FixedLength="false" Unicode="false" Type="String" />
+    <Property Name="CreateDate" Precision="3" Type="DateTime" />
+    <Property Name="CreateBy" MaxLength="15" FixedLength="false" Unicode="false" Type="String" />
+    <NavigationProperty Name="tbl_Documents" Relationship="WorkFlowDBModel.FK_DocId_DocumentWorkFlow" FromRole="tbl_DocumentWorkFlow" ToRole="tbl_Documents" />
+    <Property Name="IsVerifier" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="tbl_PurchaseOrder">
+    <Key>
+      <PropertyRef Name="DocID" />
+    </Key>
+    <Property Name="DocID" Type="Int64" Nullable="false" />
+    <Property Name="POType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="PurchaseOrderNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="NetPrice" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Currency" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+    <Property Name="DocNetPrice" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="POStatus" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+    <Property Name="Organization" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="Warehouse" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="VendorCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="VendorName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Vendoremail" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="BuyerCode" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+    <Property Name="BuyerName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="IsPOIssued" Type="Boolean" />
+    <Property Name="Attachment" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Attachment1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Attachment2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Attachment3" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="POIssuedBy" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="POIssuedDate" Type="DateTime" Precision="3" />
+    <Property Name="PRNumbers" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="POManageremailID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="vw_tbl_DocumentDetails">
+    <Key>
+      <PropertyRef Name="DocID" />
+      <PropertyRef Name="DocNo" />
+      <PropertyRef Name="SequenceNo" />
+    </Key>
+    <Property Name="DocID" Type="Int32" Nullable="false" />
+    <Property Name="DocNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="SequenceNo" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+    <Property Name="ItemNo" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="ItemDescription" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="CostObject" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CostObjectNo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="SourceObject" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="SourceObjectNo" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <Property Name="SalesGroupNo" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="AccountNo" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="Quantity" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="UnitPrice" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="Currency" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="NetPrice" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="NetPriceLocal" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="CostCenter" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="VendorCode" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="VendorName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="VendorCategory" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="UOM" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="RequiredOn" Type="DateTime" Precision="0" />
+    <Property Name="PRNO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Warehouse" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="vw_DocumentDetails">
+    <Key>
+      <PropertyRef Name="StatusChangeHistoryID" />
+    </Key>
+    <Property Name="StatusChangeHistoryID" Type="Int64" Nullable="false" />
+    <Property Name="StatusID" Type="Int32" />
+    <Property Name="ChangedByUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ChangedOn" Type="DateTime" Precision="3" />
+    <Property Name="DocType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="DocNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="DocNoID" Type="Int64" />
+    <Property Name="AddedOn" Type="DateTime" Precision="3" />
+    <Property Name="DocID" Type="Int64" />
+    <Property Name="Status" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+    <Property Name="AddedbyUser" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="vw_tbl_DocumentBudget">
+    <Key>
+      <PropertyRef Name="DocID" />
+      <PropertyRef Name="SequenceNo" />
+    </Key>
+    <Property Name="DocID" Type="Int64" Nullable="false" />
+    <Property Name="SequenceNo" Type="Int32" Nullable="false" />
+    <Property Name="Object" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ObjectNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ObjectName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="AccountNo" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="OrginalBudget" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="CommitBudget" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="ActualBudget" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="SuppBudget" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="BalBudget" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="ThisExp" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="DocNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="tbl_LeaveDetails_His">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="User" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="StartDate" Type="DateTime" Precision="0" />
+    <Property Name="Enddate" Type="DateTime" Precision="0" />
+    <Property Name="Remarks" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdateBy" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="tbl_LeaveDetails">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="User" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="StartDate" Type="DateTime" Precision="0" />
+    <Property Name="Enddate" Type="DateTime" Precision="0" />
+    <Property Name="Remarks" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdateBy" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="tbl_Documents">
+    <Key>
+      <PropertyRef Name="DocID" />
+    </Key>
+    <Property Name="DocID" Type="Int64" Nullable="false" />
+    <Property Name="DocType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="DocNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="NetPrice" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Currency" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+    <Property Name="SubmitBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="SubmitDate" Type="DateTime" Precision="3" />
+    <Property Name="ApprovalSubmitDate" Type="DateTime" Precision="3" />
+    <Property Name="ApprovalSubmitBy" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Status" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+    <Property Name="AttachDoc" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="AddAttachDoc1" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="AddAttachDoc2" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="AddAttachDoc3" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="VendorCode" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="VendorName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="VendorCategory" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="IssueBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="DocNetPrice" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="PRNumbers" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="PRAmount" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="PriorityCode" Type="Int16" />
+    <Property Name="ERPAttachment" Type="Boolean" Nullable="false" />
+    <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="tbl_DocumentWorkFlow" Relationship="WorkFlowDBModel.FK_DocId_DocumentWorkFlow" FromRole="tbl_Documents" ToRole="tbl_DocumentWorkFlow" />
+    <Property Name="RFQRefNo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="LastApprovalSubmitBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="LastApprovalSubmitDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IsMerged" Type="Boolean" />
+    <Property Name="IsSummaryDoc" Type="Boolean" />
+    <Property Name="DocNoList" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="IsMultipleVendor" Type="Boolean" />
+    <Property Name="VendorNameList" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="tbl_DocMergeHeader" Relationship="WorkFlowDBModel.FK__tbl_DocMe__SumDo__5D2BD0E6" FromRole="tbl_Documents" ToRole="tbl_DocMergeHeader" />
+    <NavigationProperty Name="tbl_DocMergeDetails" Relationship="WorkFlowDBModel.FK__tbl_DocMe__SumDo__5C37ACAD" FromRole="tbl_Documents" ToRole="tbl_DocMergeDetails" />
+    <Property Name="DeptCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <Association Name="FK_DocId_DocumentWorkFlow">
+    <End Type="WorkFlowDBModel.tbl_Documents" Role="tbl_Documents" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="WorkFlowDBModel.tbl_DocumentWorkFlow" Role="tbl_DocumentWorkFlow" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Documents">
+        <PropertyRef Name="DocID" />
+      </Principal>
+      <Dependent Role="tbl_DocumentWorkFlow">
+        <PropertyRef Name="DocID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="vw_Documents4AlternateApproval">
+    <Key>
+      <PropertyRef Name="DocID" />
+      <PropertyRef Name="WorkFlowID" />
+      <PropertyRef Name="Alternate1" />
+      <PropertyRef Name="Alternate2" />
+    </Key>
+    <Property Name="DocID" Type="Int64" Nullable="false" />
+    <Property Name="DocType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="DocNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="NetPrice" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Currency" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+    <Property Name="SubmitBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="SubmitDate" Type="DateTime" Precision="3" />
+    <Property Name="ApprovalSubmitDate" Type="DateTime" Precision="3" />
+    <Property Name="ApprovalSubmitBy" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Status" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+    <Property Name="AttachDoc" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="AddAttachDoc1" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="AddAttachDoc2" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="AddAttachDoc3" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="VendorCode" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="VendorName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="VendorCategory" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="IssueBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="DocNetPrice" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="PRNumbers" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="PRAmount" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="PriorityCode" Type="Int16" />
+    <Property Name="ERPAttachment" Type="Boolean" Nullable="false" />
+    <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+    <Property Name="WorkFlowID" Type="Int64" Nullable="false" />
+    <Property Name="ApprovePerson" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="Alternate1" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="Alternate2" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="WorkFlowStatus" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+    <Property Name="WorkFlowSubmitDate" Type="DateTime" Precision="3" />
+    <Property Name="AlternateApprover" Type="Int32" />
+    <Property Name="ApproveBy" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="ApproveDate" Type="DateTime" Precision="3" />
+    <Property Name="RejectBy" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="RejectDate" Type="DateTime" Precision="3" />
+    <Property Name="Approver" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="StartDate" Type="DateTime" Precision="0" />
+    <Property Name="Enddate" Type="DateTime" Precision="0" />
+    <Property Name="ApprovalLevel" Type="Int16" />
+    <Property Name="RFQRefNo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="LastApprovalSubmitBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="LastApprovalSubmitDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="vw_Documents4Approval">
+    <Key>
+      <PropertyRef Name="DocID" />
+      <PropertyRef Name="WorkFlowID" />
+    </Key>
+    <Property Name="DocID" Type="Int64" Nullable="false" />
+    <Property Name="DocType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="DocNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="NetPrice" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Currency" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+    <Property Name="SubmitBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="SubmitDate" Type="DateTime" Precision="3" />
+    <Property Name="ApprovalSubmitDate" Type="DateTime" Precision="3" />
+    <Property Name="ApprovalSubmitBy" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Status" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+    <Property Name="AttachDoc" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="AddAttachDoc1" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="AddAttachDoc2" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="AddAttachDoc3" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="VendorCode" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="VendorName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="VendorCategory" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="IssueBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="DocNetPrice" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="PRNumbers" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="PRAmount" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="PriorityCode" Type="Int16" />
+    <Property Name="ERPAttachment" Type="Boolean" Nullable="false" />
+    <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+    <Property Name="WorkFlowID" Type="Int64" Nullable="false" />
+    <Property Name="ApprovePerson" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="Alternate1" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="Alternate2" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="WorkFlowStatus" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+    <Property Name="WorkFlowSubmitDate" Type="DateTime" Precision="3" />
+    <Property Name="AlternateApprover" Type="Int32" />
+    <Property Name="ApproveBy" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="ApproveDate" Type="DateTime" Precision="3" />
+    <Property Name="RejectBy" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="RejectDate" Type="DateTime" Precision="3" />
+    <Property Name="Approver" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="ApprovalLevel" Type="Int16" />
+    <Property Name="RFQRefNo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="LastApprovalSubmitBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="LastApprovalSubmitDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="tbl_UserRoles">
+    <Key>
+      <PropertyRef Name="UserId" />
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="UserId" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="Role" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Departments" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+  </EntityType>
+  <ComplexType Name="SP_CreateRFQ_Result">
+    <Property Type="String" Name="Quote_Id" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="Buyer_Name" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Buyer_Email" Nullable="true" MaxLength="100" />
+  </ComplexType>
+  <EntityType Name="tbl_AuthExecutives_bk1">
+    <Key>
+      <PropertyRef Name="Approver" />
+    </Key>
+    <Property Name="Approver" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="Designation" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="ApprovePerson" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="ApproverEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Position" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ApprovalLevel" Type="Int16" />
+    <Property Name="Alternate1" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="Alternate2" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <Property Name="UpdateDate" Type="DateTime" Precision="0" />
+    <Property Name="UpdateBy" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="tbl_RequestForQuotation">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="QuoteId" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="PurchaseCategory" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="PurchaseRemarks" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="BuyerCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="BuyerName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="BuyerRemarks" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Modified" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="tbl_RFQAttachments" Relationship="WorkFlowDBModel.FK__tbl_RFQAt__Quote__56B3DD81" FromRole="tbl_RequestForQuotation" ToRole="tbl_RFQAttachments" />
+    <Property Name="Department" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="Year" Type="Int32" Nullable="false" />
+    <Property Name="RequiredDate" Type="DateTime" Precision="3" />
+    <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ProcessedBy" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="RevisionNo" Type="Int32" />
+    <Property Name="Priority" Type="Int32" />
+  </EntityType>
+  <EntityType Name="tbl_RFQAttachments">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="QuoteId" Type="Int64" />
+    <Property Name="AttachmentType" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="FilePath" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Modified" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="tbl_RequestForQuotation" Relationship="WorkFlowDBModel.FK__tbl_RFQAt__Quote__56B3DD81" FromRole="tbl_RFQAttachments" ToRole="tbl_RequestForQuotation" />
+    <Property Name="RevisionNo" Type="Int32" />
+  </EntityType>
+  <Association Name="FK__tbl_RFQAt__Quote__56B3DD81">
+    <End Type="WorkFlowDBModel.tbl_RequestForQuotation" Role="tbl_RequestForQuotation" Multiplicity="0..1" />
+    <End Type="WorkFlowDBModel.tbl_RFQAttachments" Role="tbl_RFQAttachments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_RequestForQuotation">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="tbl_RFQAttachments">
+        <PropertyRef Name="QuoteId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="tbl_PurchaseCategory">
+    <Key>
+      <PropertyRef Name="Category" />
+    </Key>
+    <Property Name="Category" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="BuyerCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <ComplexType Name="SP_GetQuote_Result">
+    <Property Type="Int64" Name="Id" Nullable="false" />
+    <Property Type="String" Name="QuoteId" Nullable="false" MaxLength="10" />
+    <Property Type="String" Name="PurchaseCategory" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="PurchaseRemarks" Nullable="false" MaxLength="500" />
+    <Property Type="String" Name="BuyerCode" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="BuyerName" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="BuyerRemarks" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="20" />
+    <Property Type="Boolean" Name="IsDeleted" Nullable="true" />
+    <Property Type="DateTime" Name="Created" Nullable="false" Precision="23" />
+    <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="20" />
+    <Property Type="DateTime" Name="Modified" Nullable="false" Precision="23" />
+    <Property Type="String" Name="ModifiedBy" Nullable="false" MaxLength="20" />
+  </ComplexType>
+  <ComplexType Name="SP_GetQuoteAttachments_Result">
+    <Property Type="Int64" Name="Id" Nullable="false" />
+    <Property Type="Int64" Name="QuoteId" Nullable="true" />
+    <Property Type="String" Name="AttachmentType" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="FilePath" Nullable="true" MaxLength="200" />
+    <Property Type="Boolean" Name="IsDeleted" Nullable="true" />
+    <Property Type="DateTime" Name="Created" Nullable="false" Precision="23" />
+    <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="20" />
+    <Property Type="DateTime" Name="Modified" Nullable="false" Precision="23" />
+    <Property Type="String" Name="ModifiedBy" Nullable="false" MaxLength="20" />
+  </ComplexType>
+  <ComplexType Name="SP_TestCustom_Result">
+    <Property Type="Int64" Name="Id" Nullable="false" />
+    <Property Type="String" Name="QuoteId" Nullable="false" MaxLength="20" />
+    <Property Type="String" Name="Type" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="SP_TestCustomNew_Result">
+    <Property Type="Int64" Name="Id" Nullable="false" />
+    <Property Type="String" Name="QuoteId" Nullable="false" MaxLength="20" />
+    <Property Type="String" Name="Type" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="SP_TestCustomNew_Result1">
+    <Property Type="Int64" Name="Id" Nullable="false" />
+    <Property Type="String" Name="QuoteId" Nullable="false" MaxLength="20" />
+    <Property Type="String" Name="Type" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="SP_GetDocumentDetailsByID_Result">
+    <Property Type="Int32" Name="DocID" Nullable="false" />
+    <Property Type="String" Name="DocNo" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="SequenceNo" Nullable="false" MaxLength="5" />
+    <Property Type="String" Name="ItemNo" Nullable="true" MaxLength="1000" />
+    <Property Type="String" Name="ItemDescription" Nullable="true" MaxLength="1000" />
+    <Property Type="String" Name="CostObject" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="CostObjectNo" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="SourceObject" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="SourceObjectNo" Nullable="true" MaxLength="300" />
+    <Property Type="String" Name="SalesGroupNo" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="AccountNo" Nullable="true" MaxLength="150" />
+    <Property Type="Decimal" Name="Quantity" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="UnitPrice" Nullable="true" Precision="18" Scale="4" />
+    <Property Type="String" Name="Currency" Nullable="true" MaxLength="10" />
+    <Property Type="Decimal" Name="NetPrice" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="NetPriceLocal" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="CostCenter" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="VendorCode" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="VendorName" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="VendorCategory" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="UOM" Nullable="true" MaxLength="15" />
+    <Property Type="DateTime" Name="RequiredOn" Nullable="true" />
+    <Property Type="String" Name="PRNO" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Warehouse" Nullable="true" MaxLength="10" />
+  </ComplexType>
+  <ComplexType Name="SP_GetDocumentBudgetByID_Result">
+    <Property Type="Int64" Name="DocID" Nullable="false" />
+    <Property Type="Int32" Name="SequenceNo" Nullable="false" />
+    <Property Type="String" Name="Object" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="ObjectNo" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="ObjectName" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="AccountNo" Nullable="true" MaxLength="150" />
+    <Property Type="Decimal" Name="OrginalBudget" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="CommitBudget" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="ActualBudget" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="SuppBudget" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="BalBudget" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="ThisExp" Nullable="true" Precision="18" Scale="2" />
+  </ComplexType>
+  <ComplexType Name="SP_GetDocumentByID_Result">
+    <Property Type="Int64" Name="DocID" Nullable="false" />
+    <Property Type="String" Name="DocType" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="DocNo" Nullable="true" MaxLength="50" />
+    <Property Type="Decimal" Name="NetPrice" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="Currency" Nullable="true" MaxLength="5" />
+    <Property Type="String" Name="SubmitBy" Nullable="true" MaxLength="50" />
+    <Property Type="DateTime" Name="SubmitDate" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="ApprovalSubmitDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="ApprovalSubmitBy" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="5" />
+    <Property Type="String" Name="AttachDoc" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="AddAttachDoc1" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="AddAttachDoc2" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="AddAttachDoc3" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="VendorCode" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="VendorName" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="VendorCategory" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="IssueBy" Nullable="true" MaxLength="50" />
+    <Property Type="Decimal" Name="DocNetPrice" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="PRNumbers" Nullable="true" />
+    <Property Type="Decimal" Name="PRAmount" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Int16" Name="PriorityCode" Nullable="true" />
+    <Property Type="Boolean" Name="ERPAttachment" Nullable="false" />
+    <Property Type="DateTime" Name="UpdateDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="RFQRefNo" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="LastApprovalSubmitBy" Nullable="true" MaxLength="50" />
+    <Property Type="DateTime" Name="LastApprovalSubmitDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="UpdateBy" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="SP_GetSBDetails_Result">
+    <Property Type="String" Name="ReferenceNo" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="SeqNo" Nullable="false" />
+    <Property Type="String" Name="DtlObjectNo" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="GLAccount" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="GLDescription" Nullable="true" MaxLength="50" />
+    <Property Type="Decimal" Name="ReqSuppBudgetAmt" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="OriginalBudgtAmt" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="SuppBudgetAmt" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="ActualAmount" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="TotalBalanceBudget" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="DateTime" Name="Updatedate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="UpdateBy" Nullable="true" MaxLength="15" />
+  </ComplexType>
+  <ComplexType Name="SP_GetDocWorkflowForDocStatus_Result">
+    <Property Type="Int64" Name="WorkFlowID" Nullable="false" />
+    <Property Type="Int64" Name="DocID" Nullable="true" />
+    <Property Type="String" Name="ApprovalLevel" Nullable="true" MaxLength="5" />
+    <Property Type="Int32" Name="Sequence" Nullable="true" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="5" />
+    <Property Type="Int32" Name="AlternateApprover" Nullable="true" />
+    <Property Type="DateTime" Name="Submitdate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="Approver" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="ReportTo" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="ApproveBy" Nullable="true" MaxLength="15" />
+    <Property Type="DateTime" Name="ApproveDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="RejectBy" Nullable="true" MaxLength="15" />
+    <Property Type="DateTime" Name="RejectDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="Remarks" Nullable="true" />
+    <Property Type="DateTime" Name="CreateDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="CreateBy" Nullable="true" MaxLength="15" />
+    <Property Type="Boolean" Name="IsVerifier" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SP_GetDocPendingWorkflow_Result">
+    <Property Type="Int64" Name="WorkFlowID" Nullable="false" />
+    <Property Type="Int64" Name="DocID" Nullable="true" />
+    <Property Type="String" Name="ApprovalLevel" Nullable="true" MaxLength="5" />
+    <Property Type="Int32" Name="Sequence" Nullable="true" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="5" />
+    <Property Type="Int32" Name="AlternateApprover" Nullable="true" />
+    <Property Type="DateTime" Name="Submitdate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="Approver" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="ReportTo" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="ApproveBy" Nullable="true" MaxLength="15" />
+    <Property Type="DateTime" Name="ApproveDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="RejectBy" Nullable="true" MaxLength="15" />
+    <Property Type="DateTime" Name="RejectDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="Remarks" Nullable="true" />
+    <Property Type="DateTime" Name="CreateDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="CreateBy" Nullable="true" MaxLength="15" />
+    <Property Type="Boolean" Name="IsVerifier" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SP_GetERPUserName_Result">
+    <Property Type="String" Name="UserId" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="Role" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="DivisionCode" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="DeptCode" Nullable="true" MaxLength="15" />
+    <Property Type="Boolean" Name="IsDeleted" Nullable="true" />
+    <Property Type="DateTime" Name="CreateDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="CreateBy" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="FirstName" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="LastName" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Password" Nullable="false" MaxLength="24" />
+    <Property Type="String" Name="OrganizationName" Nullable="true" MaxLength="256" />
+    <Property Type="String" Name="Email" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="DepartmentName" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="DesignationName" Nullable="true" MaxLength="256" />
+  </ComplexType>
+  <ComplexType Name="SP_GetDocumentWorkflowByDocID_Result">
+    <Property Type="Int64" Name="WorkFlowID" Nullable="false" />
+    <Property Type="Int64" Name="DocID" Nullable="true" />
+    <Property Type="String" Name="ApprovalLevel" Nullable="true" MaxLength="5" />
+    <Property Type="Int32" Name="Sequence" Nullable="true" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="5" />
+    <Property Type="Int32" Name="AlternateApprover" Nullable="true" />
+    <Property Type="DateTime" Name="Submitdate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="Approver" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="ReportTo" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="ApproveBy" Nullable="true" MaxLength="15" />
+    <Property Type="DateTime" Name="ApproveDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="RejectBy" Nullable="true" MaxLength="15" />
+    <Property Type="DateTime" Name="RejectDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="Remarks" Nullable="true" />
+    <Property Type="DateTime" Name="CreateDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="CreateBy" Nullable="true" MaxLength="15" />
+    <Property Type="Boolean" Name="IsVerifier" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SP_GetDocumentWorkflowByWorkflowID_Result">
+    <Property Type="Int64" Name="WorkFlowID" Nullable="false" />
+    <Property Type="Int64" Name="DocID" Nullable="true" />
+    <Property Type="String" Name="ApprovalLevel" Nullable="true" MaxLength="5" />
+    <Property Type="Int32" Name="Sequence" Nullable="true" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="5" />
+    <Property Type="Int32" Name="AlternateApprover" Nullable="true" />
+    <Property Type="DateTime" Name="Submitdate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="Approver" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="ReportTo" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="ApproveBy" Nullable="true" MaxLength="15" />
+    <Property Type="DateTime" Name="ApproveDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="RejectBy" Nullable="true" MaxLength="15" />
+    <Property Type="DateTime" Name="RejectDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="Remarks" Nullable="true" />
+    <Property Type="DateTime" Name="CreateDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="CreateBy" Nullable="true" MaxLength="15" />
+    <Property Type="Boolean" Name="IsVerifier" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SP_GetLeaveDetailsHistory_Result">
+    <Property Type="Int64" Name="Id" Nullable="false" />
+    <Property Type="String" Name="User" Nullable="true" MaxLength="20" />
+    <Property Type="DateTime" Name="StartDate" Nullable="true" />
+    <Property Type="DateTime" Name="Enddate" Nullable="true" />
+    <Property Type="String" Name="Remarks" Nullable="true" MaxLength="100" />
+    <Property Type="DateTime" Name="UpdateDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="UpdateBy" Nullable="true" MaxLength="20" />
+  </ComplexType>
+  <ComplexType Name="SP_GetLeaveDetails_Result">
+    <Property Type="Int64" Name="Id" Nullable="false" />
+    <Property Type="String" Name="User" Nullable="false" MaxLength="20" />
+    <Property Type="DateTime" Name="StartDate" Nullable="true" />
+    <Property Type="DateTime" Name="Enddate" Nullable="true" />
+    <Property Type="String" Name="Remarks" Nullable="true" MaxLength="100" />
+    <Property Type="DateTime" Name="UpdateDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="UpdateBy" Nullable="true" MaxLength="20" />
+  </ComplexType>
+  <ComplexType Name="SP_GetPurchaseOrder_Result">
+    <Property Type="Int64" Name="DocID" Nullable="false" />
+    <Property Type="String" Name="POType" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="PurchaseOrderNo" Nullable="true" MaxLength="50" />
+    <Property Type="Decimal" Name="NetPrice" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="Currency" Nullable="true" MaxLength="5" />
+    <Property Type="Decimal" Name="DocNetPrice" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="POStatus" Nullable="true" MaxLength="5" />
+    <Property Type="String" Name="Organization" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="Warehouse" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="VendorCode" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="VendorName" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Vendoremail" Nullable="true" />
+    <Property Type="String" Name="BuyerCode" Nullable="true" MaxLength="5" />
+    <Property Type="String" Name="BuyerName" Nullable="true" MaxLength="50" />
+    <Property Type="Boolean" Name="IsPOIssued" Nullable="true" />
+    <Property Type="String" Name="Attachment" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Attachment1" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Attachment2" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Attachment3" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="POIssuedBy" Nullable="true" MaxLength="15" />
+    <Property Type="DateTime" Name="POIssuedDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="PRNumbers" Nullable="true" />
+    <Property Type="String" Name="POManageremailID" Nullable="true" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="SP_GetSBHeader_Result">
+    <Property Type="String" Name="ReferenceNo" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="CostObject" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="ObjectNo" Nullable="true" MaxLength="24" />
+    <Property Type="String" Name="ObjectName" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="FromDivision" Nullable="true" MaxLength="50" />
+    <Property Type="Decimal" Name="NetPrice" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="Currency" Nullable="true" MaxLength="5" />
+    <Property Type="String" Name="VariationOrderNo" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="UpdateBy" Nullable="true" MaxLength="15" />
+    <Property Type="DateTime" Name="UpdateDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="SubmitBy" Nullable="true" MaxLength="15" />
+    <Property Type="DateTime" Name="SubmitDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="5" />
+    <Property Type="String" Name="ApplicationFor" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="ReasonFor" Nullable="true" MaxLength="500" />
+  </ComplexType>
+  <ComplexType Name="SP_GetUserByID_Result">
+    <Property Type="String" Name="UserId" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="Role" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="DivisionCode" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="DeptCode" Nullable="true" MaxLength="15" />
+    <Property Type="Boolean" Name="IsDeleted" Nullable="true" />
+    <Property Type="DateTime" Name="CreateDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="CreateBy" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="FirstName" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="LastName" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Password" Nullable="false" MaxLength="24" />
+    <Property Type="String" Name="OrganizationName" Nullable="true" MaxLength="256" />
+    <Property Type="String" Name="Email" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="DepartmentName" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="DesignationName" Nullable="true" MaxLength="256" />
+  </ComplexType>
+  <ComplexType Name="SP_GetAuthorizeExecutive_Result">
+    <Property Type="String" Name="Approver" Nullable="false" MaxLength="15" />
+    <Property Type="String" Name="Designation" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="ApprovePerson" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="ApproverEmail" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Position" Nullable="true" MaxLength="100" />
+    <Property Type="Int16" Name="ApprovalLevel" Nullable="true" />
+    <Property Type="String" Name="Alternate1" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="Alternate2" Nullable="true" MaxLength="15" />
+    <Property Type="Boolean" Name="IsDeleted" Nullable="true" />
+    <Property Type="Boolean" Name="IsNotification" Nullable="false" />
+    <Property Type="DateTime" Name="UpdateDate" Nullable="true" />
+    <Property Type="String" Name="UpdateBy" Nullable="true" MaxLength="15" />
+  </ComplexType>
+  <ComplexType Name="SP_GetALLSBHeader_Result">
+    <Property Type="String" Name="ReferenceNo" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="CostObject" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="ObjectNo" Nullable="true" MaxLength="24" />
+    <Property Type="String" Name="ObjectName" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="FromDivision" Nullable="true" MaxLength="50" />
+    <Property Type="Decimal" Name="NetPrice" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="Currency" Nullable="true" MaxLength="5" />
+    <Property Type="String" Name="VariationOrderNo" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="UpdateBy" Nullable="true" MaxLength="15" />
+    <Property Type="DateTime" Name="UpdateDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="SubmitBy" Nullable="true" MaxLength="15" />
+    <Property Type="DateTime" Name="SubmitDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="5" />
+    <Property Type="String" Name="ApplicationFor" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="ReasonFor" Nullable="true" MaxLength="500" />
+  </ComplexType>
+  <ComplexType Name="SP_GetChildPR_Result">
+    <Property Type="Int64" Name="DocID" Nullable="false" />
+    <Property Type="String" Name="DocType" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="DocNo" Nullable="true" MaxLength="50" />
+    <Property Type="Decimal" Name="NetPrice" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="Currency" Nullable="true" MaxLength="5" />
+    <Property Type="String" Name="SubmitBy" Nullable="true" MaxLength="50" />
+    <Property Type="DateTime" Name="SubmitDate" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="ApprovalSubmitDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="ApprovalSubmitBy" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="5" />
+    <Property Type="String" Name="AttachDoc" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="AddAttachDoc1" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="AddAttachDoc2" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="AddAttachDoc3" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="VendorCode" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="VendorName" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="VendorCategory" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="IssueBy" Nullable="true" MaxLength="50" />
+    <Property Type="Decimal" Name="DocNetPrice" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="PRNumbers" Nullable="true" />
+    <Property Type="Decimal" Name="PRAmount" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="Int16" Name="PriorityCode" Nullable="true" />
+    <Property Type="Boolean" Name="ERPAttachment" Nullable="false" />
+    <Property Type="DateTime" Name="UpdateDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="RFQRefNo" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="LastApprovalSubmitBy" Nullable="true" MaxLength="50" />
+    <Property Type="DateTime" Name="LastApprovalSubmitDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="UpdateBy" Nullable="true" MaxLength="50" />
+    <Property Type="Boolean" Name="IsMerged" Nullable="true" />
+    <Property Type="Boolean" Name="IsSummaryDoc" Nullable="true" />
+    <Property Type="String" Name="DocNoList" Nullable="true" />
+    <Property Type="Boolean" Name="IsMultipleVendor" Nullable="true" />
+    <Property Type="String" Name="VendorNameList" Nullable="true" />
+  </ComplexType>
+  <EntityType Name="tbl_ErrorsAndExceptions">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Controller" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="MethodName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Created" Type="DateTime" Precision="3" />
+    <Property Name="CreatedBy" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <ComplexType Name="SP_GetRFQAttachmetsForSubmitDoc_Result">
+    <Property Type="Int64" Name="Id" Nullable="false" />
+    <Property Type="Int64" Name="QuoteId" Nullable="true" />
+    <Property Type="String" Name="AttachmentType" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="FilePath" Nullable="true" MaxLength="200" />
+    <Property Type="Boolean" Name="IsDeleted" Nullable="true" />
+    <Property Type="DateTime" Name="Created" Nullable="false" Precision="23" />
+    <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="20" />
+    <Property Type="DateTime" Name="Modified" Nullable="false" Precision="23" />
+    <Property Type="String" Name="ModifiedBy" Nullable="false" MaxLength="20" />
+    <Property Type="Int32" Name="RevisionNo" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SP_GetRFQAttachmetsForSubmitDoc_Result1">
+    <Property Type="Int64" Name="Id" Nullable="false" />
+    <Property Type="Int64" Name="QuoteId" Nullable="true" />
+    <Property Type="String" Name="AttachmentType" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="FilePath" Nullable="true" MaxLength="200" />
+    <Property Type="Boolean" Name="IsDeleted" Nullable="true" />
+    <Property Type="DateTime" Name="Created" Nullable="false" Precision="23" />
+    <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="20" />
+    <Property Type="DateTime" Name="Modified" Nullable="false" Precision="23" />
+    <Property Type="String" Name="ModifiedBy" Nullable="false" MaxLength="20" />
+    <Property Type="Int32" Name="RevisionNo" Nullable="true" />
+  </ComplexType>
+  <EntityType Name="tbl_DocMergeHeader">
+    <Key>
+      <PropertyRef Name="MergeDocNo" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MergeDocNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Status" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="SumDocId" Type="Int64" />
+    <Property Name="Created" Type="DateTime" Precision="3" />
+    <Property Name="CreatedBy" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Modified" Type="DateTime" Precision="3" />
+    <Property Name="ModifiedBy" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="tbl_DocMergeDetails" Relationship="WorkFlowDBModel.FK__tbl_DocMe__Merge__5B438874" FromRole="tbl_DocMergeHeader" ToRole="tbl_DocMergeDetails" />
+    <NavigationProperty Name="tbl_Documents" Relationship="WorkFlowDBModel.FK__tbl_DocMe__SumDo__5D2BD0E6" FromRole="tbl_DocMergeHeader" ToRole="tbl_Documents" />
+  </EntityType>
+  <EntityType Name="tbl_DocMergeDetails">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MergeDocNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DocId" Type="Int64" />
+    <Property Name="DocNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Status" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="SumDocId" Type="Int64" />
+    <Property Name="Created" Type="DateTime" Precision="3" />
+    <Property Name="CreatedBy" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Modified" Type="DateTime" Precision="3" />
+    <Property Name="ModifiedBy" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="tbl_DocMergeHeader" Relationship="WorkFlowDBModel.FK__tbl_DocMe__Merge__5B438874" FromRole="tbl_DocMergeDetails" ToRole="tbl_DocMergeHeader" />
+    <NavigationProperty Name="tbl_Documents" Relationship="WorkFlowDBModel.FK__tbl_DocMe__SumDo__5C37ACAD" FromRole="tbl_DocMergeDetails" ToRole="tbl_Documents" />
+  </EntityType>
+  <Association Name="FK__tbl_DocMe__Merge__5B438874">
+    <End Type="WorkFlowDBModel.tbl_DocMergeHeader" Role="tbl_DocMergeHeader" Multiplicity="0..1" />
+    <End Type="WorkFlowDBModel.tbl_DocMergeDetails" Role="tbl_DocMergeDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_DocMergeHeader">
+        <PropertyRef Name="MergeDocNo" />
+      </Principal>
+      <Dependent Role="tbl_DocMergeDetails">
+        <PropertyRef Name="MergeDocNo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tbl_DocMe__SumDo__5D2BD0E6">
+    <End Type="WorkFlowDBModel.tbl_Documents" Role="tbl_Documents" Multiplicity="0..1" />
+    <End Type="WorkFlowDBModel.tbl_DocMergeHeader" Role="tbl_DocMergeHeader" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Documents">
+        <PropertyRef Name="DocID" />
+      </Principal>
+      <Dependent Role="tbl_DocMergeHeader">
+        <PropertyRef Name="SumDocId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tbl_DocMe__SumDo__5C37ACAD">
+    <End Type="WorkFlowDBModel.tbl_Documents" Role="tbl_Documents" Multiplicity="0..1" />
+    <End Type="WorkFlowDBModel.tbl_DocMergeDetails" Role="tbl_DocMergeDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Documents">
+        <PropertyRef Name="DocID" />
+      </Principal>
+      <Dependent Role="tbl_DocMergeDetails">
+        <PropertyRef Name="SumDocId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <ComplexType Name="SP_GetMergeDocDetails_Result">
+    <Property Type="Int64" Name="ID" Nullable="false" />
+    <Property Type="String" Name="MergeDocNo" Nullable="true" MaxLength="50" />
+    <Property Type="Int64" Name="DocId" Nullable="true" />
+    <Property Type="String" Name="DocNo" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="10" />
+    <Property Type="Int64" Name="SumDocId" Nullable="true" />
+    <Property Type="DateTime" Name="Created" Nullable="true" Precision="23" />
+    <Property Type="String" Name="CreatedBy" Nullable="true" MaxLength="20" />
+    <Property Type="DateTime" Name="Modified" Nullable="true" Precision="23" />
+    <Property Type="String" Name="ModifiedBy" Nullable="true" MaxLength="20" />
+  </ComplexType>
+  <ComplexType Name="SP_GetCostCentre_Result">
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Description" Nullable="true" MaxLength="100" />
+  </ComplexType>
+  <EntityType Name="vw_ERP_CostCentre">
+    <Key>
+      <PropertyRef Name="CostCentreID" />
+    </Key>
+    <Property Name="CostCentreID" Type="Int32" Nullable="false" />
+    <Property Name="CostCentreCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CostCentreAbbrevation" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CostCentreDescription" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <ComplexType Name="SP_ValidateDocument_Result">
+    <Property Type="String" Name="Result" Nullable="false" MaxLength="7" />
+    <Property Type="String" Name="Message" Nullable="false" MaxLength="1" />
+  </ComplexType>
+  <EntityType Name="vw_ERP_WarehouseBudget">
+    <Key>
+      <PropertyRef Name="Object" />
+      <PropertyRef Name="ObjectNo" />
+      <PropertyRef Name="GLCode" />
+      <PropertyRef Name="GLDesc" />
+    </Key>
+    <Property Name="Object" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="ObjectNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ObjectDesc" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+    <Property Name="GLCode" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="GLDesc" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+    <Property Name="ApprovedBudgetAmount" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="SupplementaryBudget1Approved" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="SupplementaryBudget2Approved" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="CommitedAmount" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="ActualAmount" Type="Decimal" Precision="18" Scale="2" />
+  </EntityType>
+  <EntityType Name="vw_ERP_ServiceTaxInvoice">
+    <Key>
+      <PropertyRef Name="LogID" />
+    </Key>
+    <Property Name="LogID" Type="Int64" Nullable="false" />
+    <Property Name="InvoiceNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="InvoiceType" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="Organization" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Period" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="InvoiceDate" Type="DateTime" Precision="0" />
+    <Property Name="CustomerNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CustomerName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="InvoiceAmount" Type="Decimal" Precision="13" Scale="2" />
+    <Property Name="Currency" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="InvoiceStatus" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="DocGenStatus" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="InvoiceGenStatus" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="IsInvoiceIssued" Type="Boolean" />
+    <Property Name="InvoiceIssuedBy" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="InvoiceIssuedDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdateBy" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+    <Property Name="EmailID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <ComplexType Name="SP_EInvoice_View_GetServiceTaxInvoice_Result">
+    <Property Type="Int64" Name="LogID" Nullable="false" />
+    <Property Type="String" Name="InvoiceNo" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="InvoiceType" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="Organization" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="Period" Nullable="true" MaxLength="10" />
+    <Property Type="DateTime" Name="InvoiceDate" Nullable="true" />
+    <Property Type="String" Name="CustomerNo" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="CustomerName" Nullable="true" MaxLength="500" />
+    <Property Type="Decimal" Name="InvoiceAmount" Nullable="true" Precision="13" Scale="2" />
+    <Property Type="String" Name="Currency" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="InvoiceStatus" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="DocGenStatus" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="InvoiceGenStatus" Nullable="true" MaxLength="10" />
+    <Property Type="Boolean" Name="IsInvoiceIssued" Nullable="true" />
+    <Property Type="String" Name="InvoiceIssuedBy" Nullable="true" MaxLength="15" />
+    <Property Type="DateTime" Name="InvoiceIssuedDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="UpdateBy" Nullable="true" MaxLength="15" />
+    <Property Type="DateTime" Name="UpdateDate" Nullable="true" Precision="23" />
+  </ComplexType>
+  <EntityType Name="vw_ERP_FujitecActiveContrItem">
+    <Key>
+      <PropertyRef Name="ContrOrg" />
+      <PropertyRef Name="ContractNo" />
+      <PropertyRef Name="ContrType" />
+      <PropertyRef Name="BuildingUnitID" />
+    </Key>
+    <Property Name="ContrOrg" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="BuildingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="SoldToParty" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="BillToParty" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="BuildingName" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="AddressLine1" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="AddressLine2" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="PostalCode" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+    <Property Name="Latitude" Type="Double" />
+    <Property Name="Longitude" Type="Double" />
+    <Property Name="ContractNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ContrType" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="ServiceStartDate" Type="DateTime" Precision="3" />
+    <Property Name="ServiceEndDate" Type="DateTime" Precision="3" />
+    <Property Name="Equipment" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="SiteBlockUnit" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="ProductTypeName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="SoldToPartyName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="ParentCustomer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="BillToPartyName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="BuildingUnitID" Type="Int32" Nullable="false" />
+    <Property Name="NoofService" Type="Int32" />
+    <Property Name="SalesGroup" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+    <Property Name="ChangedOn" Type="DateTime" Precision="3" />
+  </EntityType>
+  <ComplexType Name="SP_EInvoice_View_GetSIRDocuments_Result">
+    <Property Type="Int64" Name="TransID" Nullable="false" />
+    <Property Type="String" Name="OrgName" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="BuildingCode" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="SoldToParty" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="BillToParty" Nullable="true" MaxLength="10" />
+    <Property Type="Int32" Name="NoOfUnits" Nullable="true" />
+    <Property Type="Int32" Name="SIRYear" Nullable="true" />
+    <Property Type="String" Name="SIRMonth" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="SIRFileName" Nullable="true" MaxLength="500" />
+    <Property Type="DateTime" Name="ConsDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="Constatus" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="ConsRemark" Nullable="true" MaxLength="1000" />
+    <Property Type="Boolean" Name="CanConsException" Nullable="true" />
+    <Property Type="Boolean" Name="IsSIRIssued" Nullable="true" />
+    <Property Type="DateTime" Name="IssueDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="IssueBy" Nullable="true" MaxLength="50" />
+    <Property Type="DateTime" Name="UpdateDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="UpdateBy" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="SP_EInvoice_View_GetActiveContract_Result">
+    <Property Type="String" Name="ContrOrg" Nullable="false" MaxLength="256" />
+    <Property Type="String" Name="BuildingCode" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="SoldToParty" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="BillToParty" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="BuildingName" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="AddressLine1" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="AddressLine2" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="PostalCode" Nullable="true" MaxLength="60" />
+    <Property Type="Double" Name="Latitude" Nullable="true" />
+    <Property Type="Double" Name="Longitude" Nullable="true" />
+    <Property Type="String" Name="ContractNo" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="ContrType" Nullable="false" MaxLength="256" />
+    <Property Type="DateTime" Name="ServiceStartDate" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="ServiceEndDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="Equipment" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="SiteBlockUnit" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="ProductTypeName" Nullable="true" MaxLength="256" />
+    <Property Type="String" Name="SoldToPartyName" Nullable="true" MaxLength="256" />
+    <Property Type="String" Name="ParentCustomer" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="BillToPartyName" Nullable="true" MaxLength="256" />
+  </ComplexType>
+  <ComplexType Name="SP_EInvoice_View_GetServiceTaxInvoiceByID_Result">
+    <Property Type="Int64" Name="LogID" Nullable="false" />
+    <Property Type="String" Name="InvoiceNo" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="InvoiceType" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="Organization" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="Period" Nullable="true" MaxLength="10" />
+    <Property Type="DateTime" Name="InvoiceDate" Nullable="true" />
+    <Property Type="String" Name="CustomerNo" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="CustomerName" Nullable="true" MaxLength="500" />
+    <Property Type="Decimal" Name="InvoiceAmount" Nullable="true" Precision="13" Scale="2" />
+    <Property Type="String" Name="Currency" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="InvoiceStatus" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="DocGenStatus" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="InvoiceGenStatus" Nullable="true" MaxLength="10" />
+    <Property Type="Boolean" Name="IsInvoiceIssued" Nullable="true" />
+    <Property Type="String" Name="InvoiceIssuedBy" Nullable="true" MaxLength="15" />
+    <Property Type="DateTime" Name="InvoiceIssuedDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="UpdateBy" Nullable="true" MaxLength="15" />
+    <Property Type="DateTime" Name="UpdateDate" Nullable="true" Precision="23" />
+  </ComplexType>
+  <EntityType Name="tbl_SIRDocuments">
+    <Key>
+      <PropertyRef Name="TransID" />
+    </Key>
+    <Property Name="TransID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OrgName" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="BuildingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="SoldToParty" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="BillToParty" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="NoOfUnits" Type="Int32" />
+    <Property Name="SIRYear" Type="Int32" />
+    <Property Name="SIRMonth" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="SIRFileName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="ConsDate" Type="DateTime" Precision="3" />
+    <Property Name="Constatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ConsRemark" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="CanConsException" Type="Boolean" />
+    <Property Name="IsSIRIssued" Type="Boolean" />
+    <Property Name="IssueDate" Type="DateTime" Precision="3" />
+    <Property Name="IssueBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ConsBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="SalesGroup" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="NoOfService" Type="Int64" />
+    <Property Name="CompletedService" Type="Int64" />
+  </EntityType>
+  <ComplexType Name="SP_EInvoice_View_GetSIRDocumentByID_Result">
+    <Property Type="Int64" Name="TransID" Nullable="false" />
+    <Property Type="String" Name="OrgName" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="BuildingCode" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="SoldToParty" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="BillToParty" Nullable="true" MaxLength="10" />
+    <Property Type="Int32" Name="NoOfUnits" Nullable="true" />
+    <Property Type="Int32" Name="SIRYear" Nullable="true" />
+    <Property Type="String" Name="SIRMonth" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="SIRFileName" Nullable="true" MaxLength="500" />
+    <Property Type="DateTime" Name="ConsDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="Constatus" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="ConsRemark" Nullable="true" MaxLength="1000" />
+    <Property Type="Boolean" Name="CanConsException" Nullable="true" />
+    <Property Type="Boolean" Name="IsSIRIssued" Nullable="true" />
+    <Property Type="DateTime" Name="IssueDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="IssueBy" Nullable="true" MaxLength="50" />
+    <Property Type="DateTime" Name="UpdateDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="UpdateBy" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="ConsBy" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="SP_EInvoice_View_GetAllServiceTaxInvoiceByStatus_Result">
+    <Property Type="Int64" Name="LogID" Nullable="false" />
+    <Property Type="String" Name="InvoiceNo" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="InvoiceType" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="Organization" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="Period" Nullable="true" MaxLength="10" />
+    <Property Type="DateTime" Name="InvoiceDate" Nullable="true" />
+    <Property Type="String" Name="CustomerNo" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="CustomerName" Nullable="true" MaxLength="500" />
+    <Property Type="Decimal" Name="InvoiceAmount" Nullable="true" Precision="13" Scale="2" />
+    <Property Type="String" Name="Currency" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="InvoiceStatus" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="DocGenStatus" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="InvoiceGenStatus" Nullable="true" MaxLength="10" />
+    <Property Type="Boolean" Name="IsInvoiceIssued" Nullable="true" />
+    <Property Type="String" Name="InvoiceIssuedBy" Nullable="true" MaxLength="15" />
+    <Property Type="DateTime" Name="InvoiceIssuedDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="UpdateBy" Nullable="true" MaxLength="15" />
+    <Property Type="DateTime" Name="UpdateDate" Nullable="true" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="SP_GetAllERPUsers_Result">
+    <Property Type="String" Name="UserId" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="Role" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="DivisionCode" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="DeptCode" Nullable="true" MaxLength="15" />
+    <Property Type="Boolean" Name="IsDeleted" Nullable="true" />
+    <Property Type="DateTime" Name="CreateDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="CreateBy" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="FirstName" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="LastName" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Password" Nullable="false" MaxLength="24" />
+    <Property Type="String" Name="OrganizationName" Nullable="true" MaxLength="256" />
+    <Property Type="String" Name="Email" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="DepartmentName" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="DesignationName" Nullable="true" MaxLength="256" />
+  </ComplexType>
+  <ComplexType Name="SP_GetUserRoleByID_Result">
+    <Property Type="String" Name="UserId" Nullable="false" MaxLength="10" />
+    <Property Type="String" Name="Role" Nullable="false" MaxLength="20" />
+    <Property Type="String" Name="Departments" Nullable="false" MaxLength="100" />
+  </ComplexType>
+  <EntityType Name="vw_ERP_ServiceSOA">
+    <Key>
+      <PropertyRef Name="LogID" />
+    </Key>
+    <Property Name="LogID" Type="Int64" Nullable="false" />
+    <Property Name="CustomerID" Type="Int32" />
+    <Property Name="CustomerNO" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CustomerName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="OrganizationID" Type="Int32" />
+    <Property Name="OrganizationName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="CutoffDate" Type="DateTime" Precision="0" />
+    <Property Name="CustomerType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ParentCustomerName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="SOAStatus" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="SOAGenStatus" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="IsSOAIssued" Type="Boolean" />
+    <Property Name="SOAIssuedBy" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="SOAIssuedDate" Type="DateTime" Precision="3" />
+    <Property Name="SOAFileName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="email_address" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="CCemail_address" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="EmailID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="UpdateBy" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+  </EntityType>
+  <ComplexType Name="SP_SOA_View_GetALLSOAList_Result">
+    <Property Type="Int64" Name="LogID" Nullable="false" />
+    <Property Type="Int32" Name="CustomerID" Nullable="true" />
+    <Property Type="String" Name="CustomerNO" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="CustomerName" Nullable="true" MaxLength="100" />
+    <Property Type="Int32" Name="OrganizationID" Nullable="true" />
+    <Property Type="String" Name="OrganizationName" Nullable="true" MaxLength="100" />
+    <Property Type="DateTime" Name="CutoffDate" Nullable="true" />
+    <Property Type="String" Name="CustomerType" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="ParentCustomerName" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="SOAStatus" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="SOAGenStatus" Nullable="true" MaxLength="10" />
+    <Property Type="Boolean" Name="IsSOAIssued" Nullable="true" />
+    <Property Type="String" Name="SOAIssuedBy" Nullable="true" MaxLength="15" />
+    <Property Type="DateTime" Name="SOAIssuedDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="SOAFileName" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="email_address" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="CCemail_address" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="EmailID" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="UpdateBy" Nullable="true" MaxLength="15" />
+    <Property Type="DateTime" Name="UpdateDate" Nullable="true" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="SP_SOA_View_GetSOAByID_Result">
+    <Property Type="Int64" Name="LogID" Nullable="false" />
+    <Property Type="Int32" Name="CustomerID" Nullable="true" />
+    <Property Type="String" Name="CustomerNO" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="CustomerName" Nullable="true" MaxLength="100" />
+    <Property Type="Int32" Name="OrganizationID" Nullable="true" />
+    <Property Type="String" Name="OrganizationName" Nullable="true" MaxLength="100" />
+    <Property Type="DateTime" Name="CutoffDate" Nullable="true" />
+    <Property Type="String" Name="CustomerType" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="ParentCustomerName" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="SOAStatus" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="SOAGenStatus" Nullable="true" MaxLength="10" />
+    <Property Type="Boolean" Name="IsSOAIssued" Nullable="true" />
+    <Property Type="String" Name="SOAIssuedBy" Nullable="true" MaxLength="15" />
+    <Property Type="DateTime" Name="SOAIssuedDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="SOAFileName" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="email_address" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="CCemail_address" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="EmailID" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="UpdateBy" Nullable="true" MaxLength="15" />
+    <Property Type="DateTime" Name="UpdateDate" Nullable="true" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="SP_EInvoice_View_ExportSIRReport_Result">
+    <Property Type="Int64" Name="TransID" Nullable="false" />
+    <Property Type="String" Name="OrgName" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="BuildingCode" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="SalesGroup" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="SoldToParty" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="BillToParty" Nullable="true" MaxLength="10" />
+    <Property Type="Int32" Name="NoOfUnits" Nullable="true" />
+    <Property Type="Int32" Name="SIRYear" Nullable="true" />
+    <Property Type="String" Name="SIRMonth" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="SIRFileName" Nullable="true" MaxLength="500" />
+    <Property Type="DateTime" Name="ConsDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="Constatus" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="ConsRemark" Nullable="true" MaxLength="1000" />
+    <Property Type="Boolean" Name="CanConsException" Nullable="true" />
+    <Property Type="Boolean" Name="IsSIRIssued" Nullable="true" />
+    <Property Type="DateTime" Name="IssueDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="IssueBy" Nullable="true" MaxLength="50" />
+    <Property Type="DateTime" Name="UpdateDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="UpdateBy" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="ConsBy" Nullable="true" MaxLength="50" />
+    <Property Type="Int64" Name="NoOfService" Nullable="true" />
+    <Property Type="Int64" Name="CompletedService" Nullable="true" />
+  </ComplexType>
+  <EntityType Name="vw_ERP_tbl_Customeremail">
+    <Key>
+      <PropertyRef Name="CustomerName" />
+    </Key>
+    <Property Name="CustomerName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="OrganizationName" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="CustomerCode" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="email_address" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="CCemail_Address" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="Remarks" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Exclude_EInvoice" Type="Boolean" />
+    <Property Name="Exclude_SOA" Type="Boolean" />
+    <Property Name="Updateuser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="SOAemail_address" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="SOACCemail_Address" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <ComplexType Name="SP_EInvoice_View_GetCustomerEmailDetails_Result">
+    <Property Type="String" Name="CustomerName" Nullable="false" MaxLength="150" />
+    <Property Type="String" Name="OrganizationName" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="CustomerCode" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="email_address" Nullable="false" MaxLength="42" />
+    <Property Type="String" Name="Remarks" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Updateuser" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="CCemail_Address" Nullable="true" MaxLength="1000" />
+    <Property Type="Boolean" Name="Exclude_EInvoice" Nullable="true" />
+    <Property Type="Boolean" Name="Exclude_SOA" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SP_GetUserByUserID_Result">
+    <Property Type="String" Name="UserId" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="Role" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="DivisionCode" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="DeptCode" Nullable="true" MaxLength="15" />
+    <Property Type="Boolean" Name="IsDeleted" Nullable="true" />
+    <Property Type="DateTime" Name="CreateDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="CreateBy" Nullable="true" MaxLength="15" />
+    <Property Type="DateTime" Name="UpdateDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="UpdateBy" Nullable="true" MaxLength="15" />
+  </ComplexType>
+  <EntityType Name="tbl_User">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="DivisionCode" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="DeptCode" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="CreateBy" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdateBy" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="temp_tbl_Customeremail">
+    <Key>
+      <PropertyRef Name="CustomerCode" />
+    </Key>
+    <Property Name="CustomerName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="OrganizationName" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="CustomerCode" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="email_address" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="CCemail_Address" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="Remarks" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Exclude_EInvoice" Type="Boolean" />
+    <Property Name="Exclude_SOA" Type="Boolean" />
+    <Property Name="Updateuser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="SOAemail_address" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="SOACCemail_Address" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="vw_ERP_Organization">
+    <Key>
+      <PropertyRef Name="OrganizationID" />
+      <PropertyRef Name="OrganizationName" />
+    </Key>
+    <Property Name="OrganizationID" Type="Int32" Nullable="false" />
+    <Property Name="OrganizationName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="OrganizationDescription" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <ComplexType Name="SP_GetCustomerOrganization_Result">
+    <Property Type="String" Name="CustomerName" Nullable="false" MaxLength="150" />
+    <Property Type="String" Name="OrganizationName" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="CustomerCode" Nullable="false" MaxLength="15" />
+    <Property Type="String" Name="email_address" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="CCemail_Address" Nullable="true" MaxLength="1000" />
+    <Property Type="String" Name="Remarks" Nullable="true" MaxLength="100" />
+    <Property Type="Boolean" Name="Exclude_EInvoice" Nullable="true" />
+    <Property Type="Boolean" Name="Exclude_SOA" Nullable="true" />
+    <Property Type="String" Name="Updateuser" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="SOAemail_address" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="SOACCemail_Address" Nullable="true" MaxLength="1000" />
+  </ComplexType>
+</Schema>

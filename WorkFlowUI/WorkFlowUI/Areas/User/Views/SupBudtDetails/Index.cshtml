@@ -1,0 +1,747 @@
+﻿@model WorkFlowUI.ViewModel.SupplimentaryDetailsViewModel
+
+@{
+    ViewBag.Title = "AddEditSubDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@if (TempData["Msg"] != null)
+{
+    <h3> @TempData["Msg"].ToString()</h3>
+}
+
+<style type="text/css">
+    dt, dd {
+        line-height: 2.5 !important;
+    }
+
+    dt {
+        text-align: left !important;
+    }
+
+    .ddl {
+        width: 250px;
+        margin-bottom: 10px;
+    }
+
+    .txtArea {
+        margin-bottom: 10px;
+    }
+</style>
+
+
+
+<h2>Add Supplementary Budget Details</h2>
+
+
+@using (Html.BeginForm("SubmitReferenceNo", "SupBudtDetails", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        @*<h4>SupplimentaryHeaderViewModel</h4>*@
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayName("Reference No")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SupHeader.ReferenceNo)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Raising Department")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.costCentre)
+            </dd>
+
+
+            <dt>
+                @Html.DisplayName("Cost Object")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SupHeader.CostObject)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Object No")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SupHeader.ObjectNo)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Object Name")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SupHeader.ObjectName)
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Variation Order No")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SupHeader.VariationOrderNo)
+            </dd>
+            <dt>
+                @Html.DisplayName("Application For")
+            </dt>
+
+            <dd>
+                @*@Html.DisplayFor(model => model.SupHeader.ApplicationFor)*@
+                @Html.TextAreaFor(model => model.SupHeader.ApplicationFor, new { id = "txtApplicationFor", @class = "form-control txtArea", @cols = 1, @rows = 3, @style = "width:60%" })
+            </dd>
+
+            <dt>
+                @Html.DisplayName("Reason For")
+            </dt>
+
+            <dd>
+                @*@Html.DisplayFor(model => model.SupHeader.ReasonFor)*@
+                @Html.TextAreaFor(model => model.SupHeader.ReasonFor, new { id = "txtReasonFor", @class = "form-control txtArea", @cols = 1, @rows = 3, @style = "width:60%;display:inline" })
+                <input type="button" value="Save" id="btnSave" class="btn btn-primary" onclick="SaveRefChanges();" />
+                <h4 class="text-danger"><label id="lblError1" style="display:none"></label></h4>
+            </dd>
+
+        </dl>
+        <hr />
+
+        <div class="form-group">
+            <div class="col-md-offset-0 col-md-10">
+                <input value="Add" type="button" id="btnAdd" class="btn btn-primary" onclick="DisplayRowCreateCss();" />
+                <h4 class="text-danger"><label id="lblError" style="display:none"></label></h4>
+            </div>
+        </div>
+
+
+        <table class="table table-striped table-bordered table-hover">
+            <tr class="info">
+                <th>
+                    @Html.DisplayName("Dtl Object No")
+                </th>
+                <th>
+                    @Html.DisplayName("GL Account")
+                </th>
+                <th>
+                    @Html.DisplayName("GL Description")
+                </th>
+
+                <th>
+                    @Html.DisplayName("Org Budget Amt")
+                </th>
+                <th>
+                    @Html.DisplayName("Supp Budget Amt")
+                </th>
+                <th>
+                    @Html.DisplayName("Actual Amount")
+                </th>
+                <th>
+                    @Html.DisplayName("Total Bal Budget")
+                </th>
+                <th>
+                    @Html.DisplayName("Req Supp Budget Amt")
+                </th>
+                @*<th>
+                        @Html.DisplayNameFor(model => model.SupDetails.Updatedate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.SupDetails.UpdateBy)
+                    </th>*@
+                <th></th>
+            </tr>
+            <tr id="rowDetailCreate" style="display:none">
+                <td>
+                    @Html.DropDownListFor(model => model.DtlObjectNo, Model.DtlObjectNo, "-- Select Object --", new { Class = "ddlStyle", id = "ddlObjectNumber" })
+                </td>
+                @if (Model.SupHeader.CostObject == "Inventory Stock")
+                {
+                    <td>N/A</td>
+                    <td>N/A</td>
+                }
+                else
+                {
+                    <td>
+                        @Html.DropDownListFor(model => model.SupDetail.GLAccount, Model.GLAccounts, "-- Select GlCode --", new { Class = "ddlStyle", id = "ddlGlaAccount" })
+                    </td>
+                    <td>
+                        @Html.LabelFor(model => model.SupDetail.GLDescription, new { id = "GlDescr", name = "GlDescr" })
+                    </td>
+                }
+                <td>
+                    @Html.LabelFor(model => model.SupDetail.OriginalBudgtAmt, new { @class = "textBoxStyle", id = "OriginalBudgtAmt", name = "OriginalBudgtAmt" })
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.SupDetail.SuppBudgetAmt, new { @class = "textBoxStyle", id = "SuppBudgetAmt" })
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.SupDetail.ActualAmount, new { @class = "textBoxStyle", id = "ActualAmount" })
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.SupDetail.TotalBalanceBudget, new { @class = "textBoxStyle", id = "TotalBalanceBudget" })
+                </td>
+                <td>
+
+                    @Html.TextBoxFor(model => model.SupDetail.ReqSuppBudgetAmt, new { @class = "textBoxStyle", id = "ReqSuppBudgetAmt" })
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.Updatedate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UpdateBy)
+                    </td>*@
+                <td>
+
+                    @Html.ActionLink("Save", "CreateSupDetails1", new { id = "btnCreate" }, new { onclick = "return CreateSupDetails('" + Model.SupHeader.ReferenceNo + "');return false;" })
+                    |@Html.ActionLink("Cancel", "CreateSupDetails1", new { id = "btnCancel" }, new { onclick = "CancelCreateSubDetails();return false;" })
+                </td>
+            </tr>
+            @foreach (var item in Model.SupDetails)
+            {
+                <tr id="rowDetailEdit" style="display:none">
+                    <td>
+                        @Html.DropDownListFor(model => model.SupDetail.DtlObjectNo, Model.DtlObjectNo, "-- Select Object --", new { Class = "ddlStyle", id = "ddlObjectNumber" })
+                    </td>
+                    <td>
+                        @Html.DropDownListFor(model => model.SupDetail.GLAccount, Model.GLAccounts, "-- Select GlCode --", new { Class = "ddlStyle", id = "ddlGlaAccount" })
+                    </td>
+                    <td>
+                        @Html.LabelFor(model => item.GLDescription, new { id = "GlDescr", name = "GlDescr" })
+                    </td>
+
+                    <td>
+                        @Html.LabelFor(model => item.OriginalBudgtAmt, new { @class = "textBoxStyle", id = "OriginalBudgtAmt", name = "OriginalBudgtAmt" })
+                    </td>
+                    <td>
+                        @Html.LabelFor(model => item.SuppBudgetAmt, new { @class = "textBoxStyle", id = "SuppBudgetAmt" })
+                    </td>
+                    <td>
+                        @Html.LabelFor(model => item.ActualAmount, new { @class = "textBoxStyle", id = "ActualAmount" })
+                    </td>
+                    <td>
+                        @Html.LabelFor(model => item.TotalBalanceBudget, new { @class = "textBoxStyle", id = "TotalBalanceBudget" })
+                    </td>
+                    <td>
+
+                        @Html.TextBoxFor(model => item.ReqSuppBudgetAmt, new { @class = "textBoxStyle", id = "ReqSuppBudgetAmt" })
+                    </td>
+                    @*<td>
+                            @Html.DisplayFor(modelItem => item.Updatedate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UpdateBy)
+                        </td>*@
+                    <td>
+
+                        @Html.ActionLink("Save", "CreateSupDetails1", new { id = "btnCreate" }, new { onclick = "return CreateSupDetails();" })
+
+                        | <input type="button" id="btnCancel" onclick="DisplayCancelCreateSubDetails();" value="Cancel" />
+                    </td>
+                </tr>
+                <tr id="rowDetailDisplay">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DtlObjectNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GLAccount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GLDescription)
+                    </td>
+
+                    <td>
+                        @* @Html.DisplayFor(modelItem => item.OriginalBudgtAmt)*@
+                        @if (item.OriginalBudgtAmt != null)
+                        {
+                            var OriginalBudgtAmt = Convert.ToDecimal(item.OriginalBudgtAmt).ToString("#,##0.00");
+                            @Html.DisplayFor(m => OriginalBudgtAmt)
+                        }
+                    </td>
+                    <td>
+                        @*@Html.DisplayFor(modelItem => item.SuppBudgetAmt)*@
+                        @if (item.SuppBudgetAmt != null)
+                        {
+                            var SuppBudgetAmt = Convert.ToDecimal(item.SuppBudgetAmt).ToString("#,##0.00");
+                            @Html.DisplayFor(m => SuppBudgetAmt)
+                        }
+                    </td>
+                    <td>
+                        @* @Html.DisplayFor(modelItem => item.ActualAmount)*@
+                        @if (item.ActualAmount != null)
+                        {
+                            var ActualAmount = Convert.ToDecimal(item.ActualAmount).ToString("#,##0.00");
+                            @Html.DisplayFor(m => ActualAmount)
+                        }
+                    </td>
+                    <td>
+                        @*@Html.DisplayFor(modelItem => item.TotalBalanceBudget)*@
+                        @if (item.TotalBalanceBudget != null)
+                        {
+                            var TotalBalanceBudget = Convert.ToDecimal(item.TotalBalanceBudget).ToString("#,##0.00");
+                            @Html.DisplayFor(m => TotalBalanceBudget)
+                        }
+                    </td>
+                    <td>
+                        @* @Html.DisplayFor(modelItem => item.ReqSuppBudgetAmt)*@
+                        @if (item.ReqSuppBudgetAmt != null)
+                        {
+                            var ReqSuppBudgetAmt = Convert.ToDecimal(item.ReqSuppBudgetAmt).ToString("#,##0.00");
+                            @Html.DisplayFor(m => ReqSuppBudgetAmt)
+                        }
+                    </td>
+                    @*<td>
+                            @Html.DisplayFor(modelItem => item.Updatedate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UpdateBy)
+                        </td>*@
+                    <td>
+                        @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |*@
+                        @Html.ActionLink("Delete", "DeleteSubDetail", new { id = item.ReferenceNo, seq = item.SeqNo }, new { onclick = "return confirm('Are you sure want to Delete?')" })
+                    </td>
+                </tr>
+            }
+
+        </table>
+        <div class="form-group">
+            <div class="col-md-offset-0 col-md-10">
+                <input value="Release" type="submit" id="btnRelease" class="btn btn-primary" onclick="return SubmitReference();" />
+            </div>
+        </div>
+
+    </div>
+}
+<script src="~/scripts/jquery-1.10.2.min.js"></script>
+<script>
+
+
+    function SubmitReference()
+    {
+        if (!confirm('Are you sure want to Release?'))
+            return false;
+        @*$.ajax({
+            cache: false,
+            type: "GET",
+            url: '@Url.Action("SubmitReferenceNo", "SupBudtDetails")',
+            data: '',
+            success: function (data) {
+                if (data == "Success") {
+                      $("#lblError").css("display", "");
+                      $("#lblError").html("Document released successfully.");
+                      $("#btnAdd").prop('disabled', true);
+                      $("#btnRelease").prop('disabled', true);
+                }
+                else {
+                    //  debugger;
+                    //$("#lblError").css("display", "");
+                    //$("#lblError").html(data);
+                }
+            }
+            ,
+            error: function (xhr) {
+                alert("error: " + xhr.statusText);
+            }
+            });*@
+    }
+    function CancelCreateSubDetails()
+    {
+        $("#rowDetailCreate").css("display", "none");
+        NewRowCss();
+    }
+    function SaveRefChanges()
+    {
+        $("#lblError").css("display", "none");
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: '@Url.Action("SaveRefChanges", "SupBudtDetails")',
+            data: {
+                "ApplicationFor": $("#txtApplicationFor").val(),    "ReasonFor": $("#txtReasonFor").val()
+            },
+            success: function (data) {
+                if (data == "Success") {
+                    $("#lblError1").css("display", "");
+                    $("#lblError1").html("Saved Successfully.");
+                }
+                else {
+                    //  debugger;
+                    $("#lblError").css("display", "");
+                    $("#lblError").html(data);
+                }
+                //  $("#ddlGlaAccount").empty();
+                //   json = json || {};
+                // $("#ddlGlaAccount").append('<option value="">' + "-- Select GlCode --" + '</option>');
+                // debugger;
+
+                //for (var i = 0; i < json.length; i++) {
+                // $("#ddlGlaAccount").append('<option value="' + json[i].GlDesc + '">' + json[i].GlCode + '</option>');
+
+                // }
+                //  $("#ddlGlaAccount").prop("disabled", false);
+            },
+            error: function (xhr) {
+                alert("error: " + xhr.statusText);
+            }
+
+        });
+    }
+    function CreateSupDetails(refNo) {
+        $("#lblError").css("display", "none");
+        var isCreated = false;
+        var costObj=@Html.Raw("'" + Model.SupHeader.CostObject + "'");
+        var glCode,glDesc;
+        if (costObj=="Inventory Stock")
+        {
+            glCode=glDesc="N/A";
+        }
+        else
+        {
+            glCode=$("#ddlGlaAccount option:selected").val();
+            glDesc=$("#GlDescr").text();
+        }
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: '@Url.Action("CreateSupDetails", "SupBudtDetails")',
+            data: {
+                "ReqAmount": $("#ReqSuppBudgetAmt").val(), "objectNumber": $("#ddlObjectNumber option:selected").text(),
+                "glCode": glCode, "glDesc": glDesc
+            },
+            success: function (data) {
+                if (data == "Success") {
+                    // debugger;
+                    //var refNo = @Model.SupHeader.ReferenceNo;
+                    // window.location.href = "/User/SupBudtDetails/Index/" + refNo
+                    window.location.reload();
+                    isCreated = true;
+                }
+                else {
+                    //  debugger;
+                    $("#lblError").css("display", "");
+                    $("#lblError").html(data);
+                }
+                //  $("#ddlGlaAccount").empty();
+                //   json = json || {};
+                // $("#ddlGlaAccount").append('<option value="">' + "-- Select GlCode --" + '</option>');
+                // debugger;
+
+                //for (var i = 0; i < json.length; i++) {
+                // $("#ddlGlaAccount").append('<option value="' + json[i].GlDesc + '">' + json[i].GlCode + '</option>');
+
+                // }
+                //  $("#ddlGlaAccount").prop("disabled", false);
+            },
+            error: function (xhr) {
+                alert("error: " + xhr.statusText);
+            }
+
+        });
+        return isCreated;
+    }
+    $(document).ready(function () {
+        var detailCnt = @(Model.SupDetails.Count());
+        if(detailCnt==0)
+        {
+            $("#btnRelease").prop('disabled', true);
+        }
+        $("#ddlObjectNumber").change(function () {
+            var id = $("#ddlObjectNumber").val();
+            var costObj=@Html.Raw("'"+Model.SupHeader.CostObject+"'");
+            //alert(costObj);
+            if(costObj == "Inventory Stock")
+            {
+                getBudget('');
+            }
+            else
+            {
+                $("#ddlGlaAccount").empty();
+                $.ajax({
+                    cache: false,
+                    type: "GET",
+                    url: '@Url.Action("GetGlaAccounts", "SupBudtDetails")',
+                    data: { "objectNo": id },
+                    success: function (json, textStatus) {
+                        $("#ddlGlaAccount").empty();
+                        json = json || {};
+                        $("#ddlGlaAccount").append('<option value="">' + "-- Select GlCode --" + '</option>');
+                        for (var i = 0; i < json.length; i++) {
+                            $("#ddlGlaAccount").append('<option value="' + json[i].GlCode + '">' + json[i].GlCode + '--' + json[i].GlDesc + '</option>');
+                        }
+                        //  $("#ddlGlaAccount").prop("disabled", false);
+                    },
+                    error: function (xhr) {
+                        alert("error: " + xhr.statusText);
+                    }
+                });
+            }            
+        });
+
+        $("#ddlGlaAccount").change(function () {
+            // debugger;
+            var glCode = $("#ddlGlaAccount option:selected").val();
+            var someString = $("#ddlGlaAccount option:selected").text();
+            var index = someString.indexOf("--");  // Gets the first index where a space occours
+            // var glCode = someString.substr(0, index); // Gets the first part
+            var text = someString.substr(index + 2);
+            $("#GlDescr").text(text);
+            getBudget(glCode);
+        });
+
+    });
+    function getBudget(glCode)
+    {
+        $.ajax({
+            cache: false,
+            type: "GET",
+            url: '@Url.Action("GetSupDetailByGlCode", "SupBudtDetails")',
+            data: { "glCode": glCode, "objectNumber": $("#ddlObjectNumber option:selected").text() },
+            success: function (json, textStatus) {
+                //  $("#ddlGlaAccount").empty();
+                json = json || {};
+                // $("#ddlGlaAccount").append('<option value="">' + "-- Select GlCode --" + '</option>');
+                // debugger;
+                $("#OriginalBudgtAmt").html(json.OriginalBudgtAmt);
+                $("#SuppBudgetAmt").html(json.SuppBudgetAmt);
+                $("#ActualAmount").html(json.ActualAmount);
+                $("#TotalBalanceBudget").html(json.TotalBalanceBudget);
+                //for (var i = 0; i < json.length; i++) {
+                // $("#ddlGlaAccount").append('<option value="' + json[i].GlDesc + '">' + json[i].GlCode + '</option>');
+
+                // }
+                //  $("#ddlGlaAccount").prop("disabled", false);
+            },
+            error: function (xhr) {
+                alert("error: " + xhr.statusText);
+            }
+        });
+    }
+    function DisplayRowCreateCss()
+    {
+        $("#rowDetailCreate").css("display", "");
+        NewRowCss();
+    }
+    function NewRowCss()
+    {
+        $("#OriginalBudgtAmt").html("");
+        $("#SuppBudgetAmt").html("");
+        $("#ActualAmount").html("");
+        $("#TotalBalanceBudget").html("");
+        $("#GlDescr").text("");
+        //  debugger;
+        $("#ReqSuppBudgetAmt").val("");
+        //$("ReqSuppBudgetAmt").val("");
+        $("#ddlObjectNumber").val("");
+        $("#ddlGlaAccount").val("");
+    }
+
+    //$(function () {
+    //    $('.edit-mode').hide();
+    //    $('.edit-user, .cancel-user').on('click', function () {
+    //        var tr = $(this).parents('tr:first');
+    //        tr.find('.edit-mode, .display-mode').toggle();
+    //    });
+    //    $('.save-user').on('click', function () {
+    //        var tr = $(this).parents('tr:first');
+    //        var EmpID = tr.find("#EmpId").html();
+    //        var EmpName = tr.find("#Name").val();
+    //        var EmpDesignation = tr.find("#Designation").val();
+    //        var EmpCity = tr.find("#City").val();
+    //        var EmpState = tr.find("#State").val();
+    //        var EmpZip = tr.find("#Zip").val();
+
+    //        //Creating Employee JSON object
+    //        var EmployeeModel =
+    //        {
+    //            "Id": EmpID,
+    //            "Name": EmpName,
+    //            "Designation": EmpDesignation,
+    //            "City": EmpCity,
+    //            "State": EmpState,
+    //            "Zip": EmpZip
+    //        };
+    //        //Posting Employee object to controller's Update action method
+    //        $.ajax({
+    //            url: '/Employee/Update',
+    //            data: JSON.stringify(EmployeeModel),
+    //            type: 'POST',
+    //            contentType: 'application/json; charset=utf-8',
+    //            success: function (data) {
+    //                tr.find('.edit-mode, .display-mode').toggle();
+    //                alert('Record updated Successfully!!');
+    //            }
+    //        });
+
+    //    });
+
+    //    $('.edit-user').on('click', function () {
+    //        var tr = $(this).parents('tr:first');
+    //        var EmpID = tr.find("#EmpId").html();
+    //        var EmpName = tr.find("#Name").val();
+    //        var EmpDesignation = tr.find("#Designation").val();
+    //        var EmpCity = tr.find("#City").val();
+    //        var EmpState = tr.find("#State").val();
+    //        var EmpZip = tr.find("#Zip").val();
+
+    //        tr.find("#lblName").text(EmpName);
+    //        tr.find("#lblDesignation").text(EmpDesignation);
+    //        tr.find("#lblCity").text(EmpCity);
+    //        tr.find("#lblState").text(EmpState);
+    //        tr.find("#lblZip").text(EmpZip);
+    //    });
+    //    $('#add').on('click', function () {
+    //        $('table').prepend('<tr>' +
+    //                '<td><input name=\'title\' id=\'title\' /></td>' +
+    //                '<td><input name=\'isbn\' id=\'isbn\' /></td>' +
+    //                '<td><select name=\'authorId\' id=\'authorId\'></select></td>' +
+    //                '<td><select name=\'categoryId\' id=\'categoryId\'></select></td>' +
+    //                '<td><input name=\'price\' id=\'price\' /></td>' +
+    //                '</tr><tr><td colspan=\'5\'><button>Save</button></td>');
+    //        $.getJSON('/GetData/Authors', function (authors) {
+    //            $('#authorId').append(
+    //                    $('<option/>')
+    //                        .attr('value', '')
+    //                        .text('-- Select Author --'));
+    //            $.each(authors, function (index, author) {
+    //                $('#authorId').append(
+    //                    $('<option/>')
+    //                        .attr('value', author.AuthorId)
+    //                        .text(author.Author)
+    //                );
+    //            });
+    //        });
+    //        $.getJSON('/GetData/Categories', function (categories) {
+    //            $('#categoryId').append(
+    //                    $('<option/>')
+    //                        .attr('value', '')
+    //                        .text('-- Select Category --'));
+    //            $.each(categories, function (index, category) {
+    //                $('#categoryId').append(
+    //                    $('<option/>')
+    //                        .attr('value', category.CategoryId)
+    //                        .text(category.Category)
+    //                );
+    //            });
+    //        });
+    //        $('#add').hide();
+    //    });
+    //})
+</script>
+
+<div>
+    @Html.ActionLink("Back to List", "Index", "SupplementaryBudget")
+</div>
+@*<style type="text/css">
+        .edit-mode {
+        }
+
+        .edit-user {
+        }
+
+            .edit-user display-mode {
+            }
+
+        .save-user edit-mode {
+        }
+
+        .display-mode {
+        }
+
+        .cancel-user {
+        }
+
+        .webgrid-table {
+            font-family: Arial,Helvetica,sans-serif;
+            font-size: 14px;
+            font-weight: normal;
+            width: 800px;
+            display: table;
+            border-collapse: collapse;
+            border: solid px #C5C5C5;
+            background-color: white;
+        }
+
+            .webgrid-table td, th {
+                border: 1px solid #C5C5C5;
+                padding: 3px 7px 2px;
+            }
+
+        .webgrid-header, .webgrid-header a {
+            background-color: #0094ff;
+            color: #ffffff;
+            text-align: left;
+            text-decoration: none;
+        }
+
+        .webgrid-footer {
+        }
+
+        .webgrid-row-style {
+            padding: 3px 7px 2px;
+        }
+
+        .webgrid-alternating-row {
+            background-color: azure;
+            padding: 3px 7px 2px;
+        }
+
+        .col1Width {
+            width: 55px;
+        }
+
+        .col2Width {
+            width: 100px;
+        }
+
+        .col3Width {
+            width: 520px;
+        }
+    </style>*@
+
+@*@{
+        // ViewBag.Title = "Index";
+        var grid = new WebGrid(source: Model.SupDetails, canPage: true, rowsPerPage: 10);
+        grid.Pager(WebGridPagerModes.All);
+    }*@
+@*<div id="gridContent" style="font-family: Arial; padding: 20px;">
+            @grid.GetHtml(tableStyle: "webgrid-table",
+    headerStyle: "webgrid-header",
+    footerStyle: "webgrid-footer",
+    alternatingRowStyle: "webgrid-alternating-row",
+    selectedRowStyle: "webgrid-selected-row",
+    rowStyle: "webgrid-row-style",
+    mode: WebGridPagerModes.All,
+    columns: grid.Columns(
+        grid.Column("DtlObjectNo", format: @<text><span class="display-mode">@item.DtlObjectNo</span><label id="DtlObjectNo" class="edit-mode">@item.DtlObjectNo</label></text>,
+                    style: "col1Width"),
+        grid.Column("GLAccount", "GLAccount", format: @<text><span class="display-mode"><label id="lblGLAccount">@item.GLAccount</label></span>
+        <input type="text" id="GLAccount" value="@item.GLAccount" class="edit-mode" /></text>, style: "col2Width"),
+
+         grid.Column("GLDescription", "GLDescription", format: @<text> <span class="display-mode"><label id="lblGLDescription">@item.GLDescription</label></span>
+        <input type="text" id="GLDescription" value="@item.GLDescription" class="edit-mode" /></text>, style: "col2Width"),
+
+        grid.Column("OriginalBudgtAmt", "OriginalBudgtAmt", format: @<text> <span class="display-mode"><label id="lblOriginalBudgtAmt">@item.OriginalBudgtAmt</label></span>
+        <input type="text" id="OriginalBudgtAmt" value="@item.OriginalBudgtAmt" class="edit-mode" /></text>, style: "col2Width"),
+
+        grid.Column("SuppBudgetAmt", "SuppBudgetAmt", format: @<text> <span class="display-mode"><label id="lblSuppBudgetAmt">@item.SuppBudgetAmt</label></span>
+        <input type="text" id="SuppBudgetAmt" value="@item.SuppBudgetAmt" class="edit-mode" /></text>, style: "col2Width"),
+
+        grid.Column("ActualAmount", "ActualAmount", format: @<text> <span class="display-mode"><label id="lblActualAmount">@item.ActualAmount</label></span>
+        <input type="text" id="ActualAmount" value="@item.ActualAmount" class="edit-mode" /></text>, style: "col2Width"),
+         grid.Column("TotalBalanceBudget", "TotalBalanceBudget", format: @<text> <span class="display-mode"><label id="lblTotalBalanceBudget">@item.TotalBalanceBudget</label></span>
+        <input type="text" id="TotalBalanceBudget" value="@item.TotalBalanceBudget" class="edit-mode" /></text>, style: "col2Width"),
+
+
+    grid.Column("Action", format: @<text>
+            <button class="edit-user display-mode">Edit</button>
+            <button class="save-user edit-mode">Save</button>
+            <button class="cancel-user edit-mode">Cancel</button>
+    </text>, style: "col3Width", canSort: false)
+            ))
+        </div>*@

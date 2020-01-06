@@ -1,0 +1,738 @@
+﻿@model WorkFlowUI.ViewModel.CustomerMasterViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if ((Convert.ToString(ViewData["Status"]) == "E" || Convert.ToString(ViewData["Status"]) == "S") && Convert.ToString(TempData["Msg"]) != null)
+{
+    <script type="text/javascript">
+        alert('@Convert.ToString(TempData["Msg"])');
+        var urlLocation = "@Url.Action("Index", "CustomerMaster", new { customerName = "",status="V" })";
+        urlLocation = urlLocation.replace(/&amp;/g, "&");
+        window.location.href = urlLocation;
+    </script>
+}
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $("#ddlPagesize option[value='" + @Convert.ToString(ViewData["Pagesize"]) +"']").attr("selected", "selected");
+
+        $("#ddlPagesize").change(function () {
+            var pageCount = $("#ddlPagesize option:selected").val();
+            var urlLocation = "@Url.Action("Index", new { CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])), Page = (Convert.ToString(ViewData["Page"]) == null ? "1" : Convert.ToString(ViewData["Page"])), Pagesize = "PagesizeValue" })";
+            urlLocation = urlLocation.replace("PagesizeValue", pageCount);
+            urlLocation = urlLocation.replace(/&amp;/g, "&");
+            window.location.href = urlLocation;
+        });
+
+        $('#btnSearch').click(function () {
+            this.href = this.href.replace("CustomerNameValue", checkandreplace($("#txtCustomerName").val()));
+
+            var dropdownval=""
+            if ($("#ddlOrganization option:selected").val() != "-- Select --") {
+                dropdownval = $("#ddlOrganization option:selected").val();                
+            }
+            this.href = this.href.replace("OrganizationValue", dropdownval);
+
+        });
+
+
+        $('#cbAllCustomer').on('click', function () {
+            if (this.checked) {
+                $('.cbCustomer').each(function () {
+                    this.checked = true;
+                });
+            } else {
+                $('.cbCustomer').each(function () {
+                    this.checked = false;
+                });
+            }
+        });
+
+        $('.cbCustomer').on('click', function () {
+            if ($('.cbCustomer:checked').length == $('.cbCustomer').length) {
+                $('#cbAllCustomer').prop('checked', true);
+            } else {
+                $('#cbAllCustomer').prop('checked', false);
+            }
+        });
+
+    });
+
+    function ConfirmAdd() {
+        var form = document.getElementById("addForm");
+        var errMessage = "";
+        if ($("#newCust_OrganizationName option:selected").val() == "-- Select --") {
+            errMessage = errMessage + "Organization name shouldn't be blank\n";
+        }
+        if ($("#newCust_CustomerCode").val() == "") {
+            errMessage = errMessage + "Customer code shouldn't be blank\n";
+        }
+        if ($("#newCust_CustomerName").val() == "") {
+            errMessage = errMessage + "Customer name shouldn't be blank\n";
+        }
+        if (!($("#newCust_Exclude_EInvoice").is(":checked")) && $("#newCust_email_address").val() == "") {
+            errMessage = errMessage + "Email address shouldn't be blank\n";
+        }
+        if ($("#newCust_email_address").val() != "") {
+            var to_addr = $("#newCust_email_address").val().split(';');
+            for (var i = 0; i < to_addr.length; i++) {
+                if (!validateEmail(to_addr[i])) {
+                    errMessage = errMessage + "Email address format is incorrect\n";
+                    break;
+                }
+            }
+        }
+        if ($("#newCust_CCemail_Address").val() != "") {
+            var to_addr = $("#newCust_CCemail_Address").val().split(';');
+            for (var i = 0; i < to_addr.length; i++) {
+                if (!validateEmail(to_addr[i])) {
+                    errMessage = errMessage + "CC Email address format is incorrect\n";
+                    break;
+                }
+            }
+        }
+
+
+        if (!($("#newCust_Exclude_SOA").is(":checked")) && $("#newCust_SOAemail_address").val() == "") {
+            errMessage = errMessage + "SOA Email address shouldn't be blank\n";
+        }
+        if ($("#newCust_SOAemail_address").val() != "") {
+            var to_addr = $("#newCust_SOAemail_address").val().split(';');
+            for (var i = 0; i < to_addr.length; i++) {
+                if (!validateEmail(to_addr[i])) {
+                    errMessage = errMessage + "SOA Email address format is incorrect\n";
+                    break;
+                }
+            }
+        }
+        if ($("#newCust_SOACCemail_Address").val() != "") {
+            var to_addr = $("#newCust_SOACCemail_Address").val().split(';');
+            for (var i = 0; i < to_addr.length; i++) {
+                if (!validateEmail(to_addr[i])) {
+                    errMessage = errMessage + "SOA CC Email address format is incorrect\n";
+                    break;
+                }
+            }
+        }
+
+        if (errMessage == "") {
+            $.ajax({
+                async: false,
+                cache: false,
+                type: "GET",
+                url: '@Url.Action("checkCustomerCodeExists", "CustomerMaster")',
+                data: {
+                    "CustomerCode": $("#newCust_CustomerCode").val()
+                },
+                success: function (data) {
+                    //alert(data.toLowerCase());
+                    if (data == "0") {
+                        if (confirm('Are you sure you want to save this customer'))
+                            form.submit();
+                    }
+                    else {
+                        //alert('Customer code : ' + $("#newCust_CustomerCode").val() + ' is already exists');
+                        var msg;
+                        if (data.split(',').length > 1) {
+                            msg = data.split(',')[1];
+                        }
+                        else {
+                            msg = "Unable to save : Unexpected error";
+                        }
+                        alert(data.split(',')[1]);
+                        return false;
+                    }
+                },
+                error: function (xhr) {
+                    alert("error: " + xhr.statusText);
+                    return true;
+                }
+            });
+        }
+        else {
+            alert(errMessage);
+            return false;
+        }
+        return false;
+    }
+
+    function checkCustomerCodeExists() {
+
+    }
+    function ConfirmCancel() {
+        var urlLocation = "@Url.Action("Index", "CustomerMaster", new { customerName = "",status="V" })";
+        urlLocation = urlLocation.replace(/&amp;/g, "&");
+        window.location.href = urlLocation;
+        return false;
+    }
+
+    function ConfirmUpdate() {
+        //error-row-email-failed
+        var to_addr, cc_addr, to_addr_arr, cc_addr_arr, soaTo_addr, soaCC_addr, soaTo_addr_arr, soaCC_addr_arr;
+        var isSuccess = true;
+        var errMessage = "";
+        $('.legend-row').hide();
+        $("#tableMain tr").each(function () {
+            if ($(this).find('textarea[id*="_email_address"]').hasClass('error-row-email-empty')) {
+                $(this).find('textarea[id*="_email_address"]').removeClass('error-row-email-empty');
+            }
+            if ($(this).find('textarea[id*="_email_address"]').hasClass('error-row-email-formatfailed')) {
+                $(this).find('textarea[id*="_email_address"]').removeClass('error-row-email-formatfailed');
+            }
+            if ($(this).find('textarea[id*="_CCemail_address"]').hasClass('error-row-email-empty')) {
+                $(this).find('textarea[id*="_CCemail_address"]').removeClass('error-row-email-empty');
+            }
+            if ($(this).find('textarea[id*="_CCemail_Address"]').hasClass('error-row-email-formatfailed')) {
+                console.log('cc class cleared');
+                $(this).find('textarea[id*="_CCemail_Address"]').removeClass('error-row-email-formatfailed');
+            }
+            if ($(this).find('textarea[id*="_SOAemail_address"]').hasClass('error-row-email-empty')) {
+                $(this).find('textarea[id*="_SOAemail_address"]').removeClass('error-row-email-empty');
+            }
+            if ($(this).find('textarea[id*="_SOAemail_address"]').hasClass('error-row-email-formatfailed')) {
+                $(this).find('textarea[id*="_SOAemail_address"]').removeClass('error-row-email-formatfailed');
+            }
+            if ($(this).find('textarea[id*="_SOACCemail_address"]').hasClass('error-row-email-empty')) {
+                $(this).find('textarea[id*="_SOACCemail_address"]').removeClass('error-row-email-empty');
+            }
+            if ($(this).find('textarea[id*="_SOACCemail_Address"]').hasClass('error-row-email-formatfailed')) {
+                console.log('soa cc class cleared');
+                $(this).find('textarea[id*="_SOACCemail_Address"]').removeClass('error-row-email-formatfailed');
+            }
+        });
+        //var checked = GetCheckedItems();
+        //if (checked.length == 0) {
+        //    isSuccess = false;
+        //    errMessage = errMessage + "Please select at least one SOA to send\n";
+        //}
+        var isEmailValidated = true;
+        $("#tableMain tr").each(function () {
+            if ($(this).find('input[type="checkbox"]')[0].id != "cbAllCustomer") {
+                //alert($(this).find('input:checkbox[id*="_Exclude_EInvoice"]').is(":checked"));
+                //console.log($(this).find('input:checkbox[id*="_Exclude_EInvoice"]').is(":checked") + ',' + $(this).find('input:checkbox[id*="_Exclude_SOA"]').is(":checked"));
+                to_addr = cc_addr = null;
+                soaTo_addr = soaCC_addr = null;
+                to_addr = $(this).find('textarea[id*="_email_address"]').val();
+                cc_addr = $(this).find('textarea[id*="_CCemail_Address"]').val();
+
+                soaTo_addr = $(this).find('textarea[id*="_SOAemail_address"]').val();
+                soaCC_addr = $(this).find('textarea[id*="_SOACCemail_Address"]').val();
+
+                //alert(to_addr + ',' + cc_addr);
+                if (!($(this).find('input:checkbox[id*="_Exclude_EInvoice"]').is(":checked"))) {
+                    if ((to_addr != null && to_addr == "")) {
+                        isEmailValidated = false;
+                        if (!$(this).find('textarea[id*="_email_address"]').hasClass('error-row-email-empty')) {
+                            $(this).find('textarea[id*="_email_address"]').addClass('error-row-email-empty');
+                        }
+                    }
+                }
+                if (to_addr != null && to_addr != "") {
+                    to_addr_arr = to_addr.split(';');
+                    for (var i = 0; i < to_addr_arr.length; i++) {
+                        if (!validateEmail(to_addr_arr[i])) {
+                            isEmailValidated = false;
+                            if (!$(this).find('textarea[id*="_email_address"]').hasClass('error-row-email-formatfailed')) {
+                                $(this).find('textarea[id*="_email_address"]').addClass('error-row-email-formatfailed');
+                            }
+                        }
+                    }
+                }
+                //alert(cc_addr);
+                if (cc_addr != null && cc_addr != "") {
+                    cc_addr_arr = cc_addr.split(';');
+                    for (var i = 0; i < cc_addr_arr.length; i++) {
+                        if (!validateEmail(cc_addr_arr[i])) {
+                            console.log('cc format failed');
+                            isEmailValidated = false;
+                            if (!$(this).find('textarea[id*="_CCemail_Address"]').hasClass('error-row-email-formatfailed')) {
+                                $(this).find('textarea[id*="_CCemail_Address"]').addClass('error-row-email-formatfailed');
+                            }
+                        }
+                    }
+                }
+
+                
+
+                if (!($(this).find('input:checkbox[id*="_Exclude_SOA"]').is(":checked"))) {
+                    if ((soaTo_addr != null && soaTo_addr == "")) {
+                        isEmailValidated = false;
+                        if (!$(this).find('textarea[id*="_SOAemail_address"]').hasClass('error-row-email-empty')) {
+                            $(this).find('textarea[id*="_SOAemail_address"]').addClass('error-row-email-empty');
+                        }
+                    }
+                }
+                if (soaTo_addr != null && soaTo_addr != "") {
+                    soaTo_addr_arr = soaTo_addr.split(';');
+                    for (var i = 0; i < soaTo_addr_arr.length; i++) {
+                        if (!validateEmail(soaTo_addr_arr[i])) {
+                            isEmailValidated = false;
+                            if (!$(this).find('textarea[id*="_SOAemail_address"]').hasClass('error-row-email-formatfailed')) {
+                                $(this).find('textarea[id*="_SOAemail_address"]').addClass('error-row-email-formatfailed');
+                            }
+                        }
+                    }
+                }
+                //alert(cc_addr);
+                if (soaCC_addr != null && soaCC_addr != "") {
+                    soaCC_addr_arr = soaCC_addr.split(';');
+                    for (var i = 0; i < soaCC_addr_arr.length; i++) {
+                        if (!validateEmail(soaCC_addr_arr[i])) {
+                            console.log('soa cc format failed');
+                            isEmailValidated = false;
+                            if (!$(this).find('textarea[id*="_SOACCemail_Address"]').hasClass('error-row-email-formatfailed')) {
+                                $(this).find('textarea[id*="_SOACCemail_Address"]').addClass('error-row-email-formatfailed');
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        if (!isEmailValidated) {
+            isSuccess = false;
+            $('.legend-row').show();
+            $('.lgValidation').show();
+            errMessage = errMessage + "Email ID's having error. TO Email address shouldn't be empty and should be valid email address (TO & CC) \n";
+        }
+        if (isSuccess) {
+            if (confirm('Are you sure you want to update?')) {
+                //$("#hdnCustomerSelectedList").val(JSON.stringify(checked.toArray()));
+                return true;
+            }
+        }
+        else {
+            alert(errMessage);
+        }
+        return false;
+    }
+
+
+    function ConfirmDelete() {
+        var checked = GetCheckedItems();
+        if (checked.length == 0) {
+            alert("Please select at least one customer to delete");
+            return false;
+        }
+        if (confirm('Are you sure you want to delete selected customer(s)?')) {
+            $("#hdnCustomerSelectedList").val(JSON.stringify(checked.toArray()));
+            return true;
+        }
+        return false;
+    }
+    function GetCheckedItems() {
+        var checked = $(".cbCustomer").filter(":checked").map(function () { return this.id; });
+        return checked;
+    }
+    function validateEmail(email) {
+        var re = /^(([^<>()[\]\\.,;:\s@@\"]+(\.[^<>()[\]\\.,;:\s@@\"]+)*)|(\".+\"))@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
+        //return true;
+    }
+</script>
+<style type="text/css">
+    .spaninfo
+    {
+        font-size:11px;
+        font-style:italic;
+    }
+    .mandatory {
+        color: red !important;
+    }
+
+    .error-row-email-empty {
+        background-color: #ffa4a4 !important;
+    }
+
+    .error-row-email-formatfailed {
+        background-color: yellow !important;
+    }
+
+    .legend-jobqueue {
+        background-color: lightGreen !important;
+    }
+
+    .tr-overdue {
+        background-color: #ffe4e4;
+    }
+
+    .legend-div {
+        width: 80px;
+        height: 30px;
+        border: 1px solid lightgrey;
+    }
+
+    .legend-row {
+        margin-left: 5px;
+        margin-top: 10px;
+        padding: 5px;
+    }
+
+    .lgValidation, .lgInformation {
+        display: none;
+    }
+
+    .legend-detail-row {
+        margin-bottom: 10px;
+    }
+
+    .empty-row {
+        height: 15px !important;
+    }
+
+    tr.group,
+    tr.group:hover {
+        background-color: #ddd !important;
+    }
+
+    .spanIssueEInvoice, .spanExceptionInvoice {
+        color: #e95420;
+        text-decoration: none;
+        background-color: white;
+        padding: 5px;
+        border: 1px solid white;
+        border-radius: 5px;
+        margin: 5px;
+    }
+
+
+        .spanIssueEInvoice:hover, .spanExceptionInvoice:hover {
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+    .lastConsolidatedOn {
+        background-color: lightyellow;
+        padding: 5px;
+        text-align: center;
+        border: 1px solid gray;
+        border-radius: 5px;
+        font-size: 15px;
+    }
+
+    .showPendingUnits {
+        color: #e95420;
+    }
+
+        .showPendingUnits:hover {
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+    .modal-body {
+        max-height: 600px;
+        overflow-y: auto;
+    }
+</style>
+@if (Convert.ToString(ViewData["Mode"]) == "Edit")
+{
+
+    using (Html.BeginForm("UpdateCustomer", "CustomerMaster", FormMethod.Post))
+    {
+
+        <h2> @Html.ActionLink("Add", "Index", new { Status = "A" }) / Update Customer Master </h2>
+
+        <div class="row empty-row">
+            <div class="col-sm-12">
+            </div>
+        </div>
+
+        <div>
+            <div class="row" style="margin-bottom:10px">
+                <div class="col-sm-2">
+                    Customer Name
+                </div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(model => model.searchCustomerName, new { id = "txtCustomerName", @style = "width:100%" })
+                </div>
+            </div>
+            <div class="row" style="margin-bottom:10px">
+                <div class="col-sm-2">
+                    Organization
+                </div>
+                <div class="col-sm-4">
+                    @Html.DropDownListFor(model => model.searchOrganization, Model.organizationList, new { id = "ddlOrganization" })
+                </div>
+            </div>
+            <div class="row" style="margin-bottom:10px">
+                <div class="col-sm-2">
+                </div>
+                <div class="col-sm-10">
+                    @Html.ActionLink("Search", "Index", new { CustomerName = "CustomerNameValue", Organization = "OrganizationValue", Pagesize = Convert.ToString(ViewData["Pagesize"]), }, new { id = "btnSearch" })
+
+                    @Html.Raw("&nbsp;&nbsp;")
+
+                    @Html.ActionLink("Clear", "Index", new { CustomerName = "" }, new { id = "btnClear" })
+                    @Html.Raw("&nbsp;&nbsp;")
+                    @Html.ActionLink("Export To Excel", "ExportToExcel")
+                </div>
+            </div>
+        </div>
+
+            <div class="row">
+                <div class="col-sm-5">
+                    @{
+                        List<SelectListItem>
+                            listItems = new List<SelectListItem>
+                                ();
+                        listItems.Add(new SelectListItem
+                        {
+                            Text = "10",
+                            Value = "10",
+                        });
+                        listItems.Add(new SelectListItem
+                        {
+                            Text = "25",
+                            Value = "25",
+                        });
+                        listItems.Add(new SelectListItem
+                        {
+                            Text = "50",
+                            Value = "50",
+                        });
+                        listItems.Add(new SelectListItem
+                        {
+                            Text = "100",
+                            Value = "100",
+                            Selected = true
+                        });
+
+                        @Html.DropDownList("ddlPagesize", listItems)
+
+                    }
+                </div>
+
+            </div>
+            <div class="row empty-row">
+                <div class="col-sm-12">
+                </div>
+            </div>
+            <div class="row legend-row">
+                <div class="row legend-detail-row lgValidation">
+                    <div class="col-sm-1">
+                        <div class="legend-div error-row-email-empty"></div>
+                    </div>
+                    <div class="col-sm-6">
+                        Email address shouldn't be blank
+                    </div>
+                </div>
+                <div class="row legend-detail-row lgValidation">
+                    <div class="col-sm-1">
+                        <div class="legend-div error-row-email-formatfailed"></div>
+                    </div>
+                    <div class="col-sm-6">
+                        Email address format is incorrect
+                    </div>
+                </div>
+            </div>
+
+            @Html.HiddenFor(Model => Model.delCustomerCodeList, new { id = "hdnCustomerSelectedList" })
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table class="table table-striped table-bordered table-hover" id="tableMain">
+                                    <thead>
+                                        <tr class="info">
+                                            <th><input type="checkbox" id="cbAllCustomer" /></th>
+                                            <th>Organization</th>
+                                            <th>Customer Name</th>
+                                            <th>
+                                                EInvoice To
+                                            </th>
+                                            <th>
+                                                EInvoice CC
+                                            </th>
+                                            <th>
+                                                SOA To
+                                            </th>
+                                            <th>
+                                                SOA CC
+                                            </th>
+                                            <th>Exclude E-Invoice</th>
+                                            <th>Exclude SOA</th>
+                                            <th>Updated By</th>
+                                        </tr>
+                                    </thead>
+
+                                    @for (int i = 0; i < Model.custList.Count; i++)
+                                    {
+                                        <tr>
+                                            <td><input type="checkbox" class="cbCustomer" id="@Model.custList[i].CustomerCode" /></td>
+                                            <td>@Html.Raw(Model.custList[i].OrganizationName)</td>
+                                            <td>
+                                                @Html.HiddenFor(modelItem => Model.custList[i].CustomerCode)
+                                                @Html.HiddenFor(modelItem => Model.custList[i].CustomerName)
+                                                @Html.HiddenFor(modelItem => Model.custList[i].OrganizationName)
+                                                @Html.HiddenFor(modelItem => Model.custList[i].Remarks)
+                                                @Html.Raw(Model.custList[i].CustomerCode + " - " + Model.custList[i].CustomerName)
+                                            </td>
+                                            <td>
+                                                @Html.TextAreaFor(modelItem => Model.custList[i].email_address, new { rows = "5", cols = "35", @name = "custList[" + @Model.custList[i].CustomerName + "].email_address" })
+                                            </td>
+                                            <td>
+                                                @Html.TextAreaFor(modelItem => Model.custList[i].CCemail_Address, new { rows = "5", cols = "35", @name = "custList[" + @Model.custList[i].CustomerName + "].CCemail_Address" })
+                                            </td>
+                                            <td>
+                                                @Html.TextAreaFor(modelItem => Model.custList[i].SOAemail_address, new { rows = "5", cols = "35", @name = "custList[" + @Model.custList[i].CustomerName + "].SOAemail_address" })
+                                            </td>
+                                            <td>
+                                                @Html.TextAreaFor(modelItem => Model.custList[i].SOACCemail_Address, new { rows = "5", cols = "35", @name = "custList[" + @Model.custList[i].CustomerName + "].SOACCemail_Address" })
+                                            </td>
+                                            <td>
+                                                @*@Html.CheckBoxFor(modelItem => Model.custList[i].Exclude_EInvoice, new { @name = "custList[" + @Model.custList[i].Exclude_EInvoice + "].Exclude_EInvoice" })*@
+                                                @Html.CheckBox("custList[" + i + "].Exclude_EInvoice", Model.custList[i].Exclude_EInvoice != null && (bool)Model.custList[i].Exclude_EInvoice)
+                                            </td>
+                                            <td>
+                                                @*@Html.CheckBoxFor(Model.custList[i].Exclude_SOA, new { @name = "custList[" + @Model.custList[i].Exclude_SOA + "].Exclude_SOA" })*@
+                                                @Html.CheckBox("custList[" + i + "].Exclude_SOA", Model.custList[i].Exclude_SOA != null && (bool)Model.custList[i].Exclude_SOA)
+                                            </td>
+                                            <td>@Html.Raw(Model.custList[i].Updateuser)</td>
+                                        </tr>
+                                    }
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <input type="submit" name="Command" value="Update" onclick="return ConfirmUpdate();" class="btn btn-primary" />
+                                @Html.Raw("&nbsp;&nbsp;")
+                                <input type="submit" name="Command" value="Delete" onclick="return ConfirmDelete();" class="btn btn-primary" />
+                            </div>
+                        </div>
+                        double TotalPage = Convert.ToDouble(ViewData["TotalPages"]);
+
+                        <ul class="pagination">
+                            @for (int i = 1; i <= TotalPage; i++)
+                            {
+                                if (i == Convert.ToInt16(ViewData["Page"]))
+                                {
+                                    <li class="active"> @Html.ActionLink(i.ToString(), "Index", new { CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])), Organization = Convert.ToString(ViewData["Organization"]), page = i, Pagesize = Convert.ToString(ViewData["Pagesize"]) })</li>
+                                }
+                                else
+                                {
+                                    <li> @Html.ActionLink(i.ToString(), "Index", new { CustomerName = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["CustomerName"])), Organization = Convert.ToString(ViewData["Organization"]), page = i, Pagesize = Convert.ToString(ViewData["Pagesize"]) })</li>
+                                }
+                            }
+                        </ul>
+
+
+
+                            }
+
+                        }
+                        else if (Convert.ToString(ViewData["Mode"]) == "Add")
+                        {
+
+                            using (Html.BeginForm("AddCustomer", "CustomerMaster", FormMethod.Post, new { @name = "addForm", @id = "addForm" }))
+                            {
+
+                                <h2> Add / @Html.ActionLink("Update", "Index", new { Status = "V" }) Customer Master </h2>
+
+                                <div class="row empty-row">
+                                    <div class="col-sm-12">
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="row" style="margin-bottom:10px">
+                                        <div class="col-lg-2">
+                                            Organization Name<span class="mandatory">*</span>
+                                        </div>
+                                        <div class="col-lg-8">
+                                            @*@Html.TextBoxFor(model => model.newCust.OrganizationName, new { @style = "width:100%;max-width:400px !important;", @readonly = "readonly" })*@
+
+                                            @Html.DropDownListFor(model => model.newCust.OrganizationName, Model.organizationList, new { @style = "width:90%" })
+
+                                        </div>
+                                    </div>
+
+                                    <div class="row" style="margin-bottom:10px">
+                                        <div class="col-lg-2">
+                                            Customer Code<span class="mandatory">*</span>
+                                        </div>
+                                        <div class="col-lg-8">
+                                            @Html.TextBoxFor(model => model.newCust.CustomerCode, new { @style = "width:100%;max-width:400px !important;" })
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-bottom:10px">
+                                        <div class="col-lg-2">
+                                            Customer Name<span class="mandatory">*</span>
+                                        </div>
+                                        <div class="col-lg-8">
+                                            @Html.TextBoxFor(model => model.newCust.CustomerName, new { @style = "width:100%;max-width:400px !important;" })
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-bottom:10px">
+                                        <div class="col-lg-2">
+                                            Email Address<br /><span class="spaninfo">( use semicolon (;) to seperate two email address )</span>
+                                        </div>
+                                        <div class="col-lg-8">
+                                            @Html.TextAreaFor(modelItem => Model.newCust.email_address, new { rows = "5", cols = "54" })
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-bottom:10px">
+                                        <div class="col-lg-2">
+                                            CC-Email Address<br /><span class="spaninfo">( use semicolon (;) to seperate two email address )</span>
+                                        </div>
+                                        <div class="col-lg-8">
+                                            @Html.TextAreaFor(modelItem => Model.newCust.CCemail_Address, new { rows = "5", cols = "54" })
+                                        </div>
+                                    </div>
+
+                                    <div class="row" style="margin-bottom:10px">
+                                        <div class="col-lg-2">
+                                            SOA Email Address<br /><span class="spaninfo">( use semicolon (;) to seperate two email address )</span>
+                                        </div>
+                                        <div class="col-lg-8">
+                                            @Html.TextAreaFor(modelItem => Model.newCust.SOAemail_address, new { rows = "5", cols = "54" })
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-bottom:10px">
+                                        <div class="col-lg-2">
+                                            SOA CC-Email Address<br /><span class="spaninfo">( use semicolon (;) to seperate two email address )</span>
+                                        </div>
+                                        <div class="col-lg-8">
+                                            @Html.TextAreaFor(modelItem => Model.newCust.SOACCemail_Address, new { rows = "5", cols = "54" })
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row" style="margin-bottom:10px">
+                                        <div class="col-lg-2">
+                                            Exclude EInvoice
+                                        </div>
+                                        <div class="col-lg-8">
+                                            @Html.CheckBox("newCust.Exclude_EInvoice", new { @style = "width:100%;max-width:30px !important;" })
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-bottom:10px">
+                                        <div class="col-lg-2">
+                                            Exclude SOA
+                                        </div>
+                                        <div class="col-lg-8">
+                                            @Html.CheckBox("newCust.Exclude_SOA", new { @style = "width:100%;max-width:30px !important;" })
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row empty-row">
+                                        <div class="col-lg-12">
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <input type="submit" name="Command" value="Save" onclick="return ConfirmAdd();" class="btn btn-primary" />
+                                            @Html.Raw("&nbsp;&nbsp;")
+                                            <input type="submit" name="Command" value="Cancel" onclick="return ConfirmCancel();" class="btn btn-primary" />
+                                        </div>
+                                    </div>
+
+                                </div>
+                            }
+                        }

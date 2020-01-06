@@ -1,0 +1,59 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkFlowUI", "WorkFlowUI\WorkFlowUI.csproj", "{C3E47A62-206D-4AE0-9717-41E333561D63}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BOL", "..\BOL\BOL.csproj", "{9F89555A-0851-4799-97AF-FE815D4E6B24}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BLL", "..\BLL\BLL.csproj", "{AE076602-9AA0-4A9E-917C-B509459BE9B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "..\DAL\DAL.csproj", "{A13D893C-8AAA-4A41-889F-340592F91733}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C3E47A62-206D-4AE0-9717-41E333561D63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3E47A62-206D-4AE0-9717-41E333561D63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3E47A62-206D-4AE0-9717-41E333561D63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3E47A62-206D-4AE0-9717-41E333561D63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F89555A-0851-4799-97AF-FE815D4E6B24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F89555A-0851-4799-97AF-FE815D4E6B24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F89555A-0851-4799-97AF-FE815D4E6B24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F89555A-0851-4799-97AF-FE815D4E6B24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE076602-9AA0-4A9E-917C-B509459BE9B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE076602-9AA0-4A9E-917C-B509459BE9B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE076602-9AA0-4A9E-917C-B509459BE9B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE076602-9AA0-4A9E-917C-B509459BE9B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A13D893C-8AAA-4A41-889F-340592F91733}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A13D893C-8AAA-4A41-889F-340592F91733}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A13D893C-8AAA-4A41-889F-340592F91733}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A13D893C-8AAA-4A41-889F-340592F91733}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(SourceCodeControl) = preSolution
+		SccNumberOfProjects = 5
+		SccProjectName0 = \u0022$/\u0022,\u0020AAAAAAAA
+		SccLocalPath0 = ..
+		SccProvider0 = MSSCCI:Microsoft\u0020Visual\u0020SourceSafe
+		SccProjectFilePathRelativizedFromConnection0 = WorkFlowUI\\
+		SccProjectUniqueName1 = ..\\BLL\\BLL.csproj
+		SccLocalPath1 = ..
+		SccProjectFilePathRelativizedFromConnection1 = BLL\\
+		SccProjectUniqueName2 = ..\\BOL\\BOL.csproj
+		SccLocalPath2 = ..
+		SccProjectFilePathRelativizedFromConnection2 = BOL\\
+		SccProjectUniqueName3 = ..\\DAL\\DAL.csproj
+		SccLocalPath3 = ..
+		SccProjectFilePathRelativizedFromConnection3 = DAL\\
+		SccProjectUniqueName4 = WorkFlowUI\\WorkFlowUI.csproj
+		SccLocalPath4 = ..
+		SccProjectFilePathRelativizedFromConnection4 = WorkFlowUI\\WorkFlowUI\\
+	EndGlobalSection
+EndGlobal

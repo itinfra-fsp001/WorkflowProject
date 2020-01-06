@@ -1,0 +1,525 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ErpByNetR1100Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="fsp_DocumentDetails">
+          <Key>
+            <PropertyRef Name="StatusChangeHistoryID" />
+          </Key>
+          <Property Name="StatusChangeHistoryID" Type="bigint" Nullable="false" />
+          <Property Name="StatusID" Type="int" />
+          <Property Name="ChangedByUser" Type="varchar" MaxLength="50" />
+          <Property Name="ChangedOn" Type="datetime" />
+          <Property Name="DocType" Type="varchar" MaxLength="10" />
+          <Property Name="DocNo" Type="varchar" MaxLength="50" />
+          <Property Name="DocNoID" Type="bigint" />
+          <Property Name="AddedOn" Type="datetime" />
+          <Property Name="DocID" Type="bigint" />
+          <Property Name="Status" Type="varchar" MaxLength="5" />
+          <Property Name="AddedbyUser" Type="varchar" MaxLength="25" />
+        </EntityType>
+        <EntityType Name="fsp_Documents">
+          <Key>
+            <PropertyRef Name="DocID" />
+          </Key>
+          <Property Name="DocID" Type="bigint" Nullable="false" />
+          <Property Name="DocType" Type="varchar" MaxLength="10" />
+          <Property Name="DocNo" Type="varchar" MaxLength="50" />
+          <Property Name="NetPrice" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Currency" Type="varchar" MaxLength="5" />
+          <Property Name="SubmitBy" Type="varchar" MaxLength="100" />
+          <Property Name="SubmitDate" Type="datetime" />
+          <Property Name="ApprovalSubmitDate" Type="datetime" />
+          <Property Name="ApprovalSubmitBy" Type="varchar" MaxLength="15" />
+          <Property Name="Status" Type="varchar" MaxLength="5" />
+          <Property Name="AttachDoc" Type="varchar" MaxLength="500" />
+          <Property Name="AddAttachDoc1" Type="varchar" MaxLength="500" />
+          <Property Name="AddAttachDoc2" Type="varchar" MaxLength="500" />
+          <Property Name="AddAttachDoc3" Type="varchar" MaxLength="500" />
+          <Property Name="VendorCode" Type="varchar" MaxLength="15" />
+          <Property Name="VendorName" Type="varchar" MaxLength="100" />
+          <Property Name="VendorCategory" Type="varchar" MaxLength="15" />
+          <Property Name="IssueBy" Type="varchar" MaxLength="50" />
+          <Property Name="DocNetPrice" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="PRNumbers" Type="varchar" MaxLength="500" />
+          <Property Name="PRAmount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="PriorityCode" Type="smallint" />
+          <Property Name="UpdateDate" Type="datetime" />
+          <Property Name="IsModified" Type="bit" />
+        </EntityType>
+        <Function Name="fsp_GetCOABudgetSummary" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PurchaseRequisitionNo" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="fsp_ReportMiscPurchaseRequisition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PurchaseRequisitionNo" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="fsp_ReportPurchaseOrder_sg" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PurchaseOrderNo" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="fsp_ReportSubconPO_CumulativeDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PurchaseOrderNo" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="ErpByNetR1100ModelStoreContainer">
+          <EntitySet Name="fsp_DocumentDetails" EntityType="Self.fsp_DocumentDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="fsp_Documents" EntityType="Self.fsp_Documents" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ErpByNetR1100Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="ErpByNetR1100Entities" annotation:LazyLoadingEnabled="true" >
+          <FunctionImport Name="fsp_GetCOABudgetSummary" ReturnType="Collection(ErpByNetR1100Model.fsp_GetCOABudgetSummary_Result)">
+          <Parameter Name="PurchaseRequisitionNo" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="fsp_ReportMiscPurchaseRequisition" ReturnType="Collection(ErpByNetR1100Model.fsp_ReportMiscPurchaseRequisition_Result)">
+          <Parameter Name="PurchaseRequisitionNo" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="fsp_ReportSubconPO_CumulativeDetails" ReturnType="Collection(ErpByNetR1100Model.fsp_ReportSubconPO_CumulativeDetails_Result)">
+          <Parameter Name="PurchaseOrderNo" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="fsp_ReportPurchaseOrder_sg" ReturnType="Collection(ErpByNetR1100Model.fsp_ReportPurchaseOrder_sg_Result)">
+          <Parameter Name="PurchaseOrderNo" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="fsp_DocumentDetails" EntityType="ErpByNetR1100Model.fsp_DocumentDetails" />
+          <EntitySet Name="fsp_Documents" EntityType="ErpByNetR1100Model.fsp_Documents" />
+        </EntityContainer>
+        <ComplexType Name="fsp_GetCOABudgetSummary_Result">
+          <Property Type="Int32" Name="PurchaseRequisitionID" Nullable="true" />
+          <Property Type="Int32" Name="ChartOfAccountSetDetailID" Nullable="true" />
+          <Property Type="String" Name="ChartOfAccountSetDetailDescription" Nullable="true" MaxLength="256" />
+          <Property Type="Int32" Name="COACostCentreID" Nullable="true" />
+          <Property Type="String" Name="COACostCentreName" Nullable="true" MaxLength="151" />
+          <Property Type="String" Name="COACostCentreCode" Nullable="true" MaxLength="50" />
+          <Property Type="Double" Name="COARequisitionAmount" Nullable="true" />
+          <Property Type="Double" Name="COAActualAmount" Nullable="false" />
+          <Property Type="Double" Name="SecondaryEntityBudgetApproved" Nullable="true" />
+          <Property Type="Int32" Name="BudgetYear" Nullable="false" />
+          <Property Type="Double" Name="SupplementaryBudget1Approved" Nullable="true" />
+          <Property Type="Double" Name="TotalAmount" Nullable="true" />
+          <Property Type="String" Name="ChartOfAccountSetDetailValueCode" Nullable="true" MaxLength="10" />
+          <Property Type="Decimal" Name="GrandTotalInLocalCurrency" Nullable="true" Precision="38" Scale="4" />
+        </ComplexType>
+        <ComplexType Name="fsp_ReportMiscPurchaseRequisition_Result">
+          <Property Type="Int32" Name="PurchaseRequisitionID" Nullable="true" />
+          <Property Type="Int32" Name="PurchaseRequisitionDetailID" Nullable="true" />
+          <Property Type="Int32" Name="VendorID" Nullable="true" />
+          <Property Type="Int32" Name="PartItemID" Nullable="true" />
+          <Property Type="Double" Name="Price" Nullable="true" />
+          <Property Type="Double" Name="OrderQuantity" Nullable="true" />
+          <Property Type="Decimal" Name="TotalPrice" Nullable="true" Precision="38" Scale="6" />
+          <Property Type="DateTime" Name="RequiredOn" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="UOM" Nullable="true" />
+          <Property Type="Int32" Name="AccountJournalEventID" Nullable="true" />
+          <Property Type="Int32" Name="AccountJournalEventDetailID" Nullable="true" />
+          <Property Type="Int32" Name="ChartOfAccountSetDetailID" Nullable="true" />
+          <Property Type="String" Name="ItemName" Nullable="true" />
+          <Property Type="String" Name="ItemDescription" Nullable="true" />
+          <Property Type="String" Name="AccountJournalEventName" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="AccountJournalEventDetailDescription" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="CostEntityKeyID" Nullable="true" />
+          <Property Type="Int32" Name="CostEntityID" Nullable="true" />
+          <Property Type="String" Name="VendorName" Nullable="true" />
+          <Property Type="String" Name="CurrencyName" Nullable="true" />
+          <Property Type="Int32" Name="LanguageID" Nullable="true" />
+          <Property Type="String" Name="VendorCode" Nullable="true" />
+          <Property Type="String" Name="UnitOfMeasureName" Nullable="true" />
+          <Property Type="String" Name="ChartOfAccountSetDetailDescription" Nullable="true" />
+          <Property Type="String" Name="PurchaseRequisitionNo" Nullable="true" />
+          <Property Type="String" Name="StatusName" Nullable="true" />
+          <Property Type="Int32" Name="StatusID" Nullable="true" />
+          <Property Type="Boolean" Name="IsPOGenerated" Nullable="true" />
+          <Property Type="Int32" Name="CostCentreID" Nullable="true" />
+          <Property Type="String" Name="CostCentreName" Nullable="true" />
+          <Property Type="String" Name="CostCentreCode" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="RootSourceEntityID" Nullable="true" />
+          <Property Type="String" Name="RootSourceEntityKey" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="StatusEntityName" Nullable="true" />
+          <Property Type="Double" Name="COARequisitionAmount" Nullable="true" />
+          <Property Type="Double" Name="COAActualAmount" Nullable="true" />
+          <Property Type="Double" Name="SecondaryEntityBudgetApproved" Nullable="true" />
+          <Property Type="Int32" Name="BudgetYear" Nullable="true" />
+          <Property Type="Double" Name="SupplementaryBudget1Approved" Nullable="true" />
+          <Property Type="String" Name="ChartOfAccountSetDetailValueCode" Nullable="true" />
+          <Property Type="String" Name="PRDetailRemarkText" Nullable="true" />
+          <Property Type="String" Name="CostEntityKeyName" Nullable="true" />
+          <Property Type="String" Name="PRHeaderDepartmentName" Nullable="true" />
+          <Property Type="String" Name="OrganizationDescription" Nullable="true" />
+          <Property Type="Int32" Name="SequenceNo" Nullable="true" />
+          <Property Type="String" Name="SetOfBooksCurrency" Nullable="true" />
+          <Property Type="String" Name="VendorCategoryName" Nullable="true" MaxLength="256" />
+        </ComplexType>
+        
+        <ComplexType Name="fsp_ReportPurchaseOrder_sg_Result">
+          <Property Type="String" Name="PurchaseOrderNo" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="SRNO" Nullable="false" />
+          <Property Type="String" Name="DisplayName" Nullable="true" MaxLength="512" />
+          <Property Type="String" Name="PartDescription" Nullable="true" MaxLength="512" />
+          <Property Type="Double" Name="OrderQuantity" Nullable="true" />
+          <Property Type="String" Name="UnitOfMeasureName" Nullable="false" MaxLength="256" />
+          <Property Type="Double" Name="Price" Nullable="true" />
+          <Property Type="String" Name="CurrencyName" Nullable="false" MaxLength="256" />
+          <Property Type="Double" Name="TotalAmount" Nullable="true" />
+          <Property Type="String" Name="WareHouseName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="VendorName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="CostEntityName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CostEntityKeyName" Nullable="true" MaxLength="256" />
+          <Property Type="DateTime" Name="RequiredOn" Nullable="true" />
+          <Property Type="DateTime" Name="PurchaseOrderDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="PlannerCode" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="MRP_CtlCode" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="RevisionNumber" Nullable="false" />
+          <Property Type="String" Name="PODetailDescription" Nullable="false" />
+          <Property Type="String" Name="DrawingNumber" Nullable="false" MaxLength="128" />
+          <Property Type="String" Name="TrackingNumber" Nullable="false" />
+          <Property Type="String" Name="StatusName" Nullable="false" MaxLength="256" />
+          <Property Type="Int32" Name="WareHouseID" Nullable="false" />
+          <Property Type="Int32" Name="PartItemID" Nullable="false" />
+          <Property Type="Int32" Name="PurchaseOrderId" Nullable="false" />
+          <Property Type="Double" Name="BalGRQty" Nullable="true" />
+          <Property Type="String" Name="Requestor" Nullable="true" MaxLength="256" />
+          <Property Type="String" Name="VendorCode" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="BuyerCode" Nullable="false" MaxLength="150" />
+          <Property Type="Int32" Name="BuyerID" Nullable="true" />
+          <Property Type="Int32" Name="VendorID" Nullable="false" />
+          <Property Type="Int32" Name="StatusEntityID" Nullable="true" />
+          <Property Type="Int32" Name="MRPControllerID" Nullable="true" />
+          <Property Type="String" Name="PRDetailNo" Nullable="true" MaxLength="50" />
+          <Property Type="Double" Name="ExchangeRate" Nullable="false" />
+          <Property Type="String" Name="CostCentreCode" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CostCentreDescription" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="fsp_ReportSubconPO_CumulativeDetails_Result">
+          <Property Type="String" Name="PurchaseOrderNo" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="SequenceNo" Nullable="false" />
+          <Property Type="String" Name="ItemName" Nullable="true" />
+          <Property Type="String" Name="ItemDescription" Nullable="true" />
+          <Property Type="String" Name="CostEntityName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CostEntityKeyName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ChartOfAccountSetDetailDescription" Nullable="true" MaxLength="256" />
+          <Property Type="String" Name="ChartOfAccountSetDetailValueCode" Nullable="true" MaxLength="10" />
+          <Property Type="Single" Name="OrderQuantity" Nullable="true" />
+          <Property Type="String" Name="UnitOfMeasureName" Nullable="true" MaxLength="256" />
+          <Property Type="Single" Name="Price" Nullable="true" />
+          <Property Type="String" Name="CurrencyName" Nullable="true" MaxLength="256" />
+          <Property Type="Double" Name="TotalPrice" Nullable="true" />
+          <Property Type="Double" Name="TotalAmountLocal" Nullable="true" />
+          <Property Type="String" Name="VendorName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="VendorCode" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="RequiredOn" Nullable="true" Precision="23" />
+          <Property Type="String" Name="PurchaseRequisitionNo" Nullable="false" MaxLength="50" />
+          <Property Type="Double" Name="ExchangeRate" Nullable="true" />
+          <Property Type="String" Name="AddedByUser" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="PurchaseOrderDetailID_NonInv" Nullable="false" />
+          <Property Type="Int32" Name="PurchaseOrder_NonInvID" Nullable="false" />
+          <Property Type="Boolean" Name="IsApproved" Nullable="true" />
+          <Property Type="Boolean" Name="IsInvoiced" Nullable="false" />
+          <Property Type="Int32" Name="SourceEntityID" Nullable="true" />
+          <Property Type="String" Name="SourceEntityKey" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="SourceEntityKeyName" Nullable="true" MaxLength="50" />
+          <Property Type="Double" Name="ExtendedPrice" Nullable="false" />
+          <Property Type="String" Name="ChartOfAccountSetDetailValue" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="UnitOfMeasureID" Nullable="true" />
+          <Property Type="String" Name="StatusEntityName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CostCentre" Nullable="true" MaxLength="357" />
+          <Property Type="String" Name="CostCentreDescription" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="PODate" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="RootSourceEntityID" Nullable="true" />
+          <Property Type="Int32" Name="RootSourceEntityKey" Nullable="true" />
+          <Property Type="String" Name="RootSourceEntityDetailKey" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="PODetailDescription" Nullable="true" />
+          <Property Type="String" Name="StatusName" Nullable="false" MaxLength="256" />
+          <Property Type="Int32" Name="VendorId" Nullable="true" />
+          <Property Type="String" Name="OrganizationName" Nullable="true" MaxLength="256" />
+          <Property Type="String" Name="BuyerCode" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="BuyerName" Nullable="true" MaxLength="150" />
+        </ComplexType>
+        <EntityType Name="fsp_DocumentDetails">
+          <Key>
+            <PropertyRef Name="StatusChangeHistoryID" />
+          </Key>
+          <Property Name="StatusChangeHistoryID" Type="Int64" Nullable="false" />
+          <Property Name="StatusID" Type="Int32" />
+          <Property Name="ChangedByUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ChangedOn" Type="DateTime" Precision="3" />
+          <Property Name="DocType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="DocNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DocNoID" Type="Int64" />
+          <Property Name="AddedOn" Type="DateTime" Precision="3" />
+          <Property Name="DocID" Type="Int64" />
+          <Property Name="Status" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="AddedbyUser" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="fsp_Documents">
+          <Key>
+            <PropertyRef Name="DocID" />
+          </Key>
+          <Property Name="DocID" Type="Int64" Nullable="false" />
+          <Property Name="DocType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="DocNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NetPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Currency" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="SubmitBy" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="SubmitDate" Type="DateTime" Precision="3" />
+          <Property Name="ApprovalSubmitDate" Type="DateTime" Precision="3" />
+          <Property Name="ApprovalSubmitBy" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="AttachDoc" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="AddAttachDoc1" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="AddAttachDoc2" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="AddAttachDoc3" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="VendorCode" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="VendorName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="VendorCategory" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="IssueBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DocNetPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PRNumbers" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="PRAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PriorityCode" Type="Int16" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+          <Property Name="IsModified" Type="Boolean" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ErpByNetR1100ModelStoreContainer" CdmEntityContainer="ErpByNetR1100Entities" >
+          <FunctionImportMapping FunctionImportName="fsp_GetCOABudgetSummary" FunctionName="ErpByNetR1100Model.Store.fsp_GetCOABudgetSummary">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ErpByNetR1100Model.fsp_GetCOABudgetSummary_Result">
+                <ScalarProperty Name="PurchaseRequisitionID" ColumnName="PurchaseRequisitionID" />
+                <ScalarProperty Name="ChartOfAccountSetDetailID" ColumnName="ChartOfAccountSetDetailID" />
+                <ScalarProperty Name="ChartOfAccountSetDetailDescription" ColumnName="ChartOfAccountSetDetailDescription" />
+                <ScalarProperty Name="COACostCentreID" ColumnName="COACostCentreID" />
+                <ScalarProperty Name="COACostCentreName" ColumnName="COACostCentreName" />
+                <ScalarProperty Name="COACostCentreCode" ColumnName="COACostCentreCode" />
+                <ScalarProperty Name="COARequisitionAmount" ColumnName="COARequisitionAmount" />
+                <ScalarProperty Name="COAActualAmount" ColumnName="COAActualAmount" />
+                <ScalarProperty Name="SecondaryEntityBudgetApproved" ColumnName="SecondaryEntityBudgetApproved" />
+                <ScalarProperty Name="BudgetYear" ColumnName="BudgetYear" />
+                <ScalarProperty Name="SupplementaryBudget1Approved" ColumnName="SupplementaryBudget1Approved" />
+                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+                <ScalarProperty Name="ChartOfAccountSetDetailValueCode" ColumnName="ChartOfAccountSetDetailValueCode" />
+                <ScalarProperty Name="GrandTotalInLocalCurrency" ColumnName="GrandTotalInLocalCurrency" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="fsp_ReportMiscPurchaseRequisition" FunctionName="ErpByNetR1100Model.Store.fsp_ReportMiscPurchaseRequisition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ErpByNetR1100Model.fsp_ReportMiscPurchaseRequisition_Result">
+                <ScalarProperty Name="PurchaseRequisitionID" ColumnName="PurchaseRequisitionID" />
+                <ScalarProperty Name="PurchaseRequisitionDetailID" ColumnName="PurchaseRequisitionDetailID" />
+                <ScalarProperty Name="VendorID" ColumnName="VendorID" />
+                <ScalarProperty Name="PartItemID" ColumnName="PartItemID" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="OrderQuantity" ColumnName="OrderQuantity" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+                <ScalarProperty Name="RequiredOn" ColumnName="RequiredOn" />
+                <ScalarProperty Name="UOM" ColumnName="UOM" />
+                <ScalarProperty Name="AccountJournalEventID" ColumnName="AccountJournalEventID" />
+                <ScalarProperty Name="AccountJournalEventDetailID" ColumnName="AccountJournalEventDetailID" />
+                <ScalarProperty Name="ChartOfAccountSetDetailID" ColumnName="ChartOfAccountSetDetailID" />
+                <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+                <ScalarProperty Name="ItemDescription" ColumnName="ItemDescription" />
+                <ScalarProperty Name="AccountJournalEventName" ColumnName="AccountJournalEventName" />
+                <ScalarProperty Name="AccountJournalEventDetailDescription" ColumnName="AccountJournalEventDetailDescription" />
+                <ScalarProperty Name="CostEntityKeyID" ColumnName="CostEntityKeyID" />
+                <ScalarProperty Name="CostEntityID" ColumnName="CostEntityID" />
+                <ScalarProperty Name="VendorName" ColumnName="VendorName" />
+                <ScalarProperty Name="CurrencyName" ColumnName="CurrencyName" />
+                <ScalarProperty Name="LanguageID" ColumnName="LanguageID" />
+                <ScalarProperty Name="VendorCode" ColumnName="VendorCode" />
+                <ScalarProperty Name="UnitOfMeasureName" ColumnName="UnitOfMeasureName" />
+                <ScalarProperty Name="ChartOfAccountSetDetailDescription" ColumnName="ChartOfAccountSetDetailDescription" />
+                <ScalarProperty Name="PurchaseRequisitionNo" ColumnName="PurchaseRequisitionNo" />
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="IsPOGenerated" ColumnName="IsPOGenerated" />
+                <ScalarProperty Name="CostCentreID" ColumnName="CostCentreID" />
+                <ScalarProperty Name="CostCentreName" ColumnName="CostCentreName" />
+                <ScalarProperty Name="CostCentreCode" ColumnName="CostCentreCode" />
+                <ScalarProperty Name="RootSourceEntityID" ColumnName="RootSourceEntityID" />
+                <ScalarProperty Name="RootSourceEntityKey" ColumnName="RootSourceEntityKey" />
+                <ScalarProperty Name="StatusEntityName" ColumnName="StatusEntityName" />
+                <ScalarProperty Name="COARequisitionAmount" ColumnName="COARequisitionAmount" />
+                <ScalarProperty Name="COAActualAmount" ColumnName="COAActualAmount" />
+                <ScalarProperty Name="SecondaryEntityBudgetApproved" ColumnName="SecondaryEntityBudgetApproved" />
+                <ScalarProperty Name="BudgetYear" ColumnName="BudgetYear" />
+                <ScalarProperty Name="SupplementaryBudget1Approved" ColumnName="SupplementaryBudget1Approved" />
+                <ScalarProperty Name="ChartOfAccountSetDetailValueCode" ColumnName="ChartOfAccountSetDetailValueCode" />
+                <ScalarProperty Name="PRDetailRemarkText" ColumnName="PRDetailRemarkText" />
+                <ScalarProperty Name="CostEntityKeyName" ColumnName="CostEntityKeyName" />
+                <ScalarProperty Name="PRHeaderDepartmentName" ColumnName="PRHeaderDepartmentName" />
+                <ScalarProperty Name="OrganizationDescription" ColumnName="OrganizationDescription" />
+                <ScalarProperty Name="SequenceNo" ColumnName="SequenceNo" />
+                <ScalarProperty Name="SetOfBooksCurrency" ColumnName="SetOfBooksCurrency" />
+                <ScalarProperty Name="VendorCategoryName" ColumnName="VendorCategoryName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="fsp_ReportSubconPO_CumulativeDetails" FunctionName="ErpByNetR1100Model.Store.fsp_ReportSubconPO_CumulativeDetails">
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="ErpByNetR1100Model.fsp_ReportSubconPO_CumulativeDetails_Result">
+                <ScalarProperty Name="PurchaseOrderNo" ColumnName="PurchaseOrderNo" />
+                <ScalarProperty Name="SequenceNo" ColumnName="SequenceNo" />
+                <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+                <ScalarProperty Name="ItemDescription" ColumnName="ItemDescription" />
+                <ScalarProperty Name="CostEntityName" ColumnName="CostEntityName" />
+                <ScalarProperty Name="CostEntityKeyName" ColumnName="CostEntityKeyName" />
+                <ScalarProperty Name="ChartOfAccountSetDetailDescription" ColumnName="ChartOfAccountSetDetailDescription" />
+                <ScalarProperty Name="ChartOfAccountSetDetailValueCode" ColumnName="ChartOfAccountSetDetailValueCode" />
+                <ScalarProperty Name="OrderQuantity" ColumnName="OrderQuantity" />
+                <ScalarProperty Name="UnitOfMeasureName" ColumnName="UnitOfMeasureName" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="CurrencyName" ColumnName="CurrencyName" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+                <ScalarProperty Name="TotalAmountLocal" ColumnName="TotalAmountLocal" />
+                <ScalarProperty Name="VendorName" ColumnName="VendorName" />
+                <ScalarProperty Name="VendorCode" ColumnName="VendorCode" />
+                <ScalarProperty Name="RequiredOn" ColumnName="RequiredOn" />
+                <ScalarProperty Name="PurchaseRequisitionNo" ColumnName="PurchaseRequisitionNo" />
+                <ScalarProperty Name="ExchangeRate" ColumnName="ExchangeRate" />
+                <ScalarProperty Name="AddedByUser" ColumnName="AddedByUser" />
+                <ScalarProperty Name="PurchaseOrderDetailID_NonInv" ColumnName="PurchaseOrderDetailID_NonInv" />
+                <ScalarProperty Name="PurchaseOrder_NonInvID" ColumnName="PurchaseOrder_NonInvID" />
+                <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
+                <ScalarProperty Name="IsInvoiced" ColumnName="IsInvoiced" />
+                <ScalarProperty Name="SourceEntityID" ColumnName="SourceEntityID" />
+                <ScalarProperty Name="SourceEntityKey" ColumnName="SourceEntityKey" />
+                <ScalarProperty Name="SourceEntityKeyName" ColumnName="SourceEntityKeyName" />
+                <ScalarProperty Name="ExtendedPrice" ColumnName="ExtendedPrice" />
+                <ScalarProperty Name="ChartOfAccountSetDetailValue" ColumnName="ChartOfAccountSetDetailValue" />
+                <ScalarProperty Name="UnitOfMeasureID" ColumnName="UnitOfMeasureID" />
+                <ScalarProperty Name="StatusEntityName" ColumnName="StatusEntityName" />
+                <ScalarProperty Name="CostCentre" ColumnName="CostCentre" />
+                <ScalarProperty Name="CostCentreDescription" ColumnName="CostCentreDescription" />
+                <ScalarProperty Name="PODate" ColumnName="PODate" />
+                <ScalarProperty Name="RootSourceEntityID" ColumnName="RootSourceEntityID" />
+                <ScalarProperty Name="RootSourceEntityKey" ColumnName="RootSourceEntityKey" />
+                <ScalarProperty Name="RootSourceEntityDetailKey" ColumnName="RootSourceEntityDetailKey" />
+                <ScalarProperty Name="PODetailDescription" ColumnName="PODetailDescription" />
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+                <ScalarProperty Name="VendorId" ColumnName="VendorId" />
+                <ScalarProperty Name="OrganizationName" ColumnName="OrganizationName" />
+                <ScalarProperty Name="BuyerCode" ColumnName="BuyerCode" />
+                <ScalarProperty Name="BuyerName" ColumnName="BuyerName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="fsp_ReportPurchaseOrder_sg" FunctionName="ErpByNetR1100Model.Store.fsp_ReportPurchaseOrder_sg">
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="ErpByNetR1100Model.fsp_ReportPurchaseOrder_sg_Result">
+                <ScalarProperty Name="PurchaseOrderNo" ColumnName="PurchaseOrderNo" />
+                <ScalarProperty Name="SRNO" ColumnName="SRNO" />
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+                <ScalarProperty Name="PartDescription" ColumnName="PartDescription" />
+                <ScalarProperty Name="OrderQuantity" ColumnName="OrderQuantity" />
+                <ScalarProperty Name="UnitOfMeasureName" ColumnName="UnitOfMeasureName" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="CurrencyName" ColumnName="CurrencyName" />
+                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+                <ScalarProperty Name="WareHouseName" ColumnName="WareHouseName" />
+                <ScalarProperty Name="VendorName" ColumnName="VendorName" />
+                <ScalarProperty Name="CostEntityName" ColumnName="CostEntityName" />
+                <ScalarProperty Name="CostEntityKeyName" ColumnName="CostEntityKeyName" />
+                <ScalarProperty Name="RequiredOn" ColumnName="RequiredOn" />
+                <ScalarProperty Name="PurchaseOrderDate" ColumnName="PurchaseOrderDate" />
+                <ScalarProperty Name="PlannerCode" ColumnName="PlannerCode" />
+                <ScalarProperty Name="MRP_CtlCode" ColumnName="MRP_CtlCode" />
+                <ScalarProperty Name="RevisionNumber" ColumnName="RevisionNumber" />
+                <ScalarProperty Name="PODetailDescription" ColumnName="PODetailDescription" />
+                <ScalarProperty Name="DrawingNumber" ColumnName="DrawingNumber" />
+                <ScalarProperty Name="TrackingNumber" ColumnName="TrackingNumber" />
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+                <ScalarProperty Name="WareHouseID" ColumnName="WareHouseID" />
+                <ScalarProperty Name="PartItemID" ColumnName="PartItemID" />
+                <ScalarProperty Name="PurchaseOrderId" ColumnName="PurchaseOrderId" />
+                <ScalarProperty Name="BalGRQty" ColumnName="BalGRQty" />
+                <ScalarProperty Name="Requestor" ColumnName="Requestor" />
+                <ScalarProperty Name="VendorCode" ColumnName="VendorCode" />
+                <ScalarProperty Name="BuyerCode" ColumnName="BuyerCode" />
+                <ScalarProperty Name="BuyerID" ColumnName="BuyerID" />
+                <ScalarProperty Name="VendorID" ColumnName="VendorID" />
+                <ScalarProperty Name="StatusEntityID" ColumnName="StatusEntityID" />
+                <ScalarProperty Name="MRPControllerID" ColumnName="MRPControllerID" />
+                <ScalarProperty Name="PRDetailNo" ColumnName="PRDetailNo" />
+                <ScalarProperty Name="ExchangeRate" ColumnName="ExchangeRate" />
+                <ScalarProperty Name="CostCentreCode" ColumnName="CostCentreCode" />
+                <ScalarProperty Name="CostCentreDescription" ColumnName="CostCentreDescription" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="fsp_DocumentDetails">
+            <EntityTypeMapping TypeName="ErpByNetR1100Model.fsp_DocumentDetails">
+              <MappingFragment StoreEntitySet="fsp_DocumentDetails">
+                <ScalarProperty Name="AddedbyUser" ColumnName="AddedbyUser" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DocID" ColumnName="DocID" />
+                <ScalarProperty Name="AddedOn" ColumnName="AddedOn" />
+                <ScalarProperty Name="DocNoID" ColumnName="DocNoID" />
+                <ScalarProperty Name="DocNo" ColumnName="DocNo" />
+                <ScalarProperty Name="DocType" ColumnName="DocType" />
+                <ScalarProperty Name="ChangedOn" ColumnName="ChangedOn" />
+                <ScalarProperty Name="ChangedByUser" ColumnName="ChangedByUser" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="StatusChangeHistoryID" ColumnName="StatusChangeHistoryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="fsp_Documents">
+            <EntityTypeMapping TypeName="ErpByNetR1100Model.fsp_Documents">
+              <MappingFragment StoreEntitySet="fsp_Documents">
+                <ScalarProperty Name="IsModified" ColumnName="IsModified" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="PriorityCode" ColumnName="PriorityCode" />
+                <ScalarProperty Name="PRAmount" ColumnName="PRAmount" />
+                <ScalarProperty Name="PRNumbers" ColumnName="PRNumbers" />
+                <ScalarProperty Name="DocNetPrice" ColumnName="DocNetPrice" />
+                <ScalarProperty Name="IssueBy" ColumnName="IssueBy" />
+                <ScalarProperty Name="VendorCategory" ColumnName="VendorCategory" />
+                <ScalarProperty Name="VendorName" ColumnName="VendorName" />
+                <ScalarProperty Name="VendorCode" ColumnName="VendorCode" />
+                <ScalarProperty Name="AddAttachDoc3" ColumnName="AddAttachDoc3" />
+                <ScalarProperty Name="AddAttachDoc2" ColumnName="AddAttachDoc2" />
+                <ScalarProperty Name="AddAttachDoc1" ColumnName="AddAttachDoc1" />
+                <ScalarProperty Name="AttachDoc" ColumnName="AttachDoc" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ApprovalSubmitBy" ColumnName="ApprovalSubmitBy" />
+                <ScalarProperty Name="ApprovalSubmitDate" ColumnName="ApprovalSubmitDate" />
+                <ScalarProperty Name="SubmitDate" ColumnName="SubmitDate" />
+                <ScalarProperty Name="SubmitBy" ColumnName="SubmitBy" />
+                <ScalarProperty Name="Currency" ColumnName="Currency" />
+                <ScalarProperty Name="NetPrice" ColumnName="NetPrice" />
+                <ScalarProperty Name="DocNo" ColumnName="DocNo" />
+                <ScalarProperty Name="DocType" ColumnName="DocType" />
+                <ScalarProperty Name="DocID" ColumnName="DocID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

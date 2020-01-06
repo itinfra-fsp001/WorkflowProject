@@ -1,0 +1,982 @@
+﻿@model WorkFlowUI.ViewModel.RFQViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row empty-row">
+    <div class="col-sm-12">
+    </div>
+</div>
+
+@if (ViewBag.Status == "Insert" || ViewBag.Status == "New")
+{
+    if (!ViewBag.IsEmailIDExists)
+    {
+        <script type="text/javascript">
+            alert("Unable to Proceed, Email ID doesn't exists");
+            var urlLocation = "@Url.Action("Index", "BrowseQuote", new { Status = "N", Search = "", FilterType = "" })";
+            urlLocation = urlLocation.replace(/&amp;/g, "&");
+            window.location.href = urlLocation;
+            @{
+                <Text>
+
+            </Text>
+            }
+
+
+        </script>
+        }
+    }
+
+@if (ViewBag.Status == "Insert")
+{
+    <h2>New RFQ / Quote Verification</h2>
+}
+else
+{
+    <h2>RFQ / Quote Verification  : @ViewBag.QuoteNo</h2>
+}
+
+@if (TempData["Status"] != null)
+{
+    if (Convert.ToString(TempData["SubmitType"]) == "Submit" || Convert.ToString(TempData["SubmitType"]) == "Draft" || Convert.ToString(TempData["SubmitType"]) == "Reject RFQ" || Convert.ToString(TempData["SubmitType"]) == "Delete RFQ" || Convert.ToString(TempData["SubmitType"]) == "Finalise" || Convert.ToString(TempData["SubmitType"]) == "Save" || Convert.ToString(TempData["SubmitType"]) == "Revise RFQ" || Convert.ToString(TempData["SubmitType"]) == "Hold")
+    {
+        <script type="text/javascript">
+            window.onload = function () {
+                alert("@Convert.ToString(TempData["Msg"])");
+                @if (Convert.ToString(TempData["SubmitType"]) == "Revise RFQ" && Convert.ToString(TempData["Status"])=="Success")
+                {
+                    <Text>
+                var urlLocation = "@Url.Action("Index", "RequestForQuote", new { Status = "A", quoteId = Convert.ToString(TempData["QuoteNo"]) })";
+                urlLocation = urlLocation.replace(/&amp;/g, "&");
+                window.location.href = urlLocation;
+                </Text>
+                }
+                else
+                {
+                    <Text>
+                var urlLocation = "@Url.Action("Index", "BrowseQuote", new { Status = "N", Search = "", FilterType = "" })";
+                urlLocation = urlLocation.replace(/&amp;/g, "&");
+                window.location.href = urlLocation;
+
+                </Text>
+                }
+            };
+        </script>
+    }
+    else
+    {
+
+    }
+}
+<style type="text/css">
+    .empty-row {
+        height: 15px !important;
+    }
+
+    .row, .maindiv {
+        margin-bottom: 10px;
+    }
+
+    .rfqddl {
+        width: 300px;
+    }
+
+    .rfqta {
+        width: 280px;
+    }
+
+    .mandatory {
+        color: red !important;
+    }
+
+    .noattachment {
+        color: red;
+    }
+
+    .errormsg {
+        color: red;
+    }
+
+    .ui-datepicker-trigger {
+        /*background: url(/content/images/ui-icons_444444_256x240.png) no-repeat -116px -116px;*/
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        margin-left: 5px;
+        margin-top: -5px;
+    }
+
+    .reviseDiv {
+        background-color: #eaeaea;
+        border: 1px solid #afafaf;
+        padding: 5px;
+        /*margin-left: 15px;*/
+        margin-top: 5px;
+    }
+
+    #reviseQuote {
+        font-size: 20px;
+        /*font-weight:600;*/
+    }
+
+    .RFQTemplate {
+        color: blue !important;
+    }
+
+    .imgDownload {
+        width: 25px;
+        cursor: pointer;
+    }
+
+    .col-sm-2 {
+        width: 20% !important;
+    }
+    .col-sm-4 {
+        width: 38% !important;
+    }
+    .maindiv {
+        border: 1px solid #eaeaea;
+    }
+
+    .headingdiv {
+        font-weight: 600;
+        font-size: 15px;
+        padding: 5px;
+        background-color: #eaeaea;
+    }
+    .fileRFQ{
+        display:inline !important;
+    }
+</style>
+
+
+
+<link href="@Url.Content("~/Content/themes/base/jquery-ui.min.css")" rel="stylesheet" />
+<!-- Required jQuery and jQuery UI Javascript references -->
+<script src="@Url.Content("~/Scripts/jquery-1.10.2.min.js")"></script>
+<script src="@Url.Content("~/Scripts/jquery-ui-1.12.1.min.js")"></script>
+
+@*<script src="~/scripts/jquery-1.10.2.js"></script>
+    <script src="~/scripts/jquery-ui-1.10.4.custom.js"></script>
+        <script src="~/scripts/jquery-ui-1.10.4.custom.min.js"></script>
+        <script src="~/scripts/jquery.ui.datepicker.js"></script>*@
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        //$('input[type=datetime]').datepicker({
+        //    dateFormat: "dd/M/yy",
+        //    changeMonth: true,
+        //    changeYear: true,
+        //    yearRange: "-60:+0"
+        //});
+        //alert($("#requiredMinDate").val());
+        var cuDate = $("#requiredMinDate").val().split('/');
+        var minDate = new Date(cuDate[2], (cuDate[1] - 1), cuDate[0]);
+        $('.date-picker').datepicker({
+            dateFormat: "dd/mm/yy",
+            minDate: minDate,
+            showOn: "button",
+            buttonImage: "../Content/images/calendar 256x256.png",
+            buttonImageOnly: true,
+            beforeShowDay: $.datepicker.noWeekends
+        });
+        $('.imgDownload').click(function () {
+            var urlLocation = "@Url.Action("GetRFQTemplate", "RequestForQuote", new { @target = "_blank" })";
+            urlLocation = urlLocation.replace(/&amp;/g, "&");
+            window.location.href = urlLocation;
+        });
+    });
+
+    function redirectToDashboard() {
+        window.location.href = "@Url.Action("Index", "BrowseQuote",new {Status="N",Search="", FilterType = "" })";
+    }
+
+    function validateNewQuote(type) {
+        var isRet = true;
+        var errorMessage = "";
+        if (type == "save" || type == "submit") {
+            if ($("#quoteType option:selected").val() == "-- Select --") {
+                errorMessage = errorMessage + "Please choose quote type\n";
+                isRet = false;
+            }
+            if ($("#requiredDate").val() == "") {
+                errorMessage = errorMessage + "Please choose required date\n";
+                isRet = false;
+            }
+            if ($("#purchaseCategoryNew option:selected").val() == "-- Select --") {
+                errorMessage = errorMessage + "Please select purchase category\n";
+                isRet = false;
+            }
+            if ($("#purchaseRemarks").val() == "") {
+                errorMessage = errorMessage + "Please enter purpose\n";
+                isRet = false;
+            }
+            if (type == "submit" && $("#quoteType option:selected").val() == "Quote Verification") {
+                if (($("#purchaseFile1").is(":visible") && $("#purchaseFile1")[0].files.length == 0) && ($("#purchaseFile2").is(":visible") && $("#purchaseFile2")[0].files.length == 0) && ($("#purchaseFile3").is(":visible") && $("#purchaseFile3")[0].files.length == 0)) {
+                    errorMessage = errorMessage + "Please attach the RFQ documents\n";
+                    isRet = false;
+                }
+            }
+            if (isRet) {
+                var cuDate = $("#requiredMinDate").val().split('/');
+                var minDate = new Date(cuDate[2], (cuDate[1] - 1), cuDate[0]);
+                var txtDate = $("#requiredDate").val().split('/');
+                var selDate = new Date(txtDate[2], (txtDate[1] - 1), txtDate[0]);
+                if (selDate < minDate) {
+                    errorMessage = errorMessage + "Required date is invalid. Should be after 5 working days.\n";
+                    isRet = false;
+                }
+            }
+        }
+        else if (type == "finalise") {
+            if ($("#buyerRemarks").val() == "") {
+                errorMessage = "Please enter remarks\n";
+                isRet = false;
+            }
+            if ($("#requestType").val() == "New RFQ") {
+                if (($("#buyerFile1").is(":visible") && $("#buyerFile1")[0].files.length == 0) && ($("#buyerFile2").is(":visible") && $("#buyerFile2")[0].files.length == 0) && ($("#buyerFile3").is(":visible") && $("#buyerFile3")[0].files.length == 0)) {
+                    errorMessage = errorMessage + "Warning : Please attach the RFQ documents\n";
+                    //isRet = true;
+                }
+            }
+        }
+        else if (type == "buyer save" || type == "buyer hold") {
+            if ($("#buyerRemarks").val() == "") {
+                errorMessage = "Please enter remarks\n";
+                isRet = false;
+            }
+        }
+        if (!isRet) {
+            alert(errorMessage);
+            return false;
+        }
+        else {
+            if (isRet && errorMessage != null) {
+                alert(errorMessage);
+            }
+            if (type == 'buyer save')
+                return confirm('Are you sure to save?');
+            else if (type == 'buyer hold')
+                return confirm('Are you sure to hold?');
+            else
+                return confirm('Are you sure to ' + type + '?');
+        }
+    }
+
+    function reviseQuote() {
+        return confirm('Are you sure to revise this RFQ?');
+    }
+
+    function clearAttachedFile(type, id) {
+        if (confirm('Are you sure to clear this file?')) {
+
+            var fil;
+
+            if (type == "Purchase") {
+                if (id == "1") {
+                    fil = document.getElementById("purchaseFile1");
+                }
+                else if (id == "2") {
+                    fil = document.getElementById("purchaseFile2");
+                }
+                else if (id == "3") {
+                    fil = document.getElementById("purchaseFile3");
+                }
+            }
+            else if (type == "Buyer") {
+                if (id == "1") {
+                    fil = document.getElementById("buyerFile1");
+                }
+                else if (id == "2") {
+                    fil = document.getElementById("buyerFile2");
+                }
+                else if (id == "3") {
+                    fil = document.getElementById("buyerFile3");
+                }
+            }
+
+            if (fil != null) {
+                fil.setAttribute("type", "input");
+                fil.setAttribute("type", "file");
+            }
+        }
+        return false;
+    }
+
+    function removeAttachedFile(type, id, fileId, fileName) {
+        if (confirm('Are you sure to delete this file?')) {
+            if (type == "Purchase") {
+                if (id == "1") {
+                    $("#purchaseAttachment1").hide();
+                    $("#rlPurchaseAttach1").hide();
+                    $("#purchaseFile1").css("display", "inline");
+                    $("#clearPurchaseAttach1").show();
+                }
+                else if (id == "2") {
+                    $("#purchaseAttachment2").hide();
+                    $("#rlPurchaseAttach2").hide();
+                    $("#purchaseFile2").css("display", "inline");
+                    $("#clearPurchaseAttach2").show();
+                }
+                else if (id == "3") {
+                    $("#purchaseAttachment3").hide();
+                    $("#rlPurchaseAttach3").hide();
+                    $("#purchaseFile3").css("display", "inline");
+                    $("#clearPurchaseAttach3").show();
+                }
+            }
+            else if (type == "Buyer") {
+                if (id == "1") {
+                    $("#buyerAttachment1").hide();
+                    $("#rlBuyerAttach1").hide();
+                    $("#buyerFile1").css("display", "inline");
+                    $("#clearBuyerAttach1").show();
+                }
+                else if (id == "2") {
+                    $("#buyerAttachment2").hide();
+                    $("#rlBuyerAttach2").hide();
+                    $("#buyerFile2").css("display", "inline");
+                    $("#clearBuyerAttach2").show();
+                }
+                else if (id == "3") {
+                    $("#buyerAttachment3").hide();
+                    $("#rlBuyerAttach3").hide();
+                    $("#buyerFile3").css("display", "inline");
+                    $("#clearBuyerAttach3").show();
+                }
+            }
+            if ($("#deleteAttachmentIdList").val() == "") {
+                $("#deleteAttachmentIdList").val(fileId + ",");
+                $("#deleteAttachmentFileList").val(fileName + ",");
+            }
+            else {
+                $("#deleteAttachmentIdList").val($("#deleteAttachmentIdList").val() + fileId + ",");
+                $("#deleteAttachmentFileList").val($("#deleteAttachmentFileList").val() + fileName + ",");
+            }
+            //alert($("#deleteAttachmentIdList").val());
+        }
+        return false;
+    }
+
+    function cancelQuote() {
+        return confirm('Are you sure to reject this RFQ?');
+    }
+    function deleteQuote() {
+        return confirm('Are you sure to permanently delete this RFQ?');
+    }
+
+    
+</script>
+
+@using (Html.BeginForm("CreateRFQNew", "RequestForQuote", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(Model => Model.deleteAttachmentIdList, new { id = "deleteAttachmentIdList" })
+    @Html.HiddenFor(Model => Model.deleteAttachmentFileList, new { id = "deleteAttachmentFileList" })
+    @Html.HiddenFor(Model => Model.requiredMinDate, new { id = "requiredMinDate" })
+
+    if (Model.rfqMain != null && Model.rfqMain.Count > 0 && Model.rfqMain[0] != null)
+    {
+        @Html.HiddenFor(Model => Model.rfqMain[0].Type, new { id = "requestType" })
+    }
+
+    if (ViewBag.Status != "Insert")
+    {
+        //if (!(ViewBag.IsQuoteSuperuser || ViewBag.IsPCVUser || (Convert.ToString(Model.rfqMain[0].CreatedBy).Contains(":") && ViewBag.UserId == Model.rfqMain[0].CreatedBy)  || ViewBag.UserId == Model.rfqMain[0].BuyerName))
+        if (!(ViewBag.IsQuoteSuperuser || ViewBag.IsPCVUser || ViewBag.IsPCVUser2 || (Convert.ToString(Model.rfqMain[0].CreatedBy).Contains(":") && ViewBag.UserId == Convert.ToString(Model.rfqMain[0].CreatedBy).Split(':')[1]) || (Convert.ToString(Model.rfqMain[0].BuyerName).Contains(":") && ViewBag.UserId == Convert.ToString(Model.rfqMain[0].BuyerName).Split(':')[1])))
+        {
+            <div class="row">
+                <div class="col-sm-12">
+                    <span class="errormsg">Access denied : You aren't authorize to view this RFQ.</span>
+                </div>
+            </div>
+            return;
+        }
+    }
+
+    if ((ViewBag.IsQuoteSuperuser || ViewBag.IsPCVUser || ViewBag.IsPCVUser2 || (Model.rfqMain != null && Model.rfqMain.Count > 0 && Model.rfqMain[0] != null && !string.IsNullOrEmpty(Convert.ToString(Model.rfqMain[0].BuyerName)) && Convert.ToString(Model.rfqMain[0].BuyerName).Contains(":") && ViewBag.UserId == Convert.ToString(Model.rfqMain[0].BuyerName).Split(':')[1])))
+    {
+        if (ViewBag.Status == "Finalised" && Model.rfqMain != null && Model.rfqMain.Count > 0 && Model.rfqMain[0] != null)
+        {
+            if (Model.rfqMain[0].Status == "Finalised")
+            {
+                <div class="row">
+                    <div class="col-sm-12 reviseDiv">
+                        This RFQ is finalised.&nbsp; Click
+                        @Html.ActionLink(" here ", "ReviseQuote", new { @quoteNo = Model.rfqMain[0].QuoteId }, new { id = "reviseQuote", onclick = "return reviseQuote();" }) to revise.
+                    </div>
+                </div>
+            }
+        }
+    }
+    if (ViewBag.Status != "Insert")
+    {
+        if (Model.rfqMain != null && Model.rfqMain.Count > 0 && Model.rfqMain[0] != null)
+        {
+            @Html.HiddenFor(m => m.quoteId, new { Value = Model.rfqMain[0].Id })
+            @Html.HiddenFor(m => m.quoteNo, new { Value = Model.rfqMain[0].QuoteId, id = "hdnQuoteId" })
+            @Html.HiddenFor(m => m.status, new { Value = Model.rfqMain[0].Status, id = "hdnStatus" })
+        }
+    }
+    @*<div class="row empty-row">
+            <div class="col-sm-12">
+            </div>
+        </div>*@
+
+    <div class="row">
+        <div class="col-sm-12 maindiv">
+            <div class="row headingdiv">
+                <div class="col-sm-12">
+                    Requestor Details
+                </div>
+            </div>
+            @if (ViewBag.Status != "Insert")
+            {
+                <div class="row">
+                    <div class="col-sm-2">
+                        Status
+                    </div>
+                    <div class="col-sm-4">
+                        <b>@ViewBag.Status</b>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-2">
+                        Revision No.
+                    </div>
+                    <div class="col-sm-4">
+                        <b>@Model.rfqMain[0].RevisionNo</b>
+                    </div>
+                </div>
+            }
+            <div class="row">
+                <div class="col-sm-2">
+                    Quote Type
+                    @if (ViewBag.Status == "Insert" || ViewBag.Status == "New")
+                {
+                        <span class="mandatory">*</span>
+                    }
+                </div>
+                <div class="col-sm-4">
+                    @if (ViewBag.Status == "Insert" || ViewBag.Status == "New" || (ViewBag.Status == "Hold" && ViewBag.IsQuoteOwner == true))
+                {
+
+                    List<SelectListItem> listItems = new List<SelectListItem>();
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "-- Select --",
+                        Value = "-- Select --",
+                        Selected = true
+                    });
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "New RFQ",
+                        Value = "New RFQ"
+                    });
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "Quote Verification",
+                        Value = "Quote Verification"
+                        //,Selected = true
+                    });
+
+                    if (Model.rfqMain != null && Model.rfqMain.Count > 0 && Model.rfqMain[0] != null)
+                    {
+                        Model.quoteType = Model.rfqMain[0].Type;
+                    }
+                    @Html.DropDownListFor(model => model.quoteType, listItems, new { @style = "width:90%" })
+                    }
+                    else
+                    {
+                        <b> @Html.Raw(Convert.ToString(Model.rfqMain[0].Type))</b>
+                    }
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-2">
+                    Priority
+                    @if (ViewBag.Status == "Insert" || ViewBag.Status == "New")
+                {
+                        <span class="mandatory">*</span>
+                    }
+                </div>
+                <div class="col-sm-4">
+                    @if (ViewBag.Status == "Insert" || ViewBag.Status == "New" || (ViewBag.Status == "Hold" && ViewBag.IsQuoteOwner == true))
+                {
+
+                    List<SelectListItem> listItems = new List<SelectListItem>();
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "Normal",
+                        Value = "0",
+                        Selected = true
+                    });
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "Urgent",
+                        Value = "1"
+                    });
+
+                    if (Model.rfqMain != null && Model.rfqMain.Count > 0 && Model.rfqMain[0] != null)
+                    {
+                        Model.priority = (!string.IsNullOrEmpty(Convert.ToString(Model.rfqMain[0].Priority)) ? Convert.ToInt32(Model.rfqMain[0].Priority) : 0);
+                    }
+                    @Html.DropDownListFor(model => model.priority, listItems, new { @style = "width:90%" })
+                    }
+                    else
+                    {
+                        string priority = Convert.ToString(Model.rfqMain[0].Priority);
+                        if (!string.IsNullOrEmpty(priority))
+                        {
+                            priority = (priority == "1" ? "Urgent" : "Normal");
+                        }
+                        <b> @Html.Raw(priority)</b>
+                    }
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-2">
+                    Quotation Required Date
+                    @if (ViewBag.Status == "Insert" || ViewBag.Status == "New" || (ViewBag.Status == "Hold" && ViewBag.IsQuoteOwner == true))
+                {
+                        <span class="mandatory">*</span>
+                    }
+                </div>
+                <div class="col-sm-4">
+                    @if (ViewBag.Status == "Insert" || ViewBag.Status == "New" || (ViewBag.Status == "Hold" && ViewBag.IsQuoteOwner == true))
+                    {
+                        if (Model.rfqMain != null && Model.rfqMain.Count > 0 && Model.rfqMain[0] != null && !string.IsNullOrEmpty(Convert.ToString(Model.rfqMain[0].RequiredDate)))
+                        {
+                            Model.requiredDate = Convert.ToDateTime(Model.rfqMain[0].RequiredDate).ToString("dd/MM/yyyy");
+                        }
+
+                        //@Html.TextBoxFor(m => m.requiredDate, Convert.ToString(Model.requiredDate), new { @type = "Date" })
+                        @Html.TextBoxFor(model => model.requiredDate, new { @class = "date-picker", @style = "width:70%", @readonly = "true" })
+                        @*@Html.Raw("(dd/mm/yyyy)")*@
+                    }
+                    else
+                    {
+                        if (!string.IsNullOrEmpty(Convert.ToString(Model.rfqMain[0].RequiredDate)))
+                        {
+                            <b> @Html.Raw(Convert.ToDateTime(Model.rfqMain[0].RequiredDate).ToString("dd/MM/yyyy"))</b>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">
+                    Purchase Category
+                    @if (ViewBag.Status == "Insert" || ViewBag.Status == "New" || (ViewBag.Status == "Hold" && ViewBag.IsQuoteOwner == true))
+                {
+                        <span class="mandatory">*</span>
+                    }
+                </div>
+                <div class="col-sm-4">
+                    @if (ViewBag.Status == "Insert" || ViewBag.Status == "New" || (ViewBag.Status == "Hold" && ViewBag.IsQuoteOwner == true))
+                {
+                    if (Model.rfqMain != null && Model.rfqMain.Count > 0 && Model.rfqMain[0] != null)
+                    {
+                        Model.purchaseCategoryNew = Model.rfqMain[0].PurchaseCategory;
+                            @Html.HiddenFor(m => m.quoteId, new { Value = Model.rfqMain[0].Id })
+                            @Html.HiddenFor(m => m.quoteNo, new { Value = Model.rfqMain[0].QuoteId, id = "hdnQuoteId" })
+                            @Html.HiddenFor(m => m.status, new { Value = Model.rfqMain[0].Status, id = "hdnStatus" })
+                        }
+                        @Html.DropDownListFor(m => m.purchaseCategoryNew, Model.purchaseCategoryMain, new { @class = "rfqddl" })
+                    }
+                    else
+                    {
+                        <b>@Html.Raw(Model.rfqMain[0].PurchaseCategory)</b>
+                    }
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">
+                    Description
+                    @if (ViewBag.Status == "Insert" || ViewBag.Status == "New" || (ViewBag.Status == "Hold" && ViewBag.IsQuoteOwner == true))
+                {
+                        <span class="mandatory">*</span>
+                    }
+                </div>
+                <div class="col-sm-4">
+                    @if (ViewBag.Status == "Insert" || ViewBag.Status == "New" || (ViewBag.Status == "Hold" && ViewBag.IsQuoteOwner == true))
+                {
+                    if (Model.rfqMain != null && Model.rfqMain.Count > 0 && Model.rfqMain[0] != null)
+                    {
+                        Model.purchaseRemarks = Model.rfqMain[0].PurchaseRemarks;
+                    }
+                    @Html.TextAreaFor(m => m.purchaseRemarks, new { @class = "rfqta", rows = "4", cols = "250" })
+                    }
+                    else
+                    {
+                        <b>@Html.Raw(Model.rfqMain[0].PurchaseRemarks)</b>
+                    }
+                </div>
+            </div>
+            @if (ViewBag.Status == "Insert" || (ViewBag.Status == "New") || (ViewBag.Status == "Hold" && ViewBag.IsQuoteOwner == true))
+            {
+                <div class="row">
+                    <div class="col-sm-2">
+                        Attach Document
+                    </div>
+                    <div class="col-sm-4">
+                        <img src="~/Content/images/downloads.png" class="imgDownload" />
+                        @Html.ActionLink("Download RFQ Template", "GetRFQTemplate", new { @target = "_blank" }, new { @class = "RFQTemplate" })
+                    </div>
+                </div>
+            }
+
+            <div class="row">
+                <div class="col-sm-2">
+                    @if (ViewBag.Status != "Insert" && ViewBag.Status != "New" && (ViewBag.Status != "Hold" && ViewBag.IsQuoteOwner != true))
+                {
+                        @Html.Raw("Attach Document");
+                }
+                </div>
+                <div class="col-sm-4">
+                    @if (ViewBag.Status == "Insert" || (ViewBag.Status == "New" && Model.rfqPurchaseAttachments.Count == 0) || (ViewBag.Status == "Hold" && ViewBag.IsQuoteOwner == true && Model.rfqPurchaseAttachments.Count == 0))
+                {
+                        <input type="file" name="files" id="purchaseFile1" class="fileRFQ" />
+                        @Html.Raw("&nbsp;&nbsp;&nbsp;")
+                        @Html.ActionLink("Clear", "", "", new { id = "clearPurchaseAttach1", onclick = "return clearAttachedFile('Purchase','1');" })
+                    }
+                    else
+                    {
+                        <input type="file" name="files" id="purchaseFile1" style="display:none;" />
+                        @Html.Raw("&nbsp;&nbsp;&nbsp;")
+                        @Html.ActionLink("Clear", "", "", new { id = "clearPurchaseAttach1", onclick = "return clearAttachedFile('Purchase','1');", style = "display:none;" })
+                        if (Model.rfqPurchaseAttachments.Count > 0 && Model.rfqPurchaseAttachments[0] != null)
+                        {
+                            @Html.ActionLink(Model.rfqPurchaseAttachments[0].FilePath, "GetAttachment", new { @target = "_blank", @docName = Model.rfqPurchaseAttachments[0].FilePath }, new { @id = "purchaseAttachment1" })
+                            // @Html.ActionLink(Model.rfqPurchaseAttachments[0].FilePath, "GetAttachment", new { Controller = "RequestForQuote", target = "_blank", docName = Model.rfqPurchaseAttachments[0].FilePath })
+                            if (ViewBag.Status == "New" || ViewBag.Status == "Hold")
+                            {
+                                @Html.Raw("&nbsp;&nbsp;&nbsp;")
+                                @Html.ActionLink("Remove", "", "", new { id = "rlPurchaseAttach1", onclick = "return removeAttachedFile('Purchase','1','" + Model.rfqPurchaseAttachments[0].Id + "','" + Model.rfqPurchaseAttachments[0].FilePath + "');" })
+                            }
+                        }
+                        else
+                        {
+                            <span class="noattachment">No files attached ...</span>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">
+
+                </div>
+                <div class="col-sm-4">
+                    @if (ViewBag.Status == "Insert" || (ViewBag.Status == "New" && Model.rfqPurchaseAttachments.Count < 2) || (ViewBag.Status == "Hold" && ViewBag.IsQuoteOwner == true && Model.rfqPurchaseAttachments.Count < 2))
+                {
+                        <input type="file" name="files" id="purchaseFile2" class="fileRFQ" />
+                        @Html.Raw("&nbsp;&nbsp;&nbsp;")
+                        @Html.ActionLink("Clear", "", "", new { id = "clearPurchaseAttach2", onclick = "return clearAttachedFile('Purchase','2');" })
+                    }
+                    else
+                    {
+                        <input type="file" name="files" id="purchaseFile2" style="display:none;" />
+                        @Html.Raw("&nbsp;&nbsp;&nbsp;")
+                        @Html.ActionLink("Clear", "", "", new { id = "clearPurchaseAttach2", onclick = "return clearAttachedFile('Purchase','2');", style = "display:none;" })
+                        if (Model.rfqPurchaseAttachments.Count > 1 && Model.rfqPurchaseAttachments[1] != null)
+                        {
+                            @Html.ActionLink(Model.rfqPurchaseAttachments[1].FilePath, "GetAttachment", new { @target = "_blank", @docName = Model.rfqPurchaseAttachments[1].FilePath }, new { @id = "purchaseAttachment2" })
+                            //@Html.ActionLink(Model.rfqPurchaseAttachments[1].FilePath, "GetAttachment", "", new { id = "purchaseAttachment2", target = "_blank", docName = Model.rfqPurchaseAttachments[1].FilePath })
+                            if (ViewBag.Status == "New" || ViewBag.Status == "Hold")
+                            {
+                                @Html.Raw("&nbsp;&nbsp;&nbsp;")
+                                @Html.ActionLink("Remove", "", "", new { id = "rlPurchaseAttach2", onclick = "return removeAttachedFile('Purchase','2','" + Model.rfqPurchaseAttachments[1].Id + "','" + Model.rfqPurchaseAttachments[1].FilePath + "');" })
+                            }
+                        }
+                    }
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">
+
+                </div>
+                <div class="col-sm-4">
+                    @if (ViewBag.Status == "Insert" || (ViewBag.Status == "New" && Model.rfqPurchaseAttachments.Count < 3) || (ViewBag.Status == "Hold" && ViewBag.IsQuoteOwner == true && Model.rfqPurchaseAttachments.Count < 3))
+                {
+                        <input type="file" name="files" id="purchaseFile3" class="fileRFQ" />
+                        @Html.Raw("&nbsp;&nbsp;&nbsp;")
+                        @Html.ActionLink("Clear", "", "", new { id = "clearPurchaseAttach3", onclick = "return clearAttachedFile('Purchase','3');" })
+                    }
+                    else
+                    {
+                        <input type="file" name="files" id="purchaseFile3" style="display:none;" />
+                        @Html.Raw("&nbsp;&nbsp;&nbsp;")
+                        @Html.ActionLink("Clear", "", "", new { id = "clearPurchaseAttach3", onclick = "return clearAttachedFile('Purchase','3');", style = "display:none;" })
+                        if (Model.rfqPurchaseAttachments.Count > 2 && Model.rfqPurchaseAttachments[2] != null)
+                        {
+                            @Html.ActionLink(Model.rfqPurchaseAttachments[2].FilePath, "GetAttachment", new { @target = "_blank", @docName = Model.rfqPurchaseAttachments[2].FilePath }, new { @id = "purchaseAttachment3" })
+                            //@Html.ActionLink(Model.rfqPurchaseAttachments[2].FilePath, "GetAttachment", "", new { id = "purchaseAttachment3", target = "_blank", docName = Model.rfqPurchaseAttachments[2].FilePath })
+                            if (ViewBag.Status == "New" || ViewBag.Status == "Hold")
+                            {
+                                @Html.Raw("&nbsp;&nbsp;&nbsp;")
+                                @Html.ActionLink("Remove", "", "", new { id = "rlPurchaseAttach3", onclick = "return removeAttachedFile('Purchase','3','" + Model.rfqPurchaseAttachments[2].Id + "','" + Model.rfqPurchaseAttachments[2].FilePath + "');" })
+                            }
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*<div class="row empty-row">
+            <div class="col-sm-12">
+            </div>
+        </div>*@
+
+if (ViewBag.Status != "Insert" && ViewBag.Status != "New")
+{
+
+
+
+    <div class="row">
+        <div class="col-sm-12 maindiv">
+            <div class="row headingdiv">
+                <div class="col-sm-12">
+                    Buyer Details
+                </div>
+            </div>
+
+            @if (ViewBag.Status == "Pending" || ViewBag.Status == "Assigned" || ViewBag.Status == "Finalised" || ViewBag.Status == "Canceled" || ViewBag.Status == "Rejected" || ViewBag.Status == "Hold")
+            {
+                <div class="row">
+                    <div class="col-sm-2">
+                        Buyer Name
+                    </div>
+                    <div class="col-sm-4">
+                        @if (!string.IsNullOrEmpty(Convert.ToString(Model.rfqMain[0].BuyerName)))
+                        {
+                            <b>   @Html.Raw(Convert.ToString(Model.rfqMain[0].BuyerName).Split(':')[0])</b>
+                        }
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        Buyer Code
+                    </div>
+                    <div class="col-sm-4">
+                        @if (!string.IsNullOrEmpty(Convert.ToString(Model.rfqMain[0].BuyerCode)))
+                        {
+                            <b> @Html.Raw(Convert.ToString(Model.rfqMain[0].BuyerCode))</b>
+                        }
+                    </div>
+                </div>
+            }
+
+            @if (ViewBag.Status == "Finalised" || ViewBag.Status == "Canceled" || ViewBag.Status == "Rejected")
+            {
+                <div class="row">
+                    <div class="col-sm-2">
+                        Finalised By
+                    </div>
+                    <div class="col-sm-4">
+                        @if (!string.IsNullOrEmpty(Convert.ToString(Model.rfqMain[0].ProcessedBy)))
+                        {
+                            <b>  @Html.Raw(Convert.ToString(Model.rfqMain[0].ProcessedBy).Split(':')[0])</b>
+                        }
+                    </div>
+                </div>
+            }
+
+            @if (ViewBag.Status == "Assigned" || ViewBag.Status == "Finalised" || ViewBag.Status == "Canceled" || ViewBag.Status == "Rejected" || ViewBag.Status == "Hold")
+            {
+
+
+                <div class="row">
+                    <div class="col-sm-2">
+                        Buyer Remarks
+                        @if (ViewBag.Status == "Assigned")
+                        {
+                            <span class="mandatory">*</span>
+                        }
+                    </div>
+                    <div class="col-sm-4">
+                        @if (ViewBag.Status == "Assigned")
+                        {
+                            if (Model.rfqMain != null && Model.rfqMain.Count > 0 && Model.rfqMain[0] != null)
+                            {
+                                Model.buyerRemarks = Model.rfqMain[0].BuyerRemarks;
+                            }
+                            @Html.TextAreaFor(m => m.buyerRemarks, new { @class = "rfqta", rows = "4", cols = "250" })
+                        }
+                        else
+                        {
+                            if (!string.IsNullOrEmpty(Convert.ToString(Model.rfqMain[0].BuyerRemarks)))
+                            {
+                                <b>   @Html.Raw(Convert.ToString(Model.rfqMain[0].BuyerRemarks))</b>
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        Attach Document
+                        @if (ViewBag.Status == "Assigned")
+                        {
+                            <span class="mandatory">*</span>
+                        }
+                    </div>
+                    <div class="col-sm-4">
+                        @if (ViewBag.Status == "Assigned" && Model.rfqBuyerAttachments.Count == 0)
+                        {
+                            <input type="file" name="files" id="buyerFile1" class="fileRFQ" />
+                            @Html.Raw("&nbsp;&nbsp;&nbsp;")
+                            @Html.ActionLink("Clear", "", "", new { id = "clearBuyerAttach1", onclick = "return clearAttachedFile('Buyer','1');" })
+
+                        }
+                        else
+                        {
+                            <input type="file" name="files" id="buyerFile1" style="display:none;" />
+                            @Html.Raw("&nbsp;&nbsp;&nbsp;")
+                            @Html.ActionLink("Clear", "", "", new { id = "clearBuyerAttach1", onclick = "return clearAttachedFile('Buyer','1');", style = "display:none;" })
+
+                            if (Model.rfqBuyerAttachments.Count > 0 && Model.rfqBuyerAttachments[0] != null)
+                            {
+                                //@Html.ActionLink(Model.rfqBuyerAttachments[0].FilePath, "GetAttachment", new { id = "buyerAttachment1", target = "_blank", docName = Model.rfqBuyerAttachments[0].FilePath })
+                                @Html.ActionLink(Model.rfqBuyerAttachments[0].FilePath, "GetAttachment", new { @target = "_blank", @docName = Model.rfqBuyerAttachments[0].FilePath }, new { @id = "buyerAttachment1" })
+                                if (ViewBag.Status == "Assigned" || ViewBag.Status == "Reopened")
+                                {
+                                    @Html.Raw("&nbsp;&nbsp;&nbsp;")
+                                    @Html.ActionLink("Remove", "", "", new { id = "rlBuyerAttach1", onclick = "return removeAttachedFile('Buyer','1','" + Model.rfqBuyerAttachments[0].Id + "','" + Model.rfqBuyerAttachments[0].FilePath + "');" })
+                                }
+                            }
+                            else
+                            {
+                                <span class="noattachment">No files attached ...</span>
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+
+                    </div>
+                    <div class="col-sm-4">
+                        @if (ViewBag.Status == "Assigned" && Model.rfqBuyerAttachments.Count < 2)
+                        {
+                            <input type="file" name="files" id="buyerFile2" class="fileRFQ" />
+                            @Html.Raw("&nbsp;&nbsp;&nbsp;")
+                            @Html.ActionLink("Clear", "", "", new { id = "clearBuyerAttach2", onclick = "return clearAttachedFile('Buyer','2');" })
+                        }
+                        else
+                        {
+                            <input type="file" name="files" id="buyerFile2" style="display:none;" />
+                            @Html.Raw("&nbsp;&nbsp;&nbsp;")
+                            @Html.ActionLink("Clear", "", "", new { id = "clearBuyerAttach2", onclick = "return clearAttachedFile('Buyer','2');", style = "display:none;" })
+                            if (Model.rfqBuyerAttachments.Count > 1 && Model.rfqBuyerAttachments[1] != null)
+                            {
+                                //@Html.ActionLink(Model.rfqBuyerAttachments[1].FilePath, "GetAttachment", new { id = "buyerAttachment2", target = "_blank", docName = Model.rfqBuyerAttachments[1].FilePath })
+                                @Html.ActionLink(Model.rfqBuyerAttachments[1].FilePath, "GetAttachment", new { @target = "_blank", @docName = Model.rfqBuyerAttachments[1].FilePath }, new { @id = "buyerAttachment2" })
+                                if (ViewBag.Status == "Assigned" || ViewBag.Status == "Reopened")
+                                {
+                                    @Html.Raw("&nbsp;&nbsp;&nbsp;")
+                                    @Html.ActionLink("Remove", "", "", new { id = "rlBuyerAttach2", onclick = "return removeAttachedFile('Buyer','2','" + Model.rfqBuyerAttachments[1].Id + "','" + Model.rfqBuyerAttachments[1].FilePath + "');" })
+                                }
+
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+
+                    </div>
+                    <div class="col-sm-4">
+                        @if (ViewBag.Status == "Assigned" && Model.rfqBuyerAttachments.Count < 3)
+                        {
+                            <input type="file" name="files" id="buyerFile3" class="fileRFQ" />
+                            @Html.Raw("&nbsp;&nbsp;&nbsp;")
+                            @Html.ActionLink("Clear", "", "", new { id = "clearBuyerAttach3", onclick = "return clearAttachedFile('Buyer','3');" })
+                        }
+                        else
+                        {
+                            <input type="file" name="files" id="buyerFile3" style="display:none;" />
+                            @Html.Raw("&nbsp;&nbsp;&nbsp;")
+                            @Html.ActionLink("Clear", "", "", new { id = "clearBuyerAttach3", onclick = "return clearAttachedFile('Buyer','3');", style = "display:none;" })
+                            if (Model.rfqBuyerAttachments.Count > 2 && Model.rfqBuyerAttachments[2] != null)
+                            {
+                                //@Html.ActionLink(Model.rfqBuyerAttachments[2].FilePath, "GetAttachment", new { id = "buyerAttachment3", target = "_blank", docName = Model.rfqBuyerAttachments[2].FilePath })
+                                @Html.ActionLink(Model.rfqBuyerAttachments[2].FilePath, "GetAttachment", new { @target = "_blank", @docName = Model.rfqBuyerAttachments[2].FilePath }, new { @id = "buyerAttachment3" })
+                                if (ViewBag.Status == "Assigned" || ViewBag.Status == "Reopened")
+                                {
+                                    @Html.Raw("&nbsp;&nbsp;&nbsp;")
+                                    @Html.ActionLink("Remove", "", "", new { id = "rlBuyerAttach3", onclick = "return removeAttachedFile('Buyer','3','" + Model.rfqBuyerAttachments[2].Id + "','" + Model.rfqBuyerAttachments[2].FilePath + "');" })
+                                }
+                            }
+                        }
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+}
+    @*<div class="row empty-row">
+            <div class="col-sm-12">
+            </div>
+        </div>*@
+
+if (ViewBag.Status != "Insert")
+{
+    <div class="row">
+        <div class="col-sm-12">
+            Created by <b>@Convert.ToString(Model.rfqMain[0].CreatedBy).Split(':')[0]</b> on <b>@Convert.ToDateTime(Model.rfqMain[0].Created).ToString("dd/MM/yyyy hh:mm tt")</b>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            Updated by <b>@Convert.ToString(Model.rfqMain[0].ModifiedBy).Split(':')[0]</b> on <b>@Convert.ToDateTime(Model.rfqMain[0].Modified).ToString("dd/MM/yyyy hh:mm tt")</b>
+        </div>
+    </div>
+}
+
+    <div class="row">
+        <div class="col-sm-6">
+
+            @if (ViewBag.Status == "Insert" || ViewBag.Status == "New")
+                {
+                <input type="submit" name="Command" value="Draft" onclick="return validateNewQuote('save');" class="btn btn-primary" />
+                    @Html.Raw("&nbsp;&nbsp;")
+
+            }
+            @if (ViewBag.Status == "Insert" || ViewBag.Status == "New" || (ViewBag.Status == "Hold" && ViewBag.IsQuoteOwner == true))
+                {
+                <input type="submit" name="Command" value="Submit" onclick="return validateNewQuote('submit');" class="btn btn-primary" />
+                    @Html.Raw("&nbsp;&nbsp;")
+            }
+
+            @if (ViewBag.Status == "Assigned")
+                {
+                <input type="submit" name="Command" value="Save" onclick="return validateNewQuote('buyer save');" class="btn btn-primary" />
+                    @Html.Raw("&nbsp;&nbsp;")
+
+                    <input type="submit" name="Command" value="Hold" onclick="return validateNewQuote('buyer hold');" class="btn btn-primary" />
+                    @Html.Raw("&nbsp;&nbsp;")
+
+                    <input type="submit" name="Command" value="Finalise" onclick="return validateNewQuote('finalise');" class="btn btn-primary" />
+                    @Html.Raw("&nbsp;&nbsp;")
+            }
+            @if (ViewBag.Status == "New")
+                {
+                <input type="submit" name="Command" value="Delete RFQ" id="btnDelete" onclick="return deleteQuote();" class="btn btn-primary" />
+                    @Html.Raw("&nbsp;&nbsp;")
+
+            }
+            @if (ViewBag.Status == "Assigned")
+                {
+                <input type="submit" name="Command" value="Reject RFQ" id="btnCancel" onclick="return cancelQuote();" class="btn btn-primary" />
+                    @Html.Raw("&nbsp;&nbsp;")
+            }
+
+            <input type="button" name="Command" value="Back To List" id="btnBack" onclick="return redirectToDashboard();" class="btn btn-primary" />
+        </div>
+    </div>
+}

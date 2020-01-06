@@ -1,0 +1,336 @@
+﻿@model WorkFlowUI.ViewModel.PoSPoViewModel
+
+@{
+    ViewBag.Title = "GetSPo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Document Header</h3>
+<table class="table table-striped table-bordered table-hover ">
+    <tr class="success">
+        <th>Doc Type</th>
+        <th>DocNo</th>
+        <th>Net Price</th>
+        <th>Currency</th>
+        <th>Net Price Local</th>
+        <th>Vendor Code</th>
+        <th>Vendor Name</th>
+        <th>Vendor Category</th>
+        <th>Attach Doc1</th>
+        <th>Attach Doc2</th>
+        <th>Attach Doc3</th>
+        <th>Attach Doc4</th>
+        <th>Released By</th>
+        <th>Released Date</th>
+    </tr>
+
+    @foreach (var item in Model.Documents)
+    {
+        <tr>
+
+
+            <td>
+                @Html.DisplayFor(modelItem => item.DocType)
+            </td>
+            <td>
+
+                @Html.DisplayFor(modelItem => item.DocNo)
+
+            <td>
+                @if (item.DocNetPrice != null)
+                {
+                    var netprice = Convert.ToDecimal(item.DocNetPrice.Value).ToString("#,##0.00");
+                    @Html.DisplayFor(m => netprice)
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Currency)
+            </td>
+            <td>
+                @if (item.NetPrice != null)
+                {
+                    var netprice = Convert.ToDecimal(item.NetPrice.Value).ToString("#,##0.00");
+                    @Html.DisplayFor(m => netprice)
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VendorCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VendorName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VendorCategory)
+            </td>
+
+            <td>
+
+
+                @if (item.AttachDoc != null)
+                {
+                    @Html.ActionLink(item.AttachDoc, "GetDocument", new { docNo = @item.DocNo, name = @item.AttachDoc, erpattach = @item.ERPAttachment }, new { target = "_blank" })
+                }
+
+            </td>
+            <td>
+                @*@Html.DisplayFor(modelItem => item.AddAttachDoc1)*@
+                @if (item.AddAttachDoc1 != null)
+                {
+                    @Html.ActionLink(item.AddAttachDoc1, "GetDocument", new { docNo = @item.DocNo, name = @item.AddAttachDoc1, erpattach = @item.ERPAttachment }, new { target = "_blank" })
+                }
+            </td>
+            <td>
+                @*@Html.DisplayFor(modelItem => item.AddAttachDoc2)*@
+                @if (item.AddAttachDoc2 != null)
+                {
+                    @Html.ActionLink(item.AddAttachDoc2, "GetDocument", new { docNo = @item.DocNo, name = @item.AddAttachDoc2, erpattach = @item.ERPAttachment }, new { target = "_blank" })
+                }
+            </td>
+            <td>
+                @*@Html.DisplayFor(modelItem => item.AddAttachDoc3)*@
+                @if (item.AddAttachDoc3 != null)
+                {
+                    @Html.ActionLink(item.AddAttachDoc3, "GetDocument", new { docNo = @item.DocNo, name = @item.AddAttachDoc3, erpattach = @item.ERPAttachment }, new { target = "_blank" })
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SubmitBy)
+            </td>
+            <td>
+                @*@Html.DisplayFor(modelItem => item.SubmitDate)*@
+                @if (item.SubmitDate != null)
+                {
+                    var dateVal = item.SubmitDate.Value.ToString("dd/MM/yyyy HH:mm:ss");
+                    @Html.DisplayFor(m => dateVal)
+                }
+            </td>
+
+
+
+
+        </tr>
+    }
+</table>
+
+@if (ViewBag.Controller != "DocumentStatus")
+{
+    <h3>Budget Summary</h3>
+
+
+    <table class="table table-striped table-bordered table-hover ">
+        <tr class="info">
+            <th>Project/Sales Grp/Cost Ctr</th>
+            <th>Description</th>
+            <th>GL Account</th>
+            @*<th>Account Name</th>*@
+            <th>Original Budget (A)</th>
+            <th>Supp. Budget (B) </th>
+            <th>Committed + Actual Budget (C)</th>
+            <th>This Exp.(D)</th>
+            <th>Total Bal. Budget (E=[A+B]-[C+D])</th>
+
+        </tr>
+
+        @foreach (var COA in Model.PObdgt)
+        {
+            <tr>
+
+                <td>
+                    @COA.ObjectNo
+                </td>
+
+                <td>
+                    @COA.ObjectName
+                </td>
+
+                <td>
+                    @COA.AccountNo
+                </td>
+
+                @*<td>
+                        @COA.ChartOfAccountSetDetailDescription
+                    </td>*@
+                <td>
+                    @*@COA.SecondaryEntityBudgetApproved*@
+                    @if (@COA.OrginalBudget != null)
+                    {
+                        var orginalbudget = Convert.ToDecimal(@COA.OrginalBudget).ToString("#,##0.00");
+                        @Html.DisplayFor(m => orginalbudget)
+                    }
+                </td>
+                <td>
+                    @*@COA.SupplementaryBudget1Approved*@
+                    @if (@COA.SuppBudget != null)
+                    {
+                        var suppbudget = Convert.ToDecimal(@COA.SuppBudget).ToString("#,##0.00");
+                        @Html.DisplayFor(m => suppbudget)
+                    }
+                </td>
+
+                <td>
+                    @*@COA.CommitPlusActual*@
+                    @if (@COA.CommitBudget + COA.ActualBudget != null)
+                    {
+                        var CommitPlusActual = Convert.ToDecimal(@COA.CommitBudget + COA.ActualBudget).ToString("#,##0.00");
+                        @Html.DisplayFor(m => CommitPlusActual)
+                    }
+                </td>
+
+                <td>
+                    @* @COA.GrandTotalInLocalCurrency*@
+                    @if (@COA.ThisExp != null)
+                    {
+                        var thisexp = Convert.ToDecimal(@COA.ThisExp).ToString("#,##0.00");
+                        @Html.DisplayFor(m => thisexp)
+                    }
+                </td>
+
+                <td>
+                    @* @COA.BalanceBudgetAmount*@
+                    @if (@COA.BalBudget != null)
+                    {
+                        var BalanceBudgetAmount = Convert.ToDecimal(@COA.BalBudget).ToString("#,##0.00");
+                        @Html.DisplayFor(m => BalanceBudgetAmount)
+                    }
+                </td>
+
+
+
+            </tr>
+        }
+
+    </table>
+}
+<h3>Purchase Order</h3>
+
+<table class="table table-striped table-bordered table-hover ">
+    <tr class="success">
+        <th>PO No</th>
+        <th>Item</th>
+        <th>Item Name</th>
+        <th>Cost Object No</th>
+        <th>GL Account</th>
+        @*<th>Account Name</th>*@
+        <th>Qty</th>
+        <th>UOM</th>
+        <th>Unit Price</th>
+        <th>Currency</th>
+        <th>Net Price</th>
+        <th>Net Price Local</th>
+        <th> Vendor</th>
+        <th> Required Date</th>
+        <th>PR Number</th>
+    </tr>
+
+
+    @foreach (var SubconPO in Model.PO)
+    {
+        <tr>
+
+            <td>
+                @SubconPO.DocNo
+            </td>
+
+            <td>
+                @SubconPO.SequenceNo
+            </td>
+            <td>
+                @SubconPO.ItemNo
+            </td>
+
+
+            <td>
+                @SubconPO.SourceObjectNo
+            </td>
+            <td>
+                @SubconPO.AccountNo
+            </td>
+            @*<td>
+                    @SubconPO.ChartOfAccountSetDetailDescription
+                </td>*@
+            <td>
+                @SubconPO.Quantity
+            </td>
+            <td>
+                @SubconPO.UOM
+            </td>
+            <td>
+                @* @SubconPO.Price*@
+                @if (@SubconPO.UnitPrice != null)
+                {
+                    var price = Convert.ToDecimal(@SubconPO.UnitPrice).ToString("#,##0.00");
+                    @Html.DisplayFor(m => price)
+                }
+            </td>
+            <td>
+                @SubconPO.Currency
+            </td>
+            <td>
+                @* @SubconPO.NetPrice*@
+                @if (@SubconPO.NetPrice != null)
+                {
+                    var NetPrice = Convert.ToDecimal(@SubconPO.NetPrice).ToString("#,##0.00");
+                    @Html.DisplayFor(m => NetPrice)
+                }
+            </td>
+            <td>
+                @* @SubconPO.NetPriceLocal*@
+                @if (@SubconPO.NetPriceLocal != null)
+                {
+                    var NetPriceLocal = Convert.ToDecimal(@SubconPO.NetPriceLocal).ToString("#,##0.00");
+                    @Html.DisplayFor(m => NetPriceLocal)
+                }
+            </td>
+
+
+            <td>
+                @SubconPO.VendorName
+            </td>
+            <td>
+                @SubconPO.RequiredOn
+            </td>
+            <td>
+                @SubconPO.PRNO
+                @*@Html.ActionLink(@SubconPO.PurchaseRequisitionNo, "RouteDocNo", new { id = @SubconPO.PurchaseRequisitionNo })*@
+                @*@if (@SubconPO.PurchaseRequisitionNo != "")
+                    {
+                    @Html.ActionLink(@SubconPO.PurchaseRequisitionNo, "Index", new { Controller = "MiscPRCoa", DocId = ViewBag.DocId , DocNo = @SubconPO.PurchaseRequisitionNo, type = "SPO", workFlowId = 0, Page = 1 })
+                    }*@
+            </td>
+
+
+        </tr>
+    }
+
+</table>
+@Html.Partial("_DocStatus", Model.DocStatusVm)
+
+
+<p>
+
+    @if (ViewBag.Controller == "BrowseDocument")
+    {
+        @Html.ActionLink("Back to List", "Index", new { Controller = "BrowseDocument", area = "User", Status = ViewBag.PrevStatus, Page = ViewBag.Page })
+    }
+    else if (ViewBag.Controller == "ApproveDocument")
+    {
+        @Html.ActionLink("Back to List", "Index", new { Controller = "ApproveDocument", Status = ViewBag.PrevStatus, Page = ViewBag.Page })
+    }
+    else if (ViewBag.Controller == "AltApproveDocument")
+    {
+        @Html.ActionLink("Back to List", "Index", new { Controller = "AltApproveDocument", Status = ViewBag.PrevStatus, Page = ViewBag.Page })
+    }
+    else if (ViewBag.Controller == "PurchaseOrder")
+    {
+        @Html.ActionLink("Back to List", "Index", new { Controller = "Purchaseorder", area = "User", IsPoIssued = ViewBag.IsPoIssued, Page = ViewBag.Page })
+
+    }
+    else if (ViewBag.Controller == "ApprovedPR")
+    {
+        @Html.ActionLink("Back to List", "Index", new { Controller = "ApprovedPR", area = "User", Status = ViewBag.PrevStatus, Page = ViewBag.Page })
+    }
+    else if (ViewBag.Controller == "DocumentStatus")
+    {
+        @Html.ActionLink("Back to List", "Index", new { Controller = "DocumentStatus", area = "User" })
+    }
+</p>

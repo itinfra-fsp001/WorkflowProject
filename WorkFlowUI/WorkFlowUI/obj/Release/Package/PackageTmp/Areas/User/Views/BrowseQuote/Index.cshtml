@@ -1,0 +1,416 @@
+﻿@model WorkFlowUI.ViewModel.BrowseQuoteViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Browse RFQ / Quote Verification</h2>
+@if (TempData["Msg"] != null)
+{
+    <script type="text/javascript">
+        window.onload = function () {
+            alert("@Convert.ToString(TempData["Msg"])");
+            @TempData["Msg"]="";
+            window.location.href = "@Url.Action("Index", "BrowseQuote",new {Status="N",Search="", FilterType = "" })";
+        };
+    </script>
+}
+
+
+<script src="~/scripts/jquery-1.10.2.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#btnSearch').click(function () {
+            //   debugger;
+            this.href = this.href.replace("RefNo", checkandreplace($("#txtSearch").val()));
+            this.href = this.href.replace("TypeValue", $("input[name=SearchType]:checked").val());
+        });
+        $('#btnCancel').click(function () {
+
+            var names = GetCheckedItems();
+
+            //debugger;
+            this.href = this.href.replace("ItemList", JSON.stringify(names.toArray()));
+
+        });
+        $('#btnDelete').click(function () {
+
+            var names = GetCheckedItems();
+
+            //debugger;
+            this.href = this.href.replace("ItemList", JSON.stringify(names.toArray()));
+
+        });
+        $('#btnReject').click(function () {
+
+
+            var names = $(".ckb").filter(":checked").map(function () { return this.id; });
+            // debugger;
+            this.href = this.href.replace("ItemList", JSON.stringify(names.toArray()));
+
+        });
+        $("#ChkAll").click(function (event) {  //on click
+            if (this.checked) { // check select status
+                $('.ckb').each(function () { //loop through each checkbox
+                    this.checked = true;  //select all checkboxes with class "checkbox1"
+                });
+            } else {
+                $('.ckb').each(function () { //loop through each checkbox
+                    this.checked = false; //deselect all checkboxes with class "checkbox1"
+                });
+            }
+        });
+        $('.ckb').click(function (event) {
+            //debugger;//on click
+            if (this.checked) { // check select status
+            }
+            else {
+                document.getElementById("ChkAll").checked = false;
+            }
+        });
+    })
+
+    function ConfirmCancelTest() {
+        alert('Called');
+        return false;
+    }
+    function ConfirmCancel() {
+        var checked = GetCheckedItems(); //
+        if (checked.length == 0) {
+            alert("Please select atleast one RFQ to cancel.");
+            return false;
+        }
+        if (confirm('Are you sure want to Cancel?')) {
+            //   debugger;
+            document.getElementById("btnCancel").href = document.getElementById("btnCancel").href.replace("btnCancel", JSON.stringify(checked.toArray()));
+            //  $('#btnSubmit').href = $('#btnSubmit').href.replace("ItemList", JSON.stringify(checked.toArray()));
+            return true;
+        }
+        return false;
+    }
+    function ConfirmDelete() {
+        var checked = GetCheckedItems(); //
+        if (checked.length == 0) {
+            alert("Please select atleast one RFQ to delete.");
+            return false;
+        }
+        if (confirm('Are you sure want to Delete?')) {
+            //   debugger;
+            document.getElementById("btnDelete").href = document.getElementById("btnDelete").href.replace("btnDelete", JSON.stringify(checked.toArray()));
+            //  $('#btnSubmit').href = $('#btnSubmit').href.replace("ItemList", JSON.stringify(checked.toArray()));
+            return true;
+        }
+        return false;
+    }
+    function GetCheckedItems() {
+        var checked = $(".ckb").filter(":checked").map(function () { return this.id; });
+        return checked;
+
+    }
+    //function ConfirmDelete() {
+
+    //    return confirm('Are you sure, yow want to Delete?');
+    //}
+</script>
+
+<style type="text/css">
+    .datetimeheader {
+        width: 160px !important;
+    }
+
+    .usernameheader {
+        width: 140px !important;
+    }
+
+    .quoteTable {
+        width: 1200px !important;
+        max-width: 1200px !important;
+    }
+</style>
+
+
+<div class="row">
+    <div class="col-sm-12">
+        <ul class="nav nav-pills col-lg-8">
+            @if (ViewBag.Status == "N")
+            {
+                <li class="active">@Html.ActionLink("New RFQ", "Index", new { Status = "N", Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])) })</li>
+            }
+            else
+            {
+                <li> @Html.ActionLink("New RFQ", "Index", new { Status = "N", Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])) })</li>
+            }
+            @if (ViewBag.Status == "P")
+            {
+                <li class="active">@Html.ActionLink("Pending RFQ", "Index", new { Status = "P", Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])) })</li>
+            }
+            else
+            {
+                <li> @Html.ActionLink("Pending RFQ", "Index", new { Status = "P", Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])) })</li>
+            }
+            @if (ViewBag.Status == "H")
+            {
+                <li class="active">@Html.ActionLink("Hold RFQ", "Index", new { Status = "H", Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])) })</li>
+            }
+            else
+            {
+                <li> @Html.ActionLink("Hold RFQ", "Index", new { Status = "H", Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])) })</li>
+            }
+            @if (ViewBag.Status == "A")
+            {
+                <li class="active">@Html.ActionLink("Process RFQ", "Index", new { Status = "A", Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])) }) </li>
+            }
+            else
+            {
+                <li>@Html.ActionLink("Process RFQ", "Index", new { Status = "A", Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])) })</li>
+            }
+            @if (ViewBag.Status == "F")
+            {
+                <li class="active">@Html.ActionLink("Finalised RFQ", "Index", new { Status = "F", Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])) }) </li>
+            }
+            else
+            {
+                <li>@Html.ActionLink("Finalised RFQ", "Index", new { Status = "F", Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])) })</li>
+            }
+            @if (ViewBag.Status == "R")
+            {
+                <li class="active">@Html.ActionLink("Rejected RFQ", "Index", new { Status = "R", Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])) }) </li>
+            }
+            else
+            {
+                <li>@Html.ActionLink("Rejected RFQ", "Index", new { Status = "R", Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])) })</li>
+            }
+
+        </ul>
+    </div>
+</div>
+
+<div class="row empty-row">
+    <div class="col-sm-12">
+    </div>
+</div>
+<div>
+    <div class="row" style="margin-bottom:10px">
+        <div class="col-sm-1">
+            RFQ No.
+        </div>
+        <div class="col-sm-8">
+            @Html.TextBox("txtSearch", Convert.ToString(ViewData["Search"]))
+            &nbsp;&nbsp;&nbsp;
+
+        </div>
+    </div>
+    <div class="row" style="margin-bottom:10px">
+        <div class="col-sm-1">
+            Type
+        </div>
+        <div class="col-sm-8">
+            @if (ViewBag.IsSuperUser || ((ViewBag.IsPCVUser || ViewBag.IsPCVUser2) && ViewBag.Status != "P" && ViewBag.Status != "N"))
+            {
+                @Html.RadioButton("SearchType", "S", (string.IsNullOrEmpty(Convert.ToString(ViewData["FilterType"])) || Convert.ToString(ViewData["FilterType"]) == "S" ? true : false))
+                @Html.Raw("Self &nbsp; &nbsp;")
+                @Html.RadioButton("SearchType", "O", (Convert.ToString(ViewData["FilterType"]) == "O" ? true : false))
+                @Html.Raw("Others &nbsp; &nbsp;")
+                @Html.RadioButton("SearchType", "A", ((Convert.ToString(ViewData["FilterType"]) == "A") ? true : false))
+                @Html.Raw("All &nbsp; &nbsp;")
+            }
+            else
+            {
+                @Html.RadioButton("SearchType", "S", true)
+                @Html.Raw("Self &nbsp; &nbsp;")
+            }
+        </div>
+    </div>
+    <div class="row" style="margin-bottom:10px">
+        <div class="col-sm-1">
+
+        </div>
+        <div class="col-sm-4">
+            @Html.ActionLink("Search", "Index", new
+       {
+           Status = ViewBag.Status,
+           SortOrder = (ViewBag.SortOrder == null ? "Desc" :
+         (ViewBag.SortOrder == "Asc" ? "Asc" : "Desc")),
+           Sortby = "",
+           page = (ViewBag.Page == null ? "1" : ViewBag.Page),
+           Search = "RefNo",
+           FilterType = "TypeValue"
+       }, new { id = "btnSearch" })
+        </div>
+    </div>
+    <div class="row empty-row">
+        <div class="col-sm-12">
+        </div>
+    </div>
+</div>
+<div class="">
+    <div class="">
+        <table class="table table-striped table-bordered table-hover quoteTable">
+            <tr class="info">
+                @if (ViewBag.Status == "N")
+                {
+                    <th style="width:20px"> @Html.CheckBox("ChkAll", false, new { @class = "ckbAll", Id = "ChkAll" })</th>
+                }
+                <th style="width:130px">
+                    @Html.ActionLink("RFQ No.", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), Sortby = "QuoteNo", page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), FilterType = Convert.ToString(ViewData["FilterType"]) })
+                </th>
+                <th style="width:100px">
+                    @Html.ActionLink("Type", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), Sortby = "QuoteType", page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), FilterType = Convert.ToString(ViewData["FilterType"]) })
+                </th>
+                <th style="width:20px">
+                    @Html.ActionLink("Rev.", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), Sortby = "Revision", page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), FilterType = Convert.ToString(ViewData["FilterType"]) })
+                </th>
+                <th style="width:80px">
+                    @Html.ActionLink("Quotation Required Date", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), Sortby = "RequiredDate", page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), FilterType = Convert.ToString(ViewData["FilterType"]) })
+                </th>
+                <th style="width:100px">
+                    @Html.ActionLink("Purchase Category", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), Sortby = "PurchaseCategory", page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), FilterType = Convert.ToString(ViewData["FilterType"]) })
+                </th>
+                @*<th>
+                        @Html.ActionLink("Buyer Code", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), Sortby = "BuyerCode", page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])) })
+                    </th>*@
+                <th class="usernameheader">
+                    @Html.ActionLink("Created By", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), Sortby = "CreatedBy", page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), FilterType = Convert.ToString(ViewData["FilterType"]) })
+                </th>
+                <th class="datetimeheader">
+                    @Html.ActionLink("Created On", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), Sortby = "CreatedOn", page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), FilterType = Convert.ToString(ViewData["FilterType"]) })
+                </th>
+
+                <th class="usernameheader">
+                    @Html.ActionLink("Assigned Buyer", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), Sortby = "BuyerName", page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), FilterType = Convert.ToString(ViewData["FilterType"]) })
+                </th>
+                @if (ViewBag.Status == "F")
+                {
+                    <th class="usernameheader">
+                        @Html.ActionLink("Finalised By", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), Sortby = "ProcessedBy", page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), FilterType = Convert.ToString(ViewData["FilterType"]) })
+                    </th>
+                }
+                <th class="usernameheader">
+                    @Html.ActionLink("Updated By", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), Sortby = "UpdatedBy", page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), FilterType = Convert.ToString(ViewData["FilterType"]) })
+                </th>
+                <th class="datetimeheader">
+                    @Html.ActionLink("Updated on", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc")), Sortby = "UpdatedOn", page = (ViewBag.Page == null ? "1" : ViewBag.Page), Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), FilterType = Convert.ToString(ViewData["FilterType"]) })
+                </th>
+            </tr>
+            @if (Model!=null && Model.rfqMain !=null && Model.rfqMain.Count > 0)
+            {
+                foreach (var item in Model.rfqMain)
+                {
+                    <tr style="@((ViewBag.Status == "H" || ViewBag.Status == "P" || ViewBag.Status == "A") ? ((item.RequiredDate <DateTime.Now.Date) ? "Background-color:#ffe4e4" :((item.Priority ==1) ? "Background-color:aqua" :"")) : "")">
+ 
+                        @if (ViewBag.Status == "N")
+                        {
+                            <td>
+                                @Html.CheckBox(Convert.ToString(item.Id), false, new { @class = "ckb", Id = item.Id })
+                            </td>
+                        }
+
+                        <td>@Html.ActionLink(item.QuoteId, "Index", new { Controller = "RequestForQuote", Status = ViewBag.Status, QuoteId = item.QuoteId })</td>
+                        @*@if (ViewBag.Status == "A")
+                            {
+
+                            }
+                            else if (ViewBag.Status == "N")
+                            {
+                                <td>@Html.ActionLink(item.QuoteId, "Index", new { Controller = "RequestForQuote", Status = "N", QuoteId = item.QuoteId })</td>
+                            }
+                            else
+                            {
+                                <td>@Html.ActionLink(item.QuoteId, "Index", new { Controller = "RequestForQuote", Status = "V", QuoteId = item.QuoteId })</td>
+                            }*@
+                        <td>@Html.DisplayFor(modelItem => item.Type)</td>
+                        <td>@Html.DisplayFor(modelItem => item.RevisionNo)</td>
+                        @if (!string.IsNullOrEmpty(Convert.ToString(item.RequiredDate)))
+                        {
+                            <td>@Convert.ToDateTime(item.RequiredDate).ToString("dd/MM/yyyy")</td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                        <td>@Html.DisplayFor(modelItem => item.PurchaseCategory)</td>
+                        @*<td>@Html.DisplayFor(modelItem => item.BuyerCode)</td>*@
+                        <td>@Html.DisplayFor(modelItem => Convert.ToString(item.CreatedBy).Split(':')[0])</td>
+                        <td>
+                            @if (item.Created != null)
+                    {
+                        var createdDate = Convert.ToDateTime(item.Created).ToString("dd/MM/yyyy hh:mm tt");
+                                @Html.DisplayFor(modelItem => createdDate)
+                            }
+
+                        </td>
+                        <td>@Html.DisplayFor(modelItem => Convert.ToString(item.BuyerName).Split(':')[0])</td>
+                        @if (ViewBag.Status == "F")
+                        {
+                            <td>@Html.DisplayFor(modelItem => Convert.ToString(item.ProcessedBy).Split(':')[0])</td>
+                        }
+
+                        <td>@Html.DisplayFor(modelItem => Convert.ToString(item.ModifiedBy).Split(':')[0])</td>
+                        <td>
+                            @if (item.Modified != null)
+                    {
+                        var modifiedDate = Convert.ToDateTime(item.Modified).ToString("dd/MM/yyyy hh:mm tt");
+                                @Html.DisplayFor(modelItem => modifiedDate)
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="15">No records found ...</td>
+                </tr>
+            }
+
+           
+
+        </table>
+    </div>
+</div>
+
+
+
+@if (ViewBag.Status == "N")
+{
+    <div class="row">
+        <div class="col-sm-12">
+            @Html.ActionLink("Create RFQ", "Index", new { Controller = "RequestForQuote", Status = "I", QuoteId = "" }) @Html.Raw("&nbsp;&nbsp;&nbsp;&nbsp;")
+            @*@Html.ActionLink("Cancel", "CancelQuote", "BrowseQuote", new { Ids = "ItemList" }, new { id = "btnCancel", onclick = "return ConfirmCancel()" })@Html.Raw("&nbsp;&nbsp;&nbsp;&nbsp;")*@
+            @Html.ActionLink("Delete", "DeleteQuote", "BrowseQuote", new { Ids = "ItemList" }, new { id = "btnDelete", onclick = "return ConfirmDelete()" })
+        </div>
+    </div>
+
+
+    //@Html.ActionLink("Create Quote", "Index", new { Controller = "RequestForQuote"})
+
+}
+
+@{
+    double TotalPage = Convert.ToDouble(@ViewBag.TotalPages);
+
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <ul class="pagination">
+            @for (int i = 1; i <= TotalPage; i++)
+
+            {
+                if (i == ViewBag.Page)
+                {
+                    <li class="active"> @Html.ActionLink(i.ToString() + " ", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Desc" : ViewBag.SortOrder), Sortby = (ViewBag.Sortby == null ? "SubmitDate" : ViewBag.Sortby), Page = i, Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), FilterType = Convert.ToString(ViewData["FilterType"]) })</li>
+
+
+                }
+                else
+                {
+
+                    <li> @Html.ActionLink(i.ToString() + " ", "Index", new { Status = ViewBag.Status, SortOrder = (ViewBag.SortOrder == null ? "Desc" : ViewBag.SortOrder), Sortby = (ViewBag.Sortby == null ? "SubmitDate" : ViewBag.Sortby), Page = i, Search = clsGeneral.searchStringEncrypt(Convert.ToString(ViewData["Search"])), FilterType = Convert.ToString(ViewData["FilterType"]) }) </li>
+                }
+            }
+
+        </ul>
+    </div>
+</div>

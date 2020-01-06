@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="MailService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="BasicHttpsBinding_IMailService_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <sp:HttpsToken RequireClientCertificate="false" />
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:Basic256 />
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict />
+              </wsp:Policy>
+            </sp:Layout>
+          </wsp:Policy>
+        </sp:TransportBinding>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost/WorkflowMailService/MailService.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost/WorkflowMailService/MailService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost/WorkflowMailService/MailService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/DocIdMailService" />
+      <xsd:import schemaLocation="http://localhost/WorkflowMailService/MailService.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IMailService_SendMail_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendMail" />
+  </wsdl:message>
+  <wsdl:message name="IMailService_SendMail_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendMailResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMailService_SendAlternative_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendAlternative" />
+  </wsdl:message>
+  <wsdl:message name="IMailService_SendAlternative_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendAlternativeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMailService_SendPoMail_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendPoMail" />
+  </wsdl:message>
+  <wsdl:message name="IMailService_SendPoMail_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendPoMailResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMailService_sendEmail_InputMessage">
+    <wsdl:part name="parameters" element="tns:sendEmail" />
+  </wsdl:message>
+  <wsdl:message name="IMailService_sendEmail_OutputMessage">
+    <wsdl:part name="parameters" element="tns:sendEmailResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMailService_SendInvoiceIssueMail_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendInvoiceIssueMail" />
+  </wsdl:message>
+  <wsdl:message name="IMailService_SendInvoiceIssueMail_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendInvoiceIssueMailResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IMailService">
+    <wsdl:operation name="SendMail">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMailService/SendMail" message="tns:IMailService_SendMail_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMailService/SendMailResponse" message="tns:IMailService_SendMail_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendAlternative">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMailService/SendAlternative" message="tns:IMailService_SendAlternative_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMailService/SendAlternativeResponse" message="tns:IMailService_SendAlternative_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendPoMail">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMailService/SendPoMail" message="tns:IMailService_SendPoMail_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMailService/SendPoMailResponse" message="tns:IMailService_SendPoMail_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="sendEmail">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMailService/sendEmail" message="tns:IMailService_sendEmail_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMailService/sendEmailResponse" message="tns:IMailService_sendEmail_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendInvoiceIssueMail">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMailService/SendInvoiceIssueMail" message="tns:IMailService_SendInvoiceIssueMail_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMailService/SendInvoiceIssueMailResponse" message="tns:IMailService_SendInvoiceIssueMail_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IMailService" type="tns:IMailService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="SendMail">
+      <soap:operation soapAction="http://tempuri.org/IMailService/SendMail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendAlternative">
+      <soap:operation soapAction="http://tempuri.org/IMailService/SendAlternative" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendPoMail">
+      <soap:operation soapAction="http://tempuri.org/IMailService/SendPoMail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="sendEmail">
+      <soap:operation soapAction="http://tempuri.org/IMailService/sendEmail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendInvoiceIssueMail">
+      <soap:operation soapAction="http://tempuri.org/IMailService/SendInvoiceIssueMail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="BasicHttpsBinding_IMailService" type="tns:IMailService">
+    <wsp:PolicyReference URI="#BasicHttpsBinding_IMailService_policy" />
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="SendMail">
+      <soap:operation soapAction="http://tempuri.org/IMailService/SendMail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendAlternative">
+      <soap:operation soapAction="http://tempuri.org/IMailService/SendAlternative" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendPoMail">
+      <soap:operation soapAction="http://tempuri.org/IMailService/SendPoMail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="sendEmail">
+      <soap:operation soapAction="http://tempuri.org/IMailService/sendEmail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendInvoiceIssueMail">
+      <soap:operation soapAction="http://tempuri.org/IMailService/SendInvoiceIssueMail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="MailService">
+    <wsdl:port name="BasicHttpBinding_IMailService" binding="tns:BasicHttpBinding_IMailService">
+      <soap:address location="http://localhost/WorkflowMailService/MailService.svc" />
+    </wsdl:port>
+    <wsdl:port name="BasicHttpsBinding_IMailService" binding="tns:BasicHttpsBinding_IMailService">
+      <soap:address location="https://it7.fsp.com/WorkflowMailService/MailService.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

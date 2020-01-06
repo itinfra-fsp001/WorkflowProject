@@ -1,0 +1,3 @@
+select * from tbl_Documents A
+where A.SubmitDate >= CONVERT(datetime,'2018-03-14 20:00') and  A.SubmitDate <= CONVERT(datetime,'2018-03-14 20:10') 
+and DocID not in (select DocID from tbl_DocumentWorkFlow where Approver='MPC') order by A.DocID asc

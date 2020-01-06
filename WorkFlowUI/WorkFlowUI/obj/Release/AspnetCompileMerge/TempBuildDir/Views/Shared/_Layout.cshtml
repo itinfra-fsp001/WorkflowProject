@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Work Flow Application</title>
+    <link href="~/Content/Site.css?v=20190913" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.workflow-menu li').hover(
+                function () {
+                    if ($(this).find('ul.workflow-sub-menu')) {
+                        $(this).find('ul.workflow-sub-menu').show();
+                    }
+                },
+                function () {
+                    if ($(this).find('ul.workflow-sub-menu')) {
+                        $(this).find('ul.workflow-sub-menu').hide();
+                    }
+                }
+            );
+        });
+
+        function checkandreplace(checkString) {
+            //incase any additional replace string added then need to add in WorkflowUI.ClsGeneral.searchStringEncrypt(), WorkflowUI.ClsGeneral.searchStringDecrypt()
+            checkString = checkString.replace(/&/g, "andandand");
+            return checkString;
+        }
+
+    </script>
+</head>
+<body>
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Document Work Flow", "Index", "Home", new { area = "Common" }, new { @class = "navbar-brand", @title = "Document Work Flow" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav workflow-menu">
+
+                    <li>@Html.ActionLink("Home", "Index", new { Controller = "Home", Area = "Common" }, new { @title = "Home" }) </li>
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("User") || User.IsInRole("PCVUser2") || User.IsInRole("ServiceAdmin") || User.IsInRole("ServiceEngineer"))
+                        {
+                            <li>@Html.ActionLink("Submit Document", "Index", new { Controller = "BrowseDocument", Area = "User" }, new { @title = "Submit Document" }) </li>
+                            if (User.IsInRole("ServiceEngineer"))
+                            {
+                                <li>@Html.ActionLink("Search Document", "Index", new { Controller = "DocumentStatus", Area = "User" }, new { @title = "Search Document" }) </li>
+                            }
+                            <li>@Html.ActionLink("Supp. Budget", "Index", new { Controller = "SupplementaryBudget", Area = "User" }, new { @title = "Supplementary Budget" }) </li>
+                            <li>@Html.ActionLink("RFQ / QV", "Index", new { Controller = "BrowseQuote", Area = "User", Status = "N", Search = "", FilterType = "" }, new { @title = "RFQ / Quote Verification" }) </li>
+                        }
+                        if (User.IsInRole("ServiceAdmin") || User.IsInRole("ServiceEngineer"))
+                        {
+                            <li>
+                                <a title="Billing" href="#">Billing<img src="~/Content/images/dropdown.png" class="icon-dropdown" /></a>
+                                <ul class="workflow-sub-menu">
+                                    @if (User.IsInRole("ServiceAdmin"))
+                                    {
+                                        <li>@Html.ActionLink("E-Invoice", "Index", new { Controller = "EInvoice", Status = "N", Area = "User", Search = "", FilterType = "" }, new { @title = "E-Invoice" }) </li>
+                                        <li>@Html.ActionLink("E-SOA", "Index", new { Controller = "StatementOfAccount", Area = "User", Status = "P", Search = "", FilterType = "" }, new { @title = "E-Statement Of Account" }) </li>                                        
+                                    }
+                                    @if (User.IsInRole("ServiceAdmin") || User.IsInRole("ServiceEngineer"))
+                                    {
+                                        <li>@Html.ActionLink("SIR Status", "Index", new { Controller = "SIRHome", Status = "P", Area = "User", Search = "", FilterType = "" }, new { @title = "Service Inspection Report Status" }) </li>
+                                    }
+                                    @if (User.IsInRole("ServiceAdmin"))
+                                    {
+                                        <li>@Html.ActionLink("Customer Master", "Index", new { Controller = "CustomerMaster", Area = "User", CustomerName = "", Status = "V" }, new { @title = "Customer Master" }) </li>
+                                    }
+                                </ul>
+                            </li>
+
+                        }
+                        if (User.IsInRole("PCVUser"))
+                        {
+                            <li>@Html.ActionLink("Approved PO", "Index", new { Controller = "PurchaseOrder", Area = "User", IsPOIssued = 0 }, new { @title = "Approved PO" }) </li>
+                            <li>@Html.ActionLink("Approved PR", "Index", new { Controller = "ApprovedPR", Area = "User" }, new { @title = "Approved PR" }) </li>
+                        }
+                        if (User.IsInRole("Admin"))
+                        {
+                            if (!Convert.ToBoolean(Session["IsAlternative"]))
+                            {
+                                <li>@Html.ActionLink("Approve Document", "Index", new { Controller = "ApproveDocument", Area = "Admin" }, new { @title = "Approve Document" }) </li>
+                            }
+                            else
+                            {
+                                <li>@Html.ActionLink("Alternate Approve Document", "Index", new { Controller = "AltApproveDocument", Area = "Admin" }, new { @title = "Alternate Approve Document" }) </li>
+
+                            }
+                            <li>@Html.ActionLink("Out Of Office", "Index", new { Controller = "LeaveDetails", Area = "Admin" }, new { @title = "Out Of Office" }) </li>
+                        }
+                        <li>@Html.ActionLink("SignOut", "SignOut", new { Controller = "Login", Area = "Security" }, new { @title = "SignOut" }) </li>
+                        <li><a href="#"><h4>Welcome @User.Identity.Name </h4> </a> </li>
+                    }
+                    else
+                    {
+                        <li> @Html.ActionLink("Login", "Index", new { Controller = "Login", Area = "Security" }, new { @title = "Login" }) </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <blockquote class="blockquote-reverse">
+                <p>Copyright © 2016. Fujitec. All Rights Reserved.</p>
+                <small>Version 1.3.2 </small>
+            </blockquote>
+
+
+        </footer>
+    </div>
+
+
+</body>
+</html>

@@ -1,0 +1,463 @@
+﻿@model WorkFlowUI.ViewModel.SendEInvoiceModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<style type="text/css">
+    .maintable {
+        border: 1px solid lightgrey;
+        border-spacing: 0px;
+        width: 400px;
+    }
+
+        .maintable th {
+            border: 1px solid lightgrey;
+            background-color: lightgrey;
+            width: 200px;
+        }
+
+        .maintable td {
+            border-left: 1px solid lightgrey;
+            border-top: 1px solid lightgrey;
+        }
+
+    .line-breaks {
+        white-space: pre-line;
+    }
+
+    .clsInvoiceNo {
+        width: 90%;
+        word-wrap: break-word !important;
+    }
+
+    .empty-row {
+        height: 15px !important;
+    }
+
+    .row, .maindiv {
+        margin-bottom: 10px;
+    }
+
+    .rfqddl {
+        width: 300px;
+    }
+
+    .rfqta {
+        width: 280px;
+    }
+
+    .mandatory {
+        color: red !important;
+    }
+
+    .noattachment {
+        color: red;
+    }
+
+    .errormsg {
+        color: red;
+    }
+
+    .ui-datepicker-trigger {
+        /*background: url(/content/images/ui-icons_444444_256x240.png) no-repeat -116px -116px;*/
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        margin-left: 5px;
+        margin-top: -5px;
+    }
+
+    .reviseDiv {
+        background-color: #eaeaea;
+        border: 1px solid #afafaf;
+        padding: 5px;
+        /*margin-left: 15px;*/
+        margin-top: 5px;
+    }
+
+    #reviseQuote {
+        font-size: 20px;
+        /*font-weight:600;*/
+    }
+
+    .RFQTemplate {
+        color: blue !important;
+    }
+
+    .imgDownload {
+        width: 25px;
+        cursor: pointer;
+    }
+
+    .col-sm-2 {
+        width: 20% !important;
+    }
+
+    .col-sm-4 {
+        width: 38% !important;
+    }
+
+    .maindiv {
+        border: 1px solid #eaeaea;
+    }
+
+    .headingdiv {
+        font-weight: 600;
+        font-size: 15px;
+        padding: 5px;
+        background-color: #eaeaea;
+    }
+
+    .fileRFQ {
+        display: inline !important;
+    }
+
+    .buttonText {
+        font-size: 20px !important;
+    }
+</style>
+
+<script src="~/scripts/rich-editor/summernote-lite.js"></script>
+<link href="~/scripts/rich-editor/summernote-lite.css" rel="stylesheet" />
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#summernote').summernote({
+            tabsize: 2,
+            height: 250,
+            toolbar: [
+                        ['style', ['bold', 'italic', 'underline', 'clear']],
+                        //['font', ['strikethrough', 'superscript', 'subscript']],
+                        ['fontsize', ['fontsize']],
+                        ['color', ['color']],
+                        ['para', ['ul', 'ol', 'paragraph']],
+                        //['height', ['height']]
+            ]
+        });
+        $('#summernote').summernote('code', $("#hdnBody").val());
+    });
+
+    function clearAttachedFile(id) {
+        if (confirm('Are you sure to clear this file?')) {
+
+            var fil;
+
+            fil = document.getElementById("emailFile" + id);
+            //if (id == "1") {
+            //    fil = document.getElementById("emailFile1");
+            //}
+            //else if (id == "2") {
+            //    fil = document.getElementById("emailFile2");
+            //}
+            //else if (id == "3") {
+            //    fil = document.getElementById("emailFile3");
+            //}
+
+            if (fil != null) {
+                fil.setAttribute("type", "input");
+                fil.setAttribute("type", "file");
+            }
+        }
+        return false;
+    }
+
+    function redirectToDashboard() {
+        window.location.href = "@Url.Action("Index", "EInvoice",new {Status="N"})";
+    }
+
+    function validateSendEmail() {
+        var isRet = true;
+        var errorMessage = "";
+
+        if ($("#txtTo").val() == "") {
+            errorMessage = errorMessage + "Please enter TO address\n";
+            isRet = false;
+        }
+        if ($("#txtTo").val() != "") {
+            var toaddress = $("#txtTo").val().split(';');
+            for (var i = 0; i < toaddress.length; i++) {
+                if (!validateEmail(toaddress[i])) {
+                    errorMessage = errorMessage + "Email id is not valid in To address : " + toaddress[i] + "\n";
+                    isRet = false;
+                }
+            }
+        }
+        if ($("#txtCC").val() != "") {
+            var ccaddress = $("#txtCC").val().split(';');
+            for (var i = 0; i < ccaddress.length; i++) {
+                if (!validateEmail(ccaddress[i])) {
+                    errorMessage = errorMessage + "Email id is not valid in CC address : " + ccaddress[i] + "\n";
+                    isRet = false;
+                }
+            }
+        }
+        if ($("#txtSubject").val() == "") {
+            errorMessage = errorMessage + "Please enter Subject\n";
+            isRet = false;
+        }
+        if ($('#summernote').summernote('code') == "") {
+            errorMessage = errorMessage + "Please enter email content\n";
+            isRet = false;
+        }
+
+        var totalFileSize = parseInt($("#hdnInvoiceFileSize").val());
+        $('.fileEmail').each(function () {
+            if ($(this)[0].files.length > 0) {
+                totalFileSize = totalFileSize + $(this)[0].files[0].size;
+            }
+        });
+
+        if (parseInt(totalFileSize) > parseInt($("#hdnMaxAttachSizeInBytes").val())) {
+            errorMessage = errorMessage + "Maximum upload file size is 10MB only. Your attachment size exceed maximum limit.\n";
+            isRet = false;
+        }
+
+        if (!isRet) {
+            alert(errorMessage);
+            return false;
+        }
+        else {
+            $("#hdnBody").val($('#summernote').summernote('code'));
+            return confirm('Are you sure to send e-invoice?');
+        }
+    }
+
+    function validateEmail(email) {
+        var re = /^(([^<>()[\]\\.,;:\s@@\"]+(\.[^<>()[\]\\.,;:\s@@\"]+)*)|(\".+\"))@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        //return re.test(email);
+        return true;
+    }
+
+
+</script>
+
+@using (Html.BeginForm("SendEmail", "SendEInvoice", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(model => model.attachmentFolderLocation, new { id = "hdnAttachmentFolder" })
+    @Html.HiddenFor(model => model.mailSendBy, new { id = "hdnMailSendBy" })
+    @Html.HiddenFor(model => model.logId, new { id = "hdnLogId" })
+    @Html.HiddenFor(model => model.body, new { id = "hdnBody" })
+    @Html.HiddenFor(model => model.maxAttachmentLimitInBytes, new { id = "hdnMaxAttachSizeInBytes" })
+    @Html.HiddenFor(model => model.invoiceFileSize, new { id = "hdnInvoiceFileSize" })
+
+    if (Convert.ToString(ViewData["Status"]) == "I")
+    {
+        <script type="text/javascript">
+            alert("E-Invoice email sent successfully.");
+            var urlLocation = "@Url.Action("Index", "EInvoice", new { Status = "N" })";
+            urlLocation = urlLocation.replace(/&amp;/g, "&");
+            window.location.href = urlLocation;
+        </script>
+    }
+    else if (Convert.ToString(ViewData["Status"]) == "E")
+    {
+        <script type="text/javascript">
+            alert("@TempData["Msg"]");
+            var urlLocation = "@Url.Action("Index", "EInvoice", new { Status = "N" })";
+            urlLocation = urlLocation.replace(/&amp;/g, "&");
+            window.location.href = urlLocation;
+        </script>
+    }
+    else if (Convert.ToString(ViewData["Status"]) == "N")
+    {
+        <div class="row empty-row"> <div class="col-sm-12"> </div> </div>
+        if (Model.invoice[0].InvoiceStatus != "New")
+        {
+            <h2>E-Invoice issue details </h2>
+        }
+        else
+        {
+            <h2>Issue E-Invoice </h2>
+        }
+
+
+
+        <div class="row">
+            <div class="col-sm-12 maindiv">
+                <div class="row headingdiv">
+                    <div class="col-sm-12">
+                        Invoice Details
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-2">
+                        Invoice No(s).
+                    </div>
+                    <div class="col-sm-9">
+                        <b>@Html.LabelForModel(Model.logId, new { id = "lblInvoiceNo", @class = "clsInvoiceNo" })</b>
+                    </div>
+                </div>
+
+
+                @*<div class="row">
+                        <div class="col-sm-2">
+                            Customer
+                        </div>
+                        <div class="col-sm-4">
+                            <b>@Model.invoice.CustomerName</b>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            Amount
+                        </div>
+                        <div class="col-sm-4">
+                            <b>@Model.invoice.Currency &nbsp; @Model.invoice.InvoiceAmount</b>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            Period &nbsp;/&nbsp; Date
+                        </div>
+                        <div class="col-sm-4">
+                            @Model.invoice.Period &nbsp;/&nbsp; @Convert.ToDateTime(@Model.invoice.InvoiceDate).ToString("dd/MM/yyyy")
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            Invoice Type&nbsp;/&nbsp;Organization
+                        </div>
+                        <div class="col-sm-4">
+                            @Model.invoice.InvoiceType &nbsp;/&nbsp;@Model.invoice.Organization
+                        </div>
+                    </div>*@
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 maindiv">
+                <div class="row headingdiv">
+                    <div class="col-sm-12">
+                        Email Details
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        To<span class="mandatory">*</span>
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.TextAreaFor(model => model.to, new { id = "txtTo", @rows = "3", @cols = "100" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        CC
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.TextAreaFor(model => model.cc, new { id = "txtCC", @rows = "3", @cols = "100" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        Subject<span class="mandatory">*</span>
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.TextAreaFor(model => model.subject, new { id = "txtSubject", @rows = "2", @cols = "100" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        Body<span class="mandatory">*</span>
+                    </div>
+                    <div class="col-sm-9">
+
+                        @*@Html.TextAreaFor(model=>model.body, new { @rows = "15", @cols = "100", id="txtBody" })*@
+                        <div id="summernote"></div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        Attachment
+                    </div>
+                    <div class="col-sm-4">
+
+                        @Html.ActionLink("Invoice (" + ((Convert.ToDouble(Model.invoiceFileSize) / 1024 * 1024) < 1 ? "< 1 MB" : Convert.ToString(Math.Round((Convert.ToDouble(Model.invoiceFileSize) / 1024 * 1024), 2)) + " MB") + ")", "GetAttachment", new { @target = "_blank", @type = "Invoice", @filename = Convert.ToString(ViewData["InvoiceFilePath"]) }, new { @id = "viewAttachment1" })
+                    </div>
+                </div>
+                @*<div class="row">
+                        <div class="col-sm-2">
+
+                        </div>
+                        <div class="col-sm-4">
+                            @if (Convert.ToString(ViewData["InvoiceType"]) == "Contract")
+                            {
+                                @Html.ActionLink("SIR", "GetAttachment", new { @target = "_blank", @type = "SIR", @logId = Model.LogID }, new { @id = "viewAttachment2" })
+                            }
+                            else if (Convert.ToString(ViewData["InvoiceType"]) == "CSSalesOrder")
+                            {
+                                @Html.ActionLink("Job Sheet", "GetAttachment", new { @target = "_blank", @type = "Job Sheet", @logId = Model.LogID }, new { @id = "viewAttachment2" })
+                            }
+                        </div>
+                    </div>*@
+                <div class="row">
+                    <div class="col-sm-2">
+
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="file" name="files" id="emailFile1" class="fileEmail" />
+                        @Html.Raw("&nbsp;&nbsp;&nbsp;")
+                        @Html.ActionLink("Clear", "", "", new { id = "clearEmailAttach1", onclick = "return clearAttachedFile('1');" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        &nbsp;
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="file" name="files" id="emailFile2" class="fileEmail" />
+                        @Html.Raw("&nbsp;&nbsp;&nbsp;")
+                        @Html.ActionLink("Clear", "", "", new { id = "clearEmailAttach2", onclick = "return clearAttachedFile('2');" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        &nbsp;
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="file" name="files" id="emailFile3" class="fileEmail" />
+                        @Html.Raw("&nbsp;&nbsp;&nbsp;")
+                        @Html.ActionLink("Clear", "", "", new { id = "clearEmailAttach3", onclick = "return clearAttachedFile('3');" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-2">
+                        &nbsp;
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="file" name="files" id="emailFile4" class="fileEmail" />
+                        @Html.Raw("&nbsp;&nbsp;&nbsp;")
+                        @Html.ActionLink("Clear", "", "", new { id = "clearEmailAttach4", onclick = "return clearAttachedFile('4');" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-2">
+                        &nbsp;
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="file" name="files" id="emailFile5" class="fileEmail" />
+                        @Html.Raw("&nbsp;&nbsp;&nbsp;")
+                        @Html.ActionLink("Clear", "", "", new { id = "clearEmailAttach5", onclick = "return clearAttachedFile('5');" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <input type="submit" name="Command" value="Submit" onclick="return validateSendEmail();" class="btn btn-primary" />
+                        @Html.Raw("&nbsp;&nbsp;")
+                        <input type="button" name="Command" value="Back To List" id="btnBack" onclick="return redirectToDashboard();" class="btn btn-primary" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+
+
+

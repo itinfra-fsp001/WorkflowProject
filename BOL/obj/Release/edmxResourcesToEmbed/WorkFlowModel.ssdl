@@ -1,0 +1,1688 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="WorkFlowDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="tbl_AuthExecutives">
+    <Key>
+      <PropertyRef Name="Approver" />
+    </Key>
+    <Property Name="Approver" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="Designation" Type="nchar" MaxLength="10" />
+    <Property Name="ApprovePerson" Type="varchar" MaxLength="15" />
+    <Property Name="ApproverEmail" Type="varchar" MaxLength="50" />
+    <Property Name="Position" Type="varchar" MaxLength="100" />
+    <Property Name="ApprovalLevel" Type="smallint" />
+    <Property Name="Alternate1" Type="varchar" MaxLength="15" />
+    <Property Name="Alternate2" Type="varchar" MaxLength="15" />
+    <Property Name="IsDeleted" Type="bit" />
+    <Property Name="IsNotification" Type="bit" Nullable="false" />
+    <Property Name="UpdateDate" Type="date" />
+    <Property Name="UpdateBy" Type="varchar" MaxLength="15" />
+  </EntityType>
+  <EntityType Name="tbl_AuthExecutives_bk1">
+    <Key>
+      <PropertyRef Name="Approver" />
+    </Key>
+    <Property Name="Approver" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="Designation" Type="nchar" MaxLength="10" />
+    <Property Name="ApprovePerson" Type="varchar" MaxLength="15" />
+    <Property Name="ApproverEmail" Type="varchar" MaxLength="50" />
+    <Property Name="Position" Type="varchar" MaxLength="100" />
+    <Property Name="ApprovalLevel" Type="smallint" />
+    <Property Name="Alternate1" Type="varchar" MaxLength="15" />
+    <Property Name="Alternate2" Type="varchar" MaxLength="15" />
+    <Property Name="IsDeleted" Type="bit" />
+    <Property Name="UpdateDate" Type="date" />
+    <Property Name="UpdateBy" Type="varchar" MaxLength="15" />
+  </EntityType>
+  <EntityType Name="tbl_CostObject">
+    <Key>
+      <PropertyRef Name="ObjectNo" />
+    </Key>
+    <Property Name="ObjectNo" Type="int" Nullable="false" />
+    <Property Name="ObjectName" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tbl_Division">
+    <Key>
+      <PropertyRef Name="DivisionCode" />
+    </Key>
+    <Property Name="DivisionCode" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="DivisionName" Type="varchar" MaxLength="100" />
+    <Property Name="IsDeleted" Type="bit" />
+    <Property Name="UpdateDate" Type="date" />
+    <Property Name="UpdateBy" Type="varchar" MaxLength="15" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'WorkFlowDB.dbo.tbl_DocMergeDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="tbl_DocMergeDetails">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MergeDocNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="DocId" Type="bigint" />
+    <Property Name="DocNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="Status" Type="nvarchar" MaxLength="10" />
+    <Property Name="SumDocId" Type="bigint" />
+    <Property Name="Created" Type="datetime" />
+    <Property Name="CreatedBy" Type="nvarchar" MaxLength="20" />
+    <Property Name="Modified" Type="datetime" />
+    <Property Name="ModifiedBy" Type="nvarchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="tbl_DocMergeHeader">
+    <Key>
+      <PropertyRef Name="MergeDocNo" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MergeDocNo" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Status" Type="nvarchar" MaxLength="10" />
+    <Property Name="SumDocId" Type="bigint" />
+    <Property Name="Created" Type="datetime" />
+    <Property Name="CreatedBy" Type="nvarchar" MaxLength="20" />
+    <Property Name="Modified" Type="datetime" />
+    <Property Name="ModifiedBy" Type="nvarchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="tbl_Documents">
+    <Key>
+      <PropertyRef Name="DocID" />
+    </Key>
+    <Property Name="DocID" Type="bigint" Nullable="false" />
+    <Property Name="DocType" Type="varchar" MaxLength="10" />
+    <Property Name="DocNo" Type="varchar" MaxLength="50" />
+    <Property Name="NetPrice" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="Currency" Type="varchar" MaxLength="5" />
+    <Property Name="SubmitBy" Type="varchar" MaxLength="50" />
+    <Property Name="SubmitDate" Type="datetime" />
+    <Property Name="ApprovalSubmitDate" Type="datetime" />
+    <Property Name="ApprovalSubmitBy" Type="varchar" MaxLength="100" />
+    <Property Name="Status" Type="varchar" MaxLength="5" />
+    <Property Name="AttachDoc" Type="varchar" MaxLength="500" />
+    <Property Name="AddAttachDoc1" Type="varchar" MaxLength="500" />
+    <Property Name="AddAttachDoc2" Type="varchar" MaxLength="500" />
+    <Property Name="AddAttachDoc3" Type="varchar" MaxLength="500" />
+    <Property Name="VendorCode" Type="varchar" MaxLength="15" />
+    <Property Name="VendorName" Type="varchar" MaxLength="100" />
+    <Property Name="VendorCategory" Type="varchar" MaxLength="15" />
+    <Property Name="IssueBy" Type="varchar" MaxLength="50" />
+    <Property Name="DocNetPrice" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="PRNumbers" Type="varchar(max)" />
+    <Property Name="PRAmount" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="PriorityCode" Type="smallint" />
+    <Property Name="ERPAttachment" Type="bit" Nullable="false" />
+    <Property Name="UpdateDate" Type="datetime" />
+    <Property Name="RFQRefNo" Type="nvarchar" MaxLength="20" />
+    <Property Name="LastApprovalSubmitBy" Type="nvarchar" MaxLength="50" />
+    <Property Name="LastApprovalSubmitDate" Type="datetime" />
+    <Property Name="UpdateBy" Type="nvarchar" MaxLength="50" />
+    <Property Name="IsMerged" Type="bit" />
+    <Property Name="IsSummaryDoc" Type="bit" />
+    <Property Name="DocNoList" Type="nvarchar(max)" />
+    <Property Name="IsMultipleVendor" Type="bit" />
+    <Property Name="VendorNameList" Type="nvarchar(max)" />
+    <Property Name="Remarks" Type="nvarchar(max)" />
+    <Property Name="DeptCode" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tbl_DocumentWorkFlow">
+    <Key>
+      <PropertyRef Name="WorkFlowID" />
+    </Key>
+    <Property Name="WorkFlowID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DocID" Type="bigint" />
+    <Property Name="ApprovalLevel" Type="varchar" MaxLength="5" />
+    <Property Name="Sequence" Type="int" />
+    <Property Name="Status" Type="varchar" MaxLength="5" />
+    <Property Name="AlternateApprover" Type="int" />
+    <Property Name="Submitdate" Type="datetime" />
+    <Property Name="Approver" Type="varchar" MaxLength="15" />
+    <Property Name="ReportTo" Type="varchar" MaxLength="50" />
+    <Property Name="ApproveBy" Type="varchar" MaxLength="15" />
+    <Property Name="ApproveDate" Type="datetime" />
+    <Property Name="RejectBy" Type="varchar" MaxLength="15" />
+    <Property Name="RejectDate" Type="datetime" />
+    <Property Name="Remarks" Type="varchar(max)" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="varchar" MaxLength="15" />
+    <Property Name="IsVerifier" Type="bit" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'WorkFlowDB.dbo.tbl_ErrorsAndExceptions' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="tbl_ErrorsAndExceptions">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Controller" Type="nvarchar" MaxLength="100" />
+    <Property Name="MethodName" Type="nvarchar" MaxLength="100" />
+    <Property Name="Message" Type="nvarchar(max)" />
+    <Property Name="Created" Type="datetime" />
+    <Property Name="CreatedBy" Type="nvarchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="tbl_LeaveDetails">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="User" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="StartDate" Type="date" />
+    <Property Name="Enddate" Type="date" />
+    <Property Name="Remarks" Type="varchar" MaxLength="100" />
+    <Property Name="UpdateDate" Type="datetime" />
+    <Property Name="UpdateBy" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="tbl_LeaveDetails_His">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="User" Type="varchar" MaxLength="20" />
+    <Property Name="StartDate" Type="date" />
+    <Property Name="Enddate" Type="date" />
+    <Property Name="Remarks" Type="varchar" MaxLength="100" />
+    <Property Name="UpdateDate" Type="datetime" />
+    <Property Name="UpdateBy" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="tbl_PurchaseCategory">
+    <Key>
+      <PropertyRef Name="Category" />
+    </Key>
+    <Property Name="Category" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="BuyerCode" Type="nvarchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tbl_PurchaseOrder">
+    <Key>
+      <PropertyRef Name="DocID" />
+    </Key>
+    <Property Name="DocID" Type="bigint" Nullable="false" />
+    <Property Name="POType" Type="varchar" MaxLength="10" />
+    <Property Name="PurchaseOrderNo" Type="varchar" MaxLength="50" />
+    <Property Name="NetPrice" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="Currency" Type="varchar" MaxLength="5" />
+    <Property Name="DocNetPrice" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="POStatus" Type="varchar" MaxLength="5" />
+    <Property Name="Organization" Type="varchar" MaxLength="15" />
+    <Property Name="Warehouse" Type="varchar" MaxLength="10" />
+    <Property Name="VendorCode" Type="varchar" MaxLength="10" />
+    <Property Name="VendorName" Type="varchar" MaxLength="100" />
+    <Property Name="Vendoremail" Type="varchar(max)" />
+    <Property Name="BuyerCode" Type="varchar" MaxLength="5" />
+    <Property Name="BuyerName" Type="varchar" MaxLength="50" />
+    <Property Name="IsPOIssued" Type="bit" />
+    <Property Name="Attachment" Type="varchar" MaxLength="100" />
+    <Property Name="Attachment1" Type="varchar" MaxLength="100" />
+    <Property Name="Attachment2" Type="varchar" MaxLength="100" />
+    <Property Name="Attachment3" Type="varchar" MaxLength="100" />
+    <Property Name="POIssuedBy" Type="varchar" MaxLength="15" />
+    <Property Name="POIssuedDate" Type="datetime" />
+    <Property Name="PRNumbers" Type="varchar(max)" />
+    <Property Name="POManageremailID" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="tbl_RequestForQuotation">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="QuoteId" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="PurchaseCategory" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="PurchaseRemarks" Type="nvarchar" MaxLength="500" Nullable="false" />
+    <Property Name="BuyerCode" Type="nvarchar" MaxLength="10" />
+    <Property Name="BuyerName" Type="nvarchar" MaxLength="100" />
+    <Property Name="BuyerRemarks" Type="nvarchar" MaxLength="500" />
+    <Property Name="Status" Type="nvarchar" MaxLength="20" />
+    <Property Name="IsDeleted" Type="bit" />
+    <Property Name="Created" Type="datetime" Nullable="false" />
+    <Property Name="CreatedBy" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="Modified" Type="datetime" Nullable="false" />
+    <Property Name="ModifiedBy" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="Department" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="Year" Type="int" Nullable="false" />
+    <Property Name="RequiredDate" Type="datetime" />
+    <Property Name="Type" Type="nvarchar" MaxLength="50" />
+    <Property Name="ProcessedBy" Type="nvarchar" MaxLength="10" />
+    <Property Name="RevisionNo" Type="int" />
+    <Property Name="Priority" Type="int" />
+  </EntityType>
+  <EntityType Name="tbl_RFQAttachments">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="QuoteId" Type="bigint" />
+    <Property Name="AttachmentType" Type="nvarchar" MaxLength="10" />
+    <Property Name="FilePath" Type="nvarchar" MaxLength="200" />
+    <Property Name="IsDeleted" Type="bit" />
+    <Property Name="Created" Type="datetime" Nullable="false" />
+    <Property Name="CreatedBy" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="Modified" Type="datetime" Nullable="false" />
+    <Property Name="ModifiedBy" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="RevisionNo" Type="int" />
+  </EntityType>
+  <EntityType Name="tbl_SIRDocuments">
+    <Key>
+      <PropertyRef Name="TransID" />
+    </Key>
+    <Property Name="TransID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OrgName" Type="varchar" MaxLength="15" />
+    <Property Name="BuildingCode" Type="varchar" MaxLength="50" />
+    <Property Name="SalesGroup" Type="varchar" MaxLength="10" />
+    <Property Name="SoldToParty" Type="varchar" MaxLength="10" />
+    <Property Name="BillToParty" Type="varchar" MaxLength="10" />
+    <Property Name="NoOfUnits" Type="int" />
+    <Property Name="SIRYear" Type="int" />
+    <Property Name="SIRMonth" Type="varchar" MaxLength="15" />
+    <Property Name="SIRFileName" Type="varchar" MaxLength="500" />
+    <Property Name="ConsDate" Type="datetime" />
+    <Property Name="Constatus" Type="nvarchar" MaxLength="50" />
+    <Property Name="ConsRemark" Type="varchar" MaxLength="1000" />
+    <Property Name="CanConsException" Type="bit" />
+    <Property Name="IsSIRIssued" Type="bit" />
+    <Property Name="IssueDate" Type="datetime" />
+    <Property Name="IssueBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdateDate" Type="datetime" />
+    <Property Name="UpdateBy" Type="varchar" MaxLength="50" />
+    <Property Name="ConsBy" Type="nvarchar" MaxLength="50" />
+    <Property Name="NoOfService" Type="bigint" />
+    <Property Name="CompletedService" Type="bigint" />
+  </EntityType>
+  <EntityType Name="tbl_SupBudgetDetail">
+    <Key>
+      <PropertyRef Name="ReferenceNo" />
+      <PropertyRef Name="SeqNo" />
+    </Key>
+    <Property Name="ReferenceNo" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="SeqNo" Type="int" Nullable="false" />
+    <Property Name="DtlObjectNo" Type="varchar" MaxLength="50" />
+    <Property Name="GLAccount" Type="varchar" MaxLength="10" />
+    <Property Name="GLDescription" Type="varchar" MaxLength="50" />
+    <Property Name="ReqSuppBudgetAmt" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="OriginalBudgtAmt" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="SuppBudgetAmt" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="ActualAmount" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="TotalBalanceBudget" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="Updatedate" Type="datetime" />
+    <Property Name="UpdateBy" Type="varchar" MaxLength="15" />
+  </EntityType>
+  <EntityType Name="tbl_SupBudgetHeader">
+    <Key>
+      <PropertyRef Name="ReferenceNo" />
+    </Key>
+    <Property Name="ReferenceNo" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="CostObject" Type="varchar" MaxLength="15" />
+    <Property Name="ObjectNo" Type="varchar" MaxLength="24" />
+    <Property Name="ObjectName" Type="varchar" MaxLength="100" />
+    <Property Name="FromDivision" Type="varchar" MaxLength="50" />
+    <Property Name="NetPrice" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="Currency" Type="varchar" MaxLength="5" />
+    <Property Name="VariationOrderNo" Type="varchar" MaxLength="15" />
+    <Property Name="UpdateBy" Type="varchar" MaxLength="15" />
+    <Property Name="UpdateDate" Type="datetime" />
+    <Property Name="SubmitBy" Type="varchar" MaxLength="15" />
+    <Property Name="SubmitDate" Type="datetime" />
+    <Property Name="Status" Type="varchar" MaxLength="5" />
+    <Property Name="ApplicationFor" Type="varchar" MaxLength="500" />
+    <Property Name="ReasonFor" Type="varchar" MaxLength="500" />
+    <Property Name="CostCentreID" Type="int" />
+  </EntityType>
+  <EntityType Name="tbl_User">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Role" Type="varchar" MaxLength="50" />
+    <Property Name="DivisionCode" Type="varchar" MaxLength="15" />
+    <Property Name="DeptCode" Type="varchar" MaxLength="15" />
+    <Property Name="IsDeleted" Type="bit" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="varchar" MaxLength="15" />
+    <Property Name="UpdateDate" Type="datetime" />
+    <Property Name="UpdateBy" Type="varchar" MaxLength="15" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'WorkFlowDB.dbo.tbl_UserRoles' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="tbl_UserRoles">
+    <Key>
+      <PropertyRef Name="UserId" />
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="UserId" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="Role" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="Departments" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="temp_tbl_Customeremail">
+    <Key>
+      <PropertyRef Name="CustomerCode" />
+    </Key>
+    <Property Name="CustomerName" Type="varchar" MaxLength="150" Nullable="false" />
+    <Property Name="OrganizationName" Type="varchar" MaxLength="10" />
+    <Property Name="CustomerCode" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="email_address" Type="varchar" MaxLength="500" />
+    <Property Name="CCemail_Address" Type="varchar" MaxLength="1000" />
+    <Property Name="Remarks" Type="varchar" MaxLength="100" />
+    <Property Name="Exclude_EInvoice" Type="bit" />
+    <Property Name="Exclude_SOA" Type="bit" />
+    <Property Name="Updateuser" Type="varchar" MaxLength="50" />
+    <Property Name="SOAemail_address" Type="varchar" MaxLength="500" />
+    <Property Name="SOACCemail_Address" Type="varchar" MaxLength="1000" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'WorkFlowDB.dbo.vw_DocumentDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_DocumentDetails">
+    <Key>
+      <PropertyRef Name="StatusChangeHistoryID" />
+    </Key>
+    <Property Name="StatusChangeHistoryID" Type="bigint" Nullable="false" />
+    <Property Name="StatusID" Type="int" />
+    <Property Name="ChangedByUser" Type="varchar" MaxLength="50" />
+    <Property Name="ChangedOn" Type="datetime" />
+    <Property Name="DocType" Type="varchar" MaxLength="10" />
+    <Property Name="DocNo" Type="varchar" MaxLength="50" />
+    <Property Name="DocNoID" Type="bigint" />
+    <Property Name="AddedOn" Type="datetime" />
+    <Property Name="DocID" Type="bigint" />
+    <Property Name="Status" Type="varchar" MaxLength="5" />
+    <Property Name="AddedbyUser" Type="varchar" MaxLength="25" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'WorkFlowDB.dbo.vw_Documents' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_Documents">
+    <Key>
+      <PropertyRef Name="DocID" />
+    </Key>
+    <Property Name="DocID" Type="bigint" Nullable="false" />
+    <Property Name="DocType" Type="varchar" MaxLength="10" />
+    <Property Name="DocNo" Type="varchar" MaxLength="50" />
+    <Property Name="NetPrice" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="Currency" Type="varchar" MaxLength="5" />
+    <Property Name="SubmitBy" Type="varchar" MaxLength="100" />
+    <Property Name="SubmitDate" Type="datetime" />
+    <Property Name="ApprovalSubmitDate" Type="datetime" />
+    <Property Name="ApprovalSubmitBy" Type="varchar" MaxLength="15" />
+    <Property Name="Status" Type="varchar" MaxLength="5" />
+    <Property Name="AttachDoc" Type="varchar" MaxLength="500" />
+    <Property Name="AddAttachDoc1" Type="varchar" MaxLength="500" />
+    <Property Name="AddAttachDoc2" Type="varchar" MaxLength="500" />
+    <Property Name="AddAttachDoc3" Type="varchar" MaxLength="500" />
+    <Property Name="VendorCode" Type="varchar" MaxLength="15" />
+    <Property Name="VendorName" Type="varchar" MaxLength="100" />
+    <Property Name="VendorCategory" Type="varchar" MaxLength="15" />
+    <Property Name="IssueBy" Type="varchar" MaxLength="50" />
+    <Property Name="DocNetPrice" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="PRNumbers" Type="varchar" MaxLength="500" />
+    <Property Name="PRAmount" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="PriorityCode" Type="smallint" />
+    <Property Name="UpdateDate" Type="datetime" />
+    <Property Name="IsModified" Type="bit" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'WorkFlowDB.dbo.vw_Documents4AlternateApproval' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_Documents4AlternateApproval">
+    <Key>
+      <PropertyRef Name="DocID" />
+      <PropertyRef Name="WorkFlowID" />
+      <PropertyRef Name="Alternate1" />
+      <PropertyRef Name="Alternate2" />
+    </Key>
+    <Property Name="DocID" Type="bigint" Nullable="false" />
+    <Property Name="DocType" Type="varchar" MaxLength="10" />
+    <Property Name="DocNo" Type="varchar" MaxLength="50" />
+    <Property Name="NetPrice" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="Currency" Type="varchar" MaxLength="5" />
+    <Property Name="SubmitBy" Type="varchar" MaxLength="50" />
+    <Property Name="SubmitDate" Type="datetime" />
+    <Property Name="ApprovalSubmitDate" Type="datetime" />
+    <Property Name="ApprovalSubmitBy" Type="varchar" MaxLength="100" />
+    <Property Name="Status" Type="varchar" MaxLength="5" />
+    <Property Name="AttachDoc" Type="varchar" MaxLength="500" />
+    <Property Name="AddAttachDoc1" Type="varchar" MaxLength="500" />
+    <Property Name="AddAttachDoc2" Type="varchar" MaxLength="500" />
+    <Property Name="AddAttachDoc3" Type="varchar" MaxLength="500" />
+    <Property Name="VendorCode" Type="varchar" MaxLength="15" />
+    <Property Name="VendorName" Type="varchar" MaxLength="100" />
+    <Property Name="VendorCategory" Type="varchar" MaxLength="15" />
+    <Property Name="IssueBy" Type="varchar" MaxLength="50" />
+    <Property Name="DocNetPrice" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="PRNumbers" Type="varchar(max)" />
+    <Property Name="PRAmount" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="PriorityCode" Type="smallint" />
+    <Property Name="ERPAttachment" Type="bit" Nullable="false" />
+    <Property Name="UpdateDate" Type="datetime" />
+    <Property Name="RFQRefNo" Type="nvarchar" MaxLength="20" />
+    <Property Name="LastApprovalSubmitBy" Type="nvarchar" MaxLength="50" />
+    <Property Name="LastApprovalSubmitDate" Type="datetime" />
+    <Property Name="UpdateBy" Type="nvarchar" MaxLength="50" />
+    <Property Name="WorkFlowID" Type="bigint" Nullable="false" />
+    <Property Name="ApprovePerson" Type="varchar" MaxLength="15" />
+    <Property Name="Alternate1" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="Alternate2" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="WorkFlowStatus" Type="varchar" MaxLength="5" />
+    <Property Name="WorkFlowSubmitDate" Type="datetime" />
+    <Property Name="AlternateApprover" Type="int" />
+    <Property Name="ApproveBy" Type="varchar" MaxLength="15" />
+    <Property Name="ApproveDate" Type="datetime" />
+    <Property Name="RejectBy" Type="varchar" MaxLength="15" />
+    <Property Name="RejectDate" Type="datetime" />
+    <Property Name="Approver" Type="varchar" MaxLength="15" />
+    <Property Name="StartDate" Type="date" />
+    <Property Name="Enddate" Type="date" />
+    <Property Name="ApprovalLevel" Type="smallint" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'WorkFlowDB.dbo.vw_Documents4Approval' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_Documents4Approval">
+    <Key>
+      <PropertyRef Name="DocID" />
+      <PropertyRef Name="WorkFlowID" />
+    </Key>
+    <Property Name="DocID" Type="bigint" Nullable="false" />
+    <Property Name="DocType" Type="varchar" MaxLength="10" />
+    <Property Name="DocNo" Type="varchar" MaxLength="50" />
+    <Property Name="NetPrice" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="Currency" Type="varchar" MaxLength="5" />
+    <Property Name="SubmitBy" Type="varchar" MaxLength="50" />
+    <Property Name="SubmitDate" Type="datetime" />
+    <Property Name="ApprovalSubmitDate" Type="datetime" />
+    <Property Name="ApprovalSubmitBy" Type="varchar" MaxLength="100" />
+    <Property Name="Status" Type="varchar" MaxLength="5" />
+    <Property Name="AttachDoc" Type="varchar" MaxLength="500" />
+    <Property Name="AddAttachDoc1" Type="varchar" MaxLength="500" />
+    <Property Name="AddAttachDoc2" Type="varchar" MaxLength="500" />
+    <Property Name="AddAttachDoc3" Type="varchar" MaxLength="500" />
+    <Property Name="VendorCode" Type="varchar" MaxLength="15" />
+    <Property Name="VendorName" Type="varchar" MaxLength="100" />
+    <Property Name="VendorCategory" Type="varchar" MaxLength="15" />
+    <Property Name="IssueBy" Type="varchar" MaxLength="50" />
+    <Property Name="DocNetPrice" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="PRNumbers" Type="varchar(max)" />
+    <Property Name="PRAmount" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="PriorityCode" Type="smallint" />
+    <Property Name="ERPAttachment" Type="bit" Nullable="false" />
+    <Property Name="UpdateDate" Type="datetime" />
+    <Property Name="RFQRefNo" Type="nvarchar" MaxLength="20" />
+    <Property Name="LastApprovalSubmitBy" Type="nvarchar" MaxLength="50" />
+    <Property Name="LastApprovalSubmitDate" Type="datetime" />
+    <Property Name="UpdateBy" Type="nvarchar" MaxLength="50" />
+    <Property Name="WorkFlowID" Type="bigint" Nullable="false" />
+    <Property Name="ApprovePerson" Type="varchar" MaxLength="15" />
+    <Property Name="Alternate1" Type="varchar" MaxLength="15" />
+    <Property Name="Alternate2" Type="varchar" MaxLength="15" />
+    <Property Name="WorkFlowStatus" Type="varchar" MaxLength="5" />
+    <Property Name="WorkFlowSubmitDate" Type="datetime" />
+    <Property Name="AlternateApprover" Type="int" />
+    <Property Name="ApproveBy" Type="varchar" MaxLength="15" />
+    <Property Name="ApproveDate" Type="datetime" />
+    <Property Name="RejectBy" Type="varchar" MaxLength="15" />
+    <Property Name="RejectDate" Type="datetime" />
+    <Property Name="Approver" Type="varchar" MaxLength="15" />
+    <Property Name="ApprovalLevel" Type="smallint" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'WorkFlowDB.dbo.vw_ERP_CostCentre' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_ERP_CostCentre">
+    <Key>
+      <PropertyRef Name="CostCentreID" />
+    </Key>
+    <Property Name="CostCentreID" Type="int" Nullable="false" />
+    <Property Name="CostCentreCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="CostCentreAbbrevation" Type="nvarchar" MaxLength="50" />
+    <Property Name="CostCentreDescription" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'WorkFlowDB.dbo.vw_ERP_CostCentreBudget' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_ERP_CostCentreBudget">
+    <Key>
+      <PropertyRef Name="CommitedAmount" />
+    </Key>
+    <Property Name="Object" Type="varchar" MaxLength="11" Nullable="false" />
+    <Property Name="ObjectNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="ObjectDesc" Type="nvarchar" MaxLength="512" />
+    <Property Name="GLCode" Type="nvarchar" MaxLength="10" />
+    <Property Name="GLDesc" Type="nvarchar" MaxLength="256" />
+    <Property Name="BudgetedAmount" Type="float" />
+    <Property Name="ApprovedBudgetAmount" Type="float" />
+    <Property Name="SupplementaryBudget1Approved" Type="float" />
+    <Property Name="SupplementaryBudget2Approved" Type="float" />
+    <Property Name="CommitedAmount" Type="float" Nullable="false" />
+    <Property Name="ActualAmount" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'WorkFlowDB.dbo.vw_ERP_FujitecActiveContrItem' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_ERP_FujitecActiveContrItem">
+    <Key>
+      <PropertyRef Name="BuildingUnitID" />
+      <PropertyRef Name="ContrOrg" />
+      <PropertyRef Name="ContractNo" />
+      <PropertyRef Name="ContrType" />
+    </Key>
+    <Property Name="BuildingUnitID" Type="int" Nullable="false" />
+    <Property Name="ContrOrg" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="BuildingCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="SoldToParty" Type="nvarchar" MaxLength="50" />
+    <Property Name="BillToParty" Type="nvarchar" MaxLength="50" />
+    <Property Name="BuildingName" Type="nvarchar" MaxLength="128" />
+    <Property Name="AddressLine1" Type="nvarchar" MaxLength="128" />
+    <Property Name="AddressLine2" Type="nvarchar" MaxLength="128" />
+    <Property Name="PostalCode" Type="nvarchar" MaxLength="60" />
+    <Property Name="Latitude" Type="float" />
+    <Property Name="Longitude" Type="float" />
+    <Property Name="ContractNo" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="ContrType" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="ServiceStartDate" Type="datetime" />
+    <Property Name="ServiceEndDate" Type="datetime" />
+    <Property Name="Equipment" Type="nvarchar" MaxLength="50" />
+    <Property Name="SiteBlockUnit" Type="nvarchar" MaxLength="128" />
+    <Property Name="ProductTypeName" Type="nvarchar" MaxLength="256" />
+    <Property Name="SoldToPartyName" Type="nvarchar" MaxLength="256" />
+    <Property Name="ParentCustomer" Type="nvarchar" MaxLength="50" />
+    <Property Name="BillToPartyName" Type="nvarchar" MaxLength="256" />
+    <Property Name="NoofService" Type="int" />
+    <Property Name="SalesGroup" Type="nvarchar" MaxLength="3" />
+    <Property Name="ChangedOn" Type="datetime" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'WorkFlowDB.dbo.vw_ERP_Organization' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_ERP_Organization">
+    <Key>
+      <PropertyRef Name="OrganizationID" />
+      <PropertyRef Name="OrganizationName" />
+    </Key>
+    <Property Name="OrganizationID" Type="int" Nullable="false" />
+    <Property Name="OrganizationName" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="OrganizationDescription" Type="nvarchar" MaxLength="1024" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'WorkFlowDB.dbo.vw_ERP_ProjectBudget' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_ERP_ProjectBudget">
+    <Key>
+      <PropertyRef Name="CommitedAmount" />
+    </Key>
+    <Property Name="Object" Type="nvarchar" MaxLength="50" />
+    <Property Name="ObjectNo" Type="nvarchar" MaxLength="8" />
+    <Property Name="DtlObjectNo" Type="nvarchar" MaxLength="512" />
+    <Property Name="ObjectName" Type="nvarchar" MaxLength="256" />
+    <Property Name="GLCode" Type="nvarchar" MaxLength="10" />
+    <Property Name="GLDesc" Type="nvarchar" MaxLength="256" />
+    <Property Name="IsChangeOrderGroup" Type="bit" />
+    <Property Name="IsCommanItem" Type="bit" />
+    <Property Name="ApprovedBudgetAmount" Type="float" />
+    <Property Name="SupplementaryBudget1Approved" Type="float" />
+    <Property Name="SupplementaryBudget2Approved" Type="float" />
+    <Property Name="CommitedAmount" Type="float" Nullable="false" />
+    <Property Name="ActualAmount" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'WorkFlowDB.dbo.vw_ERP_SalesGroupBudget' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_ERP_SalesGroupBudget">
+    <Key>
+      <PropertyRef Name="Object" />
+      <PropertyRef Name="ObjectName" />
+      <PropertyRef Name="CommitedAmount" />
+    </Key>
+    <Property Name="Object" Type="varchar" MaxLength="11" Nullable="false" />
+    <Property Name="ObjectNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="ObjectName" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="GLCode" Type="nvarchar" MaxLength="10" />
+    <Property Name="GLDesc" Type="nvarchar" MaxLength="256" />
+    <Property Name="ApprovedBudgetAmount" Type="float" />
+    <Property Name="SupplementaryBudget1Approved" Type="float" />
+    <Property Name="SupplementaryBudget2Approved" Type="float" />
+    <Property Name="CommitedAmount" Type="float" Nullable="false" />
+    <Property Name="ActualAmount" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'WorkFlowDB.dbo.vw_ERP_ServiceSOA' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_ERP_ServiceSOA">
+    <Key>
+      <PropertyRef Name="LogID" />
+    </Key>
+    <Property Name="LogID" Type="bigint" Nullable="false" />
+    <Property Name="CustomerID" Type="int" />
+    <Property Name="CustomerNO" Type="nvarchar" MaxLength="50" />
+    <Property Name="CustomerName" Type="nvarchar" MaxLength="100" />
+    <Property Name="OrganizationID" Type="int" />
+    <Property Name="OrganizationName" Type="nvarchar" MaxLength="100" />
+    <Property Name="CutoffDate" Type="date" />
+    <Property Name="CustomerType" Type="nvarchar" MaxLength="50" />
+    <Property Name="ParentCustomerName" Type="nvarchar" MaxLength="100" />
+    <Property Name="SOAStatus" Type="varchar" MaxLength="10" />
+    <Property Name="SOAGenStatus" Type="varchar" MaxLength="10" />
+    <Property Name="IsSOAIssued" Type="bit" />
+    <Property Name="SOAIssuedBy" Type="varchar" MaxLength="15" />
+    <Property Name="SOAIssuedDate" Type="datetime" />
+    <Property Name="SOAFileName" Type="varchar" MaxLength="500" />
+    <Property Name="email_address" Type="varchar" MaxLength="500" />
+    <Property Name="CCemail_address" Type="varchar" MaxLength="500" />
+    <Property Name="EmailID" Type="varchar" MaxLength="20" />
+    <Property Name="UpdateBy" Type="varchar" MaxLength="15" />
+    <Property Name="UpdateDate" Type="datetime" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'WorkFlowDB.dbo.vw_ERP_ServiceTaxInvoice' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_ERP_ServiceTaxInvoice">
+    <Key>
+      <PropertyRef Name="LogID" />
+    </Key>
+    <Property Name="LogID" Type="bigint" Nullable="false" />
+    <Property Name="InvoiceNo" Type="varchar" MaxLength="50" />
+    <Property Name="InvoiceType" Type="varchar" MaxLength="15" />
+    <Property Name="Organization" Type="varchar" MaxLength="10" />
+    <Property Name="Period" Type="varchar" MaxLength="10" />
+    <Property Name="InvoiceDate" Type="date" />
+    <Property Name="CustomerNo" Type="varchar" MaxLength="50" />
+    <Property Name="CustomerName" Type="varchar" MaxLength="500" />
+    <Property Name="InvoiceAmount" Type="numeric" Precision="13" Scale="2" />
+    <Property Name="Currency" Type="varchar" MaxLength="10" />
+    <Property Name="InvoiceStatus" Type="varchar" MaxLength="10" />
+    <Property Name="DocGenStatus" Type="varchar" MaxLength="10" />
+    <Property Name="InvoiceGenStatus" Type="varchar" MaxLength="10" />
+    <Property Name="IsInvoiceIssued" Type="bit" />
+    <Property Name="InvoiceIssuedBy" Type="varchar" MaxLength="15" />
+    <Property Name="InvoiceIssuedDate" Type="datetime" />
+    <Property Name="EmailID" Type="varchar" MaxLength="20" />
+    <Property Name="UpdateBy" Type="varchar" MaxLength="15" />
+    <Property Name="UpdateDate" Type="datetime" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'WorkFlowDB.dbo.vw_ERP_tbl_Customeremail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_ERP_tbl_Customeremail">
+    <Key>
+      <PropertyRef Name="CustomerName" />
+    </Key>
+    <Property Name="CustomerName" Type="varchar" MaxLength="150" Nullable="false" />
+    <Property Name="OrganizationName" Type="varchar" MaxLength="10" />
+    <Property Name="CustomerCode" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="email_address" Type="varchar" MaxLength="500" />
+    <Property Name="CCemail_Address" Type="varchar" MaxLength="1000" />
+    <Property Name="Remarks" Type="varchar" MaxLength="100" />
+    <Property Name="Exclude_EInvoice" Type="bit" />
+    <Property Name="Exclude_SOA" Type="bit" />
+    <Property Name="Updateuser" Type="varchar" MaxLength="50" />
+    <Property Name="SOAemail_address" Type="varchar" MaxLength="500" />
+    <Property Name="SOACCemail_Address" Type="varchar" MaxLength="1000" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'WorkFlowDB.dbo.vw_ERP_UserDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_ERP_UserDetails">
+    <Key>
+      <PropertyRef Name="UserId" />
+      <PropertyRef Name="Password" />
+    </Key>
+    <Property Name="UserId" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Role" Type="varchar" MaxLength="50" />
+    <Property Name="DivisionCode" Type="varchar" MaxLength="15" />
+    <Property Name="DeptCode" Type="varchar" MaxLength="15" />
+    <Property Name="IsDeleted" Type="bit" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="CreateBy" Type="varchar" MaxLength="15" />
+    <Property Name="FirstName" Type="nvarchar" MaxLength="128" />
+    <Property Name="LastName" Type="nvarchar" MaxLength="128" />
+    <Property Name="Password" Type="varchar" MaxLength="24" Nullable="false" />
+    <Property Name="OrganizationName" Type="nvarchar" MaxLength="256" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" />
+    <Property Name="DepartmentName" Type="nvarchar" MaxLength="100" />
+    <Property Name="DesignationName" Type="nvarchar" MaxLength="256" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'WorkFlowDB.dbo.vw_ERP_WarehouseBudget' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_ERP_WarehouseBudget">
+    <Key>
+      <PropertyRef Name="Object" />
+      <PropertyRef Name="ObjectNo" />
+      <PropertyRef Name="GLDesc" />
+      <PropertyRef Name="GLCode" />
+    </Key>
+    <Property Name="Object" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="ObjectNo" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="ObjectDesc" Type="nvarchar" MaxLength="512" />
+    <Property Name="GLCode" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="GLDesc" Type="varchar" MaxLength="1" Nullable="false" />
+    <Property Name="ApprovedBudgetAmount" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="SupplementaryBudget1Approved" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="SupplementaryBudget2Approved" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="CommitedAmount" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="ActualAmount" Type="numeric" Precision="18" Scale="2" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'WorkFlowDB.dbo.vw_tbl_DocumentBudget' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_tbl_DocumentBudget">
+    <Key>
+      <PropertyRef Name="DocID" />
+      <PropertyRef Name="SequenceNo" />
+    </Key>
+    <Property Name="DocID" Type="bigint" Nullable="false" />
+    <Property Name="SequenceNo" Type="int" Nullable="false" />
+    <Property Name="Object" Type="varchar" MaxLength="50" />
+    <Property Name="ObjectNo" Type="varchar" MaxLength="50" />
+    <Property Name="ObjectName" Type="varchar" MaxLength="500" />
+    <Property Name="AccountNo" Type="varchar" MaxLength="150" />
+    <Property Name="OrginalBudget" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="CommitBudget" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="ActualBudget" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="SuppBudget" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="BalBudget" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="ThisExp" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="DocNo" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'WorkFlowDB.dbo.vw_tbl_DocumentDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="vw_tbl_DocumentDetails">
+    <Key>
+      <PropertyRef Name="DocID" />
+      <PropertyRef Name="DocNo" />
+      <PropertyRef Name="SequenceNo" />
+    </Key>
+    <Property Name="DocID" Type="int" Nullable="false" />
+    <Property Name="DocNo" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="SequenceNo" Type="varchar" MaxLength="5" Nullable="false" />
+    <Property Name="ItemNo" Type="varchar" MaxLength="1000" />
+    <Property Name="ItemDescription" Type="varchar" MaxLength="1000" />
+    <Property Name="CostObject" Type="varchar" MaxLength="50" />
+    <Property Name="CostObjectNo" Type="varchar" MaxLength="100" />
+    <Property Name="SourceObject" Type="varchar" MaxLength="50" />
+    <Property Name="SourceObjectNo" Type="varchar" MaxLength="300" />
+    <Property Name="SalesGroupNo" Type="varchar" MaxLength="10" />
+    <Property Name="AccountNo" Type="varchar" MaxLength="150" />
+    <Property Name="Quantity" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="UnitPrice" Type="numeric" Precision="18" Scale="4" />
+    <Property Name="Currency" Type="varchar" MaxLength="10" />
+    <Property Name="NetPrice" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="NetPriceLocal" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="CostCenter" Type="varchar" MaxLength="100" />
+    <Property Name="VendorCode" Type="varchar" MaxLength="15" />
+    <Property Name="VendorName" Type="varchar" MaxLength="200" />
+    <Property Name="VendorCategory" Type="varchar" MaxLength="15" />
+    <Property Name="UOM" Type="varchar" MaxLength="15" />
+    <Property Name="RequiredOn" Type="date" />
+    <Property Name="PRNO" Type="varchar" MaxLength="50" />
+    <Property Name="Warehouse" Type="varchar" MaxLength="10" />
+  </EntityType>
+  <Association Name="FK__tbl_DocMe__Merge__58671BC9">
+    <End Role="tbl_DocMergeHeader" Type="Self.tbl_DocMergeHeader" Multiplicity="0..1" />
+    <End Role="tbl_DocMergeDetails" Type="Self.tbl_DocMergeDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_DocMergeHeader">
+        <PropertyRef Name="MergeDocNo" />
+      </Principal>
+      <Dependent Role="tbl_DocMergeDetails">
+        <PropertyRef Name="MergeDocNo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tbl_DocMe__SumDo__4EDDB18F">
+    <End Role="tbl_Documents" Type="Self.tbl_Documents" Multiplicity="0..1" />
+    <End Role="tbl_DocMergeHeader" Type="Self.tbl_DocMergeHeader" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Documents">
+        <PropertyRef Name="DocID" />
+      </Principal>
+      <Dependent Role="tbl_DocMergeHeader">
+        <PropertyRef Name="SumDocId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tbl_DocMe__SumDo__595B4002">
+    <End Role="tbl_Documents" Type="Self.tbl_Documents" Multiplicity="0..1" />
+    <End Role="tbl_DocMergeDetails" Type="Self.tbl_DocMergeDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Documents">
+        <PropertyRef Name="DocID" />
+      </Principal>
+      <Dependent Role="tbl_DocMergeDetails">
+        <PropertyRef Name="SumDocId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tbl_RFQAt__Quote__73501C2F">
+    <End Role="tbl_RequestForQuotation" Type="Self.tbl_RequestForQuotation" Multiplicity="0..1" />
+    <End Role="tbl_RFQAttachments" Type="Self.tbl_RFQAttachments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_RequestForQuotation">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="tbl_RFQAttachments">
+        <PropertyRef Name="QuoteId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DocId_DocumentWorkFlow">
+    <End Role="tbl_Documents" Type="Self.tbl_Documents" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="tbl_DocumentWorkFlow" Type="Self.tbl_DocumentWorkFlow" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Documents">
+        <PropertyRef Name="DocID" />
+      </Principal>
+      <Dependent Role="tbl_DocumentWorkFlow">
+        <PropertyRef Name="DocID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="ERP_ProjectBudgetSummary" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="DtlObjectNo" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="SP_AddCustomer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="SP_CancelQuote" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="QuoteList" Type="nvarchar" Mode="In" />
+    <Parameter Name="UserId" Type="nvarchar" Mode="In" />
+    <Parameter Name="Type" Type="nvarchar" Mode="In" />
+    <Parameter Name="SPResult" Type="nvarchar" Mode="InOut" />
+    <Parameter Name="Remarks" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="AttachmentList" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="DeleteAttachmentList" Type="nvarchar(max)" Mode="In" />
+  </Function>
+  <Function Name="SP_CheckCustomerCodeExists" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="CustomerCode" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="Result" Type="bit" Mode="InOut" />
+    <Parameter Name="Message" Type="nvarchar(max)" Mode="InOut" />
+  </Function>
+  <Function Name="SP_CheckRFQStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="RFQNo" Type="nvarchar" Mode="In" />
+    <Parameter Name="SPResult" Type="bit" Mode="InOut" />
+    <Parameter Name="Message" Type="nvarchar" Mode="InOut" />
+  </Function>
+  <Function Name="SP_CreateQuote" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserId" Type="nvarchar" Mode="In" />
+    <Parameter Name="PurchaseCategory" Type="nvarchar" Mode="In" />
+    <Parameter Name="PurchaseRemarks" Type="nvarchar" Mode="In" />
+    <Parameter Name="Status" Type="nvarchar" Mode="In" />
+    <Parameter Name="AttachmentList" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="QuoteNo" Type="nvarchar" Mode="In" />
+    <Parameter Name="DeleteAttachmentList" Type="nvarchar" Mode="In" />
+    <Parameter Name="SPResult" Type="bit" Mode="InOut" />
+    <Parameter Name="BuyerName" Type="nvarchar" Mode="InOut" />
+    <Parameter Name="BuyerEmail" Type="nvarchar" Mode="InOut" />
+    <Parameter Name="RetQuoteNo" Type="nvarchar" Mode="InOut" />
+    <Parameter Name="RequiredDate" Type="datetime" Mode="In" />
+    <Parameter Name="Type" Type="nvarchar" Mode="In" />
+    <Parameter Name="Priority" Type="int" Mode="In" />
+    <Parameter Name="IsResubmitted" Type="bit" Mode="InOut" />
+  </Function>
+  <Function Name="SP_DeleteCustomerEmail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdList" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="UserId" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="SP_EInvoice_Email_UpdateIssueEInvoiceStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="NotificationID" Type="bigint" Mode="In" />
+    <Parameter Name="InvoiceList" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="IssuedBy" Type="nvarchar" Mode="In" />
+    <Parameter Name="Status" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="SP_EInvoice_View_ExportSIRReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Period" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="SP_EInvoice_View_GetActiveContract" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="BillToParty" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="SP_EInvoice_View_GetAllServiceTaxInvoiceByStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Status" Type="nvarchar" Mode="In" />
+    <Parameter Name="LastThreeMonthsPeriodList" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="SP_EInvoice_View_GetAllSIRList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Status" Type="nvarchar" Mode="In" />
+    <Parameter Name="LastThreeMonthsPeriodList" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="SP_EInvoice_View_GetCustomerEmailDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="CustomerNo" Type="nvarchar(max)" Mode="In" />
+  </Function>
+  <Function Name="SP_EInvoice_View_GetEmailContent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="LogId" Type="nvarchar" Mode="In" />
+    <Parameter Name="Subject" Type="nvarchar(max)" Mode="InOut" />
+    <Parameter Name="Body" Type="nvarchar(max)" Mode="InOut" />
+    <Parameter Name="Site" Type="nvarchar(max)" Mode="InOut" />
+    <Parameter Name="AddressLine1" Type="nvarchar(max)" Mode="InOut" />
+    <Parameter Name="BillingPlanDescription" Type="nvarchar(max)" Mode="InOut" />
+  </Function>
+  <Function Name="SP_EInvoice_View_GetLastSIRConsolidatedOn" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="LastConsolidated" Type="datetime" Mode="InOut" />
+  </Function>
+  <Function Name="SP_EInvoice_View_GetServiceTaxInvoice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Status" Type="nvarchar" Mode="In" />
+    <Parameter Name="CustomerName" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="Period" Type="nvarchar" Mode="In" />
+    <Parameter Name="InvoiceType" Type="nvarchar" Mode="In" />
+    <Parameter Name="Organization" Type="nvarchar" Mode="In" />
+    <Parameter Name="LastThreeMonthsPeriodList" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="SP_EInvoice_View_GetServiceTaxInvoiceByID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="LogID" Type="nvarchar(max)" Mode="In" />
+  </Function>
+  <Function Name="SP_EInvoice_View_GetSIRDocumentByID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="TransId" Type="bigint" Mode="In" />
+  </Function>
+  <Function Name="SP_EInvoice_View_GetSIRDocuments" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="BillToParty" Type="nvarchar" Mode="In" />
+    <Parameter Name="Period" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="SP_EInvoice_View_GetSIRListForDashboard" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Status" Type="nvarchar" Mode="In" />
+    <Parameter Name="CustomerName" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="Period" Type="nvarchar" Mode="In" />
+    <Parameter Name="SIRStatus" Type="nvarchar" Mode="In" />
+    <Parameter Name="Site" Type="nvarchar" Mode="In" />
+    <Parameter Name="SalesGroup" Type="nvarchar" Mode="In" />
+    <Parameter Name="LastThreeMonthsPeriodList" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="SP_EInvoice_View_IsServiceAdminUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserId" Type="nvarchar" Mode="In" />
+    <Parameter Name="SPResult" Type="bit" Mode="InOut" />
+  </Function>
+  <Function Name="SP_EInvoice_View_SaveEmailDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="InvoiceList" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="To" Type="nvarchar" Mode="In" />
+    <Parameter Name="CC" Type="nvarchar" Mode="In" />
+    <Parameter Name="Subject" Type="nvarchar" Mode="In" />
+    <Parameter Name="Body" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="AttachmentLocation" Type="nvarchar" Mode="In" />
+    <Parameter Name="IssuedBy" Type="nvarchar" Mode="In" />
+    <Parameter Name="AttachmentList" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="Result" Type="bit" Mode="InOut" />
+    <Parameter Name="Message" Type="nvarchar" Mode="InOut" />
+    <Parameter Name="MailSendBy" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="SP_EInvoice_View_UpdateSIRDocumentStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="TransID" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="UserId" Type="nvarchar" Mode="In" />
+    <Parameter Name="Result" Type="bit" Mode="InOut" />
+    <Parameter Name="Message" Type="nvarchar(max)" Mode="InOut" />
+  </Function>
+  <Function Name="SP_FinaliseQuote" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="QuoteId" Type="nvarchar" Mode="In" />
+    <Parameter Name="BuyerRemarks" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="AttachmentList" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="UserId" Type="nvarchar" Mode="In" />
+    <Parameter Name="SubmitterEmail" Type="nvarchar" Mode="InOut" />
+    <Parameter Name="SubmitterName" Type="nvarchar" Mode="InOut" />
+    <Parameter Name="SPResult" Type="bit" Mode="InOut" />
+    <Parameter Name="DeleteAttachmentList" Type="nvarchar" Mode="In" />
+    <Parameter Name="Status" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="SP_Get_AltApprovers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="user" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="SP_Get_POEmailAllDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="poNumber" Type="nvarchar" Mode="In" />
+    <Parameter Name="docId" Type="bigint" Mode="In" />
+    <Parameter Name="status" Type="bit" Mode="InOut" />
+    <Parameter Name="message" Type="nvarchar" Mode="InOut" />
+  </Function>
+  <Function Name="SP_Get_PoPrEmails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="poNumber" Type="varchar" Mode="In" />
+    <Parameter Name="docId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SP_Get_PrEmails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="poNumber" Type="varchar" Mode="In" />
+    <Parameter Name="docId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SP_GetAllERPUsers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserId" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="SP_GetAllPurchaseOrders" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Status" Type="bit" Mode="In" />
+    <Parameter Name="DocNo" Type="nvarchar" Mode="In" />
+    <Parameter Name="BuyerName" Type="nvarchar" Mode="In" />
+    <Parameter Name="VendorName" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="SP_GetALLSBHeader" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserId" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="SP_GetAlternateDocuments" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserId" Type="nvarchar" Mode="In" />
+    <Parameter Name="Status" Type="nvarchar" Mode="In" />
+    <Parameter Name="DocNo" Type="nvarchar" Mode="In" />
+    <Parameter Name="MDRoleToView" Type="nvarchar" Mode="In" />
+    <Parameter Name="VendorName" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="SP_GetApprovedPR" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Status" Type="nvarchar" Mode="In" />
+    <Parameter Name="DocNo" Type="nvarchar" Mode="In" />
+    <Parameter Name="VendorName" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="SP_GetAuthorizeExecutive" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Approver" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="SP_GetChildPR" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="DocId" Type="bigint" Mode="In" />
+  </Function>
+  <Function Name="SP_GetCostCentre" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="SP_GetCostCentreBudget" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Type" Type="nvarchar" Mode="In" />
+    <Parameter Name="ObjectNo" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="SP_GetCustomerMaster" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="CustomerName" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="Organization" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="SP_GetCustomerOrganization" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="SP_GetDocPendingWorkflow" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="DocId" Type="bigint" Mode="In" />
+  </Function>
+  <Function Name="SP_GetDocumentBudgetByID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="DocId" Type="bigint" Mode="In" />
+  </Function>
+  <Function Name="SP_GetDocumentByID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="DocId" Type="bigint" Mode="In" />
+  </Function>
+  <Function Name="SP_GetDocumentDetailsByID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="DocId" Type="bigint" Mode="In" />
+  </Function>
+  <Function Name="SP_GetDocuments" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserId" Type="nvarchar" Mode="In" />
+    <Parameter Name="Status" Type="nvarchar" Mode="In" />
+    <Parameter Name="DocNo" Type="nvarchar" Mode="In" />
+    <Parameter Name="MDRoleToView" Type="nvarchar" Mode="In" />
+    <Parameter Name="VendorName" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="SP_GetDocumentWorkflowByDocID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="DocId" Type="bigint" Mode="In" />
+  </Function>
+  <Function Name="SP_GetDocumentWorkflowByWorkflowID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="WorkflowID" Type="bigint" Mode="In" />
+  </Function>
+  <Function Name="SP_GetDocWorkflowForDocStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="DocId" Type="bigint" Mode="In" />
+  </Function>
+  <Function Name="SP_GetERPUserName" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserId" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="SP_GetLeaveDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="User" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="SP_GetLeaveDetailsHistory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="User" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="SP_GetMergeDocDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="DocId" Type="bigint" Mode="In" />
+  </Function>
+  <Function Name="SP_GetProjectBudget" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Type" Type="nvarchar" Mode="In" />
+    <Parameter Name="ObjectNo" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="SP_GetPurchaseOrder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="DocId" Type="bigint" Mode="In" />
+  </Function>
+  <Function Name="SP_GetQuote" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="CreatedBy" Type="nvarchar" Mode="In" />
+    <Parameter Name="Status" Type="nvarchar" Mode="In" />
+    <Parameter Name="QuoteId" Type="nvarchar" Mode="In" />
+    <Parameter Name="Type" Type="char" Mode="In" />
+  </Function>
+  <Function Name="SP_GetQuoteAttachmentCount" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="RFQNo" Type="nvarchar" Mode="In" />
+    <Parameter Name="RequestorCount" Type="int" Mode="InOut" />
+    <Parameter Name="BuyerCount" Type="int" Mode="InOut" />
+  </Function>
+  <Function Name="SP_GetQuoteAttachments" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="CreatedBy" Type="nvarchar" Mode="In" />
+    <Parameter Name="Status" Type="nvarchar" Mode="In" />
+    <Parameter Name="QuoteId" Type="nvarchar" Mode="In" />
+    <Parameter Name="Category" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="SP_GetQuoteEmailIds" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="QuoteNo" Type="nvarchar" Mode="In" />
+    <Parameter Name="SPResult" Type="bit" Mode="InOut" />
+    <Parameter Name="SubmitterName" Type="nvarchar" Mode="InOut" />
+    <Parameter Name="SubmitterEmail" Type="nvarchar" Mode="InOut" />
+    <Parameter Name="BuyerName" Type="nvarchar" Mode="InOut" />
+    <Parameter Name="BuyerEmail" Type="nvarchar" Mode="InOut" />
+    <Parameter Name="UpdatedBy" Type="nvarchar" Mode="InOut" />
+    <Parameter Name="UpdaterEmail" Type="nvarchar" Mode="InOut" />
+    <Parameter Name="SubmitterManagerEmail" Type="nvarchar" Mode="InOut" />
+    <Parameter Name="BuyerManagerEmail" Type="nvarchar" Mode="InOut" />
+    <Parameter Name="Priority" Type="nvarchar" Mode="InOut" />
+  </Function>
+  <Function Name="SP_GetRFQAttachmetsForSubmitDoc" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="AttachmentList" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="SP_GetSalesGroupBudget" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Type" Type="nvarchar" Mode="In" />
+    <Parameter Name="ObjectNo" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="SP_GetSBDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="RefNo" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="SP_GetSBHeader" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="RefNo" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="SP_GetSubmittedDocuments" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserId" Type="nvarchar" Mode="In" />
+    <Parameter Name="Status" Type="nvarchar" Mode="In" />
+    <Parameter Name="DocNo" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="SP_GetSupBudget" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserId" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="SP_GetUserByID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserId" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="SP_GetUserByUserID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserId" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="SP_GetUserRoleByID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserId" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="SP_GetWarehouseBudget" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Type" Type="nvarchar" Mode="In" />
+    <Parameter Name="ObjectNo" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="SP_InsertLog" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserName" Type="nvarchar" Mode="In" />
+    <Parameter Name="Controller" Type="nvarchar" Mode="In" />
+    <Parameter Name="Method" Type="nvarchar" Mode="In" />
+    <Parameter Name="Message" Type="nvarchar(max)" Mode="In" />
+  </Function>
+  <Function Name="SP_IsCurrentApproverIsVerifier" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="WorkflowId" Type="nvarchar" Mode="In" />
+    <Parameter Name="SPResult" Type="bit" Mode="InOut" />
+  </Function>
+  <Function Name="SP_IsPCVUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserId" Type="nvarchar" Mode="In" />
+    <Parameter Name="SPResult" Type="bit" Mode="InOut" />
+  </Function>
+  <Function Name="SP_IsPCVUser2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserId" Type="nvarchar" Mode="In" />
+    <Parameter Name="SPResult" Type="bit" Mode="InOut" />
+  </Function>
+  <Function Name="SP_IsQuoteSuperuser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="QuoteId" Type="nvarchar" Mode="In" />
+    <Parameter Name="UserId" Type="nvarchar" Mode="In" />
+    <Parameter Name="SPResult" Type="bit" Mode="InOut" />
+  </Function>
+  <Function Name="SP_MergePR" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="DocIDList" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="Result" Type="bit" Mode="InOut" />
+    <Parameter Name="Message" Type="nvarchar" Mode="InOut" />
+    <Parameter Name="UserId" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="SP_ReviseQuote" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="QuoteId" Type="nvarchar" Mode="In" />
+    <Parameter Name="UserId" Type="nvarchar" Mode="In" />
+    <Parameter Name="SPResult" Type="bit" Mode="InOut" />
+    <Parameter Name="RevisionNo" Type="int" Mode="InOut" />
+  </Function>
+  <Function Name="SP_SOA_View_GetALLSOAList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Status" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="SP_SOA_View_GetSOAByID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="LogID" Type="bigint" Mode="In" />
+  </Function>
+  <Function Name="SP_SOA_View_GetSOAListForFDashboard" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="CustomerName" Type="nvarchar" Mode="In" />
+    <Parameter Name="OrganizationName" Type="nvarchar" Mode="In" />
+    <Parameter Name="CustomerType" Type="nvarchar" Mode="In" />
+    <Parameter Name="ParentOrganizationName" Type="nvarchar" Mode="In" />
+    <Parameter Name="Status" Type="nvarchar" Mode="In" />
+    <Parameter Name="Period" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="SP_SOA_View_UpdateAsException" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdList" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="UserId" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="SP_SOA_View_UpdateSOAStatusToJobQueue" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="LogId" Type="bigint" Mode="In" />
+    <Parameter Name="ToAddress" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="CCAddress" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="UserId" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="SP_UpdateCustomerEmail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="SP_UpdateQuoteByBuyer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="QuoteId" Type="nvarchar" Mode="In" />
+    <Parameter Name="BuyerRemarks" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="AttachmentList" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="UserId" Type="nvarchar" Mode="In" />
+    <Parameter Name="DeleteAttachmentList" Type="nvarchar" Mode="In" />
+    <Parameter Name="SPResult" Type="bit" Mode="InOut" />
+  </Function>
+  <Function Name="SP_UpdateSummaryDoc" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="DocId" Type="bigint" Mode="In" />
+    <Parameter Name="Status" Type="nvarchar" Mode="In" />
+    <Parameter Name="UserId" Type="nvarchar" Mode="In" />
+    <Parameter Name="Result" Type="bit" Mode="InOut" />
+  </Function>
+  <Function Name="SP_ValidateDocument" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="DocIDList" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="Result" Type="bit" Mode="InOut" />
+    <Parameter Name="Message" Type="nvarchar(max)" Mode="InOut" />
+  </Function>
+  <Function Name="SP_ValidateMergePR" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="DocIdList" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="Result" Type="bit" Mode="InOut" />
+    <Parameter Name="Message" Type="nvarchar(max)" Mode="InOut" />
+  </Function>
+  <Function Name="SP_ViewDocuments" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserId" Type="nvarchar" Mode="In" />
+    <Parameter Name="searchText" Type="nvarchar(max)" Mode="In" />
+  </Function>
+  <EntityContainer Name="WorkFlowDBModelStoreContainer">
+    <EntitySet Name="tbl_AuthExecutives" EntityType="Self.tbl_AuthExecutives" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_AuthExecutives_bk1" EntityType="Self.tbl_AuthExecutives_bk1" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_CostObject" EntityType="Self.tbl_CostObject" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_Division" EntityType="Self.tbl_Division" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_DocMergeHeader" EntityType="Self.tbl_DocMergeHeader" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_Documents" EntityType="Self.tbl_Documents" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_DocumentWorkFlow" EntityType="Self.tbl_DocumentWorkFlow" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_LeaveDetails" EntityType="Self.tbl_LeaveDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_LeaveDetails_His" EntityType="Self.tbl_LeaveDetails_His" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_PurchaseCategory" EntityType="Self.tbl_PurchaseCategory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_PurchaseOrder" EntityType="Self.tbl_PurchaseOrder" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_RequestForQuotation" EntityType="Self.tbl_RequestForQuotation" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_RFQAttachments" EntityType="Self.tbl_RFQAttachments" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_SIRDocuments" EntityType="Self.tbl_SIRDocuments" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_SupBudgetDetail" EntityType="Self.tbl_SupBudgetDetail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_SupBudgetHeader" EntityType="Self.tbl_SupBudgetHeader" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_User" EntityType="Self.tbl_User" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="temp_tbl_Customeremail" EntityType="Self.temp_tbl_Customeremail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_DocMergeDetails" EntityType="Self.tbl_DocMergeDetails" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [tbl_DocMergeDetails].[ID] AS [ID], 
+    [tbl_DocMergeDetails].[MergeDocNo] AS [MergeDocNo], 
+    [tbl_DocMergeDetails].[DocId] AS [DocId], 
+    [tbl_DocMergeDetails].[DocNo] AS [DocNo], 
+    [tbl_DocMergeDetails].[Status] AS [Status], 
+    [tbl_DocMergeDetails].[SumDocId] AS [SumDocId], 
+    [tbl_DocMergeDetails].[Created] AS [Created], 
+    [tbl_DocMergeDetails].[CreatedBy] AS [CreatedBy], 
+    [tbl_DocMergeDetails].[Modified] AS [Modified], 
+    [tbl_DocMergeDetails].[ModifiedBy] AS [ModifiedBy]
+    FROM [dbo].[tbl_DocMergeDetails] AS [tbl_DocMergeDetails]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="tbl_ErrorsAndExceptions" EntityType="Self.tbl_ErrorsAndExceptions" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [tbl_ErrorsAndExceptions].[ID] AS [ID], 
+    [tbl_ErrorsAndExceptions].[Controller] AS [Controller], 
+    [tbl_ErrorsAndExceptions].[MethodName] AS [MethodName], 
+    [tbl_ErrorsAndExceptions].[Message] AS [Message], 
+    [tbl_ErrorsAndExceptions].[Created] AS [Created], 
+    [tbl_ErrorsAndExceptions].[CreatedBy] AS [CreatedBy]
+    FROM [dbo].[tbl_ErrorsAndExceptions] AS [tbl_ErrorsAndExceptions]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="tbl_UserRoles" EntityType="Self.tbl_UserRoles" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [tbl_UserRoles].[UserId] AS [UserId], 
+    [tbl_UserRoles].[Role] AS [Role], 
+    [tbl_UserRoles].[Departments] AS [Departments], 
+    [tbl_UserRoles].[ID] AS [ID]
+    FROM [dbo].[tbl_UserRoles] AS [tbl_UserRoles]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_DocumentDetails" EntityType="Self.vw_DocumentDetails" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_DocumentDetails].[StatusChangeHistoryID] AS [StatusChangeHistoryID], 
+    [vw_DocumentDetails].[StatusID] AS [StatusID], 
+    [vw_DocumentDetails].[ChangedByUser] AS [ChangedByUser], 
+    [vw_DocumentDetails].[ChangedOn] AS [ChangedOn], 
+    [vw_DocumentDetails].[DocType] AS [DocType], 
+    [vw_DocumentDetails].[DocNo] AS [DocNo], 
+    [vw_DocumentDetails].[DocNoID] AS [DocNoID], 
+    [vw_DocumentDetails].[AddedOn] AS [AddedOn], 
+    [vw_DocumentDetails].[DocID] AS [DocID], 
+    [vw_DocumentDetails].[Status] AS [Status], 
+    [vw_DocumentDetails].[AddedbyUser] AS [AddedbyUser]
+    FROM [dbo].[vw_DocumentDetails] AS [vw_DocumentDetails]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_Documents" EntityType="Self.vw_Documents" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_Documents].[DocID] AS [DocID], 
+    [vw_Documents].[DocType] AS [DocType], 
+    [vw_Documents].[DocNo] AS [DocNo], 
+    [vw_Documents].[NetPrice] AS [NetPrice], 
+    [vw_Documents].[Currency] AS [Currency], 
+    [vw_Documents].[SubmitBy] AS [SubmitBy], 
+    [vw_Documents].[SubmitDate] AS [SubmitDate], 
+    [vw_Documents].[ApprovalSubmitDate] AS [ApprovalSubmitDate], 
+    [vw_Documents].[ApprovalSubmitBy] AS [ApprovalSubmitBy], 
+    [vw_Documents].[Status] AS [Status], 
+    [vw_Documents].[AttachDoc] AS [AttachDoc], 
+    [vw_Documents].[AddAttachDoc1] AS [AddAttachDoc1], 
+    [vw_Documents].[AddAttachDoc2] AS [AddAttachDoc2], 
+    [vw_Documents].[AddAttachDoc3] AS [AddAttachDoc3], 
+    [vw_Documents].[VendorCode] AS [VendorCode], 
+    [vw_Documents].[VendorName] AS [VendorName], 
+    [vw_Documents].[VendorCategory] AS [VendorCategory], 
+    [vw_Documents].[IssueBy] AS [IssueBy], 
+    [vw_Documents].[DocNetPrice] AS [DocNetPrice], 
+    [vw_Documents].[PRNumbers] AS [PRNumbers], 
+    [vw_Documents].[PRAmount] AS [PRAmount], 
+    [vw_Documents].[PriorityCode] AS [PriorityCode], 
+    [vw_Documents].[UpdateDate] AS [UpdateDate], 
+    [vw_Documents].[IsModified] AS [IsModified]
+    FROM [dbo].[vw_Documents] AS [vw_Documents]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_Documents4AlternateApproval" EntityType="Self.vw_Documents4AlternateApproval" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_Documents4AlternateApproval].[DocID] AS [DocID], 
+    [vw_Documents4AlternateApproval].[DocType] AS [DocType], 
+    [vw_Documents4AlternateApproval].[DocNo] AS [DocNo], 
+    [vw_Documents4AlternateApproval].[NetPrice] AS [NetPrice], 
+    [vw_Documents4AlternateApproval].[Currency] AS [Currency], 
+    [vw_Documents4AlternateApproval].[SubmitBy] AS [SubmitBy], 
+    [vw_Documents4AlternateApproval].[SubmitDate] AS [SubmitDate], 
+    [vw_Documents4AlternateApproval].[ApprovalSubmitDate] AS [ApprovalSubmitDate], 
+    [vw_Documents4AlternateApproval].[ApprovalSubmitBy] AS [ApprovalSubmitBy], 
+    [vw_Documents4AlternateApproval].[Status] AS [Status], 
+    [vw_Documents4AlternateApproval].[AttachDoc] AS [AttachDoc], 
+    [vw_Documents4AlternateApproval].[AddAttachDoc1] AS [AddAttachDoc1], 
+    [vw_Documents4AlternateApproval].[AddAttachDoc2] AS [AddAttachDoc2], 
+    [vw_Documents4AlternateApproval].[AddAttachDoc3] AS [AddAttachDoc3], 
+    [vw_Documents4AlternateApproval].[VendorCode] AS [VendorCode], 
+    [vw_Documents4AlternateApproval].[VendorName] AS [VendorName], 
+    [vw_Documents4AlternateApproval].[VendorCategory] AS [VendorCategory], 
+    [vw_Documents4AlternateApproval].[IssueBy] AS [IssueBy], 
+    [vw_Documents4AlternateApproval].[DocNetPrice] AS [DocNetPrice], 
+    [vw_Documents4AlternateApproval].[PRNumbers] AS [PRNumbers], 
+    [vw_Documents4AlternateApproval].[PRAmount] AS [PRAmount], 
+    [vw_Documents4AlternateApproval].[PriorityCode] AS [PriorityCode], 
+    [vw_Documents4AlternateApproval].[ERPAttachment] AS [ERPAttachment], 
+    [vw_Documents4AlternateApproval].[UpdateDate] AS [UpdateDate], 
+    [vw_Documents4AlternateApproval].[RFQRefNo] AS [RFQRefNo], 
+    [vw_Documents4AlternateApproval].[LastApprovalSubmitBy] AS [LastApprovalSubmitBy], 
+    [vw_Documents4AlternateApproval].[LastApprovalSubmitDate] AS [LastApprovalSubmitDate], 
+    [vw_Documents4AlternateApproval].[UpdateBy] AS [UpdateBy], 
+    [vw_Documents4AlternateApproval].[WorkFlowID] AS [WorkFlowID], 
+    [vw_Documents4AlternateApproval].[ApprovePerson] AS [ApprovePerson], 
+    [vw_Documents4AlternateApproval].[Alternate1] AS [Alternate1], 
+    [vw_Documents4AlternateApproval].[Alternate2] AS [Alternate2], 
+    [vw_Documents4AlternateApproval].[WorkFlowStatus] AS [WorkFlowStatus], 
+    [vw_Documents4AlternateApproval].[WorkFlowSubmitDate] AS [WorkFlowSubmitDate], 
+    [vw_Documents4AlternateApproval].[AlternateApprover] AS [AlternateApprover], 
+    [vw_Documents4AlternateApproval].[ApproveBy] AS [ApproveBy], 
+    [vw_Documents4AlternateApproval].[ApproveDate] AS [ApproveDate], 
+    [vw_Documents4AlternateApproval].[RejectBy] AS [RejectBy], 
+    [vw_Documents4AlternateApproval].[RejectDate] AS [RejectDate], 
+    [vw_Documents4AlternateApproval].[Approver] AS [Approver], 
+    [vw_Documents4AlternateApproval].[StartDate] AS [StartDate], 
+    [vw_Documents4AlternateApproval].[Enddate] AS [Enddate], 
+    [vw_Documents4AlternateApproval].[ApprovalLevel] AS [ApprovalLevel]
+    FROM [dbo].[vw_Documents4AlternateApproval] AS [vw_Documents4AlternateApproval]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_Documents4Approval" EntityType="Self.vw_Documents4Approval" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_Documents4Approval].[DocID] AS [DocID], 
+    [vw_Documents4Approval].[DocType] AS [DocType], 
+    [vw_Documents4Approval].[DocNo] AS [DocNo], 
+    [vw_Documents4Approval].[NetPrice] AS [NetPrice], 
+    [vw_Documents4Approval].[Currency] AS [Currency], 
+    [vw_Documents4Approval].[SubmitBy] AS [SubmitBy], 
+    [vw_Documents4Approval].[SubmitDate] AS [SubmitDate], 
+    [vw_Documents4Approval].[ApprovalSubmitDate] AS [ApprovalSubmitDate], 
+    [vw_Documents4Approval].[ApprovalSubmitBy] AS [ApprovalSubmitBy], 
+    [vw_Documents4Approval].[Status] AS [Status], 
+    [vw_Documents4Approval].[AttachDoc] AS [AttachDoc], 
+    [vw_Documents4Approval].[AddAttachDoc1] AS [AddAttachDoc1], 
+    [vw_Documents4Approval].[AddAttachDoc2] AS [AddAttachDoc2], 
+    [vw_Documents4Approval].[AddAttachDoc3] AS [AddAttachDoc3], 
+    [vw_Documents4Approval].[VendorCode] AS [VendorCode], 
+    [vw_Documents4Approval].[VendorName] AS [VendorName], 
+    [vw_Documents4Approval].[VendorCategory] AS [VendorCategory], 
+    [vw_Documents4Approval].[IssueBy] AS [IssueBy], 
+    [vw_Documents4Approval].[DocNetPrice] AS [DocNetPrice], 
+    [vw_Documents4Approval].[PRNumbers] AS [PRNumbers], 
+    [vw_Documents4Approval].[PRAmount] AS [PRAmount], 
+    [vw_Documents4Approval].[PriorityCode] AS [PriorityCode], 
+    [vw_Documents4Approval].[ERPAttachment] AS [ERPAttachment], 
+    [vw_Documents4Approval].[UpdateDate] AS [UpdateDate], 
+    [vw_Documents4Approval].[RFQRefNo] AS [RFQRefNo], 
+    [vw_Documents4Approval].[LastApprovalSubmitBy] AS [LastApprovalSubmitBy], 
+    [vw_Documents4Approval].[LastApprovalSubmitDate] AS [LastApprovalSubmitDate], 
+    [vw_Documents4Approval].[UpdateBy] AS [UpdateBy], 
+    [vw_Documents4Approval].[WorkFlowID] AS [WorkFlowID], 
+    [vw_Documents4Approval].[ApprovePerson] AS [ApprovePerson], 
+    [vw_Documents4Approval].[Alternate1] AS [Alternate1], 
+    [vw_Documents4Approval].[Alternate2] AS [Alternate2], 
+    [vw_Documents4Approval].[WorkFlowStatus] AS [WorkFlowStatus], 
+    [vw_Documents4Approval].[WorkFlowSubmitDate] AS [WorkFlowSubmitDate], 
+    [vw_Documents4Approval].[AlternateApprover] AS [AlternateApprover], 
+    [vw_Documents4Approval].[ApproveBy] AS [ApproveBy], 
+    [vw_Documents4Approval].[ApproveDate] AS [ApproveDate], 
+    [vw_Documents4Approval].[RejectBy] AS [RejectBy], 
+    [vw_Documents4Approval].[RejectDate] AS [RejectDate], 
+    [vw_Documents4Approval].[Approver] AS [Approver], 
+    [vw_Documents4Approval].[ApprovalLevel] AS [ApprovalLevel]
+    FROM [dbo].[vw_Documents4Approval] AS [vw_Documents4Approval]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_ERP_CostCentre" EntityType="Self.vw_ERP_CostCentre" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_ERP_CostCentre].[CostCentreID] AS [CostCentreID], 
+    [vw_ERP_CostCentre].[CostCentreCode] AS [CostCentreCode], 
+    [vw_ERP_CostCentre].[CostCentreAbbrevation] AS [CostCentreAbbrevation], 
+    [vw_ERP_CostCentre].[CostCentreDescription] AS [CostCentreDescription]
+    FROM [dbo].[vw_ERP_CostCentre] AS [vw_ERP_CostCentre]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_ERP_CostCentreBudget" EntityType="Self.vw_ERP_CostCentreBudget" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_ERP_CostCentreBudget].[Object] AS [Object], 
+    [vw_ERP_CostCentreBudget].[ObjectNo] AS [ObjectNo], 
+    [vw_ERP_CostCentreBudget].[ObjectDesc] AS [ObjectDesc], 
+    [vw_ERP_CostCentreBudget].[GLCode] AS [GLCode], 
+    [vw_ERP_CostCentreBudget].[GLDesc] AS [GLDesc], 
+    [vw_ERP_CostCentreBudget].[BudgetedAmount] AS [BudgetedAmount], 
+    [vw_ERP_CostCentreBudget].[ApprovedBudgetAmount] AS [ApprovedBudgetAmount], 
+    [vw_ERP_CostCentreBudget].[SupplementaryBudget1Approved] AS [SupplementaryBudget1Approved], 
+    [vw_ERP_CostCentreBudget].[SupplementaryBudget2Approved] AS [SupplementaryBudget2Approved], 
+    [vw_ERP_CostCentreBudget].[CommitedAmount] AS [CommitedAmount], 
+    [vw_ERP_CostCentreBudget].[ActualAmount] AS [ActualAmount]
+    FROM [dbo].[vw_ERP_CostCentreBudget] AS [vw_ERP_CostCentreBudget]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_ERP_FujitecActiveContrItem" EntityType="Self.vw_ERP_FujitecActiveContrItem" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_ERP_FujitecActiveContrItem].[BuildingUnitID] AS [BuildingUnitID], 
+    [vw_ERP_FujitecActiveContrItem].[ContrOrg] AS [ContrOrg], 
+    [vw_ERP_FujitecActiveContrItem].[BuildingCode] AS [BuildingCode], 
+    [vw_ERP_FujitecActiveContrItem].[SoldToParty] AS [SoldToParty], 
+    [vw_ERP_FujitecActiveContrItem].[BillToParty] AS [BillToParty], 
+    [vw_ERP_FujitecActiveContrItem].[BuildingName] AS [BuildingName], 
+    [vw_ERP_FujitecActiveContrItem].[AddressLine1] AS [AddressLine1], 
+    [vw_ERP_FujitecActiveContrItem].[AddressLine2] AS [AddressLine2], 
+    [vw_ERP_FujitecActiveContrItem].[PostalCode] AS [PostalCode], 
+    [vw_ERP_FujitecActiveContrItem].[Latitude] AS [Latitude], 
+    [vw_ERP_FujitecActiveContrItem].[Longitude] AS [Longitude], 
+    [vw_ERP_FujitecActiveContrItem].[ContractNo] AS [ContractNo], 
+    [vw_ERP_FujitecActiveContrItem].[ContrType] AS [ContrType], 
+    [vw_ERP_FujitecActiveContrItem].[ServiceStartDate] AS [ServiceStartDate], 
+    [vw_ERP_FujitecActiveContrItem].[ServiceEndDate] AS [ServiceEndDate], 
+    [vw_ERP_FujitecActiveContrItem].[Equipment] AS [Equipment], 
+    [vw_ERP_FujitecActiveContrItem].[SiteBlockUnit] AS [SiteBlockUnit], 
+    [vw_ERP_FujitecActiveContrItem].[ProductTypeName] AS [ProductTypeName], 
+    [vw_ERP_FujitecActiveContrItem].[SoldToPartyName] AS [SoldToPartyName], 
+    [vw_ERP_FujitecActiveContrItem].[ParentCustomer] AS [ParentCustomer], 
+    [vw_ERP_FujitecActiveContrItem].[BillToPartyName] AS [BillToPartyName], 
+    [vw_ERP_FujitecActiveContrItem].[NoofService] AS [NoofService], 
+    [vw_ERP_FujitecActiveContrItem].[SalesGroup] AS [SalesGroup], 
+    [vw_ERP_FujitecActiveContrItem].[ChangedOn] AS [ChangedOn]
+    FROM [dbo].[vw_ERP_FujitecActiveContrItem] AS [vw_ERP_FujitecActiveContrItem]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_ERP_Organization" EntityType="Self.vw_ERP_Organization" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_ERP_Organization].[OrganizationID] AS [OrganizationID], 
+    [vw_ERP_Organization].[OrganizationName] AS [OrganizationName], 
+    [vw_ERP_Organization].[OrganizationDescription] AS [OrganizationDescription]
+    FROM [dbo].[vw_ERP_Organization] AS [vw_ERP_Organization]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_ERP_ProjectBudget" EntityType="Self.vw_ERP_ProjectBudget" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_ERP_ProjectBudget].[Object] AS [Object], 
+    [vw_ERP_ProjectBudget].[ObjectNo] AS [ObjectNo], 
+    [vw_ERP_ProjectBudget].[DtlObjectNo] AS [DtlObjectNo], 
+    [vw_ERP_ProjectBudget].[ObjectName] AS [ObjectName], 
+    [vw_ERP_ProjectBudget].[GLCode] AS [GLCode], 
+    [vw_ERP_ProjectBudget].[GLDesc] AS [GLDesc], 
+    [vw_ERP_ProjectBudget].[IsChangeOrderGroup] AS [IsChangeOrderGroup], 
+    [vw_ERP_ProjectBudget].[IsCommanItem] AS [IsCommanItem], 
+    [vw_ERP_ProjectBudget].[ApprovedBudgetAmount] AS [ApprovedBudgetAmount], 
+    [vw_ERP_ProjectBudget].[SupplementaryBudget1Approved] AS [SupplementaryBudget1Approved], 
+    [vw_ERP_ProjectBudget].[SupplementaryBudget2Approved] AS [SupplementaryBudget2Approved], 
+    [vw_ERP_ProjectBudget].[CommitedAmount] AS [CommitedAmount], 
+    [vw_ERP_ProjectBudget].[ActualAmount] AS [ActualAmount]
+    FROM [dbo].[vw_ERP_ProjectBudget] AS [vw_ERP_ProjectBudget]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_ERP_SalesGroupBudget" EntityType="Self.vw_ERP_SalesGroupBudget" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_ERP_SalesGroupBudget].[Object] AS [Object], 
+    [vw_ERP_SalesGroupBudget].[ObjectNo] AS [ObjectNo], 
+    [vw_ERP_SalesGroupBudget].[ObjectName] AS [ObjectName], 
+    [vw_ERP_SalesGroupBudget].[GLCode] AS [GLCode], 
+    [vw_ERP_SalesGroupBudget].[GLDesc] AS [GLDesc], 
+    [vw_ERP_SalesGroupBudget].[ApprovedBudgetAmount] AS [ApprovedBudgetAmount], 
+    [vw_ERP_SalesGroupBudget].[SupplementaryBudget1Approved] AS [SupplementaryBudget1Approved], 
+    [vw_ERP_SalesGroupBudget].[SupplementaryBudget2Approved] AS [SupplementaryBudget2Approved], 
+    [vw_ERP_SalesGroupBudget].[CommitedAmount] AS [CommitedAmount], 
+    [vw_ERP_SalesGroupBudget].[ActualAmount] AS [ActualAmount]
+    FROM [dbo].[vw_ERP_SalesGroupBudget] AS [vw_ERP_SalesGroupBudget]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_ERP_ServiceSOA" EntityType="Self.vw_ERP_ServiceSOA" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_ERP_ServiceSOA].[LogID] AS [LogID], 
+    [vw_ERP_ServiceSOA].[CustomerID] AS [CustomerID], 
+    [vw_ERP_ServiceSOA].[CustomerNO] AS [CustomerNO], 
+    [vw_ERP_ServiceSOA].[CustomerName] AS [CustomerName], 
+    [vw_ERP_ServiceSOA].[OrganizationID] AS [OrganizationID], 
+    [vw_ERP_ServiceSOA].[OrganizationName] AS [OrganizationName], 
+    [vw_ERP_ServiceSOA].[CutoffDate] AS [CutoffDate], 
+    [vw_ERP_ServiceSOA].[CustomerType] AS [CustomerType], 
+    [vw_ERP_ServiceSOA].[ParentCustomerName] AS [ParentCustomerName], 
+    [vw_ERP_ServiceSOA].[SOAStatus] AS [SOAStatus], 
+    [vw_ERP_ServiceSOA].[SOAGenStatus] AS [SOAGenStatus], 
+    [vw_ERP_ServiceSOA].[IsSOAIssued] AS [IsSOAIssued], 
+    [vw_ERP_ServiceSOA].[SOAIssuedBy] AS [SOAIssuedBy], 
+    [vw_ERP_ServiceSOA].[SOAIssuedDate] AS [SOAIssuedDate], 
+    [vw_ERP_ServiceSOA].[SOAFileName] AS [SOAFileName], 
+    [vw_ERP_ServiceSOA].[email_address] AS [email_address], 
+    [vw_ERP_ServiceSOA].[CCemail_address] AS [CCemail_address], 
+    [vw_ERP_ServiceSOA].[EmailID] AS [EmailID], 
+    [vw_ERP_ServiceSOA].[UpdateBy] AS [UpdateBy], 
+    [vw_ERP_ServiceSOA].[UpdateDate] AS [UpdateDate]
+    FROM [dbo].[vw_ERP_ServiceSOA] AS [vw_ERP_ServiceSOA]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_ERP_ServiceTaxInvoice" EntityType="Self.vw_ERP_ServiceTaxInvoice" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_ERP_ServiceTaxInvoice].[LogID] AS [LogID], 
+    [vw_ERP_ServiceTaxInvoice].[InvoiceNo] AS [InvoiceNo], 
+    [vw_ERP_ServiceTaxInvoice].[InvoiceType] AS [InvoiceType], 
+    [vw_ERP_ServiceTaxInvoice].[Organization] AS [Organization], 
+    [vw_ERP_ServiceTaxInvoice].[Period] AS [Period], 
+    [vw_ERP_ServiceTaxInvoice].[InvoiceDate] AS [InvoiceDate], 
+    [vw_ERP_ServiceTaxInvoice].[CustomerNo] AS [CustomerNo], 
+    [vw_ERP_ServiceTaxInvoice].[CustomerName] AS [CustomerName], 
+    [vw_ERP_ServiceTaxInvoice].[InvoiceAmount] AS [InvoiceAmount], 
+    [vw_ERP_ServiceTaxInvoice].[Currency] AS [Currency], 
+    [vw_ERP_ServiceTaxInvoice].[InvoiceStatus] AS [InvoiceStatus], 
+    [vw_ERP_ServiceTaxInvoice].[DocGenStatus] AS [DocGenStatus], 
+    [vw_ERP_ServiceTaxInvoice].[InvoiceGenStatus] AS [InvoiceGenStatus], 
+    [vw_ERP_ServiceTaxInvoice].[IsInvoiceIssued] AS [IsInvoiceIssued], 
+    [vw_ERP_ServiceTaxInvoice].[InvoiceIssuedBy] AS [InvoiceIssuedBy], 
+    [vw_ERP_ServiceTaxInvoice].[InvoiceIssuedDate] AS [InvoiceIssuedDate], 
+    [vw_ERP_ServiceTaxInvoice].[EmailID] AS [EmailID], 
+    [vw_ERP_ServiceTaxInvoice].[UpdateBy] AS [UpdateBy], 
+    [vw_ERP_ServiceTaxInvoice].[UpdateDate] AS [UpdateDate]
+    FROM [dbo].[vw_ERP_ServiceTaxInvoice] AS [vw_ERP_ServiceTaxInvoice]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_ERP_tbl_Customeremail" EntityType="Self.vw_ERP_tbl_Customeremail" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_ERP_tbl_Customeremail].[CustomerName] AS [CustomerName], 
+    [vw_ERP_tbl_Customeremail].[OrganizationName] AS [OrganizationName], 
+    [vw_ERP_tbl_Customeremail].[CustomerCode] AS [CustomerCode], 
+    [vw_ERP_tbl_Customeremail].[email_address] AS [email_address], 
+    [vw_ERP_tbl_Customeremail].[CCemail_Address] AS [CCemail_Address], 
+    [vw_ERP_tbl_Customeremail].[Remarks] AS [Remarks], 
+    [vw_ERP_tbl_Customeremail].[Exclude_EInvoice] AS [Exclude_EInvoice], 
+    [vw_ERP_tbl_Customeremail].[Exclude_SOA] AS [Exclude_SOA], 
+    [vw_ERP_tbl_Customeremail].[Updateuser] AS [Updateuser], 
+    [vw_ERP_tbl_Customeremail].[SOAemail_address] AS [SOAemail_address], 
+    [vw_ERP_tbl_Customeremail].[SOACCemail_Address] AS [SOACCemail_Address]
+    FROM [dbo].[vw_ERP_tbl_Customeremail] AS [vw_ERP_tbl_Customeremail]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_ERP_UserDetails" EntityType="Self.vw_ERP_UserDetails" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_ERP_UserDetails].[UserId] AS [UserId], 
+    [vw_ERP_UserDetails].[Role] AS [Role], 
+    [vw_ERP_UserDetails].[DivisionCode] AS [DivisionCode], 
+    [vw_ERP_UserDetails].[DeptCode] AS [DeptCode], 
+    [vw_ERP_UserDetails].[IsDeleted] AS [IsDeleted], 
+    [vw_ERP_UserDetails].[CreateDate] AS [CreateDate], 
+    [vw_ERP_UserDetails].[CreateBy] AS [CreateBy], 
+    [vw_ERP_UserDetails].[FirstName] AS [FirstName], 
+    [vw_ERP_UserDetails].[LastName] AS [LastName], 
+    [vw_ERP_UserDetails].[Password] AS [Password], 
+    [vw_ERP_UserDetails].[OrganizationName] AS [OrganizationName], 
+    [vw_ERP_UserDetails].[Email] AS [Email], 
+    [vw_ERP_UserDetails].[DepartmentName] AS [DepartmentName], 
+    [vw_ERP_UserDetails].[DesignationName] AS [DesignationName]
+    FROM [dbo].[vw_ERP_UserDetails] AS [vw_ERP_UserDetails]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_ERP_WarehouseBudget" EntityType="Self.vw_ERP_WarehouseBudget" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_ERP_WarehouseBudget].[Object] AS [Object], 
+    [vw_ERP_WarehouseBudget].[ObjectNo] AS [ObjectNo], 
+    [vw_ERP_WarehouseBudget].[ObjectDesc] AS [ObjectDesc], 
+    [vw_ERP_WarehouseBudget].[GLCode] AS [GLCode], 
+    [vw_ERP_WarehouseBudget].[GLDesc] AS [GLDesc], 
+    [vw_ERP_WarehouseBudget].[ApprovedBudgetAmount] AS [ApprovedBudgetAmount], 
+    [vw_ERP_WarehouseBudget].[SupplementaryBudget1Approved] AS [SupplementaryBudget1Approved], 
+    [vw_ERP_WarehouseBudget].[SupplementaryBudget2Approved] AS [SupplementaryBudget2Approved], 
+    [vw_ERP_WarehouseBudget].[CommitedAmount] AS [CommitedAmount], 
+    [vw_ERP_WarehouseBudget].[ActualAmount] AS [ActualAmount]
+    FROM [dbo].[vw_ERP_WarehouseBudget] AS [vw_ERP_WarehouseBudget]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_tbl_DocumentBudget" EntityType="Self.vw_tbl_DocumentBudget" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_tbl_DocumentBudget].[DocID] AS [DocID], 
+    [vw_tbl_DocumentBudget].[SequenceNo] AS [SequenceNo], 
+    [vw_tbl_DocumentBudget].[Object] AS [Object], 
+    [vw_tbl_DocumentBudget].[ObjectNo] AS [ObjectNo], 
+    [vw_tbl_DocumentBudget].[ObjectName] AS [ObjectName], 
+    [vw_tbl_DocumentBudget].[AccountNo] AS [AccountNo], 
+    [vw_tbl_DocumentBudget].[OrginalBudget] AS [OrginalBudget], 
+    [vw_tbl_DocumentBudget].[CommitBudget] AS [CommitBudget], 
+    [vw_tbl_DocumentBudget].[ActualBudget] AS [ActualBudget], 
+    [vw_tbl_DocumentBudget].[SuppBudget] AS [SuppBudget], 
+    [vw_tbl_DocumentBudget].[BalBudget] AS [BalBudget], 
+    [vw_tbl_DocumentBudget].[ThisExp] AS [ThisExp], 
+    [vw_tbl_DocumentBudget].[DocNo] AS [DocNo]
+    FROM [dbo].[vw_tbl_DocumentBudget] AS [vw_tbl_DocumentBudget]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vw_tbl_DocumentDetails" EntityType="Self.vw_tbl_DocumentDetails" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [vw_tbl_DocumentDetails].[DocID] AS [DocID], 
+    [vw_tbl_DocumentDetails].[DocNo] AS [DocNo], 
+    [vw_tbl_DocumentDetails].[SequenceNo] AS [SequenceNo], 
+    [vw_tbl_DocumentDetails].[ItemNo] AS [ItemNo], 
+    [vw_tbl_DocumentDetails].[ItemDescription] AS [ItemDescription], 
+    [vw_tbl_DocumentDetails].[CostObject] AS [CostObject], 
+    [vw_tbl_DocumentDetails].[CostObjectNo] AS [CostObjectNo], 
+    [vw_tbl_DocumentDetails].[SourceObject] AS [SourceObject], 
+    [vw_tbl_DocumentDetails].[SourceObjectNo] AS [SourceObjectNo], 
+    [vw_tbl_DocumentDetails].[SalesGroupNo] AS [SalesGroupNo], 
+    [vw_tbl_DocumentDetails].[AccountNo] AS [AccountNo], 
+    [vw_tbl_DocumentDetails].[Quantity] AS [Quantity], 
+    [vw_tbl_DocumentDetails].[UnitPrice] AS [UnitPrice], 
+    [vw_tbl_DocumentDetails].[Currency] AS [Currency], 
+    [vw_tbl_DocumentDetails].[NetPrice] AS [NetPrice], 
+    [vw_tbl_DocumentDetails].[NetPriceLocal] AS [NetPriceLocal], 
+    [vw_tbl_DocumentDetails].[CostCenter] AS [CostCenter], 
+    [vw_tbl_DocumentDetails].[VendorCode] AS [VendorCode], 
+    [vw_tbl_DocumentDetails].[VendorName] AS [VendorName], 
+    [vw_tbl_DocumentDetails].[VendorCategory] AS [VendorCategory], 
+    [vw_tbl_DocumentDetails].[UOM] AS [UOM], 
+    [vw_tbl_DocumentDetails].[RequiredOn] AS [RequiredOn], 
+    [vw_tbl_DocumentDetails].[PRNO] AS [PRNO], 
+    [vw_tbl_DocumentDetails].[Warehouse] AS [Warehouse]
+    FROM [dbo].[vw_tbl_DocumentDetails] AS [vw_tbl_DocumentDetails]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK__tbl_DocMe__Merge__58671BC9" Association="Self.FK__tbl_DocMe__Merge__58671BC9">
+      <End Role="tbl_DocMergeHeader" EntitySet="tbl_DocMergeHeader" />
+      <End Role="tbl_DocMergeDetails" EntitySet="tbl_DocMergeDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tbl_DocMe__SumDo__4EDDB18F" Association="Self.FK__tbl_DocMe__SumDo__4EDDB18F">
+      <End Role="tbl_Documents" EntitySet="tbl_Documents" />
+      <End Role="tbl_DocMergeHeader" EntitySet="tbl_DocMergeHeader" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tbl_DocMe__SumDo__595B4002" Association="Self.FK__tbl_DocMe__SumDo__595B4002">
+      <End Role="tbl_Documents" EntitySet="tbl_Documents" />
+      <End Role="tbl_DocMergeDetails" EntitySet="tbl_DocMergeDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tbl_RFQAt__Quote__73501C2F" Association="Self.FK__tbl_RFQAt__Quote__73501C2F">
+      <End Role="tbl_RequestForQuotation" EntitySet="tbl_RequestForQuotation" />
+      <End Role="tbl_RFQAttachments" EntitySet="tbl_RFQAttachments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DocId_DocumentWorkFlow" Association="Self.FK_DocId_DocumentWorkFlow">
+      <End Role="tbl_Documents" EntitySet="tbl_Documents" />
+      <End Role="tbl_DocumentWorkFlow" EntitySet="tbl_DocumentWorkFlow" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

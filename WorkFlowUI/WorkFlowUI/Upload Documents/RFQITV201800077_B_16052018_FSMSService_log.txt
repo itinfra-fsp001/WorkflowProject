@@ -1,0 +1,281 @@
+16/05/2018 10:02:19 AM 	Service Started
+16/05/2018 10:02:25 AM	 Service Called Enter
+16-05-2018 10:02:25 AM 	 processJobs 	 Started
+16-05-2018 10:02:25 AM 	 getNewJobs 	 Started
+16/05/2018 10:02:31 AM	 Service Called Enter
+16-05-2018 10:02:31 AM 	 processJobs 	 Started
+16-05-2018 10:02:31 AM 	 getNewJobs 	 Started
+16/05/2018 10:02:37 AM	 Service Called Enter
+16-05-2018 10:02:37 AM 	 processJobs 	 Started
+16-05-2018 10:02:37 AM 	 getNewJobs 	 Started
+16/05/2018 10:02:43 AM	 Service Called Enter
+16-05-2018 10:02:43 AM 	 processJobs 	 Started
+16-05-2018 10:02:43 AM 	 getNewJobs 	 Started
+16/05/2018 10:02:50 AM	 Service Called Enter
+16-05-2018 10:02:50 AM 	 processJobs 	 Started
+16-05-2018 10:02:50 AM 	 getNewJobs 	 Started
+16/05/2018 10:02:57 AM	 Service Called Enter
+16-05-2018 10:02:57 AM 	 processJobs 	 Started
+16-05-2018 10:02:57 AM 	 getNewJobs 	 Started
+16/05/2018 10:03:04 AM	 Service Called Enter
+16-05-2018 10:03:04 AM 	 processJobs 	 Started
+16-05-2018 10:03:04 AM 	 getNewJobs 	 Started
+16/05/2018 10:03:11 AM	 Service Called Enter
+16-05-2018 10:03:11 AM 	 processJobs 	 Started
+16-05-2018 10:03:11 AM 	 getNewJobs 	 Started
+16/05/2018 10:03:18 AM	 Service Called Enter
+16-05-2018 10:03:18 AM 	 processJobs 	 Started
+16-05-2018 10:03:18 AM 	 getNewJobs 	 Started
+16/05/2018 10:03:25 AM	 Service Called Enter
+16-05-2018 10:03:25 AM 	 processJobs 	 Started
+16-05-2018 10:03:25 AM 	 getNewJobs 	 Started
+16/05/2018 10:03:32 AM	 Service Called Enter
+16-05-2018 10:03:32 AM 	 processJobs 	 Started
+16-05-2018 10:03:32 AM 	 getNewJobs 	 Started
+16/05/2018 10:03:39 AM	 Service Called Enter
+16-05-2018 10:03:39 AM 	 processJobs 	 Started
+16-05-2018 10:03:39 AM 	 getNewJobs 	 Started
+16/05/2018 10:03:46 AM	 Service Called Enter
+16-05-2018 10:03:46 AM 	 processJobs 	 Started
+16-05-2018 10:03:46 AM 	 getNewJobs 	 Started
+16/05/2018 10:03:53 AM	 Service Called Enter
+16-05-2018 10:03:53 AM 	 processJobs 	 Started
+16-05-2018 10:03:53 AM 	 getNewJobs 	 Started
+16/05/2018 10:04:01 AM	 Service Called Enter
+16-05-2018 10:04:01 AM 	 processJobs 	 Started
+16-05-2018 10:04:01 AM 	 getNewJobs 	 Started
+16/05/2018 10:04:08 AM	 Service Called Enter
+16-05-2018 10:04:08 AM 	 processJobs 	 Started
+16-05-2018 10:04:08 AM 	 getNewJobs 	 Started
+16/05/2018 10:04:15 AM	 Service Called Enter
+16-05-2018 10:04:15 AM 	 processJobs 	 Started
+16-05-2018 10:04:15 AM 	 getNewJobs 	 Started
+16/05/2018 10:04:22 AM	 Service Called Enter
+16-05-2018 10:04:22 AM 	 processJobs 	 Started
+16-05-2018 10:04:22 AM 	 getNewJobs 	 Started
+16/05/2018 10:04:29 AM	 Service Called Enter
+16-05-2018 10:04:29 AM 	 processJobs 	 Started
+16-05-2018 10:04:29 AM 	 getNewJobs 	 Started
+16/05/2018 10:04:36 AM	 Service Called Enter
+16-05-2018 10:04:36 AM 	 processJobs 	 Started
+16-05-2018 10:04:36 AM 	 getNewJobs 	 Started
+16/05/2018 10:04:43 AM	 Service Called Enter
+16-05-2018 10:04:43 AM 	 processJobs 	 Started
+16-05-2018 10:04:43 AM 	 getNewJobs 	 Started
+16/05/2018 10:04:50 AM	 Service Called Enter
+16-05-2018 10:04:50 AM 	 processJobs 	 Started
+16-05-2018 10:04:50 AM 	 getNewJobs 	 Started
+16/05/2018 10:04:57 AM	 Service Called Enter
+16-05-2018 10:04:57 AM 	 processJobs 	 Started
+16-05-2018 10:04:57 AM 	 getNewJobs 	 Started
+16/05/2018 10:05:04 AM	 Service Called Enter
+16-05-2018 10:05:04 AM 	 processJobs 	 Started
+16-05-2018 10:05:04 AM 	 getNewJobs 	 Started
+16/05/2018 10:05:11 AM	 Service Called Enter
+16-05-2018 10:05:11 AM 	 processJobs 	 Started
+16-05-2018 10:05:11 AM 	 getNewJobs 	 Started
+16/05/2018 10:05:18 AM	 Service Called Enter
+16-05-2018 10:05:18 AM 	 processJobs 	 Started
+16-05-2018 10:05:18 AM 	 getNewJobs 	 Started
+16/05/2018 10:05:25 AM	 Service Called Enter
+16-05-2018 10:05:25 AM 	 processJobs 	 Started
+16-05-2018 10:05:25 AM 	 getNewJobs 	 Started
+16/05/2018 10:05:32 AM	 Service Called Enter
+16-05-2018 10:05:32 AM 	 processJobs 	 Started
+16-05-2018 10:05:32 AM 	 getNewJobs 	 Started
+16/05/2018 10:05:38 AM	 Service Called Enter
+16-05-2018 10:05:38 AM 	 processJobs 	 Started
+16-05-2018 10:05:38 AM 	 getNewJobs 	 Started
+16/05/2018 10:05:45 AM	 Service Called Enter
+16-05-2018 10:05:45 AM 	 processJobs 	 Started
+16-05-2018 10:05:45 AM 	 getNewJobs 	 Started
+16/05/2018 10:05:52 AM	 Service Called Enter
+16-05-2018 10:05:52 AM 	 processJobs 	 Started
+16-05-2018 10:05:52 AM 	 getNewJobs 	 Started
+16/05/2018 10:05:59 AM	 Service Called Enter
+16-05-2018 10:05:59 AM 	 processJobs 	 Started
+16-05-2018 10:05:59 AM 	 getNewJobs 	 Started
+16/05/2018 10:06:07 AM	 Service Called Enter
+16-05-2018 10:06:07 AM 	 processJobs 	 Started
+16-05-2018 10:06:07 AM 	 getNewJobs 	 Started
+16/05/2018 10:06:14 AM	 Service Called Enter
+16-05-2018 10:06:14 AM 	 processJobs 	 Started
+16-05-2018 10:06:14 AM 	 getNewJobs 	 Started
+16/05/2018 10:06:21 AM	 Service Called Enter
+16-05-2018 10:06:21 AM 	 processJobs 	 Started
+16-05-2018 10:06:21 AM 	 getNewJobs 	 Started
+16-05-2018 10:06:25 AM 	 getNewJobs 	 Exception : A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: SQL Network Interfaces, error: 26 - Error Locating Server/Instance Specified)
+16-05-2018 10:06:25 AM 	 processJobs 	 Exception : The process cannot access the file 'C:\16052018_FSMSService_log.txt' because it is being used by another process.
+16/05/2018 10:06:25 AM 	Service Called Exit
+16-05-2018 10:06:25 AM 	 getNewJobs 	 Exception : A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: SQL Network Interfaces, error: 26 - Error Locating Server/Instance Specified)
+16-05-2018 10:06:25 AM 	 processJobs 	 Exception : The process cannot access the file 'C:\16052018_FSMSService_log.txt' because it is being used by another process.
+16-05-2018 10:06:25 AM 	 getNewJobs 	 Exception : A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: SQL Network Interfaces, error: 26 - Error Locating Server/Instance Specified)
+16-05-2018 10:06:25 AM 	 getNewJobs 	 Exception : A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: SQL Network Interfaces, error: 26 - Error Locating Server/Instance Specified)
+16-05-2018 10:06:25 AM 	 getNewJobs 	 Exception : A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: SQL Network Interfaces, error: 26 - Error Locating Server/Instance Specified)
+16-05-2018 10:06:25 AM 	 getNewJobs 	 Exception : A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: SQL Network Interfaces, error: 26 - Error Locating Server/Instance Specified)
+16-05-2018 10:06:25 AM 	 processJobs 	 Exception : The process cannot access the file 'C:\16052018_FSMSService_log.txt' because it is being used by another process.
+16-05-2018 10:06:25 AM 	 processJobs 	 Exception : The process cannot access the file 'C:\16052018_FSMSService_log.txt' because it is being used by another process.
+16-05-2018 10:06:25 AM 	 processJobs 	 Exception : Object reference not set to an instance of an object.
+16/05/2018 10:06:25 AM 	Service Called Exit
+16/05/2018 10:06:27 AM	 Service Called Enter
+16-05-2018 10:06:27 AM 	 processJobs 	 Started
+16-05-2018 10:06:27 AM 	 getNewJobs 	 Started
+16-05-2018 10:06:27 AM 	 getNewJobs 	 Exception : A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: SQL Network Interfaces, error: 26 - Error Locating Server/Instance Specified)
+16-05-2018 10:06:27 AM 	 processJobs 	 Exception : Object reference not set to an instance of an object.
+16/05/2018 10:06:27 AM 	Service Called Exit
+16/05/2018 10:06:33 AM	 Service Called Enter
+16-05-2018 10:06:33 AM 	 processJobs 	 Started
+16-05-2018 10:06:33 AM 	 getNewJobs 	 Started
+16/05/2018 10:06:39 AM	 Service Called Enter
+16-05-2018 10:06:39 AM 	 processJobs 	 Started
+16-05-2018 10:06:39 AM 	 getNewJobs 	 Started
+16/05/2018 10:06:45 AM	 Service Called Enter
+16-05-2018 10:06:45 AM 	 processJobs 	 Started
+16-05-2018 10:06:45 AM 	 getNewJobs 	 Started
+16/05/2018 10:06:51 AM	 Service Called Enter
+16-05-2018 10:06:51 AM 	 processJobs 	 Started
+16-05-2018 10:06:51 AM 	 getNewJobs 	 Started
+16/05/2018 10:06:57 AM	 Service Called Enter
+16-05-2018 10:06:57 AM 	 processJobs 	 Started
+16-05-2018 10:06:57 AM 	 getNewJobs 	 Started
+16/05/2018 10:07:03 AM	 Service Called Enter
+16-05-2018 10:07:03 AM 	 processJobs 	 Started
+16-05-2018 10:07:03 AM 	 getNewJobs 	 Started
+16/05/2018 10:07:10 AM	 Service Called Enter
+16-05-2018 10:07:10 AM 	 processJobs 	 Started
+16-05-2018 10:07:10 AM 	 getNewJobs 	 Started
+16/05/2018 10:07:17 AM	 Service Called Enter
+16-05-2018 10:07:17 AM 	 processJobs 	 Started
+16-05-2018 10:07:17 AM 	 getNewJobs 	 Started
+16/05/2018 10:07:24 AM	 Service Called Enter
+16-05-2018 10:07:24 AM 	 processJobs 	 Started
+16-05-2018 10:07:24 AM 	 getNewJobs 	 Started
+16/05/2018 10:07:30 AM	 Service Called Enter
+16-05-2018 10:07:30 AM 	 processJobs 	 Started
+16-05-2018 10:07:30 AM 	 getNewJobs 	 Started
+16/05/2018 10:07:37 AM	 Service Called Enter
+16-05-2018 10:07:37 AM 	 processJobs 	 Started
+16-05-2018 10:07:37 AM 	 getNewJobs 	 Started
+16/05/2018 10:07:52 AM	 Service Called Enter
+16-05-2018 10:08:30 AM 	 processJobs 	 Started
+16-05-2018 10:08:33 AM 	 getNewJobs 	 Started
+16/05/2018 10:08:53 AM	 Service Called Enter
+16-05-2018 10:08:53 AM 	 processJobs 	 Started
+16-05-2018 10:08:53 AM 	 getNewJobs 	 Started
+16/05/2018 10:08:54 AM	 Service Called Enter
+16-05-2018 10:08:54 AM 	 processJobs 	 Started
+16-05-2018 10:08:54 AM 	 getNewJobs 	 Started
+16/05/2018 10:09:00 AM	 Service Called Enter
+16-05-2018 10:09:00 AM 	 processJobs 	 Started
+16-05-2018 10:09:00 AM 	 getNewJobs 	 Started
+16/05/2018 10:09:07 AM	 Service Called Enter
+16-05-2018 10:09:07 AM 	 processJobs 	 Started
+16-05-2018 10:09:07 AM 	 getNewJobs 	 Started
+16/05/2018 10:09:14 AM	 Service Called Enter
+16-05-2018 10:09:14 AM 	 processJobs 	 Started
+16-05-2018 10:09:14 AM 	 getNewJobs 	 Started
+16/05/2018 10:09:20 AM	 Service Called Enter
+16-05-2018 10:09:20 AM 	 processJobs 	 Started
+16-05-2018 10:09:20 AM 	 getNewJobs 	 Started
+16/05/2018 10:09:27 AM	 Service Called Enter
+16-05-2018 10:09:27 AM 	 processJobs 	 Started
+16-05-2018 10:09:27 AM 	 getNewJobs 	 Started
+16/05/2018 10:09:34 AM	 Service Called Enter
+16-05-2018 10:09:34 AM 	 processJobs 	 Started
+16-05-2018 10:09:34 AM 	 getNewJobs 	 Started
+16/05/2018 10:09:41 AM	 Service Called Enter
+16-05-2018 10:09:41 AM 	 processJobs 	 Started
+16-05-2018 10:09:41 AM 	 getNewJobs 	 Started
+16/05/2018 10:09:47 AM	 Service Called Enter
+16-05-2018 10:09:47 AM 	 processJobs 	 Started
+16-05-2018 10:09:47 AM 	 getNewJobs 	 Started
+16/05/2018 10:09:54 AM	 Service Called Enter
+16-05-2018 10:09:54 AM 	 processJobs 	 Started
+16-05-2018 10:09:54 AM 	 getNewJobs 	 Started
+16/05/2018 10:10:01 AM	 Service Called Enter
+16-05-2018 10:10:01 AM 	 processJobs 	 Started
+16-05-2018 10:10:01 AM 	 getNewJobs 	 Started
+16/05/2018 10:10:08 AM	 Service Called Enter
+16-05-2018 10:10:08 AM 	 processJobs 	 Started
+16-05-2018 10:10:08 AM 	 getNewJobs 	 Started
+16/05/2018 10:10:15 AM	 Service Called Enter
+16-05-2018 10:10:15 AM 	 processJobs 	 Started
+16-05-2018 10:10:15 AM 	 getNewJobs 	 Started
+16/05/2018 10:10:21 AM	 Service Called Enter
+16-05-2018 10:10:21 AM 	 processJobs 	 Started
+16-05-2018 10:10:21 AM 	 getNewJobs 	 Started
+16/05/2018 10:10:28 AM	 Service Called Enter
+16-05-2018 10:10:28 AM 	 processJobs 	 Started
+16-05-2018 10:10:28 AM 	 getNewJobs 	 Started
+16-05-2018 10:10:34 AM 	 getNewJobs 	 Exception : A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: SQL Network Interfaces, error: 26 - Error Locating Server/Instance Specified)
+16-05-2018 10:10:34 AM 	 processJobs 	 Exception : Object reference not set to an instance of an object.
+16/05/2018 10:10:34 AM 	Service Called Exit
+16-05-2018 10:10:34 AM 	 getNewJobs 	 Exception : A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: SQL Network Interfaces, error: 26 - Error Locating Server/Instance Specified)
+16-05-2018 10:10:34 AM 	 processJobs 	 Exception : Object reference not set to an instance of an object.
+16/05/2018 10:10:34 AM 	Service Called Exit
+16/05/2018 10:10:34 AM	 Service Called Enter
+16-05-2018 10:10:34 AM 	 processJobs 	 Started
+16-05-2018 10:10:34 AM 	 getNewJobs 	 Started
+16/05/2018 10:10:40 AM	 Service Called Enter
+16-05-2018 10:10:40 AM 	 processJobs 	 Started
+16-05-2018 10:10:40 AM 	 getNewJobs 	 Started
+16/05/2018 10:10:46 AM	 Service Called Enter
+16-05-2018 10:10:46 AM 	 processJobs 	 Started
+16-05-2018 10:10:46 AM 	 getNewJobs 	 Started
+16/05/2018 10:10:52 AM	 Service Called Enter
+16-05-2018 10:10:52 AM 	 processJobs 	 Started
+16-05-2018 10:10:52 AM 	 getNewJobs 	 Started
+16-05-2018 10:10:56 AM 	 getNewJobs 	 Exception : A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: SQL Network Interfaces, error: 26 - Error Locating Server/Instance Specified)
+16-05-2018 10:10:56 AM 	 getNewJobs 	 Exception : A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: SQL Network Interfaces, error: 26 - Error Locating Server/Instance Specified)
+16-05-2018 10:10:56 AM 	 processJobs 	 Exception : Object reference not set to an instance of an object.
+16-05-2018 10:10:56 AM 	 getNewJobs 	 Exception : A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: SQL Network Interfaces, error: 26 - Error Locating Server/Instance Specified)
+16-05-2018 10:10:56 AM 	 processJobs 	 Exception : Object reference not set to an instance of an object.
+16/05/2018 10:10:56 AM 	Service Called Exit
+16/05/2018 10:10:58 AM	 Service Called Enter
+16-05-2018 10:10:58 AM 	 processJobs 	 Started
+16-05-2018 10:10:58 AM 	 getNewJobs 	 Started
+16/05/2018 10:11:04 AM	 Service Called Enter
+16-05-2018 10:11:04 AM 	 processJobs 	 Started
+16-05-2018 10:11:04 AM 	 getNewJobs 	 Started
+16/05/2018 10:11:10 AM	 Service Called Enter
+16-05-2018 10:11:10 AM 	 processJobs 	 Started
+16-05-2018 10:11:10 AM 	 getNewJobs 	 Started
+16/05/2018 10:11:16 AM	 Service Called Enter
+16-05-2018 10:11:16 AM 	 processJobs 	 Started
+16-05-2018 10:11:16 AM 	 getNewJobs 	 Started
+16/05/2018 10:11:22 AM	 Service Called Enter
+16-05-2018 10:11:22 AM 	 processJobs 	 Started
+16-05-2018 10:11:22 AM 	 getNewJobs 	 Started
+16/05/2018 10:11:29 AM	 Service Called Enter
+16-05-2018 10:11:29 AM 	 processJobs 	 Started
+16-05-2018 10:11:29 AM 	 getNewJobs 	 Started
+16-05-2018 10:11:30 AM 	 getNewJobs 	 Exception : A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: SQL Network Interfaces, error: 26 - Error Locating Server/Instance Specified)
+16-05-2018 10:11:30 AM 	 processJobs 	 Exception : Object reference not set to an instance of an object.
+16/05/2018 10:11:30 AM 	Service Called Exit
+16/05/2018 10:11:35 AM	 Service Called Enter
+16-05-2018 10:11:35 AM 	 processJobs 	 Started
+16-05-2018 10:11:35 AM 	 getNewJobs 	 Started
+16/05/2018 10:11:41 AM	 Service Called Enter
+16-05-2018 10:11:41 AM 	 processJobs 	 Started
+16-05-2018 10:11:41 AM 	 getNewJobs 	 Started
+16/05/2018 10:11:47 AM	 Service Called Enter
+16-05-2018 10:11:47 AM 	 processJobs 	 Started
+16-05-2018 10:11:47 AM 	 getNewJobs 	 Started
+16/05/2018 10:11:54 AM	 Service Called Enter
+16-05-2018 10:11:54 AM 	 processJobs 	 Started
+16-05-2018 10:11:54 AM 	 getNewJobs 	 Started
+16/05/2018 10:12:01 AM	 Service Called Enter
+16-05-2018 10:12:01 AM 	 processJobs 	 Started
+16-05-2018 10:12:01 AM 	 getNewJobs 	 Started
+16/05/2018 10:12:09 AM	 Service Called Enter
+16-05-2018 10:12:09 AM 	 processJobs 	 Started
+16-05-2018 10:12:09 AM 	 getNewJobs 	 Started
+16/05/2018 10:12:16 AM	 Service Called Enter
+16-05-2018 10:12:16 AM 	 processJobs 	 Started
+16-05-2018 10:12:16 AM 	 getNewJobs 	 Started
+16/05/2018 10:12:22 AM	 Service Called Enter
+16-05-2018 10:12:22 AM 	 processJobs 	 Started
+16-05-2018 10:12:22 AM 	 getNewJobs 	 Started
+16/05/2018 10:12:29 AM	 Service Called Enter
+16-05-2018 10:12:29 AM 	 processJobs 	 Started
+16-05-2018 10:12:29 AM 	 getNewJobs 	 Started

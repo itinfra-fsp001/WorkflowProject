@@ -1,0 +1,10 @@
+C:\Users\itvdev\Downloads\IZWebFileManager-master\IZWebFileManager-master\Demo\Files\My Documents
+C:\Users\itvdev\Downloads\IZWebFileManager-master\IZWebFileManager-master\Demo\Files\My Documents\#Special+Chars$
+
+directory.Parent="Files"
+10/11/2017 13:48:59
+[0]/
+
+Severity	Code	Description	Project	File	Line	Suppression State
+Error	CS1061	'DirectoryInfo' does not contain a definition for 'StartsWith' and no extension method 'StartsWith' accepting a first argument of type 'DirectoryInfo' could be found (are you missing a using directive or an assembly reference?)	WebFileManager	C:\Users\itvdev\Downloads\IZWebFileManager-master\IZWebFileManager-master\IZWebFileManager\Components\DirectoryProvider.cs	78	Active
+

@@ -1,0 +1,228 @@
+﻿@model workWorkFlowUI.ViewModel.SupplimentaryHeaderViewModel
+
+@{
+    ViewBag.Title = "AddNewSup";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (TempData["Msg"] != null)
+{
+    <h3 class="text-danger"> @TempData["Msg"].ToString()</h3>
+}
+
+<style type="text/css">
+
+    dt, dd {
+            line-height: 2.5 !important;
+        }
+
+     dt {
+            text-align: left !important;
+        }
+
+     .ddl{
+         width:250px;
+         margin-bottom:10px;
+     }
+    .txtArea {
+        margin-bottom:10px;
+    }
+</style>
+
+@using (Html.BeginForm("AddSupplementaryHeader", "SupplementaryBudget", FormMethod.Post))
+
+{
+    <h2>Add Supplementary Header</h2>
+
+    <div>
+        @*<h4>Submit Document</h4>*@
+
+        <hr />
+
+        <dl class="dl-horizontal">
+
+            <dt>
+                @Html.DisplayNameFor(model => model.CostCentre)
+                <span class="text-danger">*</span>
+            </dt>
+            <dd>
+                @Html.DropDownListFor(model => model.SelectedCostCentre, Model.CostCentre, "-- Select One --", new { id = "ddlCostCentre", @class = "form-control ddl" })
+                @Html.ValidationMessageFor(model => model.SelectedCostCentre, "", new { @class = "text-danger" })
+            </dd>
+
+
+            <dt>
+                @Html.DisplayNameFor(model => model.CostObjects)
+                <span class="text-danger">*</span>
+            </dt>
+            <dd>
+                @Html.DropDownListFor(model => model.SelectedCostObject, Model.CostObjects, "-- Select One --", new { id = "ddlCostObjects", @class = "form-control ddl" })
+                @Html.ValidationMessageFor(model => model.SelectedCostObject, "", new { @class = "text-danger" })
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ObjectNumbers)
+                <span class="text-danger">*</span>
+            </dt>
+            <dd id="partialObjectNumber">
+                @Html.DropDownListFor(model => model.SelectedObjectNo, Model.ObjectNumbers, "-- Select One --", new { id = "ddlObjectNumber", @class = "form-control ddl" })
+                @Html.ValidationMessageFor(model => model.SelectedObjectNo, "", new { @class = "text-danger" })
+            </dd>
+
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ObjectName)
+                @Html.HiddenFor(model => model.ObjectName, new { id = "ObjectHidName", name = "ObjectHidName" })
+            </dt>
+            <dd id="partialObjectName">
+                @*@Html.LabelFor(model => model.ObjectName, new {  id = "ObjectName", name = "ObjectName" })*@
+                @Html.DisplayFor(model => model.ObjectName, new { @class = "form-control1" })
+            </dd>
+
+
+            <dt id="trVariation" style="display:none">
+                @Html.DisplayNameFor(model => model.SupHeader.VariationOrderNo)
+            </dt>
+            <dd id="trVariation1" style="display:none">
+                @Html.DropDownListFor(model => model.SelectedVarNo, Model.VariationNumbers, "-- Select One --", new { Class = "ddlStyle ddl form-control", id = "ddlVariation" })
+            </dd>
+
+
+            <dt>
+                @Html.DisplayNameFor(model => model.SupHeader.ApplicationFor)
+            </dt>
+            <dd>
+                @Html.TextAreaFor(model => model.SupHeader.ApplicationFor, new { id = "txtReasonFor", @class = "form-control txtArea", @cols = 1, @rows = 3, @style = "width:100%" })
+                @Html.ValidationMessageFor(model => model.SupHeader.ApplicationFor, "", new { @class = "text-danger" })
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.SupHeader.ReasonFor)
+            </dt>
+            <dd>
+                @Html.TextAreaFor(model => model.SupHeader.ReasonFor, new { id = "txtReasonFor", @class = "form-control txtArea", @cols = 1, @rows = 3, @style = "width:100%" })
+                @Html.ValidationMessageFor(model => model.SupHeader.ReasonFor, "", new { @class = "text-danger" })
+            </dd>
+              
+            <dt></dt>          
+            <dd></dd>
+
+            <dt></dt>
+            <dd><input type="submit" value="Save" class="btn btn-primary" />&nbsp;&nbsp;@Html.ActionLink("Back to List", "Index", "SupplementaryBudget")</dd>
+        </dl>
+
+        
+
+
+    </div>
+
+    @*<div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            &nbsp;&nbsp; 
+        </div>
+    </div>
+
+    <p>
+       
+        
+    </p>*@
+
+
+    @*@Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |*@
+
+
+    <script src="~/scripts/jquery-1.10.2.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            //if ($("#ObjectHidName").text() != '') {
+            //  $("#partialObjectName").html($("#dObjectHidName").text());
+            //  }
+            $("#ddlCostObjects").on("change", function () {
+                var costObject = $("#ddlCostObjects option:selected").text().trim();
+                if (costObject == '-- Select One --')
+                    // $("#ObjectName").html('');
+                    return;
+                if (costObject == 'Project') {
+                    $("#trVariation").css("display", "");
+                    $("#trVariation1").css("display", "");
+                }
+                else {
+                    $("#trVariation").css("display", "none");
+                    $("#trVariation1").css("display", "none");
+                }
+                $("#ddlObjectNumber").empty();
+                $.ajax({
+                    cache: false,
+                    // url: '/User/SupplementaryBudget/GetObjects?objType=' + costObject,
+                    url: '@Url.Action("GetObjects", "SupplementaryBudget")',
+                    type: 'GET',
+                    data: { "objType": costObject },
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (json, textStatus) {
+                        //$("#ddlVariation").empty();
+                        json = json || {};
+                        $("#ddlObjectNumber").append('<option value="">' + "-- Select One --" + '</option>');
+                        for (var i = 0; i < json.length; i++) {
+                            $("#ddlObjectNumber").append('<option value="' + json[i].Text + '">' + json[i].Value + '</option>');
+                        }
+                        //  $("#ddlGlaAccount").prop("disabled", false);
+                    },
+                    error: function (xhr) {
+
+                        alert("error: " + xhr.statusText);
+                    }
+                });
+
+            });
+            $("#ddlObjectNumber").on("change", function () {
+                var costObject = $("#ddlCostObjects option:selected").text();
+                var objNumber = $("#ddlObjectNumber option:selected").text();
+                if (costObject == '-- Select One --' || objNumber == '-- Select One --')
+                    // $("#ObjectName").html('');
+                    return;
+                cache: false,
+                // debugger;
+                $.ajax({
+                    //  url: '/User/SupplementaryBudget/GetObjectName',
+                    url: '@Url.Action("GetObjectName", "SupplementaryBudget")',
+                    type: 'GET',
+                    data: { "objNumber": $("#ddlObjectNumber option:selected").text(), "objType": costObject },
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        //   alert(data);
+                        // $("#ObjectName").html(data);
+                        $("#partialObjectName").html(data);
+                    },
+                    error: function (xhr) {
+
+                        alert("error: " + xhr.statusText);
+                    }
+                });
+                $.ajax({
+                    cache: false,
+                    type: "GET",
+                    url: '@Url.Action("GetDtAccounts", "SupplementaryBudget")',
+                    data: { "objectNo": $("#ddlObjectNumber option:selected").text() },
+                    success: function (json, textStatus) {
+                        $("#ddlVariation").empty();
+                        json = json || {};
+                        $("#ddlVariation").append('<option value="">' + "-- Select One --" + '</option>');
+                        for (var i = 0; i < json.length; i++) {
+                            $("#ddlVariation").append('<option value="' + json[i].GlCode + '">' + json[i].GlCode + '</option>');
+                        }
+                        //  $("#ddlGlaAccount").prop("disabled", false);
+                    },
+                    error: function (xhr) {
+                        alert("error: " + xhr.statusText);
+                    }
+                });
+
+
+            });
+
+        });
+
+    </script>
+
+}

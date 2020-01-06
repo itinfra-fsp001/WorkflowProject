@@ -1,0 +1,8 @@
+18-05-2018 02:43:18 PM 	 Job 	 AssignJob 	 Initiated 	 TicketNo='SR FSP 18104809',User ID='05451',Assign Employee='05451',Schedule Time='17/05/2018 16:00:00'
+18-05-2018 02:43:19 PM 	 Job 	 AssignJob 	 Success 	 Job(SR FSP 18104809) started
+**************************************
+18-05-2018 02:43:27 PM 	 Job 	 AssignJob 	 Initiated 	 TicketNo='SR FSP 18104809',User ID='katy.le',Assign Employee='05451',Schedule Time='17/05/2018 16:00:00'
+18-05-2018 02:43:28 PM 	 Job 	 AssignJob 	 Success 	 Job(SR FSP 18104809) started
+**************************************
+18-05-2018 02:44:15 PM 	 Job 	 AcknowledgeJob 	 Initiated 	 TicketNo='SR FSP 18104809',User ID='05451',Acknowledge Time='18/05/2018 14:44:58'
+18-05-2018 02:44:30 PM 	 Job 	 AcknowledgeJob 	 Error 	 Unable to acknowledge the job. Additional Information : An error occurred while executing the command definition. See the inner exception for details.,Job has been not assigned..

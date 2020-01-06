@@ -1,0 +1,378 @@
+﻿@model WorkFlowUI.ViewModel.SIRViewModal
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<style type="text/css">
+    .empty-row {
+        height: 15px !important;
+    }
+
+    .row, .maindiv {
+        margin-bottom: 10px;
+    }
+
+    .rfqddl {
+        width: 300px;
+    }
+
+    .rfqta {
+        width: 280px;
+    }
+
+    .mandatory {
+        color: red !important;
+    }
+
+    .noattachment {
+        color: red;
+    }
+
+    .errormsg {
+        color: red;
+    }
+
+    .ui-datepicker-trigger {
+        /*background: url(/content/images/ui-icons_444444_256x240.png) no-repeat -116px -116px;*/
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        margin-left: 5px;
+        margin-top: -5px;
+    }
+
+    .reviseDiv {
+        background-color: #eaeaea;
+        border: 1px solid #afafaf;
+        padding: 5px;
+        /*margin-left: 15px;*/
+        margin-top: 5px;
+    }
+
+    #reviseQuote {
+        font-size: 20px;
+        /*font-weight:600;*/
+    }
+
+    .RFQTemplate {
+        color: blue !important;
+    }
+
+    .imgDownload {
+        width: 25px;
+        cursor: pointer;
+    }
+
+    .col-sm-2 {
+        width: 20% !important;
+    }
+
+    .col-sm-4 {
+        width: 38% !important;
+    }
+
+    .maindiv {
+        border: 1px solid #eaeaea;
+    }
+
+    .headingdiv {
+        font-weight: 600;
+        font-size: 15px;
+        padding: 5px;
+        background-color: #eaeaea;
+    }
+
+    .fileRFQ {
+        display: inline !important;
+    }
+
+    .buttonText {
+        font-size: 20px !important;
+    }
+</style>
+
+@if (Convert.ToString(ViewData["Status"]) == "I")
+{
+    if (Convert.ToString(TempData["Status"]) == "All Success")
+    {
+        <script type="text/javascript">
+            alert("SIR processed as exception successfully. Check the status in EInvoice.");
+            var urlLocation = "@Url.Action("Index", "EInvoice", new { Status = "N" })";
+            urlLocation = urlLocation.replace(/&amp;/g, "&");
+            window.location.href = urlLocation;
+        </script>
+    }
+    else
+    {
+        <script type="text/javascript">
+            alert("Unable to process this SIR. More Information : "@TempData["Msg"]);
+            var urlLocation = "@Url.Action("Index", "EInvoice", new { Status = "N" })";
+            urlLocation = urlLocation.replace(/&amp;/g, "&");
+            window.location.href = urlLocation;
+        </script>
+    }
+}
+else
+{
+
+
+
+    <div class="row empty-row"> <div class="col-sm-12"> </div> </div>
+    if (Convert.ToString(ViewData["InvoiceType"]) == "Contract")
+    {
+        <h2>Service Information Report</h2>
+    }
+    else
+    {
+        <h2>Job Sheet Report</h2>
+    }
+
+   
+
+    <div class="row">
+        <div class="col-sm-12 maindiv">
+            <div class="row headingdiv">
+                <div class="col-sm-12">
+                    Basic Details
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">
+                    Status
+                </div>
+                <div class="col-sm-4">
+                    @if (Convert.ToString(ViewData["InvoiceType"]) == "Contract")
+                    {
+                        if (Model.sirDoc.Constatus == "Success")
+                        {
+                            <span class="text-success">@Model.sirDoc.Constatus</span>
+                        }
+                        else
+                        {
+                            <span class="text-danger">@Model.sirDoc.Constatus</span>
+                        }
+                    }
+                    else
+                    {
+                        <span class="text-success">Success</span>
+                    }
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">
+                    Customer
+                </div>
+                <div class="col-sm-4">
+                    <b>@Model.customerName</b>
+                </div>
+            </div>
+            @if (Model.customerNo != Model.sirDoc.SoldToParty)
+            {
+                <div class="row">
+                    <div class="col-sm-2">
+                        Sold Customer
+                    </div>
+                    <div class="col-sm-4">
+                        @Model.soldCustomerName
+                    </div>
+                </div>
+            }
+            <div class="row">
+                <div class="col-sm-2">
+                    Period
+                </div>
+                <div class="col-sm-4">
+                    @Model.sirDoc.SIRMonth
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">
+                    Organization Type
+                </div>
+                <div class="col-sm-4">
+                    @Model.sirDoc.OrgName
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">
+                    Building Code
+                </div>
+                <div class="col-sm-4">
+                    @Model.sirDoc.BuildingCode
+                </div>
+            </div>
+            @if (Convert.ToString(ViewData["InvoiceType"]) == "Contract")
+            {
+                <div class="row">
+                    <div class="col-sm-2">
+                        No. of Units
+                    </div>
+                    <div class="col-sm-4">
+                        @Model.sirDoc.NoOfUnits
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-2">
+                        Conslidation On
+                    </div>
+                    <div class="col-sm-4">
+                        @if (Model.sirDoc.ConsDate != null)
+                        {
+                            @Convert.ToDateTime(Model.sirDoc.ConsDate).ToString("dd/MM/yyyy hh:mm:ss tt")
+                        }
+                    </div>
+                </div><div class="row">
+                    <div class="col-sm-2">
+                        Updated By
+                    </div>
+                    <div class="col-sm-4">
+                        @Model.sirDoc.UpdateBy
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        Updated On
+                    </div>
+                    <div class="col-sm-4">
+                        @if (Model.sirDoc.UpdateDate != null)
+                    {
+                            @Convert.ToDateTime(Model.sirDoc.UpdateDate).ToString("dd/MM/yyyy hh:mm:ss tt")
+                        }
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="row">
+                    <div class="col-sm-2">
+                        No. of Units
+                    </div>
+                    <div class="col-sm-4">
+                        @Model.jobSheet.Count
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+
+    <div class="row empty-row">
+        <div class="col-sm-12">
+        </div>
+    </div>
+    if (Model.sirDoc.Constatus == "Failed" && Convert.ToString(ViewData["InvoiceType"]) == "Contract")
+    {
+        @Html.ActionLink("Process as Exception", "ProceedAsException", new { @transId = Model.sirDoc.TransID }, new { onclick = "return confirm('Are you want to process as exception?');", @class = "buttonText" })
+        @Html.Raw("&nbsp;&nbsp;&nbsp;&nbsp;")
+    }
+    @Html.ActionLink("Back", "Index", new { Controller = "EInvoice", Status = "N" }, new { @class = "buttonText" })
+    <div class="row empty-row">
+        <div class="col-sm-12">
+        </div>
+    </div>
+
+
+
+
+    string clsName;
+    bool isMissingSitesExists = false;
+    string[] missingSitesList = null;
+    var missingSites = Model.sirDoc.ConsRemark;
+    if (missingSites != null)
+    {
+        isMissingSitesExists = true;
+        missingSites = missingSites.Replace("_", "/").Replace(" is missing", "");
+        missingSitesList = missingSites.Split('@');
+    }
+
+
+    <div class="row">
+        <div class="col-sm-12 maindiv">
+            <div class="row headingdiv">
+                <div class="col-sm-12">
+                    @if (Convert.ToString(ViewData["InvoiceType"]) == "Contract")
+                    {
+                        @Html.Raw("Active Contract Details");
+                    }
+                    else
+                    {
+                        @Html.Raw("Job Sheet Details");
+                    }
+                </div>
+            </div>
+
+            <div class="row empty-row">
+                <div class="col-sm-12">
+                </div>
+            </div>
+            @if (Convert.ToString(ViewData["InvoiceType"]) == "Contract")
+            {
+                <table class="table">
+                    <tr>
+                        <th>Product Type</th>
+                        <th>Building Code</th>
+                        <th>Building Name</th>
+                        <th>Site / Block / Unit</th>
+                        <th>Organization</th>
+                        <th>Billing Customer</th>
+                        <th>Sold Customer</th>
+                        <th>Contract No.</th>
+                        <th>Contract Type</th>
+                        <th>Parent Customer</th>
+                    </tr>
+
+
+                    @foreach (var item in Model.activeContract)
+                    {
+
+                        if (isMissingSitesExists && missingSitesList.Length > 0 && missingSitesList.Contains(item.SiteBlockUnit))
+                        {
+                            clsName = "danger";
+                        }
+                        else
+                        {
+                            clsName = "success";
+                        }
+                        <tr class='text-@clsName'>
+                            <td>@Html.DisplayFor(modelItem => item.ProductTypeName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.BuildingCode)</td>
+                            <td>@Html.DisplayFor(modelItem => item.BuildingName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.SiteBlockUnit)</td>
+                            <td>@Html.DisplayFor(modelItem => item.ContrOrg)</td>
+                            <td>@Html.DisplayFor(modelItem => item.BillToPartyName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.SoldToPartyName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.ContractNo)</td>
+                            <td>@Html.DisplayFor(modelItem => item.ContrType)</td>
+                            <td>@Html.DisplayFor(modelItem => item.ParentCustomer)</td>
+                        </tr>
+                    }
+                </table>
+            }
+            else
+            {
+                <table class="table">
+                    <tr>
+                        <th>S.No</th>
+                        <th>Job Sheet</th>
+
+                    </tr>
+                    @{
+                        var j = 1;
+                        foreach (string item in Model.jobSheet)
+                        {
+                            <tr>
+                                <td>@Convert.ToString(j)</td>
+                                <td>@item.Replace(Model.driveLocation,"")</td>
+                            </tr>
+                            j = j + 1;
+                        }
+                    }
+                </table>
+                        }
+        </div>
+    </div>
+                        }
